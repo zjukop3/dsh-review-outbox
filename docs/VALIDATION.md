@@ -197,7 +197,7 @@
 - 在独立目录重新克隆公开仓库，使用冻结锁文件安装开发依赖，首个公开提交的 38/38 测试和构建通过，见 [public-clone-check.json](e2e/public-clone-check.json)。新增站点幂等测试后当前总数为 39。
 - 从公开 Pages 地址下载 tarball，SHA-256 校验通过，再安装到全新隔离 `DSH_HOME`；真实浏览器打开原生侧栏，`items=0`、`pending=0`、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [public-download-install.json](e2e/public-download-install.json)。
 - 首次线上 SEO 验收复现了重复构建遗留本地 canonical 的问题。构建脚本已改为清理受控元数据区块后再生成，链接处理脚本和示例 favicon 也保持幂等；新增回归测试连续使用本地与正式域名构建，断言只保留一套正式元数据。
-- 首次 Pages 工作流 [42236871049](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42236871049) 已成功；修复后的最终线上结果以 [research-site-result.json](e2e/research-site-result.json) 为准。
+- 首次 Pages 工作流 [42236871049](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42236871049) 与修复后的 [42309148857](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42309148857) 均成功。最终匿名线上 Chrome 复测确认正式 canonical、三类 JSON-LD、清单、验收单、下载哈希、移动端和离线打开全部通过；结果见 [research-site-result.json](e2e/research-site-result.json)。
 
 ## Node 基线、干净 tarball 与恢复
 

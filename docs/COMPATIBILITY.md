@@ -36,7 +36,7 @@
 | 本地源码目录 | 已验证 |
 | `.tgz` 安装包 | 已在全新 `DSH_HOME` 验证 |
 | npm | 尚未发布，无安装证据 |
-| GitHub 仓库 / Pages tarball | 仓库与下载页公开；克隆源码和 Pages 下载链接按发布流程验证 | 不把未执行的 Git URL 直装声明为已验证 |
+| GitHub 仓库 / Pages tarball | 公开克隆测试与构建、Pages 下载 SHA-256、全新 Profile 安装和真实浏览器挂载均通过 | Git URL 直装未执行，不声明实测兼容 |
 | GitHub Release / 社区目录 | 尚未提交，无安装证据 |
 
 ## 原生加载器测试环境说明

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-06T23:00:47.018Z",
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "pages": "https://zjukop3.github.io/dsh-review-outbox/",
+  "githubTraffic": {
+    "views": {
+      "count": 0,
+      "uniques": 0
+    },
+    "clones": {
+      "count": 0,
+      "uniques": 0
+    },
+    "referrers": [],
+    "popularPaths": [],
+    "stars": 0,
+    "forks": 0,
+    "watchers": 0
+  },
+  "activation": {
+    "weeklyArtifactsActuallyReviewed": null,
+    "receiptReferredActivations": null,
+    "externalWeekTwoRetention": null
+  },
+  "searchIndexing": "Not established by this baseline",
+  "notes": [
+    "Aggregate GitHub Traffic API snapshot; values can lag and do not identify users.",
+    "Views, clones, stars, and forks are acquisition diagnostics, not review activation.",
+    "Null activation metrics mean no reliable measurement, not zero real-world usage."
+  ]
+}

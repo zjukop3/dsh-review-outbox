@@ -3,7 +3,7 @@
   "metadata": {
     "title": "研究报告验收清单：AI 报告事实、引用与数据复核",
     "description": "免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。",
-    "canonical": "http://127.0.0.1:43227/research-report/",
+    "canonical": "https://zjukop3.github.io/dsh-review-outbox/research-report/",
     "robots": "index,follow,max-image-preview:large",
     "schemaTypes": [
       "TechArticle",

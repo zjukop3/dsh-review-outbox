@@ -1,6 +1,6 @@
 # Review Outbox · 成果审阅与研究报告验收
 
-中文 | [English](README.en.md)
+中文 | [English](README.en.md) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [下载 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)
 
 一个本地优先的 DeepSeek Harness 成果审阅插件：把 Agent 交付的文件集中起来，完成预览、场景化证据检查、通过、退回、归档和复盘，并可导出无需安装即可查看的独立 HTML 验收单。
 
