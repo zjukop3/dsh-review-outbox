@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "itemId": "presented:preinstall-official-session:preinstall-present-call:0",
+  "initialBackfill": {
+    "status": "ready",
+    "sessionLimit": 50,
+    "eventLimit": 5000,
+    "itemLimit": 1000,
+    "listed": 1,
+    "scanned": 1,
+    "discovered": 1,
+    "changed": 1,
+    "truncated": false,
+    "errors": [],
+    "startedAt": "2026-11-06T06:22:40.968Z",
+    "finishedAt": "2026-11-06T06:22:40.973Z"
+  },
+  "pendingAfterApproval": 0,
+  "statusAfterRediscovery": "approved",
+  "changedAfterRediscovery": 0,
+  "screenshots": [
+    "docs/e2e/04-backfill-official.png",
+    "docs/e2e/05-backfill-approved.png"
+  ],
+  "pageErrors": [],
+  "consoleErrors": []
+}

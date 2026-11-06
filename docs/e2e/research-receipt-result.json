@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "approveInitiallyDisabled": true,
+  "requiredEvidenceCompleted": "4/4",
+  "status": "approved",
+  "receipt": "docs/e2e/research-report.review-r1.html",
+  "changedReceipt": "docs/e2e/research-report.changed.review-r1.html",
+  "suggestedFilename": "preinstall-review.md.review-r1.html",
+  "postReviewChangeDetected": true,
+  "screenshot": "docs/e2e/06-research-receipt.png",
+  "pageErrors": [],
+  "consoleErrors": []
+}

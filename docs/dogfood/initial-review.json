@@ -1,0 +1,550 @@
+{
+  "ok": true,
+  "mode": "scripted review of twenty real project artifacts; not external-user adoption",
+  "tasks": 5,
+  "artifacts": 20,
+  "approved": 15,
+  "returned": 5,
+  "backfillMs": 1411,
+  "firstPreviewMs": 1434,
+  "totalReviewMs": 1783,
+  "pending": 0,
+  "statuses": [
+    {
+      "id": "presented:dogfood-research:dogfood-research-v1:3",
+      "path": "dsh-ecosystem-research/data/processed/summary.json",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-research:dogfood-research-v1:2",
+      "path": "dsh-ecosystem-research/data/processed/source_commits.csv",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-research:dogfood-research-v1:1",
+      "path": "dsh-ecosystem-research/METHODOLOGY.md",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-research:dogfood-research-v1:0",
+      "path": "dsh-ecosystem-research/REPORT.md",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-docs:dogfood-docs-v1:3",
+      "path": "dsh-review-outbox/docs/packs/research-report.md",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-docs:dogfood-docs-v1:2",
+      "path": "dsh-review-outbox/docs/VALIDATION.md",
+      "status": "returned",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-docs:dogfood-docs-v1:1",
+      "path": "dsh-review-outbox/docs/STRATEGY.md",
+      "status": "returned",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-docs:dogfood-docs-v1:0",
+      "path": "dsh-review-outbox/README.md",
+      "status": "returned",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-host:dogfood-host-v1:3",
+      "path": "dsh-review-outbox/src/receipt.js",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-host:dogfood-host-v1:2",
+      "path": "dsh-review-outbox/src/store.js",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-host:dogfood-host-v1:1",
+      "path": "dsh-review-outbox/src/backfill.js",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-host:dogfood-host-v1:0",
+      "path": "dsh-review-outbox/src/host.js",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-client-tests:dogfood-client-tests-v1:3",
+      "path": "dsh-review-outbox/test/official-present.test.js",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-client-tests:dogfood-client-tests-v1:2",
+      "path": "dsh-review-outbox/test/evidence.test.js",
+      "status": "returned",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-client-tests:dogfood-client-tests-v1:1",
+      "path": "dsh-review-outbox/client/styles.js",
+      "status": "returned",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-client-tests:dogfood-client-tests-v1:0",
+      "path": "dsh-review-outbox/client/index.jsx",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-release:dogfood-release-v1:3",
+      "path": "dsh-review-outbox/docs/e2e/research-receipt-result.json",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-release:dogfood-release-v1:2",
+      "path": "dsh-review-outbox/test/host.test.js",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-release:dogfood-release-v1:1",
+      "path": "dsh-review-outbox/cordis.patch.yml",
+      "status": "approved",
+      "revision": 1
+    },
+    {
+      "id": "presented:dogfood-release:dogfood-release-v1:0",
+      "path": "dsh-review-outbox/package.json",
+      "status": "approved",
+      "revision": 1
+    }
+  ],
+  "reviews": [
+    {
+      "task": "dogfood-client-tests",
+      "path": "dsh-review-outbox/client/index.jsx",
+      "action": "approve",
+      "note": "通过：真实浏览器四项证据、队列保存、通过后筛选和下载流程均通过。",
+      "preview": {
+        "kind": "text",
+        "bytes": 18330,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "ed7e763843ef8f2a4f76fc00de0fecb98b0dbd7f09d1bd2d19a897783034816e",
+        "bytes": 18330,
+        "capturedAt": "2026-11-06T08:08:32.499Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-client-tests",
+      "path": "dsh-review-outbox/client/styles.js",
+      "action": "return",
+      "note": "退回：button{font:inherit} 未限定 .ro-root，会污染宿主及其他插件按钮；改为 .ro-root button，并添加静态作用域回归检查。",
+      "preview": {
+        "kind": "text",
+        "bytes": 6805,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "9e09ab5aa3571d1af685723d9544dcb41e78663734cc98025209a9d8e81baf61",
+        "bytes": 6805,
+        "capturedAt": "2026-11-06T08:08:32.512Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-client-tests",
+      "path": "dsh-review-outbox/test/evidence.test.js",
+      "action": "return",
+      "note": "退回：mkdtemp 目录和 64 MiB sparse fixture 未在测试结束清理；用 t.after rm 递归清理每组临时目录。",
+      "preview": {
+        "kind": "text",
+        "bytes": 2468,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "d9334e147433065ee4827d9f427746d5a9eff403417294b57c0540e2c2abd4bb",
+        "bytes": 2468,
+        "capturedAt": "2026-11-06T08:08:32.522Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-client-tests",
+      "path": "dsh-review-outbox/test/official-present.test.js",
+      "action": "approve",
+      "note": "通过：真实 resume 的两次 present 以不同 callId 形成 revision 2，上下文与临时目录均清理。",
+      "preview": {
+        "kind": "text",
+        "bytes": 4173,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "36fe7941242e49f34c774a187c3aeb75f813e55213aad2f6354b1086e989671d",
+        "bytes": 4173,
+        "capturedAt": "2026-11-06T08:08:32.532Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-docs",
+      "path": "dsh-review-outbox/docs/packs/research-report.md",
+      "action": "approve",
+      "note": "通过：清单可独立使用，人工检查与自动事实核查边界清楚，插件通过条件和验收单字段一致。",
+      "preview": {
+        "kind": "text",
+        "bytes": 2892,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "9827a35348fad1fd6474dee2188e219b38bc5541ba6f4eb34e88bc5b802794bf",
+        "bytes": 2892,
+        "capturedAt": "2026-11-06T08:08:32.586Z"
+      },
+      "pack": "research-report",
+      "packProgress": {
+        "completed": 5,
+        "total": 5,
+        "requiredCompleted": 4,
+        "requiredTotal": 4,
+        "complete": true,
+        "incomplete": []
+      }
+    },
+    {
+      "task": "dogfood-docs",
+      "path": "dsh-review-outbox/docs/STRATEGY.md",
+      "action": "return",
+      "note": "退回：M0 仍写 31 项测试；更新为当前真实数量，并记录跨 callId revision 已纳入官方工具链验证。",
+      "preview": {
+        "kind": "text",
+        "bytes": 7848,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "2df8271e40315670b836ae0891b3fbb6d1ad979f97ea1aa281d79e9fdd7c30bd",
+        "bytes": 7848,
+        "capturedAt": "2026-11-06T08:08:32.597Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-docs",
+      "path": "dsh-review-outbox/docs/VALIDATION.md",
+      "action": "return",
+      "note": "退回：31/31 已过时；更新为 33/33，并记录连续 present 暴露的重复成果问题、跨 callId 修复和迟到旧事件防护。",
+      "preview": {
+        "kind": "text",
+        "bytes": 7972,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "360ed4ac96fb5f9992e709f174441cb8d3c3ff77e1145ac71d2a8ec483038096",
+        "bytes": 7972,
+        "capturedAt": "2026-11-06T08:08:32.609Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-docs",
+      "path": "dsh-review-outbox/README.md",
+      "action": "return",
+      "note": "退回：新增真实跨 callId revision 与迟到事件测试后，测试总数已变为 33；更新 31 计数并补充真实 Session resume 链说明。",
+      "preview": {
+        "kind": "text",
+        "bytes": 7502,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "9abdb2ef28a860246ecefd6f4a795ab945ac9c619eda9fc04afef3feae51dec9",
+        "bytes": 7502,
+        "capturedAt": "2026-11-06T08:08:32.621Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-host",
+      "path": "dsh-review-outbox/src/backfill.js",
+      "action": "approve",
+      "note": "通过：三级上限、尾部读取、单会话错误隔离和 finally close 均有测试及真实冷读证据。",
+      "preview": {
+        "kind": "text",
+        "bytes": 4299,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "96057c74284a2f976dce45ae0e17d5caf0d153df31ed1bffa17842e4c91a2b57",
+        "bytes": 4299,
+        "capturedAt": "2026-11-06T08:08:32.631Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-host",
+      "path": "dsh-review-outbox/src/host.js",
+      "action": "approve",
+      "note": "通过：路由统一鉴权，动作前执行 Host 检查，preview/receipt 沿用工作区约束。",
+      "preview": {
+        "kind": "text",
+        "bytes": 11629,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "91fcb046879ce05a033a239b01ef26c5559d4e1b01dd5bbe7a412b887c9ca7ca",
+        "bytes": 11629,
+        "capturedAt": "2026-11-06T08:08:32.644Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-host",
+      "path": "dsh-review-outbox/src/receipt.js",
+      "action": "approve",
+      "note": "通过：HTML 注入、CSP、路径防泄露测试及真实下载通过，文件变化提示明确。",
+      "preview": {
+        "kind": "text",
+        "bytes": 9478,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "988aa40360c2becf014300f5b09d83d20d7db54ee594a4c017e2caeb612d0e7b",
+        "bytes": 9478,
+        "capturedAt": "2026-11-06T08:08:32.669Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-host",
+      "path": "dsh-review-outbox/src/store.js",
+      "action": "approve",
+      "note": "通过：跨 callId 真实 revision 测试通过，串行 mutation 与迟到旧事件防护保留审阅历史。",
+      "preview": {
+        "kind": "text",
+        "bytes": 7027,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "da9f8b39a8534a1258960f1354441d683d28afaac9da6bdea6ceb55f338af928",
+        "bytes": 7027,
+        "capturedAt": "2026-11-06T08:08:32.687Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-release",
+      "path": "dsh-review-outbox/cordis.patch.yml",
+      "action": "approve",
+      "note": "通过：仅插入 review-outbox，不修改其他插件或用户 Profile。",
+      "preview": {
+        "kind": "text",
+        "bytes": 130,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "ed98de2b8a1954336a5d6b977a91a7fc66dd2c7cc365fb5d6c0c51f049473646",
+        "bytes": 130,
+        "capturedAt": "2026-11-06T08:08:32.701Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-release",
+      "path": "dsh-review-outbox/docs/e2e/research-receipt-result.json",
+      "action": "approve",
+      "note": "通过：ok=true、4/4、approved、文件变化检测和双零浏览器错误与原始流程一致。",
+      "preview": {
+        "kind": "text",
+        "bytes": 434,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "e419678a37def2488a1801f9fc0da845a4ab39e88e8e9b9e7db0a93ff21d35cf",
+        "bytes": 434,
+        "capturedAt": "2026-11-06T08:08:32.711Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-release",
+      "path": "dsh-review-outbox/package.json",
+      "action": "approve",
+      "note": "通过：engines 与 DSH 目标明确，devDependencies 不进入 tarball，关键词与人工验收定位一致。",
+      "preview": {
+        "kind": "text",
+        "bytes": 2345,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "57c2e2eadc615a5c5a72355aa8b02937d3f0060ce91bd0efa854fde3958e3de7",
+        "bytes": 2345,
+        "capturedAt": "2026-11-06T08:08:32.721Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-release",
+      "path": "dsh-review-outbox/test/host.test.js",
+      "action": "approve",
+      "note": "通过：鉴权、生命周期、回填、研究包和验收单 Host 链路覆盖，Buffer 请求符合 Node 语义。",
+      "preview": {
+        "kind": "text",
+        "bytes": 11105,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "0ebd6b3b169b263cf3e8c01ca1494e2b536711e87732410d8ac03406f7de3797",
+        "bytes": 11105,
+        "capturedAt": "2026-11-06T08:08:32.732Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-research",
+      "path": "dsh-ecosystem-research/data/processed/source_commits.csv",
+      "action": "approve",
+      "note": "通过：25 条检出均固定 40 位 commit 与日期，官方提交与方法文档一致。",
+      "preview": {
+        "kind": "text",
+        "bytes": 4474,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "38206c50bcbc1bde1bd5f22a6e4dfabc3d4e7975b0d795c9a902368b9d0def17",
+        "bytes": 4474,
+        "capturedAt": "2026-11-06T08:08:32.743Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-research",
+      "path": "dsh-ecosystem-research/data/processed/summary.json",
+      "action": "approve",
+      "note": "通过：声明计数与实际计数一致，身份重叠、拒绝分类和采用代理分列；候选 failure code 与 rejection 字段未被强行合并。",
+      "preview": {
+        "kind": "text",
+        "bytes": 38632,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "bcbaba0a16b8e5c854333f85b41a30970fd67bcb6af53d74cf46413d9d04c64e",
+        "bytes": 38632,
+        "capturedAt": "2026-11-06T08:08:32.756Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-research",
+      "path": "dsh-ecosystem-research/METHODOLOGY.md",
+      "action": "approve",
+      "note": "通过：数据源、复现命令、证据等级和限制明确，Issue 403 未被冒用为需求证据。",
+      "preview": {
+        "kind": "text",
+        "bytes": 8170,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "d02ef95e8d974796eadef817d47807846a4757a70f80a38caf6bd93739488bb6",
+        "bytes": 8170,
+        "capturedAt": "2026-11-06T08:08:32.767Z"
+      },
+      "pack": null,
+      "packProgress": null
+    },
+    {
+      "task": "dogfood-research",
+      "path": "dsh-ecosystem-research/REPORT.md",
+      "action": "approve",
+      "note": "通过：计数、采用代理与产品推断分离，结论可回溯到数据、源码和限制。",
+      "preview": {
+        "kind": "text",
+        "bytes": 32322,
+        "truncated": false
+      },
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "4364e6c97188588b8cd5eebf9d79ecb7439e4015d28654b5d3db709f5be4be6c",
+        "bytes": 32322,
+        "capturedAt": "2026-11-06T08:08:32.829Z"
+      },
+      "pack": "research-report",
+      "packProgress": {
+        "completed": 5,
+        "total": 5,
+        "requiredCompleted": 4,
+        "requiredTotal": 4,
+        "complete": true,
+        "incomplete": []
+      }
+    }
+  ]
+}

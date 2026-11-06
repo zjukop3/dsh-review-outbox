@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "package": "dsh-review-outbox-0.1.0.tgz",
+  "sha256": "1a4e13858bbc1c8aa51a69b3e418482ba8eda70c465ca5443df6d8de909e0859",
+  "installSource": "tarball through the DSH package store, not a source-directory link",
+  "profile": "fresh isolated DSH_HOME and independent port",
+  "artifactSource": "official present persisted before plugin installation",
+  "backfill": "ready",
+  "approveInitiallyDisabled": true,
+  "requiredEvidenceCompleted": "4/4",
+  "status": "approved",
+  "receiptDownloaded": true,
+  "postReviewChangeDetected": true,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "serverRecovered": true
+}

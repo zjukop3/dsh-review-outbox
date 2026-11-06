@@ -1,0 +1,107 @@
+{
+  "ok": true,
+  "mode": "scripted re-review of five returned real artifacts; not external-user adoption",
+  "uniqueArtifacts": 20,
+  "approved": 20,
+  "revision1": 15,
+  "revision2": 5,
+  "pending": 0,
+  "changedAfterFinalBackfill": 0,
+  "reviews": [
+    {
+      "path": "dsh-review-outbox/docs/STRATEGY.md",
+      "id": "presented:dogfood-docs:dogfood-docs-v2:1",
+      "revision": 2,
+      "status": "approved",
+      "history": [
+        "observed",
+        "return",
+        "revision",
+        "approve"
+      ],
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "08fa7f7a1e99f3e5081c73ceb263ce2c616c22296cc073e3c3e0a18064e71d73",
+        "bytes": 7883,
+        "capturedAt": "2026-11-06T08:15:52.251Z"
+      }
+    },
+    {
+      "path": "dsh-review-outbox/docs/VALIDATION.md",
+      "id": "presented:dogfood-docs:dogfood-docs-v2:2",
+      "revision": 2,
+      "status": "approved",
+      "history": [
+        "observed",
+        "return",
+        "revision",
+        "approve"
+      ],
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "c679b6e56a55c55f40d6a0b37421694ca92421c7ecda4eb475e4712d2742b94a",
+        "bytes": 8891,
+        "capturedAt": "2026-11-06T08:15:52.265Z"
+      }
+    },
+    {
+      "path": "dsh-review-outbox/client/styles.js",
+      "id": "presented:dogfood-client-tests:dogfood-client-tests-v2:0",
+      "revision": 2,
+      "status": "approved",
+      "history": [
+        "observed",
+        "return",
+        "revision",
+        "approve"
+      ],
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "7fc79a611bf2d82c8b00f01a741a22b5de5e7dfd0acb712ba55fc7c53a695678",
+        "bytes": 6814,
+        "capturedAt": "2026-11-06T08:15:52.282Z"
+      }
+    },
+    {
+      "path": "dsh-review-outbox/test/evidence.test.js",
+      "id": "presented:dogfood-client-tests:dogfood-client-tests-v2:1",
+      "revision": 2,
+      "status": "approved",
+      "history": [
+        "observed",
+        "return",
+        "revision",
+        "approve"
+      ],
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "774ca67ba30acd228ee709c030683f10783e6d04636bd9037fa74f74ab601329",
+        "bytes": 2657,
+        "capturedAt": "2026-11-06T08:15:52.295Z"
+      }
+    },
+    {
+      "path": "dsh-review-outbox/README.md",
+      "id": "presented:dogfood-docs:dogfood-docs-v2:0",
+      "revision": 2,
+      "status": "approved",
+      "history": [
+        "observed",
+        "return",
+        "revision",
+        "approve"
+      ],
+      "evidence": {
+        "status": "available",
+        "algorithm": "sha256",
+        "digest": "1b7e925772f277fb9f4ed0c78642b95fbcab63013657794b4d289b6f404769e0",
+        "bytes": 7621,
+        "capturedAt": "2026-11-06T08:15:52.309Z"
+      }
+    }
+  ]
+}

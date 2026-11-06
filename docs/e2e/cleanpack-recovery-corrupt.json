@@ -1,0 +1,8 @@
+{
+  "phase": "corrupt",
+  "ok": true,
+  "stateError": "State is read-only: Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+  "backfillStatus": "failed",
+  "mutationStatus": 400,
+  "corruptBytesPreserved": true
+}

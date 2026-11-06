@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "metadata": {
+    "title": "研究报告验收清单：AI 报告事实、引用与数据复核",
+    "description": "免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。",
+    "canonical": "http://127.0.0.1:43227/research-report/",
+    "robots": "index,follow,max-image-preview:large",
+    "schemaTypes": [
+      "TechArticle",
+      "FAQPage",
+      "SoftwareApplication"
+    ],
+    "h1": "研究报告验收清单：AI 报告事实、引用与数据复核",
+    "checklist": 5,
+    "processSteps": 5,
+    "faqQuestions": 4,
+    "english": "09English research report acceptance checklistResearch report acceptance checklist for DeepSeek Harness: verify claims against evidence, inspect citations, confirm data scope and dates, disclose methods and limitations, record reproduction materials, and export a standalone SHA-256 review receipt.\nMap every material claim to a section, dataset, or primary source.Check author or organization, title, publication date, URL or DOI, and the original supporting passage.Confirm reporting period, time zone, units, sample frame, and comparison baseline.Document search or experiment methods, inclusion criteria, limitations, and material counter-evidence.Record scripts, data, environment, and reproduction steps when applicable.\nReview Outbox stores human review evidence; it does not claim automatic fact-checking. The standalone receipt works without installation and warns when the artifact changes after review."
+  },
+  "receiptOpened": true,
+  "receiptProjectLink": "https://github.com/zjukop3/dsh-review-outbox?utm_source=review-receipt&utm_medium=artifact&utm_campaign=review-outbox",
+  "downloadBytes": 54510,
+  "downloadSha256": "fd1510efecfce6ffeab0e341a15585141bb789b393cc7f8c30766f29fc23e463",
+  "mobileOverflowPx": 0,
+  "offlineOpened": true,
+  "externalRequests": [],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "screenshots": [
+    "docs/e2e/09-research-site.png",
+    "docs/e2e/10-research-mobile.png"
+  ]
+}

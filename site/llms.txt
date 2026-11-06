@@ -1,0 +1,10 @@
+# Review Outbox
+
+> Research report acceptance checklist and standalone SHA-256 review receipts for DeepSeek Harness.
+
+- https://zjukop3.github.io/dsh-review-outbox/research-report/: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.
+- https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html: Real browser-generated standalone receipt; no installation required.
+- https://github.com/zjukop3/dsh-review-outbox: Public source code, installation guide, and validation evidence.
+- https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz: Review Outbox 0.1.0 plugin tarball.
+
+Review Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.0 validation; npm and community-catalog publication remain separate.

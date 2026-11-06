@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "itemId": "presented:preinstall-official-session:preinstall-present-call:0",
+  "status": "approved",
+  "pending": 0,
+  "historyLength": 2,
+  "backfill": {
+    "status": "ready",
+    "sessionLimit": 50,
+    "eventLimit": 5000,
+    "itemLimit": 1000,
+    "listed": 2,
+    "scanned": 2,
+    "discovered": 1,
+    "changed": 0,
+    "truncated": false,
+    "errors": [],
+    "startedAt": "2026-11-06T06:33:05.209Z",
+    "finishedAt": "2026-11-06T06:33:05.225Z"
+  },
+  "previewKind": "text"
+}

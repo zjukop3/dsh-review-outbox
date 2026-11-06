@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "docx": {
+    "name": "research-viewer.docx",
+    "textLength": 285,
+    "titlePresent": true
+  },
+  "pdf": {
+    "name": "research-viewer.pdf",
+    "textLength": 285,
+    "titlePresent": true
+  },
+  "pageErrors": [],
+  "consoleErrors": []
+}

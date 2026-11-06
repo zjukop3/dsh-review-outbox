@@ -1,0 +1,10 @@
+{
+  "callId": "dogfood-docs-v3",
+  "eventSeq": 6,
+  "files": [
+    {
+      "path": "<workspace>/dsh-review-outbox/docs/VALIDATION.md",
+      "description": "Dogfood dogfood-docs revision 3 · validation evidence"
+    }
+  ]
+}

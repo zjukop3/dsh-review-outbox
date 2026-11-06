@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "package": "dsh-review-outbox-0.1.0.tgz",
+  "sha256": "fd1510efecfce6ffeab0e341a15585141bb789b393cc7f8c30766f29fc23e463",
+  "installSource": "tarball through the DSH package store, not a source-directory link",
+  "profile": "fresh isolated DSH_HOME and independent port",
+  "nativeSidebarOpened": true,
+  "items": 0,
+  "pending": 0,
+  "backfill": "ready",
+  "stateError": null,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "screenshot": "docs/e2e/13-final-package.png"
+}

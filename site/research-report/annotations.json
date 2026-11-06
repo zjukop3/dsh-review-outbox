@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "研究报告验收清单：AI 报告事实、引用与数据复核",
+    "author": "Review Outbox",
+    "date": "2026.11.06",
+    "reading_time": "约 7 分钟",
+    "tags": ["DeepSeek Harness", "研究报告", "引用复核", "验收清单"],
+    "subtitle": "一份无需安装即可使用的研究报告人工验收清单，以及可独立打开的 SHA-256 成果验收单。",
+    "lang": null,
+    "theme": "ikb"
+  },
+  "upgrades": [
+    {
+      "type": "checklist",
+      "lines": [14, 15, 16, 17]
+    },
+    {
+      "type": "checklist",
+      "lines": [23]
+    },
+    {
+      "type": "process",
+      "lines": [27, 28, 29, 30, 31],
+      "items": [
+        { "title": "交付报告", "desc": "通过官方 present 记录真实成果与来源 Session。" },
+        { "title": "选择验收包", "desc": "在成果审阅中选择研究报告验收。" },
+        { "title": "填写证据", "desc": "逐项记录可定位、可复核的证据说明。" },
+        { "title": "通过或退回", "desc": "四项必填证据齐全后通过，否则写明返工意见。" },
+        { "title": "导出验收单", "desc": "把独立 HTML 与报告一起提供给接收者。" }
+      ]
+    },
+    {
+      "type": "aside",
+      "line": 35,
+      "title": "先看真实产物，再决定是否安装",
+      "text": "验收单无需安装即可打开。你可以先检查它是否真正保留了审阅证据，再决定是否采用插件。"
+    },
+    {
+      "type": "gallery",
+      "lines": [41, 42, 43, 44, 45, 46],
+      "items": [
+        { "title": "成果身份", "desc": "文件名、revision、当前状态和审阅意见。" },
+        { "title": "检查证据", "desc": "每个检查项的完成状态和人工填写的证据。" },
+        { "title": "处理历史", "desc": "发现、退回、revision、通过与归档轨迹。" },
+        { "title": "文件摘要", "desc": "通过或退回时记录的 SHA-256。" },
+        { "title": "版本变化", "desc": "导出时重新计算并比较当前文件摘要。" },
+        { "title": "插件入口", "desc": "需要处理同类成果时继续进入 Review Outbox。" }
+      ]
+    },
+    {
+      "type": "summary-card",
+      "line": 83,
+      "label": "验收速查",
+      "items": [
+        { "title": "Claims", "desc": "核心结论能定位到证据" },
+        { "title": "Citations", "desc": "引用与原始支持段落可复核" },
+        { "title": "Data scope", "desc": "时间、时区、单位和样本口径明确" },
+        { "title": "Methods", "desc": "方法、限制与相反证据已披露" }
+      ]
+    }
+  ]
+}

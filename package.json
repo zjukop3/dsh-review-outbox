@@ -1,0 +1,94 @@
+{
+  "name": "dsh-review-outbox",
+  "version": "0.1.0",
+  "description": "Human deliverable review and research-report acceptance for DeepSeek Harness: evidence checklists, SHA-256 receipts, preview, approve, return, and archive.",
+  "type": "module",
+  "main": "./src/host.js",
+  "exports": {
+    ".": "./src/host.js",
+    "./client": "./dist/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deliverables",
+    "review",
+    "research-report",
+    "citation-review",
+    "acceptance",
+    "review-receipt",
+    "workflow"
+  ],
+  "license": "MIT",
+  "author": "zjukop3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjukop3/dsh-review-outbox.git"
+  },
+  "homepage": "https://zjukop3.github.io/dsh-review-outbox/",
+  "bugs": {
+    "url": "https://github.com/zjukop3/dsh-review-outbox/issues"
+  },
+  "scripts": {
+    "build": "tsdown --config tsdown.config.mjs",
+    "test": "node --test test/*.test.js",
+    "test:browser": "node scripts/e2e-browser.mjs",
+    "test:browser:backfill": "node scripts/e2e-backfill-browser.mjs",
+    "test:browser:restart": "node scripts/e2e-backfill-restart.mjs",
+    "test:browser:research": "node scripts/e2e-research-receipt.mjs",
+    "test:browser:native": "node scripts/e2e-native-viewer.mjs",
+    "test:browser:better": "node scripts/e2e-better-sidebar.mjs",
+    "test:browser:recovery": "node scripts/e2e-cleanpack-recovery.mjs",
+    "seed:official": "node scripts/seed-official-backfill.mjs",
+    "check": "npm test && npm run build"
+  },
+  "files": [
+    "src",
+    "client",
+    "dist/client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE",
+    "docs/**/*.md"
+  ],
+  "devDependencies": {
+    "@deepseek-ai/cordis": "4.1.0",
+    "@deepseek-ai/dsh-agent": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-agent-loop-testkit": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-sidebar-right": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-fs-local": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-scope": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-session": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-session-persistence-jsonl": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-session-projection": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-system-prompt": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-tool-executor-native": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-tool-present": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-tool-testkit": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-tools": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-util-workspace-path": "0.2.2-rc.1",
+    "playwright-core": "^1.64.1",
+    "tsdown": "^0.22.2"
+  }
+}

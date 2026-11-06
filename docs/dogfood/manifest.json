@@ -1,0 +1,120 @@
+{
+  "workspace": "<workspace>",
+  "tasks": [
+    {
+      "task": "dogfood-research",
+      "callId": "dogfood-research-v1",
+      "eventSeq": 2,
+      "files": [
+        {
+          "path": "<workspace>/dsh-ecosystem-research/REPORT.md",
+          "description": "Dogfood dogfood-research · dsh-ecosystem-research/REPORT.md"
+        },
+        {
+          "path": "<workspace>/dsh-ecosystem-research/METHODOLOGY.md",
+          "description": "Dogfood dogfood-research · dsh-ecosystem-research/METHODOLOGY.md"
+        },
+        {
+          "path": "<workspace>/dsh-ecosystem-research/data/processed/source_commits.csv",
+          "description": "Dogfood dogfood-research · dsh-ecosystem-research/data/processed/source_commits.csv"
+        },
+        {
+          "path": "<workspace>/dsh-ecosystem-research/data/processed/summary.json",
+          "description": "Dogfood dogfood-research · dsh-ecosystem-research/data/processed/summary.json"
+        }
+      ]
+    },
+    {
+      "task": "dogfood-docs",
+      "callId": "dogfood-docs-v1",
+      "eventSeq": 2,
+      "files": [
+        {
+          "path": "<workspace>/dsh-review-outbox/README.md",
+          "description": "Dogfood dogfood-docs · dsh-review-outbox/README.md"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/docs/STRATEGY.md",
+          "description": "Dogfood dogfood-docs · dsh-review-outbox/docs/STRATEGY.md"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/docs/VALIDATION.md",
+          "description": "Dogfood dogfood-docs · dsh-review-outbox/docs/VALIDATION.md"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/docs/packs/research-report.md",
+          "description": "Dogfood dogfood-docs · dsh-review-outbox/docs/packs/research-report.md"
+        }
+      ]
+    },
+    {
+      "task": "dogfood-host",
+      "callId": "dogfood-host-v1",
+      "eventSeq": 2,
+      "files": [
+        {
+          "path": "<workspace>/dsh-review-outbox/src/host.js",
+          "description": "Dogfood dogfood-host · dsh-review-outbox/src/host.js"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/src/backfill.js",
+          "description": "Dogfood dogfood-host · dsh-review-outbox/src/backfill.js"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/src/store.js",
+          "description": "Dogfood dogfood-host · dsh-review-outbox/src/store.js"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/src/receipt.js",
+          "description": "Dogfood dogfood-host · dsh-review-outbox/src/receipt.js"
+        }
+      ]
+    },
+    {
+      "task": "dogfood-client-tests",
+      "callId": "dogfood-client-tests-v1",
+      "eventSeq": 2,
+      "files": [
+        {
+          "path": "<workspace>/dsh-review-outbox/client/index.jsx",
+          "description": "Dogfood dogfood-client-tests · dsh-review-outbox/client/index.jsx"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/client/styles.js",
+          "description": "Dogfood dogfood-client-tests · dsh-review-outbox/client/styles.js"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/test/evidence.test.js",
+          "description": "Dogfood dogfood-client-tests · dsh-review-outbox/test/evidence.test.js"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/test/official-present.test.js",
+          "description": "Dogfood dogfood-client-tests · dsh-review-outbox/test/official-present.test.js"
+        }
+      ]
+    },
+    {
+      "task": "dogfood-release",
+      "callId": "dogfood-release-v1",
+      "eventSeq": 2,
+      "files": [
+        {
+          "path": "<workspace>/dsh-review-outbox/package.json",
+          "description": "Dogfood dogfood-release · dsh-review-outbox/package.json"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/cordis.patch.yml",
+          "description": "Dogfood dogfood-release · dsh-review-outbox/cordis.patch.yml"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/test/host.test.js",
+          "description": "Dogfood dogfood-release · dsh-review-outbox/test/host.test.js"
+        },
+        {
+          "path": "<workspace>/dsh-review-outbox/docs/e2e/research-receipt-result.json",
+          "description": "Dogfood dogfood-release · dsh-review-outbox/docs/e2e/research-receipt-result.json"
+        }
+      ]
+    }
+  ]
+}

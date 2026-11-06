@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "betterSidebarVersion": "0.30.0",
+  "bottomTabOpened": true,
+  "markdownApproved": true,
+  "markdownOpened": true,
+  "docxNativeViewer": true,
+  "pdfNativeViewer": true,
+  "visiblePolls": 1,
+  "hiddenPolls": 0,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "screenshots": [
+    "docs/e2e/11-better-sidebar-outbox.png",
+    "docs/e2e/12-better-sidebar-docx.png"
+  ]
+}

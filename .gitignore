@@ -1,0 +1,9 @@
+node_modules/
+dist/*.map
+coverage/
+*.tgz
+*.tar.gz
+!site/downloads/*.tgz
+docs/e2e/*failure*.png
+dsh-review-outbox-site-*.tar.gz.sha256
+.DS_Store

@@ -1,0 +1,4 @@
+# One package mounts the Host API and the Web review workbench.
+- insert:
+    - id: review-outbox
+      name: 'dsh-review-outbox'

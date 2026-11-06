@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "uniqueArtifacts": 20,
+  "approved": 20,
+  "revision1": 15,
+  "revision2": 4,
+  "revision3": 1,
+  "pending": 0,
+  "changedAfterFinalBackfill": 0,
+  "validationHistory": [
+    "observed",
+    "return",
+    "revision",
+    "approve",
+    "revision",
+    "approve"
+  ]
+}

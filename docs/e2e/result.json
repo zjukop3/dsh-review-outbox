@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "pendingAfterApproval": 0,
+  "approvedItem": "demo:release-notes.md",
+  "screenshots": [
+    "docs/e2e/01-application.png",
+    "docs/e2e/02-review-outbox.png",
+    "docs/e2e/03-approved.png"
+  ],
+  "pageErrors": [],
+  "consoleErrors": []
+}

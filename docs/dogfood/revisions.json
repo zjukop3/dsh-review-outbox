@@ -1,0 +1,23 @@
+{
+  "tasks": [
+    {
+      "task": "dogfood-docs",
+      "callId": "dogfood-docs-v2",
+      "eventSeq": 4,
+      "files": [
+        "<workspace>/dsh-review-outbox/README.md",
+        "<workspace>/dsh-review-outbox/docs/STRATEGY.md",
+        "<workspace>/dsh-review-outbox/docs/VALIDATION.md"
+      ]
+    },
+    {
+      "task": "dogfood-client-tests",
+      "callId": "dogfood-client-tests-v2",
+      "eventSeq": 4,
+      "files": [
+        "<workspace>/dsh-review-outbox/client/styles.js",
+        "<workspace>/dsh-review-outbox/test/evidence.test.js"
+      ]
+    }
+  ]
+}
