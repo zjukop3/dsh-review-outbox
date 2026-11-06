@@ -3,7 +3,7 @@
 ## 单元、Host 与官方工具集成测试
 
 命令：`node --test test/*.test.js`  
-结果：**39/39 通过**。
+结果：**40/40 通过**。
 
 覆盖：
 
@@ -25,6 +25,7 @@
 - 来源 Session 挂载顺序、工作区内外文件地址编码和 Viewer 服务缺失提示
 - better-sidebar 已存在、延迟到达、替换、移除和插件销毁时的注册清理
 - 站点跨域名重复构建的元数据幂等性与正式下载链接
+- 市场截图 manifest 的路径边界、PNG 签名、尺寸与文件存在性
 - Host Connection 鉴权
 - Host 模拟官方事件到预览和审阅动作的完整链路
 
@@ -65,7 +66,7 @@
 ## 构建
 
 命令：`pnpm run check`  
-结果：39/39 测试与客户端构建均通过。
+结果：40/40 测试与客户端构建均通过。
 
 - `dist/client.js`：39.38 kB，gzip 10.29 kB
 - `dist/client.js.map`：55.62 kB，gzip 15.56 kB
@@ -194,14 +195,20 @@
 ## 公开仓库、Pages 与公网安装
 
 - 公开仓库：`zjukop3/dsh-review-outbox`，首个公开提交为 `780d2bb9bdd370ed42a9fb85c3a58e4a5feb91ed`。
-- 在独立目录重新克隆公开仓库，使用冻结锁文件安装开发依赖，首个公开提交的 38/38 测试和构建通过，见 [public-clone-check.json](e2e/public-clone-check.json)。新增站点幂等测试后当前总数为 39。
+- 在独立目录重新克隆公开仓库，使用冻结锁文件安装开发依赖，首个公开提交的 38/38 测试和构建通过，见 [public-clone-check.json](e2e/public-clone-check.json)。新增站点幂等与市场素材测试后当前总数为 40。
 - 从公开 Pages 地址下载 tarball，SHA-256 校验通过，再安装到全新隔离 `DSH_HOME`；真实浏览器打开原生侧栏，`items=0`、`pending=0`、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [public-download-install.json](e2e/public-download-install.json)。
 - 首次线上 SEO 验收复现了重复构建遗留本地 canonical 的问题。构建脚本已改为清理受控元数据区块后再生成，链接处理脚本和示例 favicon 也保持幂等；新增回归测试连续使用本地与正式域名构建，断言只保留一套正式元数据。
 - 首次 Pages 工作流 [42236871049](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42236871049) 与修复后的 [42309148857](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42309148857) 均成功。最终匿名线上 Chrome 复测确认正式 canonical、三类 JSON-LD、清单、验收单、下载哈希、移动端和离线打开全部通过；结果见 [research-site-result.json](e2e/research-site-result.json)。
 
+## 市场素材与目录预检
+
+- 在全新隔离 Profile 中用官方 `present` 交付合成研究报告，真实填写四项证据、通过并导出验收单；随后生成 `review-workbench.png` 与 `research-receipt.png`，页面与控制台错误均为 0，见 [storefront-result.json](e2e/storefront-result.json)。
+- 根目录 `screenshots.json` 只声明两张相对路径 PNG；测试校验路径边界、文件存在性、PNG 签名、尺寸与大小。素材来自合成数据，不来自日常会话。
+- Awesome DSH Plugin 候选条目保持单 YAML 变更，双语生成、lint 和 24 项上游规则测试通过；提交门禁仅仓库年龄未满 1 天。完整构建需要已提交条目和完整历史，留待真实 PR CI。详见[目录收录准备](CATALOG.md)和 [catalog-preflight.json](e2e/catalog-preflight.json)。
+
 ## Node 基线、干净 tarball 与恢复
 
-- Node.js `22.19.0`：39/39 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
+- Node.js `22.19.0`：40/40 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
 - 完整链路 tarball（better-sidebar 集成前）：从包存储安装到全新 `DSH_HOME`，不是本地目录链接；历史回填、研究验收、验收单导出均通过。
 - 包含 better-sidebar 集成的最终候选 tarball：在另一个全新 `DSH_HOME` 从包存储安装，真实浏览器打开原生侧栏，空成果状态、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [final-package-smoke.json](e2e/final-package-smoke.json)。具体哈希只记录于独立 `.sha256` 文件，避免包内文档自引用。
 - 正常重启：`approved`、两条历史、预览和文件变化检测保留，`changed=0`，见 [cleanpack-recovery-normal.json](e2e/cleanpack-recovery-normal.json)。

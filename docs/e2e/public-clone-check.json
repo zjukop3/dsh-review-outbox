@@ -10,5 +10,5 @@
   "build": true,
   "clientDisplay": "39.38 kB",
   "clientMapDisplay": "55.62 kB",
-  "notes": "Fresh clone of the public repository, independent of the development working tree. A later site-build regression test brings the current suite to 39 tests without changing the plugin runtime tarball."
+  "notes": "Fresh clone of the public repository, independent of the development working tree. Later site-build and storefront regression tests bring the current suite to 40 tests without changing the plugin runtime tarball."
 }

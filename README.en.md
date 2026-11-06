@@ -6,6 +6,8 @@ Review Outbox is a local-first review workbench for files produced by DeepSeek H
 
 It handles **deliverable disposition**, not generic notifications, questions, or tool approvals. Approval records a human review decision; it never auto-publishes the artifact or rewrites the source Session.
 
+![Review Outbox research-report evidence workbench](assets/storefront/review-workbench.png)
+
 ## Features
 
 - Ingests official `deliverables/presented` events, including bounded historical Session backfill.
@@ -81,7 +83,7 @@ pnpm test
 pnpm run build
 ```
 
-The suite currently contains **39 tests**, including real execution of the official `present` tool, production-default Zstandard JSONL persistence, cold reads, resumed-Session revisions across different `callId` values, Host authorization, receipt injection checks, and native Viewer address routing.
+The suite currently contains **40 tests**, including real execution of the official `present` tool, production-default Zstandard JSONL persistence, cold reads, resumed-Session revisions across different `callId` values, Host authorization, receipt injection checks, and native Viewer address routing.
 
 Additional real-browser evidence covers research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
 

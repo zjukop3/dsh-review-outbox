@@ -6,8 +6,8 @@
 
 | 环境 | 验证 | 结果 |
 |---|---|---|
-| Node.js `22.19.0`，macOS arm64 | 全部 39 项测试 + 客户端构建 | 通过 |
-| Node.js `25.2.1`，Homebrew ad-hoc 签名，macOS arm64 | 全部 39 项测试 + 客户端构建 | 通过 |
+| Node.js `22.19.0`，macOS arm64 | 全部 40 项测试 + 客户端构建 | 通过 |
+| Node.js `25.2.1`，Homebrew ad-hoc 签名，macOS arm64 | 全部 40 项测试 + 客户端构建 | 通过 |
 | DeepSeek Harness `0.2.2-rc.1` 官方桌面 Runtime `24.21.0`，`dsh web` | 隔离 Profile 的真实 Host、Client、API、浏览器、重启 | 通过 |
 | 上述 Runtime + `dsh-better-sidebar@0.30.0` | 底部标签页、Markdown 审阅与打开、DOCX/PDF Viewer、可见/隐藏轮询 | 通过 |
 | 完整链路 tarball，全新 `DSH_HOME` | 从包存储安装、历史回填、研究验收、验收单、正常重启 | 通过（better-sidebar 集成前包） |

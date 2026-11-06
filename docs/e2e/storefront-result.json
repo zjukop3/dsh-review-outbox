@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "syntheticArtifact": true,
+  "requiredEvidenceCompleted": "4/4",
+  "status": "approved",
+  "localHomePathVisible": false,
+  "screenshots": [
+    "assets/storefront/review-workbench.png",
+    "assets/storefront/research-receipt.png"
+  ],
+  "receipt": "docs/e2e/storefront-receipt.html",
+  "pageErrors": [],
+  "consoleErrors": []
+}

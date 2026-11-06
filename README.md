@@ -6,6 +6,8 @@
 
 它处理的是**成果处置**，不是普通问题、审批或通知。通过只表示你已完成审阅，插件不会自动向外部平台发布，也不会自动改写原会话。
 
+![Review Outbox 研究报告证据审阅台](assets/storefront/review-workbench.png)
+
 ## 当前范围
 
 - 监听官方 `deliverables/presented`，逐项记录交付文件、来源会话、轮次、调用和 revision。
@@ -120,7 +122,7 @@ node scripts/e2e-browser.mjs
 pnpm run check
 ```
 
-当前单元、Host、官方工具与站点构建集成测试共 39 项。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
+当前单元、Host、官方工具、站点构建与市场素材集成测试共 40 项。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
 
 ## API
 
@@ -148,7 +150,7 @@ pnpm run check
 
 ## 参与方向
 
-北极星指标是**每周被真正审阅并处置的成果数**，不是安装量。自然获客不依赖维护者持续发帖，而是通过可搜索的场景验收包、随成果分享且无需安装即可查看的独立验收单，以及官方 `present` 的零配置接入形成增长环。详见 [长期路线](docs/STRATEGY.md)。
+北极星指标是**每周被真正审阅并处置的成果数**，不是安装量。自然获客不依赖维护者持续发帖，而是通过可搜索的场景验收包、随成果分享且无需安装即可查看的独立验收单，以及官方 `present` 的零配置接入形成增长环。详见 [长期路线](docs/STRATEGY.md) 与 [目录收录准备](docs/CATALOG.md)。
 
 ## License
 

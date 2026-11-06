@@ -1,0 +1,36 @@
+{
+  "catalog": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin",
+  "upstreamCommit": "7843a1ac2de8332ffad16f54982ac07de564594d",
+  "candidate": "data/plugins/zjukop3__dsh-review-outbox.yml",
+  "candidateRepositoryCreatedAt": "2026-11-06T14:39:31Z",
+  "ageEligibleAt": "2026-11-07T14:39:31Z",
+  "readmeGeneration": {
+    "ok": true,
+    "entriesPerLocale": 9301,
+    "englishRow": true,
+    "chineseRow": true,
+    "repeatCheckUpToDate": true
+  },
+  "awesomeLint": {
+    "exitCode": 0,
+    "warningCount": 237,
+    "note": "Warnings were reported across the large upstream README; the command completed successfully. This is not a zero-warning claim."
+  },
+  "rulesTests": {
+    "passed": 24,
+    "failed": 0
+  },
+  "siteBuild": {
+    "completed": false,
+    "reason": "Upstream intentionally requires full git history and a committed new entry to derive its added date. The local candidate remains an uncommitted single YAML file; no temporary commit was created to bypass this precondition.",
+    "entriesParsedAcrossTwoLocales": 9301
+  },
+  "submissionGate": {
+    "ok": false,
+    "checked": 1,
+    "incomplete": [],
+    "onlyFailure": "repository is 0.4 days old (needs 1); the gate output explicitly identifies the age bar as the only failing check",
+    "expectedEligibleAt": "2026-11-07T14:39:31Z"
+  },
+  "submitted": false
+}
