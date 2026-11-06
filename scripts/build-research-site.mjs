@@ -54,6 +54,7 @@ const structured = [
 ]
 const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
 const metadata = `
+<!-- review-outbox:metadata:start -->
 ${favicon}
 <meta name="description" content="${escapeHtml(description)}">
 <meta name="author" content="Review Outbox">
@@ -70,19 +71,23 @@ ${pageUrl ? `<meta property="og:url" content="${escapeHtml(pageUrl)}">\n<link re
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <script type="application/ld+json">${JSON.stringify(structured).replace(/</g, '\\u003c')}</script>
+<!-- review-outbox:metadata:end -->
 `
+const linkScript = '<script>document.querySelectorAll("a[href]").forEach(link => { const parent = link.closest("[contenteditable]"); if (parent) parent.setAttribute("contenteditable", "false"); });</script>'
 
 let html = await readFile(resolve(directory, 'index.html'), 'utf8')
 html = html
+  .replace(/\n?<!-- review-outbox:metadata:start -->[\s\S]*?<!-- review-outbox:metadata:end -->\n?/g, '\n')
+  .replace(/<script>document\.querySelectorAll\("a\[href\]"\)[\s\S]*?<\/script>\n?/g, '')
   .replace(/<link[^>]*(?:fonts\.googleapis|fonts\.gstatic)[^>]*>\n?/g, '')
   .replace(/\sdata-href="[^"]*"/g, '')
   .replace(/<img class="hero-bg"[^>]*\/>/, '<div class="hero-bg" role="presentation"></div>')
   .replace('</head>', `${metadata}</head>`)
-  .replace('</body>', '<script>document.querySelectorAll("a[href]").forEach(link => { const parent = link.closest("[contenteditable]"); if (parent) parent.setAttribute("contenteditable", "false"); });</script>\n</body>')
+  .replace('</body>', `${linkScript}\n</body>`)
 if (/Harness:\*\*/.test(html)) throw new Error('Malformed English emphasis remains')
 await writeFile(resolve(directory, 'index.html'), html)
 const receipt = await readFile(resolve(root, 'docs/e2e/research-report.review-r1.html'), 'utf8')
-await writeFile(resolve(directory, 'receipt-example.html'), receipt.replace(/https:\/\/www\.npmjs\.com\/package\/dsh-review-outbox/g, repositoryUrl).replace(/img-src 'none'/g, 'img-src data:').replace('</head>', `${favicon}</head>`))
+await writeFile(resolve(directory, 'receipt-example.html'), receipt.replace(/https:\/\/www\.npmjs\.com\/package\/dsh-review-outbox/g, repositoryUrl).replace(/<link rel="icon" href="data:image\/svg\+xml,[^"]+">/g, '').replace(/img-src 'none'/g, 'img-src data:').replace('</head>', `${favicon}</head>`))
 
 const home = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Review Outbox · 研究报告验收</title>${favicon}<meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="index,follow">${pageUrl ? `<link rel="canonical" href="${escapeHtml(`${origin}/`)}">` : ''}<style>body{max-width:760px;margin:12vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(36px,7vw,72px);font-weight:250;line-height:1.08}p{color:#525252}a{display:inline-block;margin-top:24px;padding:12px 18px;background:#002fa7;color:#fff;text-decoration:none}small{display:block;margin-top:28px;color:#737373}</style></head><body><main><h1>研究报告验收清单</h1><p>核对结论、引用、数据口径和方法限制。无需安装即可使用清单并查看真实 SHA-256 验收单。</p><a href="./research-report/">打开完整清单</a><p><a href="./research-report/receipt-example.html" style="background:#0a0a0a">直接查看验收单</a></p><p><a href="${downloadHref}" download>下载 Review Outbox 0.1.0</a></p><p><a href="${repositoryUrl}" style="background:#0a0a0a">GitHub 源码与安装说明</a></p><small>Review Outbox · DeepSeek Harness 成果审阅 · <a href="./downloads/${packageName}.sha256" style="padding:0;background:none;color:inherit">SHA-256 校验文件</a></small></main></body></html>`
 await writeFile(resolve(root, 'site/index.html'), home)

@@ -120,7 +120,7 @@ node scripts/e2e-browser.mjs
 pnpm run check
 ```
 
-当前单元、Host 与官方工具集成测试共 38 项。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
+当前单元、Host、官方工具与站点构建集成测试共 39 项。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
 
 ## API
 

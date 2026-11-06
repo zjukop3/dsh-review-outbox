@@ -3,7 +3,7 @@
 ## 单元、Host 与官方工具集成测试
 
 命令：`node --test test/*.test.js`  
-结果：**38/38 通过**。
+结果：**39/39 通过**。
 
 覆盖：
 
@@ -24,6 +24,7 @@
 - 客户端元素选择器不污染宿主或其他插件
 - 来源 Session 挂载顺序、工作区内外文件地址编码和 Viewer 服务缺失提示
 - better-sidebar 已存在、延迟到达、替换、移除和插件销毁时的注册清理
+- 站点跨域名重复构建的元数据幂等性与正式下载链接
 - Host Connection 鉴权
 - Host 模拟官方事件到预览和审阅动作的完整链路
 
@@ -64,7 +65,7 @@
 ## 构建
 
 命令：`pnpm run check`  
-结果：38/38 测试与客户端构建均通过。
+结果：39/39 测试与客户端构建均通过。
 
 - `dist/client.js`：39.38 kB，gzip 10.29 kB
 - `dist/client.js.map`：55.62 kB，gzip 15.56 kB
@@ -183,15 +184,24 @@
 - SEO title、description、canonical、robots 和 `TechArticle`/`FAQPage`/`SoftwareApplication` JSON-LD。
 - 5 项检查、5 步流程、4 个 FAQ 和英文摘要。
 - 首页与验收单链接可导航，链接所在段落不会因可编辑模式而阻止点击；首页使用适配 Pages 项目子路径的相对链接。
+- 站点构建可重复执行：本地域名与正式域名连续构建后只保留一套 canonical、Open Graph、JSON-LD、favicon 和链接处理脚本，不残留本地地址。
 - 验收单示例回流公开 GitHub 仓库；tarball 下载字节数与 SHA-256 同独立校验文件一致。
 - 移动端横向溢出为 0，离线打开成功。
 - 外部请求、页面错误和控制台错误均为 0。
 
 截图：[桌面页面](e2e/09-research-site.png)、[移动页面](e2e/10-research-mobile.png)。分发口径与部署边界见 [自然分发](DISTRIBUTION.md)。站点通过 GitHub Pages 公开，但公开部署本身不计为自然流量证据。
 
+## 公开仓库、Pages 与公网安装
+
+- 公开仓库：`zjukop3/dsh-review-outbox`，首个公开提交为 `780d2bb9bdd370ed42a9fb85c3a58e4a5feb91ed`。
+- 在独立目录重新克隆公开仓库，使用冻结锁文件安装开发依赖，首个公开提交的 38/38 测试和构建通过，见 [public-clone-check.json](e2e/public-clone-check.json)。新增站点幂等测试后当前总数为 39。
+- 从公开 Pages 地址下载 tarball，SHA-256 校验通过，再安装到全新隔离 `DSH_HOME`；真实浏览器打开原生侧栏，`items=0`、`pending=0`、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [public-download-install.json](e2e/public-download-install.json)。
+- 首次线上 SEO 验收复现了重复构建遗留本地 canonical 的问题。构建脚本已改为清理受控元数据区块后再生成，链接处理脚本和示例 favicon 也保持幂等；新增回归测试连续使用本地与正式域名构建，断言只保留一套正式元数据。
+- 首次 Pages 工作流 [42236871049](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42236871049) 已成功；修复后的最终线上结果以 [research-site-result.json](e2e/research-site-result.json) 为准。
+
 ## Node 基线、干净 tarball 与恢复
 
-- Node.js `22.19.0`：38/38 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
+- Node.js `22.19.0`：39/39 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
 - 完整链路 tarball（better-sidebar 集成前）：从包存储安装到全新 `DSH_HOME`，不是本地目录链接；历史回填、研究验收、验收单导出均通过。
 - 包含 better-sidebar 集成的最终候选 tarball：在另一个全新 `DSH_HOME` 从包存储安装，真实浏览器打开原生侧栏，空成果状态、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [final-package-smoke.json](e2e/final-package-smoke.json)。具体哈希只记录于独立 `.sha256` 文件，避免包内文档自引用。
 - 正常重启：`approved`、两条历史、预览和文件变化检测保留，`changed=0`，见 [cleanpack-recovery-normal.json](e2e/cleanpack-recovery-normal.json)。

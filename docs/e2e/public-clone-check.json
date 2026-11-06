@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "commit": "780d2bb9bdd370ed42a9fb85c3a58e4a5feb91ed",
+  "cloneDirectory": "/tmp/dsh-review-outbox-clone.XKzkKr/repo",
+  "install": "pnpm install --ignore-scripts --frozen-lockfile",
+  "testsAtInitialPublicCommit": 38,
+  "passed": 38,
+  "failed": 0,
+  "build": true,
+  "clientDisplay": "39.38 kB",
+  "clientMapDisplay": "55.62 kB",
+  "notes": "Fresh clone of the public repository, independent of the development working tree. A later site-build regression test brings the current suite to 39 tests without changing the plugin runtime tarball."
+}
