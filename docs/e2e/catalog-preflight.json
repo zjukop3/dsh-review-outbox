@@ -1,36 +1,35 @@
 {
   "catalog": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin",
-  "upstreamCommit": "7843a1ac2de8332ffad16f54982ac07de564594d",
+  "upstreamCommit": "27032187146074a6713ef02d6d7b854710800ff1",
   "candidate": "data/plugins/zjukop3__dsh-review-outbox.yml",
   "candidateRepositoryCreatedAt": "2026-11-06T14:39:31Z",
   "ageEligibleAt": "2026-11-07T14:39:31Z",
   "readmeGeneration": {
     "ok": true,
-    "entriesPerLocale": 9301,
+    "entriesPerLocale": 9406,
     "englishRow": true,
     "chineseRow": true,
     "repeatCheckUpToDate": true
   },
   "awesomeLint": {
     "exitCode": 0,
-    "warningCount": 237,
-    "note": "Warnings were reported across the large upstream README; the command completed successfully. This is not a zero-warning claim."
+    "warningCount": 242,
+    "note": "Warnings were reported across the large upstream README; the command completed successfully. No warning was reported on the new Review Outbox row. This is not a zero-warning claim."
   },
   "rulesTests": {
     "passed": 24,
     "failed": 0
   },
   "siteBuild": {
-    "completed": false,
-    "reason": "Upstream intentionally requires full git history and a committed new entry to derive its added date. The local candidate remains an uncommitted single YAML file; no temporary commit was created to bypass this precondition.",
-    "entriesParsedAcrossTwoLocales": 9301
+    "completed": true,
+    "entriesParsedAcrossTwoLocales": 9406,
+    "result": "site built: 9406 rows × 2 locales + sitemap + count badge"
   },
   "submissionGate": {
-    "ok": false,
+    "ok": true,
     "checked": 1,
-    "incomplete": [],
-    "onlyFailure": "repository is 0.4 days old (needs 1); the gate output explicitly identifies the age bar as the only failing check",
-    "expectedEligibleAt": "2026-11-07T14:39:31Z"
+    "failures": [],
+    "incomplete": []
   },
   "githubSourceInstall": {
     "ok": true,
@@ -39,5 +38,20 @@
   },
   "submissionScheduledFor": "2026-11-07T14:45:00.000Z",
   "scheduleId": "schedule-3d2919eb-8885-4cda-a9b2-644448683a1f",
-  "submitted": false
+  "submitted": true,
+  "pullRequest": {
+    "number": 13088,
+    "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088",
+    "createdAt": "2026-11-07T18:06:40Z",
+    "state": "OPEN",
+    "headCommit": "097826b80c6ed5d887d80ecf5549e98041c994fa",
+    "changedFiles": 1,
+    "additions": 6,
+    "deletions": 0,
+    "ciStatus": "pr_check_passed_submission_gate_queued",
+    "prCheckRun": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911",
+    "prCheckConclusion": "success",
+    "prCheckDuration": "17m50s",
+    "submissionGateRun": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040"
+  }
 }

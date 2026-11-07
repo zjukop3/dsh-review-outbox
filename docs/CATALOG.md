@@ -80,4 +80,15 @@ SKIP_PUBLISH_CHECKS=1 node scripts/build-site.mjs
 - 上游 added-date、capability、discussion-adoption 和 entry-path 规则测试合计 24/24 通过。
 - 站点构建已解析 9,301 个双语条目，随后按上游设计停在“新增条目需要完整历史且已进入提交”的日期推导前置条件。本地只保留一个未提交 YAML，没有为绕过前置条件创建临时提交；完整构建随真实 PR CI 验证。
 - 提交门禁检查了 1 个条目，Manifest 等检查通过，唯一失败是仓库当时 `0.4` 天、要求满 1 天；门禁原文明确年龄是唯一失败项。
-- 预检后已还原本地生成的两个上游 README，候选变更只剩 `data/plugins/zjukop3__dsh-review-outbox.yml`。当前尚未创建目录 PR，也没有收录或目录流量声明。
+- 预检后已还原本地生成的两个上游 README，候选变更只剩 `data/plugins/zjukop3__dsh-review-outbox.yml`。
+
+## 已提交目录 PR
+
+一次性任务已于 `2026-11-07T14:45Z` 后执行，最终创建 [Awesome DSH Plugin #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088)。
+
+- PR 只新增 `data/plugins/zjukop3__dsh-review-outbox.yml`，6 行新增、0 行删除，未混入其他开发中改动。
+- 本地完整构建基线为 `27032187146074a6713ef02d6d7b854710800ff1`；最终候选提交为 `097826b80c6ed5d887d80ecf5549e98041c994fa`。
+- 双语生成器覆盖 9,406 个条目，`--check` 为最新状态；`awesome-lint` 返回 0，新增行没有 lint 警告。
+- 上游 24/24 规则测试通过，提交门禁 `ok=true`，没有失败或不完整检查。
+- 完整站点构建成功：`site built: 9406 rows × 2 locales + sitemap + count badge`。
+- [PR check 42399620911](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911) 已全部通过，耗时 17m50s；PR 为 `CLEAN / MERGEABLE`。后续 [Submission gate 42401151040](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040) 已触发。合并与收录仍以维护者审核和上游最终状态为准，不把已提交等同于已收录。
