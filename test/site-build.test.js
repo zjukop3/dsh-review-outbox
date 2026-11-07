@@ -42,4 +42,8 @@ test('research site builds are idempotent across local and public origins', asyn
   assert.equal((example.match(/<link rel="icon"/g) || []).length, 1)
   assert.match(example, /https:\/\/github\.com\/zjukop3\/dsh-review-outbox\?utm_source=review-receipt/)
   assert.match(await readFile(resolve(directory, 'site/sitemap.xml'), 'utf8'), new RegExp(`<loc>${publicOrigin}/</loc>`))
+
+  const renderedPage = await readFile(resolve(root, 'site/research-report/index.html'), 'utf8')
+  assert.doesNotMatch(renderedPage, /href=["']<a\b/)
+  assert.match(renderedPage, /dsh plugin --profile web add \/absolute\/path\/dsh-review-outbox-\d+\.\d+\.\d+\.tgz/)
 })
