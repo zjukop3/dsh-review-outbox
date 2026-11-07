@@ -6,10 +6,11 @@
 
 | 环境 | 验证 | 结果 |
 |---|---|---|
-| Node.js `22.19.0`，macOS arm64 | 全部 40 项测试 + 客户端构建 | 通过 |
-| Node.js `25.2.1`，Homebrew ad-hoc 签名，macOS arm64 | 全部 40 项测试 + 客户端构建 | 通过 |
+| Node.js `22.19.0`，macOS arm64 | 全部 44 项测试 + 客户端构建 | 通过 |
+| Node.js `25.2.1`，Homebrew ad-hoc 签名，macOS arm64 | 全部 44 项测试 + 客户端构建 | 通过 |
 | DeepSeek Harness `0.2.2-rc.1` 官方桌面 Runtime `24.21.0`，`dsh web` | 隔离 Profile 的真实 Host、Client、API、浏览器、重启 | 通过 |
 | 上述 Runtime + `dsh-better-sidebar@0.30.0` | 底部标签页、Markdown 审阅与打开、DOCX/PDF Viewer、可见/隐藏轮询 | 通过 |
+| 真实 Cordis/Session/ToolRuntime + `dsh-research-report@0.3.32` | 密封报告自动入库、预览、证据验收、验收单；Node 22.19 与 25.2.1 | 通过；完整 Web GUI 联合日常使用未覆盖 |
 | 完整链路 tarball，全新 `DSH_HOME` | 从包存储安装、历史回填、研究验收、验收单、正常重启 | 通过（better-sidebar 集成前包） |
 | 当前最终 tarball，另一全新 `DSH_HOME` | 从包存储安装、真实 Host/Client 挂载、原生侧栏、空状态与回填 | 通过 |
 | 损坏状态与备份恢复 | 只读保护、回填失败、写操作 400、原字节保留、备份恢复 | 通过 |
@@ -22,6 +23,7 @@
 | 能力 | 已验证范围 | 未覆盖 |
 |---|---|---|
 | 官方事件 | `deliverables/presented`、Zstandard JSONL、历史冷读、跨 `callId` revision | 其他 Session 后端 |
+| 研究插件事件 | `research_report` 成功结果 metadata、report/manifest 自动入库、实时与有界回填、跨来源 revision | background/gathered 无密封成果；读取窗口外的调用；其他插件版本 |
 | 文本与数据 | Markdown、TXT、JSON、JSONL、CSV、常见源码、YAML | 超过 512 KiB 时只预览前缀 |
 | 图片 | PNG、JPEG、WebP、GIF，最大 2 MiB | 更大图片 |
 | DOCX | 官方 Office 转 PDF + 官方 PDF Viewer，中文正文和表格 | 复杂排版、缺字体、加密文件 |

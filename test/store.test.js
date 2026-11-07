@@ -79,6 +79,24 @@ test('different present call ids revise one artifact and late old events do not 
   assert.equal(store.get(second.id).description, 'Version 2')
 })
 
+test('research-report deliveries keep artifact identity across call ids and sources', async () => {
+  const path = await fixture()
+  const store = new OutboxStore(path)
+  await store.initialize()
+  const first = { ...record(10), id: 'research-report:session-1:rr-v1:0', sourceType: 'research-report', callId: 'rr-v1', occurrence: 0 }
+  const second = { ...record(11), id: 'presented:session-1:present-v2:0', callId: 'present-v2', occurrence: 0, description: 'Officially presented revision' }
+  await store.upsert([first])
+  await store.action(first.id, 'approve', 'seal checked')
+  await store.upsert([second])
+  assert.equal(store.list().length, 1)
+  assert.equal(store.get(second.id).revision, 2)
+  assert.equal(store.get(second.id).sourceType, 'presented')
+  assert.equal(store.get(second.id).status, 'pending')
+  assert.equal(store.get(second.id).history.at(-1).action, 'revision')
+  await store.upsert([{ ...first, description: 'late sealed result' }])
+  assert.equal(store.get(second.id).description, 'Officially presented revision')
+})
+
 test('corrupt state becomes read-only and is never overwritten', async () => {
   const path = await fixture()
   await writeFile(path, '{broken json', 'utf8')

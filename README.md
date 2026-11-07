@@ -11,13 +11,14 @@
 ## 当前范围
 
 - 监听官方 `deliverables/presented`，逐项记录交付文件、来源会话、轮次、调用和 revision。
+- 同时启用 [`dsh-research-report`](https://github.com/PerryLink/dsh-research-report) 时，自动把成功 `research_report` 结果中的 `report.md` 与 `manifest.json` 加入审阅队列；不要求它额外调用 `present`。
 - 在官方 `workspaceChanges` 服务可用时接收 `workspace/changes`，按需读取变更对比。
 - 文本与常见图片预览；工作区变更在官方仍提供数据时显示 diff。
 - PDF、DOCX 等成果可恢复来源 Session 并调用官方 `sidebarRight` 文档 Viewer，复用宿主 Office 转 PDF 和 PDF.js 能力。
 - 通过、退回、归档、重新打开，保存审阅意见和完整处理历史。
 - 研究报告验收包：核心结论证据、引用复核、数据口径、方法限制为必填检查，复现材料为可选检查；必须勾选并填写证据才能通过。
 - 通过和退回时记录文件 SHA-256；独立 HTML 验收单包含检查证据、revision、意见和历史，导出时检测文件是否在审阅后变化。
-- 启动时从官方 `sessionPersistence` 有界回填历史 `deliverables/presented`，安装前的交付也能进入审阅队列。
+- 启动时从官方 `sessionPersistence` 有界回填历史 `deliverables/presented` 和可配对的密封研究结果，安装前的交付也能进入审阅队列。
 - 同一路径再次交付形成新 revision；已审阅状态不会被无变化的重新发现或重复回填重置。
 - 本地 JSON 原子写入，损坏时进入只读保护。
 - 可以复制退回意见并打开来源会话；不会自动向会话发送内容。
@@ -26,13 +27,13 @@
 ## 明确边界
 
 - 普通问题、工具审批和通知不进入此列表，避免与 DeepCanary 等产品重叠。
-- 历史回填只读取 `deliverables/presented`，默认扫描最新 50 个 Session、每个最多读取末尾 5000 个事件、每轮最多入库 1000 项；达到上限或单个 Session 读取失败会在 `backfill` 状态中明确显示。
+- 历史回填只读取 `deliverables/presented` 与成功 `research_report` 的调用/结果对，默认扫描最新 50 个 Session、每个最多读取末尾 5000 个事件、每轮最多入库 1000 项；调用不在同一读取窗口时不会凭结果元数据猜测工具名。达到上限或单个 Session 读取失败会在 `backfill` 状态中明确显示。
 - `workspace/changes` 仍只接收插件启用后观察到的事件，其摘要和 diff 主要服务仍存活的会话；重启后保留本插件的成果元数据与审阅状态，但不承诺旧 diff 仍可读取。
 - 预览只接受已登记成果，并默认限制在记录的工作区内；不支持任意本地路径读取。
 - 本面板不内嵌 Office/PDF 渲染器；可点击「在宿主 Viewer 打开」，先恢复来源 Session 再进入官方预览。实际格式支持以宿主 Viewer 为准。
 - 研究报告包记录人工检查证据，不自动访问引用，也不冒充自动事实核查。
 - 验收单默认在本地导出，不自动上传；不包含绝对路径或会话内容，检查证据和审阅意见按用户填写内容导出。
-- 项目仍处于 0.1.0 验证阶段；GitHub 源码与 Pages 清单已公开，npm、GitHub Release 和社区目录尚未发布。新生成的验收单默认链接到本仓库。
+- 项目仍处于 0.1.0 验证阶段；GitHub 源码与 Pages 清单已公开，npm 和 GitHub Release 尚未发布，Awesome 目录 PR 已提交但尚未合并。新生成的验收单默认链接到本仓库。
 
 ## 安装
 
@@ -69,9 +70,9 @@ dsh web
 
 ## 使用
 
-研究报告的完整清单、证据示例和独立验收单说明见[研究报告验收包](docs/packs/research-report.md)。
+研究报告的完整清单、证据示例和独立验收单说明见[研究报告验收包](docs/packs/research-report.md)。与 `dsh-research-report@0.3.32` 的真实 Cordis/Session/工具管线互操作已验证：密封结果自动入库，报告与 manifest 保留来源事件坐标，随后可完成证据检查和验收单导出；见[联合验证](docs/VALIDATION.md#dsh-research-report-真实互操作)。
 
-1. 让 Agent 正常完成任务并交付文件。
+1. 让 Agent 正常完成任务并通过官方 `present` 交付文件，或使用 `dsh-research-report` 生成密封研究报告。
 2. 打开侧栏「成果审阅」。
 3. 在「待审」中选择成果，检查内容或变更；研究报告可选择「研究报告验收」，逐项填写证据。
 4. 选择「通过」「退回」或「归档」。退回时先写明修改意见；场景包必填证据不足时不能通过。
@@ -127,13 +128,23 @@ node scripts/e2e-browser.mjs
 
 脚本使用本机 Chrome，处理首次启动的预览说明和可选登录模态，验证侧栏、选择成果、预览、点击通过以及 API 状态回写。截图和结果保存在 `docs/e2e/`。
 
+### 真实研究插件互操作
+
+先在独立检出中安装 `dsh-research-report` 的冻结依赖，再运行：
+
+```bash
+DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:interop:research
+```
+
+脚本通过真实 Cordis、SessionStore、ToolRuntime 和 `research_report` 工具管线生成密封报告，验证自动入库、预览、人工证据验收和独立验收单。它使用隔离临时目录，不连接日常 Profile，也不冒充完整 Web GUI 或外部用户验证。
+
 ### 完整检查
 
 ```bash
 pnpm run check
 ```
 
-当前单元、Host、官方工具、站点构建与市场素材集成测试共 40 项。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
+当前单元、Host、官方工具、站点构建与市场素材集成测试共 44 项，Node.js 22.19.0 与 25.2.1 均通过。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。独立的真实双插件互操作脚本不计入这 44 项。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
 
 ## API
 

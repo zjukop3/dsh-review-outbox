@@ -3,11 +3,12 @@
 ## 单元、Host 与官方工具集成测试
 
 命令：`node --test test/*.test.js`  
-结果：**40/40 通过**。
+结果：**44/44 通过**。
 
 覆盖：
 
 - 官方 presented/workspace 事件转换与重复路径处理
+- `research_report` 调用名与结果 metadata 配对、错误结果排除、历史回填及跨来源 revision
 - revision、通过、退回、归档、重新打开与历史持久化
 - 无变化重新发现和重复回填不重置已审阅状态
 - 最新 Session 优先、Session/事件/成果三级上限与尾部事件读取
@@ -63,13 +64,36 @@
 - 迟到旧事件不会把较新的 revision 降级。
 - 测试先创建并关闭官方 JSONL Session，再以 write 模式恢复同一会话，用不同 `callId` 执行第二次官方 `present`。最终只有 1 条成果，`revision=2`，包含 1 条 revision 历史。
 
+## `dsh-research-report` 真实互操作
+
+固定外部检出：`PerryLink/dsh-research-report@06ade6c9741dd7f4049aeb4cf4fdae7631aa2859`，版本 `0.3.32`。结果见 [Node 25 联合证据](e2e/research-report-interop.json) 与 [Node 22.19 联合证据](e2e/research-report-interop-node22.json)。
+
+运行 `scripts/e2e-research-report-interop.mjs`，实际组合真实 Cordis `Context`、`SessionStore`、`SystemPrompt`、`ToolRuntime`、NativeToolExecutor 与两个插件。工具调用显式开启生产形状的 Session logging，Review Outbox 在 `webServer` 注册边界接管真实 Host handler；该验证不声称启动了完整 Web GUI 或公网服务。
+
+完整链路结果：
+
+1. 三次 `evidence_add` 和一次 `research_report` 经真实工具执行器产生 4 个 `tool/call` 与 4 个 `tool/result`，其中密封结果 seq=7。
+2. 3 条结论均为 `verified`，`manifest.json` 的 SHA-256 与工具返回的 `sealHash` 完全一致。
+3. Session 中 `deliverables/presented=0`；Outbox 仍通过 `tool/call.data.name` 与 `tool/result.data.meta` 自动发现 `report.md` 和 `manifest.json`，两条记录的 `eventSeq` 都等于真实密封结果事件。
+4. 报告正文预览包含 3 条 verified verdict；未填写证据时通过请求返回 400。
+5. 四项必填检查分别写入实际复核证据后通过，审阅时报告 SHA-256 与独立读取结果一致。
+6. 独立 HTML 验收单包含研究报告清单、审阅意见和文件一致提示，不包含脚本或隔离临时目录路径。
+
+Node.js `22.19.0` 与 `25.2.1` 均完成该链路。测试使用无网络固定证据和独立临时目录，只证明插件间真实运行契约，不计为外部用户采用、真实行业研究结论或自然流量。
+
+复现命令：
+
+```bash
+DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:interop:research
+```
+
 ## 构建
 
 命令：`pnpm run check`  
-结果：40/40 测试与客户端构建均通过。
+结果：44/44 测试与客户端构建均通过。
 
-- `dist/client.js`：39.38 kB，gzip 10.29 kB
-- `dist/client.js.map`：55.62 kB，gzip 15.56 kB
+- `dist/client.js`：39.42 kB
+- `dist/client.js.map`：55.67 kB
 - 构建工具仍提示客户端采用 CommonJS 包装；这是 DSH `window.__ModuleLoader__.load(...)` 当前加载方式所需，不是测试失败。
 
 ## 真实隔离挂载：历史官方成果
@@ -195,7 +219,7 @@
 ## 公开仓库、Pages 与公网安装
 
 - 公开仓库：`zjukop3/dsh-review-outbox`，首个公开提交为 `780d2bb9bdd370ed42a9fb85c3a58e4a5feb91ed`。
-- 在独立目录重新克隆公开仓库，使用冻结锁文件安装开发依赖，首个公开提交的 38/38 测试和构建通过，见 [public-clone-check.json](e2e/public-clone-check.json)。新增站点幂等与市场素材测试后当前总数为 40。
+- 在独立目录重新克隆公开仓库，使用冻结锁文件安装开发依赖，首个公开提交的 38/38 测试和构建通过，见 [public-clone-check.json](e2e/public-clone-check.json)。新增站点幂等、市场素材与研究插件互操作回归后当前总数为 44。
 - 从公开 Pages 地址下载 tarball，SHA-256 校验通过，再安装到全新隔离 `DSH_HOME`；真实浏览器打开原生侧栏，`items=0`、`pending=0`、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [public-download-install.json](e2e/public-download-install.json)。
 - 使用 `dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox` 直装公开仓库，依赖声明为 `github:zjukop3/dsh-review-outbox`，锁文件解析到 `ac8246501e5009a8323b33ab39559bce191671ee`。安装前官方成果成功回填，API `preview.content` 与可见 `.ro-preview` 正文一致，原生侧栏正常，页面与控制台错误均为 0。见 [github-source-install.json](e2e/github-source-install.json)和[截图](e2e/14-github-source-install.png)。
 - 首次线上 SEO 验收复现了重复构建遗留本地 canonical 的问题。构建脚本已改为清理受控元数据区块后再生成，链接处理脚本和示例 favicon 也保持幂等；新增回归测试连续使用本地与正式域名构建，断言只保留一套正式元数据。
@@ -205,11 +229,12 @@
 
 - 在全新隔离 Profile 中用官方 `present` 交付合成研究报告，真实填写四项证据、通过并导出验收单；随后生成 `review-workbench.png` 与 `research-receipt.png`，页面与控制台错误均为 0，见 [storefront-result.json](e2e/storefront-result.json)。
 - 根目录 `screenshots.json` 只声明两张相对路径 PNG；测试校验路径边界、文件存在性、PNG 签名、尺寸与大小。素材来自合成数据，不来自日常会话。
-- Awesome DSH Plugin 候选条目保持单 YAML 变更，双语生成、lint 和 24 项上游规则测试通过；提交门禁仅仓库年龄未满 1 天。完整构建需要已提交条目和完整历史，留待真实 PR CI。详见[目录收录准备](CATALOG.md)和 [catalog-preflight.json](e2e/catalog-preflight.json)。
+- Awesome DSH Plugin 候选条目保持单 YAML 变更，双语生成、lint、24 项上游规则测试和 9,406 条目完整站点构建通过。[PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088) 的主检查与 Submission gate 均已成功，当前仍未合并；提交和检查通过不计为已收录或自然流量。详见[目录收录准备](CATALOG.md)和 [catalog-preflight.json](e2e/catalog-preflight.json)。
 
 ## Node 基线、干净 tarball 与恢复
 
-- Node.js `22.19.0`：40/40 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
+- Node.js `22.19.0`：44/44 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
+- Node.js `25.2.1`：44/44 测试和客户端构建通过，见 [node25-check.json](e2e/node25-check.json)。一次误用 Homebrew `node@22` 别名实际运行 Node 25 的结果只记入 Node 25，不作为 Node 22 证据。
 - 完整链路 tarball（better-sidebar 集成前）：从包存储安装到全新 `DSH_HOME`，不是本地目录链接；历史回填、研究验收、验收单导出均通过。
 - 包含 better-sidebar 集成的最终候选 tarball：在另一个全新 `DSH_HOME` 从包存储安装，真实浏览器打开原生侧栏，空成果状态、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [final-package-smoke.json](e2e/final-package-smoke.json)。具体哈希只记录于独立 `.sha256` 文件，避免包内文档自引用。
 - 正常重启：`approved`、两条历史、预览和文件变化检测保留，`changed=0`，见 [cleanpack-recovery-normal.json](e2e/cleanpack-recovery-normal.json)。
@@ -236,7 +261,7 @@
 
 - 连续一周日常使用的首次价值时间、漏审减少情况和继续使用意愿
 - 研究报告验收包和独立 HTML 验收单的日常真实使用、成果接收者激活与自然获客证据
-- 真实垂直插件联合工作流
+- 双插件在完整 Web GUI 中的日常联合使用与外部用户工作流（真实 Cordis/工具管线互操作已覆盖）
 - DSH 多版本、多平台兼容矩阵
 - PPTX/XLSX、密码保护 PDF、缺字体与超大文件的宿主 Viewer 联合验证
 - 外部用户第二周留存，以及场景搜索或验收单入口带来的首次激活

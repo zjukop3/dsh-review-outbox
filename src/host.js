@@ -3,7 +3,7 @@ import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { backfillPresented } from './backfill.js'
 import { captureArtifactEvidence } from './evidence.js'
-import { demoRecord, presentedRecords, workspaceRecords } from './events.js'
+import { demoRecord, presentedRecords, researchReportRecords, workspaceRecords } from './events.js'
 import { assertReviewReady, getPack, initialReviewPack, listPacks, reviewProgress } from './packs.js'
 import { previewItem } from './preview.js'
 import { receiptFilename, renderReceipt } from './receipt.js'
@@ -152,7 +152,23 @@ export function apply(ctx, config = {}) {
     return () => backfillController.abort()
   })
 
+  const toolCalls = new Map()
+  const toolKey = (session, callId) => JSON.stringify([String(session?.id || ''), String(callId || '')])
   ctx.effect(() => ctx.on('session/event', (session, event) => {
+    if (event?.type === 'tool/call') {
+      const key = toolKey(session, event.data?.callId)
+      if (toolCalls.size >= 1000) toolCalls.delete(toolCalls.keys().next().value)
+      toolCalls.set(key, String(event.data?.name || ''))
+      return
+    }
+    if (event?.type === 'tool/result') {
+      const key = toolKey(session, event.data?.message?.toolCallId)
+      const toolName = toolCalls.get(key)
+      toolCalls.delete(key)
+      const records = researchReportRecords(session, event, toolName, new Date())
+      if (records.length > 0) void store.ready.then(() => store.upsert(records)).catch(error => ctx.logger.error('review-outbox: failed to record sealed research report', error))
+      return
+    }
     if (event?.type === 'deliverables/presented') {
       const records = presentedRecords(session, event, new Date())
       if (records.length === 0) return

@@ -1,4 +1,4 @@
-import { presentedRecords } from './events.js'
+import { presentedRecords, researchReportRecords } from './events.js'
 
 const DEFAULT_SESSION_LIMIT = 50
 const DEFAULT_EVENT_LIMIT = 5000
@@ -26,8 +26,9 @@ export function resolveBackfillOptions(options = {}) {
 
 /**
  * Read a bounded, newest-first selection of persisted Sessions and ingest only
- * official deliverables/presented events. Existing review decisions remain in
- * OutboxStore, which treats identical rediscovery as a no-op.
+ * official deliverables/presented events and successful research_report result
+ * metadata. Existing review decisions remain in OutboxStore, which treats
+ * identical rediscovery as a no-op.
  */
 export async function backfillPresented({
   persistence,
@@ -84,9 +85,21 @@ export async function backfillPresented({
         const read = await handle.read(offset, limits.eventLimit, { signal })
         if (!read || !Array.isArray(read.events)) throw new Error('Session handle returned invalid events')
         const session = { id, header: snapshot.header }
+        const toolNames = new Map()
         for (const event of read.events) {
-          if (event?.type !== 'deliverables/presented') continue
-          const converted = presentedRecords(session, event, now())
+          let converted = []
+          if (event?.type === 'tool/call') {
+            toolNames.set(String(event.data?.callId || ''), String(event.data?.name || ''))
+            continue
+          }
+          if (event?.type === 'tool/result') {
+            const callId = String(event.data?.message?.toolCallId || '')
+            const toolName = toolNames.get(callId)
+            toolNames.delete(callId)
+            converted = researchReportRecords(session, event, toolName, now())
+          } else if (event?.type === 'deliverables/presented') {
+            converted = presentedRecords(session, event, now())
+          }
           for (const record of converted) {
             if (records.length >= limits.itemLimit) {
               result.truncated = true

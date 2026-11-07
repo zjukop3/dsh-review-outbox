@@ -1,0 +1,57 @@
+{
+  "ok": true,
+  "researchReport": {
+    "repository": "https://github.com/PerryLink/dsh-research-report",
+    "commit": "06ade6c9741dd7f4049aeb4cf4fdae7631aa2859",
+    "version": "0.3.32"
+  },
+  "runtime": {
+    "node": "v25.2.1",
+    "composition": "real Cordis Context + real SessionStore + real ToolRuntime + real research_report pipeline with Session logging",
+    "webBoundary": "Review Outbox Host route captured at the webServer registration boundary; no browser or public server claimed"
+  },
+  "session": {
+    "id": "review-outbox-interop",
+    "toolCallEvents": 4,
+    "toolResultEvents": 4,
+    "presentedEvents": 0,
+    "sealedResultSeq": 7
+  },
+  "sealed": {
+    "kind": "sealed",
+    "sealHash": "e3f1c82da3386d34ce2dea63e561985251a56a3f6606a697ddd6a05ff861a2f4",
+    "counts": {
+      "verified": 3,
+      "unverified": 0,
+      "contradicted": 0,
+      "insufficient": 0,
+      "disproven": 0
+    },
+    "evidenceCount": 3,
+    "reportSha256": "f2daa0adc77340eb5bed9928ed0cecd81ba030a1d51c65d48791277b6600f1c0",
+    "manifestSha256": "e3f1c82da3386d34ce2dea63e561985251a56a3f6606a697ddd6a05ff861a2f4",
+    "manifestMatchesSeal": true
+  },
+  "outbox": {
+    "discovered": 2,
+    "sourceTypes": [
+      "research-report",
+      "research-report"
+    ],
+    "reportId": "research-report:review-outbox-interop:review-interop-4:0",
+    "manifestId": "research-report:review-outbox-interop:review-interop-4:1",
+    "resultEventSeqMatched": true,
+    "previewKind": "text",
+    "prematureApprovalRejected": true,
+    "requiredChecksWithEvidence": [
+      "claims-evidence",
+      "citations-accessible",
+      "data-scope",
+      "method-limitations"
+    ],
+    "approved": true,
+    "reviewDigestMatchesArtifact": true,
+    "receiptScriptFree": true,
+    "receiptOmitsTemporaryPaths": true
+  }
+}

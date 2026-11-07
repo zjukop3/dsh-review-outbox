@@ -11,6 +11,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 ## Features
 
 - Ingests official `deliverables/presented` events, including bounded historical Session backfill.
+- Automatically ingests `report.md` and `manifest.json` from successful [`dsh-research-report`](https://github.com/PerryLink/dsh-research-report) `research_report` results, without requiring an additional `present` call.
 - Preserves one artifact across different real `callId` values and turns later deliveries into revisions.
 - Text and common image previews, plus official `workspace/changes` diffs while the source Session remains available.
 - Opens DOCX and PDF artifacts through the official DSH document Viewer after restoring the source Session.
@@ -24,7 +25,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-Version `0.1.0` is in validation. Source code and the research-checklist site are public on GitHub and GitHub Pages. npm, GitHub Releases, and community-catalog publication remain separate. New receipts link to the public GitHub repository.
+Version `0.1.0` is in validation. Source code and the research-checklist site are public on GitHub and GitHub Pages. npm and GitHub Releases remain unpublished; the Awesome catalog PR is submitted but not merged. New receipts link to the public GitHub repository.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -59,14 +60,14 @@ For a tarball installation and recovery procedure, read [installation and recove
 
 ## Research-report acceptance workflow
 
-1. Let the agent finish a report and deliver it through the official `present` tool.
+1. Let the agent deliver through the official `present` tool, or generate a sealed report with `dsh-research-report`. Both paths enter the same review workbench.
 2. Open **Review Outbox / 成果审阅**.
 3. Select the artifact and the **Research report acceptance / 研究报告验收** pack.
 4. Record evidence for all four required checks. Approval remains blocked when a required check lacks either its checked state or evidence text.
 5. Approve or return with review notes. A new delivery of the same artifact creates a new revision and clears the previous check states.
 6. Export the standalone HTML receipt. If the current file digest differs from the reviewed digest, the receipt asks for another review.
 
-The [research-report checklist](docs/packs/research-report.md) is useful even without installing the plugin.
+The [research-report checklist](docs/packs/research-report.md) is useful even without installing the plugin. Real Cordis/Session/tool-pipeline interoperability with `dsh-research-report@0.3.32` is recorded in [validation evidence](docs/VALIDATION.md): sealed artifacts are discovered automatically, retain their result-event coordinates, and can complete evidence-based review and receipt export.
 
 ## Viewer support
 
@@ -92,7 +93,15 @@ pnpm test
 pnpm run build
 ```
 
-The suite currently contains **40 tests**, including real execution of the official `present` tool, production-default Zstandard JSONL persistence, cold reads, resumed-Session revisions across different `callId` values, Host authorization, receipt injection checks, and native Viewer address routing.
+The suite currently contains **44 tests**, passing on Node.js 22.19.0 and 25.2.1. Coverage includes real execution of the official `present` tool, production-default Zstandard JSONL persistence, cold reads, resumed-Session revisions across different `callId` values, Host authorization, receipt injection checks, and native Viewer address routing.
+
+Run the separate real two-plugin interoperability check after installing the external checkout's frozen dependencies:
+
+```bash
+DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:interop:research
+```
+
+This uses real Cordis, SessionStore, ToolRuntime, and `research_report` execution in isolated temporary directories. It is not counted among the 44 tests and does not claim a full Web GUI or external-user trial.
 
 Additional real-browser evidence covers research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
 
@@ -102,7 +111,7 @@ The project includes a static, offline research-checklist site with structured F
 
 ## Limitations
 
-- Historical backfill reads only `deliverables/presented`, with explicit Session, event, and item limits.
+- Historical backfill reads only `deliverables/presented` and matched successful `research_report` call/result pairs, with explicit Session, event, and item limits. A result whose call falls outside the selected event tail is not guessed to be a research report.
 - Old workspace diffs are not guaranteed after the source Session is gone; review metadata and evidence persist.
 - The research pack records human review evidence; it does not fetch citations or claim automatic fact-checking.
 - Receipts are generated locally and are never automatically uploaded. Reviewer-written evidence and notes are included when exported.

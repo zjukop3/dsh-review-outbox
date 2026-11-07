@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { Readable } from 'node:stream'
-import { mkdtemp, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { apply } from '../src/host.js'
@@ -123,6 +123,38 @@ test('host API records official events and completes the review lifecycle', asyn
   const diff = await invoke(ctx.handler, { url: `/review-outbox/api/diff?id=${encodeURIComponent(change.id)}` })
   assert.equal(diff.data.preview.kind, 'text')
   assert.deepEqual(diff.data.preview.hunks[0].lines, ['-old', '+new'])
+  assert.deepEqual(ctx.errors, [])
+})
+
+test('host joins research_report tool calls to sealed result artifacts', async () => {
+  const cwd = await mkdtemp(join(tmpdir(), 'review-outbox-research-host-'))
+  await mkdir(join(cwd, 'reports', 'v1'), { recursive: true })
+  await writeFile(join(cwd, 'reports', 'v1', 'report.md'), '# Sealed research', 'utf8')
+  await writeFile(join(cwd, 'reports', 'v1', 'manifest.json'), '{"schema":"fixture"}', 'utf8')
+  const ctx = mockContext()
+  apply(ctx, { statePath: join(cwd, 'state.json'), backfill: false })
+  const session = { id: 'research-session', header: { cwd } }
+  ctx.listener(session, { type: 'tool/call', seq: 1, data: { turn: 1, callId: 'rr-live', name: 'research_report' } })
+  ctx.listener(session, {
+    type: 'tool/result', seq: 2, time: Date.now(),
+    data: {
+      turn: 1,
+      message: { toolCallId: 'rr-live', isError: false },
+      meta: { reportFile: join(cwd, 'reports', 'v1', 'report.md'), manifestFile: join(cwd, 'reports', 'v1', 'manifest.json') },
+    },
+  })
+  await new Promise(resolve => setTimeout(resolve, 20))
+  const listed = await invoke(ctx.handler, { url: '/review-outbox/api/items' })
+  assert.equal(listed.data.items.length, 2)
+  assert.deepEqual(listed.data.items.map(item => item.sourceType), ['research-report', 'research-report'])
+  const report = listed.data.items.find(item => item.path.endsWith('report.md'))
+  const preview = await invoke(ctx.handler, { url: `/review-outbox/api/preview?id=${encodeURIComponent(report.id)}` })
+  assert.match(preview.data.preview.content, /Sealed research/)
+
+  ctx.listener(session, { type: 'tool/call', seq: 3, data: { turn: 1, callId: 'other', name: 'write_file' } })
+  ctx.listener(session, { type: 'tool/result', seq: 4, data: { turn: 1, message: { toolCallId: 'other', isError: false }, meta: { reportFile: '/ignored', manifestFile: '/ignored' } } })
+  await new Promise(resolve => setTimeout(resolve, 20))
+  assert.equal((await invoke(ctx.handler, { url: '/review-outbox/api/items' })).data.items.length, 2)
   assert.deepEqual(ctx.errors, [])
 })
 

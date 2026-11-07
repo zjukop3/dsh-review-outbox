@@ -22,9 +22,15 @@ function comparable(item) {
   })
 }
 
-function samePresentedArtifact(item, record) {
-  return item.sourceType === 'presented'
-    && record.sourceType === 'presented'
+const REVISION_SOURCES = new Set(['presented', 'research-report'])
+
+function tracksRevision(sourceType) {
+  return REVISION_SOURCES.has(sourceType)
+}
+
+function sameDeliverableArtifact(item, record) {
+  return tracksRevision(item.sourceType)
+    && tracksRevision(record.sourceType)
     && item.sessionId === record.sessionId
     && item.path === record.path
     && Number(item.occurrence ?? 0) === Number(record.occurrence ?? 0)
@@ -92,10 +98,10 @@ export class OutboxStore {
       let changed = 0
       for (const record of records) {
         let index = this.items.findIndex(item => item.id === record.id)
-        if (index < 0 && record.sourceType === 'presented') {
+        if (index < 0 && tracksRevision(record.sourceType)) {
           const candidates = this.items
             .map((item, candidateIndex) => ({ item, candidateIndex }))
-            .filter(candidate => samePresentedArtifact(candidate.item, record))
+            .filter(candidate => sameDeliverableArtifact(candidate.item, record))
             .sort((left, right) => Number(right.item.eventSeq || 0) - Number(left.item.eventSeq || 0))
           index = candidates[0]?.candidateIndex ?? -1
         }
@@ -105,7 +111,7 @@ export class OutboxStore {
           continue
         }
         const previous = this.items[index]
-        if (record.sourceType === 'presented' && Number(previous.eventSeq || 0) > Number(record.eventSeq || 0)) continue
+        if (tracksRevision(record.sourceType) && Number(previous.eventSeq || 0) > Number(record.eventSeq || 0)) continue
         if (comparable(previous) === comparable(record)) continue
         const at = this.now().toISOString()
         const next = {

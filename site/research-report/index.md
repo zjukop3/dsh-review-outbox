@@ -49,10 +49,10 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 ## 安装与当前状态
 
-项目处于 `0.1.0` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm、GitHub Release 和社区目录尚未发布。先[下载已验证的 `.tgz` 安装包](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)，再安装到独立 Web Profile：
+项目处于 `0.1.0` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，Awesome 社区目录 PR 已提交但尚未合并。先[下载已验证的 `.tgz` 安装包](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)，再安装到独立 Web Profile：
 
 ```bash
-dsh plugin --profile web add /absolute/path/dsh-review-outbox
+dsh plugin --profile web add /absolute/path/dsh-review-outbox-0.1.0.tgz
 dsh web
 ```
 

@@ -138,6 +138,24 @@ test('close failures are contained and read-only state failures remain loud', as
   await assert.rejects(backfillPresented({ persistence, store }), /read-only/)
 })
 
+test('backfill joins research_report call ids to sealed result metadata only', async () => {
+  const store = await storeFixture()
+  const events = [
+    { type: 'tool/call', seq: 0, data: { turn: 1, callId: 'rr-1', name: 'research_report' } },
+    { type: 'tool/result', seq: 1, time: 1_700_000_000_001, data: { turn: 1, message: { toolCallId: 'rr-1', isError: false }, meta: { reportFile: '/work/one/report.md', manifestFile: '/work/one/manifest.json' } } },
+    { type: 'tool/call', seq: 2, data: { turn: 1, callId: 'other', name: 'write_file' } },
+    { type: 'tool/result', seq: 3, time: 1_700_000_000_002, data: { turn: 1, message: { toolCallId: 'other', isError: false }, meta: { reportFile: '/work/other/report.md', manifestFile: '/work/other/manifest.json' } } },
+    { type: 'tool/call', seq: 4, data: { turn: 1, callId: 'failed', name: 'research_report' } },
+    { type: 'tool/result', seq: 5, time: 1_700_000_000_003, data: { turn: 1, message: { toolCallId: 'failed', isError: true }, meta: { reportFile: '/work/failed/report.md', manifestFile: '/work/failed/manifest.json' } } },
+  ]
+  const persistence = persistenceFixture({ one: { snapshot: snapshot('one', 1, events.length), events } })
+  const result = await backfillPresented({ persistence, store })
+  assert.equal(result.discovered, 2)
+  assert.equal(result.changed, 2)
+  assert.deepEqual(store.list().map(item => item.sourceType), ['research-report', 'research-report'])
+  assert.deepEqual(store.list().map(item => item.path).sort(), ['/work/one/manifest.json', '/work/one/report.md'])
+})
+
 test('backfill options reject zero, negative, fractional, and unsafe limits', () => {
   assert.deepEqual(resolveBackfillOptions({ sessionLimit: 0, eventLimit: -1, itemLimit: 1.5 }), {
     sessionLimit: 50,

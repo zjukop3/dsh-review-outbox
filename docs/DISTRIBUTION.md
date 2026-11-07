@@ -35,7 +35,7 @@
 3. 以“首次完成真实验收”作为激活，不把页面访问或 npm 下载当成活跃用户。
 4. 只有形成匿名、聚合且可靠的归因后，才判断哪个场景继续扩展。
 
-站点已部署到 GitHub Pages，源码仓库与 tarball 下载入口已公开；npm、GitHub Release 和社区目录尚未发布。公开基础设施和浏览器验证不等于自然流量或外部采用，后续仍需记录真实收录、首次验收和留存。
+站点已部署到 GitHub Pages，源码仓库与 tarball 下载入口已公开；npm 和 GitHub Release 尚未发布，Awesome 社区目录 PR 已提交但仍未合并。公开基础设施、目录 PR 和浏览器验证不等于自然流量或外部采用，后续仍需记录真实收录、首次验收和留存。
 
 ## 首次聚合基线
 
@@ -45,4 +45,4 @@
 
 ## 插件目录
 
-Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已准备，具体规则与验证结果见[目录收录准备](CATALOG.md)。一次性任务已创建 [目录 PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088)，仅新增一个 YAML。提交门禁、完整站点构建和 PR 形式检查均保留证据；维护者审核与收录是后续独立状态，目前仍不声明目录流量或外部采用。
+Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已准备，具体规则与验证结果见[目录收录准备](CATALOG.md)。一次性任务已创建 [目录 PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088)，仅新增一个 YAML。本地完整站点构建、上游 PR 主检查和 Submission gate 均已通过并保留证据；维护者审核与收录是后续独立状态，目前仍不声明目录流量或外部采用。

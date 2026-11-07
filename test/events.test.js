@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { demoRecord, presentedRecords, workspaceRecords } from '../src/events.js'
+import { demoRecord, presentedRecords, researchReportRecords, workspaceRecords } from '../src/events.js'
 
 const session = { id: 'session-1', header: { cwd: '/tmp/work' } }
 
@@ -39,6 +39,26 @@ test('irrelevant events and malformed files produce no records', () => {
   assert.deepEqual(presentedRecords(session, { type: 'turn/end', data: {} }, new Date()), [])
   assert.deepEqual(presentedRecords(session, { type: 'deliverables/presented', seq: 1, data: { files: [{ path: '' }] } }, new Date()), [])
   assert.deepEqual(workspaceRecords(session, { type: 'workspace/changes', seq: 1, data: {} }, null, new Date()), [])
+})
+
+test('successful research_report metadata yields only its two sealed artifacts', () => {
+  const event = {
+    type: 'tool/result', seq: 12, time: 1_800_000_000_000,
+    data: {
+      turn: 4,
+      message: { toolCallId: 'rr-call', isError: false },
+      meta: { reportFile: '/tmp/work/reports/v1/report.md', manifestFile: '/tmp/work/reports/v1/manifest.json' },
+    },
+  }
+  const records = researchReportRecords(session, event, 'research_report', new Date())
+  assert.equal(records.length, 2)
+  assert.deepEqual(records.map(item => item.path), ['/tmp/work/reports/v1/report.md', '/tmp/work/reports/v1/manifest.json'])
+  assert.deepEqual(records.map(item => item.sourceType), ['research-report', 'research-report'])
+  assert.deepEqual(records.map(item => item.id), ['research-report:session-1:rr-call:0', 'research-report:session-1:rr-call:1'])
+  assert.equal(records[0].turn, 4)
+  assert.deepEqual(researchReportRecords(session, event, 'other_tool', new Date()), [])
+  assert.deepEqual(researchReportRecords(session, { ...event, data: { ...event.data, message: { ...event.data.message, isError: true } } }, 'research_report', new Date()), [])
+  assert.deepEqual(researchReportRecords(session, { ...event, data: { ...event.data, meta: {} } }, 'research_report', new Date()), [])
 })
 
 test('demo records never pretend to have a source session', () => {

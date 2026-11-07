@@ -12,7 +12,7 @@ const FILTERS = [
   ['all', '全部'],
 ]
 const STATUS_LABELS = { pending: '待审', approved: '通过', returned: '退回', archived: '归档' }
-const SOURCE_LABELS = { presented: '交付', 'workspace-change': '变更', demo: '示例' }
+const SOURCE_LABELS = { presented: '交付', 'research-report': '密封研究', 'workspace-change': '变更', demo: '示例' }
 
 async function request(path, options = {}) {
   const response = await fetch(`${API}/${path}`, {

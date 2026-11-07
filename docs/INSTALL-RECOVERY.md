@@ -1,6 +1,6 @@
 # 安装、升级与恢复指南
 
-本文适用于 Review Outbox `0.1.0` 验证阶段。源码位于 [zjukop3/dsh-review-outbox](https://github.com/zjukop3/dsh-review-outbox)；已验证的 tarball 和 SHA-256 文件由 GitHub Pages 提供。npm、GitHub Release 和社区目录尚未发布。
+本文适用于 Review Outbox `0.1.0` 验证阶段。源码位于 [zjukop3/dsh-review-outbox](https://github.com/zjukop3/dsh-review-outbox)；已验证的 tarball 和 SHA-256 文件由 GitHub Pages 提供。npm 和 GitHub Release 尚未发布；Awesome 社区目录 PR 已提交，但尚未合并收录。
 
 ## 环境要求
 

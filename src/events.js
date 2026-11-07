@@ -48,6 +48,35 @@ export function presentedRecords(session, event, fallbackNow) {
   })
 }
 
+export function researchReportRecords(session, event, toolName, fallbackNow) {
+  if (event?.type !== 'tool/result' || toolName !== 'research_report' || !session?.id) return []
+  if (event.data?.message?.isError === true) return []
+  const meta = event.data?.meta
+  if (!meta || typeof meta.reportFile !== 'string' || typeof meta.manifestFile !== 'string') return []
+  if (!meta.reportFile.trim() || !meta.manifestFile.trim()) return []
+  const callId = String(event.data?.message?.toolCallId ?? event.data?.message?.source?.callId ?? event.seq)
+  const now = isoTime(event.time, fallbackNow)
+  const files = [
+    [meta.reportFile, 'dsh-research-report 密封研究报告'],
+    [meta.manifestFile, 'dsh-research-report 报告清单与 seal 证据'],
+  ]
+  return files.map(([path, description], index) => ({
+    ...baseRecord({
+      id: `research-report:${session.id}:${callId}:${index}`,
+      sourceType: 'research-report',
+      session,
+      event,
+      cwd: session.header?.cwd,
+      path,
+      description,
+      now,
+    }),
+    callId,
+    sourceIndex: index,
+    occurrence: 0,
+  }))
+}
+
 export function workspaceRecords(session, event, summary, fallbackNow) {
   if (event?.type !== 'workspace/changes' || !session?.id || !summary || !Array.isArray(summary.files)) return []
   const now = isoTime(event.time, fallbackNow)

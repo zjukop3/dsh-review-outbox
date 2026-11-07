@@ -156,6 +156,7 @@ window.__ModuleLoader__.load({
 		};
 		const SOURCE_LABELS = {
 			presented: "交付",
+			"research-report": "密封研究",
 			"workspace-change": "变更",
 			demo: "示例"
 		};

@@ -59,6 +59,7 @@
     "test:browser:better": "node scripts/e2e-better-sidebar.mjs",
     "test:browser:github": "node scripts/e2e-github-source.mjs",
     "test:browser:recovery": "node scripts/e2e-cleanpack-recovery.mjs",
+    "test:interop:research": "node --experimental-transform-types scripts/e2e-research-report-interop.mjs",
     "seed:official": "node scripts/seed-official-backfill.mjs",
     "check": "npm test && npm run build"
   },

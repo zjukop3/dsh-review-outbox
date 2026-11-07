@@ -1,11 +1,11 @@
 {
   "node": "v22.19.0",
   "platform": "macOS arm64",
-  "tests": 40,
-  "passed": 40,
+  "tests": 44,
+  "passed": 44,
   "failed": 0,
   "build": true,
-  "clientDisplay": "39.38 kB",
-  "clientMapDisplay": "55.62 kB",
+  "clientDisplay": "39.42 kB",
+  "clientMapDisplay": "55.67 kB",
   "notes": "Full test suite and tsdown build executed through pnpm dlx node@22.19.0"
 }

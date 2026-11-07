@@ -1,0 +1,11 @@
+{
+  "node": "v25.2.1",
+  "platform": "macOS arm64",
+  "tests": 44,
+  "passed": 44,
+  "failed": 0,
+  "build": true,
+  "clientDisplay": "39.42 kB",
+  "clientMapDisplay": "55.67 kB",
+  "notes": "Full test suite and tsdown build passed. A prior attempted Node 22 run resolved to this same Node 25 binary and was discarded as Node 22 evidence; the real Node 22.19.0 result is recorded separately."
+}
