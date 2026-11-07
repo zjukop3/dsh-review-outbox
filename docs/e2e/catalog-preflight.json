@@ -32,5 +32,12 @@
     "onlyFailure": "repository is 0.4 days old (needs 1); the gate output explicitly identifies the age bar as the only failing check",
     "expectedEligibleAt": "2026-11-07T14:39:31Z"
   },
+  "githubSourceInstall": {
+    "ok": true,
+    "resolvedCommit": "ac8246501e5009a8323b33ab39559bce191671ee",
+    "evidence": "docs/e2e/github-source-install.json"
+  },
+  "submissionScheduledFor": "2026-11-07T14:45:00.000Z",
+  "scheduleId": "schedule-3d2919eb-8885-4cda-a9b2-644448683a1f",
   "submitted": false
 }

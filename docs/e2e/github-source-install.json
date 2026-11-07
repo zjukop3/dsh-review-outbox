@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "installCommand": "dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox",
+  "dependencySpecifier": "github:zjukop3/dsh-review-outbox",
+  "resolvedCommit": "ac8246501e5009a8323b33ab39559bce191671ee",
+  "lockfileTarball": "https://codeload.github.com/zjukop3/dsh-review-outbox/tar.gz/ac8246501e5009a8323b33ab39559bce191671ee",
+  "sourceType": "public GitHub repository, not a local directory link or release tarball",
+  "backfill": "ready",
+  "discoveredItems": 1,
+  "nativeSidebarOpened": true,
+  "textPreviewVerified": true,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "screenshot": "docs/e2e/14-github-source-install.png"
+}

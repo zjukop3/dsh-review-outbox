@@ -57,6 +57,7 @@
     "test:browser:research": "node scripts/e2e-research-receipt.mjs",
     "test:browser:native": "node scripts/e2e-native-viewer.mjs",
     "test:browser:better": "node scripts/e2e-better-sidebar.mjs",
+    "test:browser:github": "node scripts/e2e-github-source.mjs",
     "test:browser:recovery": "node scripts/e2e-cleanpack-recovery.mjs",
     "seed:official": "node scripts/seed-official-backfill.mjs",
     "check": "npm test && npm run build"

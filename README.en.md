@@ -32,7 +32,16 @@ See [verified compatibility](docs/COMPATIBILITY.md) for the exact environments t
 
 ## Install
 
-Download [Review Outbox 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) and its [SHA-256 file](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz.sha256). Run `shasum -a 256 -c dsh-review-outbox-0.1.0.tgz.sha256` in the download directory, then install into an isolated Web Profile:
+Install directly from the public GitHub repository, verified in a fresh isolated Profile:
+
+```bash
+dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox
+dsh web
+```
+
+The lockfile records the resolved commit. Commit `ac8246501e5009a8323b33ab39559bce191671ee` passed historical backfill, text preview, and native-sidebar checks. See [verified compatibility](docs/COMPATIBILITY.md).
+
+Alternatively, download [Review Outbox 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) and its [SHA-256 file](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz.sha256). Run `shasum -a 256 -c dsh-review-outbox-0.1.0.tgz.sha256` in the download directory, then install into an isolated Web Profile:
 
 ```bash
 dsh plugin --profile web add /absolute/path/dsh-review-outbox-0.1.0.tgz

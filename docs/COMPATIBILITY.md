@@ -36,7 +36,8 @@
 | 本地源码目录 | 已验证 |
 | `.tgz` 安装包 | 已在全新 `DSH_HOME` 验证 |
 | npm | 尚未发布，无安装证据 |
-| GitHub 仓库 / Pages tarball | 公开克隆测试与构建、Pages 下载 SHA-256、全新 Profile 安装和真实浏览器挂载均通过 | Git URL 直装未执行，不声明实测兼容 |
+| GitHub URL 直装 | 公开提交 `ac8246501e5009a8323b33ab39559bce191671ee`；全新 Profile、历史回填、文本预览和原生侧栏均通过 | 其他提交与平台按各自证据判断 |
+| GitHub 仓库 / Pages tarball | 公开克隆测试与构建、Pages 下载 SHA-256、全新 Profile 安装和真实浏览器挂载均通过 | 未覆盖平台见上表 |
 | GitHub Release / 社区目录 | 尚未提交，无安装证据 |
 
 ## 原生加载器测试环境说明

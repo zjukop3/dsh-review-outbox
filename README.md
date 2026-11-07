@@ -38,6 +38,17 @@
 
 目标宿主：DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`；Node.js `>=22.19`。实测范围见[兼容矩阵](docs/COMPATIBILITY.md)，tarball 安装、备份、升级与损坏恢复见[安装恢复指南](docs/INSTALL-RECOVERY.md)。
 
+### 从公开 GitHub 仓库安装
+
+以下直装方式已在全新隔离 Profile 实测：
+
+```bash
+dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox
+dsh web
+```
+
+锁文件会记录实际解析的提交；本次验证了公开提交 `ac8246501e5009a8323b33ab39559bce191671ee` 的历史回填、文本预览和原生侧栏。详见[兼容矩阵](docs/COMPATIBILITY.md)。
+
 ### 下载 tarball
 
 下载 [Review Outbox 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) 和对应的 [SHA-256 文件](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz.sha256)，在安装目录执行 `shasum -a 256 -c dsh-review-outbox-0.1.0.tgz.sha256`，然后安装到独立 Web Profile：

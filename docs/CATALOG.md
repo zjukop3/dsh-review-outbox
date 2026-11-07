@@ -15,7 +15,9 @@
 | 仓库创建满 1 天 | 创建时间 `2026-11-06T14:39:31Z`；资格时刻 `2026-11-07T14:39:31Z`，即北京时间 `2026-11-07 22:39:31` |
 | 描述准确、无夸张营销词 | 按实际 Host/Client、验收包、Viewer 与验收单能力撰写 |
 
-上游克隆基线：`7843a1ac2de8332ffad16f54982ac07de564594d`。目录提交是独立的维护者审核动作；年龄门槛满足后，提交前单独确认。
+上游克隆基线：`7843a1ac2de8332ffad16f54982ac07de564594d`。用户已明确授权在年龄门槛满足后提交一次目录 PR；一次性任务 `schedule-3d2919eb-8885-4cda-a9b2-644448683a1f` 将于北京时间 `2026-11-07 22:45` 重新检查规则并执行，避免重复提交。
+
+公开 GitHub URL 直装已补做真实验证：`dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox` 在全新 Profile 中解析到公开提交 `ac8246501e5009a8323b33ab39559bce191671ee`，历史回填、文本预览与原生侧栏全部通过，见 [github-source-install.json](e2e/github-source-install.json)。这覆盖目录用户实际会走的源码安装路径，不只是 tarball 安装。
 
 ## 条目草案
 

@@ -8,6 +8,18 @@
 - Node.js `>=22.19`
 - 当前真实验证环境见[兼容矩阵](COMPATIBILITY.md)
 
+## 从公开 GitHub 仓库直装
+
+```bash
+export DSH_HOME=/tmp/dsh-review-outbox-github-source
+dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox
+dsh web --no-open --port 43177
+```
+
+该方式已实测。Profile 的依赖声明为 `github:zjukop3/dsh-review-outbox`，锁文件解析到 GitHub codeload 的精确提交；验证提交为 `ac8246501e5009a8323b33ab39559bce191671ee`。安装前通过官方 `present` 持久化的成果能够回填，API 和界面正文预览一致，原生侧栏正常。原始结果见 [github-source-install.json](e2e/github-source-install.json)。
+
+已有 Profile 的升级与回滚仍先按下方说明备份状态。需要固定已验证字节时，使用下面的 tarball 与 SHA-256 流程。
+
 ## 从 tarball 安装
 
 下载 [tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) 与 [SHA-256 文件](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz.sha256)，在两者所在目录校验：
