@@ -15,7 +15,7 @@
 | 仓库创建满 1 天 | 创建时间 `2026-11-06T14:39:31Z`；资格时刻 `2026-11-07T14:39:31Z`，即北京时间 `2026-11-07 22:39:31` |
 | 描述准确、无夸张营销词 | 按实际 Host/Client、验收包、Viewer 与验收单能力撰写 |
 
-上游克隆基线：`7843a1ac2de8332ffad16f54982ac07de564594d`。用户已明确授权在年龄门槛满足后提交一次目录 PR；一次性任务 `schedule-3d2919eb-8885-4cda-a9b2-644448683a1f` 将于北京时间 `2026-11-07 22:45` 重新检查规则并执行，避免重复提交。
+上游克隆基线：`7843a1ac2de8332ffad16f54982ac07de564594d`。用户已明确授权在年龄门槛满足后提交一次目录 PR；一次性任务 `schedule-3d2919eb-8885-4cda-a9b2-644448683a1f` 已于北京时间 `2026-11-07 22:45` 后重新检查规则并完成一次提交，没有重复创建 PR。
 
 公开 GitHub URL 直装已补做真实验证：`dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox` 在全新 Profile 中解析到公开提交 `ac8246501e5009a8323b33ab39559bce191671ee`，历史回填、文本预览与原生侧栏全部通过，见 [github-source-install.json](e2e/github-source-install.json)。这覆盖目录用户实际会走的源码安装路径，不只是 tarball 安装。
 
@@ -91,4 +91,5 @@ SKIP_PUBLISH_CHECKS=1 node scripts/build-site.mjs
 - 双语生成器覆盖 9,406 个条目，`--check` 为最新状态；`awesome-lint` 返回 0，新增行没有 lint 警告。
 - 上游 24/24 规则测试通过，提交门禁 `ok=true`，没有失败或不完整检查。
 - 完整站点构建成功：`site built: 9406 rows × 2 locales + sitemap + count badge`。
-- [PR check 42399620911](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911) 已全部通过，耗时 17m50s；PR 为 `CLEAN / MERGEABLE`。后续 [Submission gate 42401151040](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040) 已触发。合并与收录仍以维护者审核和上游最终状态为准，不把已提交等同于已收录。
+- [PR check 42399620911](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911) 已全部通过，耗时 17m50s；后续 [Submission gate 42401151040](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040) 也已成功，耗时 52s，日志确认检查了本插件且 `all checked entries pass`。
+- PR 当前为 `OPEN / CLEAN / MERGEABLE`，尚未合并。合并与收录仍以维护者审核和上游最终状态为准，不把已提交或检查通过等同于已收录、自然流量或真实采用。

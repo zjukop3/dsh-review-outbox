@@ -48,10 +48,16 @@
     "changedFiles": 1,
     "additions": 6,
     "deletions": 0,
-    "ciStatus": "pr_check_passed_submission_gate_queued",
+    "ciStatus": "all_checks_passed",
+    "mergeStateStatus": "CLEAN",
+    "mergeable": "MERGEABLE",
+    "mergedAt": null,
     "prCheckRun": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911",
     "prCheckConclusion": "success",
     "prCheckDuration": "17m50s",
-    "submissionGateRun": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040"
+    "submissionGateRun": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040",
+    "submissionGateConclusion": "success",
+    "submissionGateDuration": "52s",
+    "submissionGateResult": "checking 1 entry; ok https://github.com/zjukop3/dsh-review-outbox; all checked entries pass"
   }
 }
