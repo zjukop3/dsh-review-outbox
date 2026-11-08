@@ -1,0 +1,26 @@
+# Changelog
+
+All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
+
+## [0.1.3] - 2026-11-08
+
+- Documentation accuracy: bundled README now reflects that npm publication is live; compatibility matrix records the verified npm install; per-channel upgrade semantics documented in the install & recovery guide.
+- `package.json` files includes `assets/storefront` so the npm page renders screenshots.
+- Runtime behavior is identical to 0.1.2.
+
+## [0.1.2] - 2026-11-08
+
+- Exported receipts link to the public install guide (`utm_source=review-receipt`) instead of the repository root, so artifact recipients reach the verified installation path directly.
+- Verified end to end through the public Discover UI: index search → pinned install (`e9bb649`) → historical backfill → evidence pack → approval → receipt export.
+- dsh-market coexistence verified (`dshmarket@1.73.15` + Review Outbox in one profile, zero errors).
+
+## [0.1.1] - 2026-11-08
+
+- Sealed research reports (`research_report` results) receive the acceptance pack automatically; `manifest.json` does not.
+- Repeated backfill preserves a user's cleared selection.
+- First-value path verified in the real Web GUI after a Discover network timeout forced the CLI fallback (that fallback is recorded as a reliable path).
+
+## [0.1.0] - 2026-11-06
+
+- Initial public release: review workbench for official `present` deliverables, bounded historical backfill, same-artifact revisions, research-report acceptance pack, standalone SHA-256 HTML receipts, native DOCX/PDF Viewer routing, optional better-sidebar integration.
+- 45-test suite covering real `present` execution, Zstandard JSONL persistence, cold reads, Host authorization, and receipt injection guards.
