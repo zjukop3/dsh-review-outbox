@@ -1,4 +1,4 @@
 {
-  "commit": "923d129731b5080c85ac96236487ff9af1879dae",
-  "notes": "Runtime, catalog installation, native sidebar, and application-market installation verified at this public commit. Documentation-only commits do not move this pin."
+  "commit": "9f7e608a192094272638802e77ca9b1197f8cff1",
+  "notes": "Version 0.1.1: sealed research reports receive the acceptance pack automatically, while repeated backfill preserves a user's cleared selection. Real two-plugin evidence passed on Node 22 and 25. Documentation-only commits do not move this pin."
 }
