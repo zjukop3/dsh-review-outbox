@@ -58,6 +58,8 @@ try {
     return image?.complete && image.naturalWidth > 0
   })
   await page.evaluate(() => window.scrollTo(0, 0))
+  const demoGifLoaded = await page.evaluate(() => [...document.querySelectorAll('img[src$="demo.gif"]')].some(image => image.complete && image.naturalWidth > 0))
+  if (!demoGifLoaded) throw new Error('Walkthrough demo GIF did not load')
   await page.screenshot({ path: 'docs/e2e/09-research-site.png', fullPage: true })
 
   await page.getByRole('link', { name: '打开一份由真实浏览器流程导出的研究报告验收单', exact: true }).click()
