@@ -135,6 +135,8 @@ Additional real-browser evidence covers application-native Discover search, pinn
 
 The project includes a static, offline research-checklist site with structured FAQ/TechArticle metadata and a real receipt example. It is designed for search and artifact-led discovery rather than mandatory social promotion. The site is deployed on GitHub Pages; public deployment alone is not evidence of organic traffic or activation. See [distribution](docs/DISTRIBUTION.md).
 
+**For plugin authors:** artifacts delivered through the official `present` tool enter the review queue automatically, and sealed `dsh-research-report` results additionally receive the research acceptance pack — no adapter code required. See the [plugin author integration guide](docs/INTEGRATION.md) for the exact event contracts, boundaries, and a self-check procedure.
+
 ## Limitations
 
 - Historical backfill reads only `deliverables/presented` and matched successful `research_report` call/result pairs, with explicit Session, event, and item limits. A result whose call falls outside the selected event tail is not guessed to be a research report.
