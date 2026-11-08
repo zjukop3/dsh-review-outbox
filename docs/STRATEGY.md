@@ -70,7 +70,7 @@ Awesome、插件市场、npm、GitHub 和可搜索的场景文档是主要发布
 - 补历史 Session 的 `deliverables/presented` 回填，明确扫描上限与隐私边界。（已完成。）
 - 复用宿主文档预览或 better-sidebar Viewer，避免自研 Office/PDF 渲染器（已完成 DOCX/PDF 真实链路，其他格式继续验证）。
 - 用真实成果定义研究报告验收包和独立 HTML 验收单的最小格式，验证它们确实被使用，而不是只增加展示功能。（已完成：两份研究文档执行完整验收包。）
-- 建立 DSH 版本与安装矩阵，覆盖 npm、GitHub 和 Release 预编译包（Node/DSH/tarball 矩阵已建立，GitHub 仓库与 Pages tarball 已公开，npm/Release 尚未发布）。
+- 建立 DSH 版本与安装矩阵，覆盖 npm、GitHub 和 Release 预编译包（Node/DSH/tarball 矩阵已建立，GitHub 仓库、Pages tarball 与 npm `0.1.2` 已公开，GitHub Release 尚未发布）。
 
 退出条件：至少 5 次独立真实任务愿意继续使用；若没有，回到问题定义，不扩功能。Dogfood 是脚本化真实审阅，"愿意继续使用"的最终判定依赖维护者日常真实工作流的持续采用，该项保持进行中，不提前宣布完成。
 
