@@ -37,7 +37,13 @@
 3. 以“首次完成真实验收”作为激活，不把页面访问或 npm 下载当成活跃用户。
 4. 只有形成匿名、聚合且可靠的归因后，才判断哪个场景继续扩展。
 
-站点已部署到 GitHub Pages，源码仓库与 tarball 下载入口已公开；npm 和 GitHub Release 尚未发布，[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录并上线。公开基础设施、目录收录和浏览器验证不等于自然流量或外部采用，后续仍需记录目录引荐、首次验收和留存。
+站点已部署到 GitHub Pages，源码仓库与 tarball 下载入口已公开；**`0.1.2` 已于 2026-11-08 发布到 npm**（`npm publish` 授权后执行，包内容含 storefront 截图与全部验证文档，无安装脚本、零运行时依赖），[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录并上线。公开基础设施、目录收录和浏览器验证不等于自然流量或外部采用，后续仍需记录目录引荐、首次验收和留存。
+
+## 官方 dsh-market 索引：npm 发布打通的最后缺口
+
+2026-11-08 发现：官方 [dsh-market](https://github.com/dsh-market/dsh-market)（11430★，DSH 内置 Discover tab）的插件索引来自 `dsh-plugin-catalog` npm 包（当日 4872 个条目），**收录门槛是 npm 发布**——目录 9463 条中恰好 4872 条有版本，且全部来自 npm registry；本插件目录条目因此 `version=null` 被排除在市场搜索外。awesome 目录 PR 合并与市场索引是两条独立管线，此前误将前者当成完整收录。
+
+npm 发布打通后，目录每日构建会自动带上版本并进入市场索引（上游流程"通常一天内生效"）；届时 DSH 内置 Discover、`dshmarket` 市场插件与 `plugin_market` agent 工具均可直接搜到本插件。收录生效时间以下一轮索引快照为准，不提前声明。
 
 ## 首次聚合基线
 
@@ -69,3 +75,5 @@ node scripts/submit-indexnow.mjs
 ```
 
 HTTP 200/202 只表示搜索引擎已接收或等待密钥验证，**不表示已经收录、获得排名、产生自然流量或完成激活**。实际响应见 [IndexNow 提交证据](e2e/indexnow-submission.json)，收录和外部激活继续保持独立测量。
+
+> 2026-11-08 发布记录：`dsh-review-outbox@0.1.2` 已发布到 npm（账号 `zjukop1`，官方 registry；发布前 tarball 审查确认无敏感文件、无本机路径、含 storefront 截图与全部验证文档）。registry 处理窗口约 2 分钟后可查。npm 包对应仓库提交 `3d45275`（与索引 pin `e9bb649` 的差异仅为 package.json 的 files 字段补充 assets）。
