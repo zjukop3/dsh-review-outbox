@@ -120,7 +120,7 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 This uses real Cordis, SessionStore, ToolRuntime, and `research_report` execution in isolated temporary directories. It is not counted among the 45 tests and does not claim a full Web GUI or external-user trial.
 
-Additional real-browser evidence covers research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
+Additional real-browser evidence covers application-native Discover search, pinned installation and activation, research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
 
 ## Natural distribution
 

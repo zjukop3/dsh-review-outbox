@@ -165,7 +165,7 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 pnpm run check
 ```
 
-当前单元、Host、官方工具、站点构建与市场素材集成测试共 45 项，Node.js 22.19.0 与 25.2.1 均通过。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。独立的真实双插件互操作脚本不计入这 45 项。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
+当前单元、Host、官方工具、站点构建与市场素材集成测试共 45 项，Node.js 22.19.0 与 25.2.1 均通过。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。独立的真实双插件互操作脚本不计入这 45 项。公开应用内索引的「发现 → 搜索 → 安装 → 启用 → 原生侧栏」流程已单独通过，见[应用内市场指南](docs/MARKET.md)。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
 
 ## API
 

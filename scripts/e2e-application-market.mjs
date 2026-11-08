@@ -22,7 +22,7 @@ page.on('response', response => {
 })
 
 async function dismissOverlays() {
-  for (let attempt = 0; attempt < 6; attempt += 1) {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
     const button = page.getByRole('button', { name: '继续', exact: true })
     const masks = page.locator('[class*="_mask_"]:visible')
     if (await button.isVisible().catch(() => false) && await button.isEnabled().catch(() => false)) await button.click()
@@ -33,12 +33,14 @@ async function dismissOverlays() {
 }
 
 async function openPlugins() {
+  await dismissOverlays()
   await page.getByRole('button', { name: '插件', exact: true }).click()
   await page.waitForTimeout(1200)
   await dismissOverlays()
 }
 
 async function openDiscover() {
+  await dismissOverlays()
   await page.locator('button:text-is("发现")').click()
   await page.waitForTimeout(800)
   await dismissOverlays()
@@ -76,8 +78,9 @@ try {
   const installing = page.getByText('插件安装中…', { exact: true })
   await installing.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {})
   await installing.waitFor({ state: 'hidden', timeout: 180_000 })
+  await dismissOverlays()
 
-  await page.locator('button:text-is("已安装")').click()
+  await page.getByRole('tab', { name: '已安装', exact: true }).click()
   await page.locator('button[aria-label="查看 dsh-review-outbox"]').waitFor({ state: 'visible', timeout: 30_000 })
   const enableOutbox = page.locator('button[aria-label="启用 dsh-review-outbox"]')
   if (await enableOutbox.isVisible().catch(() => false)) await enableOutbox.click()
@@ -88,14 +91,21 @@ try {
     const state = await response.json()
     return state.ok === true && state.backfill?.status === 'ready'
   }, undefined, { timeout: 90_000 })
-  const health = await page.evaluate(async () => (await (await fetch('/review-outbox/api/health')).json()))
-  assert.equal(health.stateError, null)
-  assert.equal(health.items.length, 0)
-  assert.equal(health.pending, 0)
-
   await page.getByRole('button', { name: '成果审阅', exact: true }).first().click()
   await page.getByText('Deliverables review outbox', { exact: true }).waitFor({ timeout: 30_000 })
   await page.locator('.ro-empty').filter({ hasText: '这里还没有成果' }).waitFor({ timeout: 15_000 })
+  await page.waitForTimeout(500)
+  await page.waitForFunction(async () => {
+    const response = await fetch('/review-outbox/api/health')
+    if (!response.ok) return false
+    const state = await response.json()
+    return state.ok === true && state.backfill?.status === 'ready'
+  }, undefined, { timeout: 90_000 })
+  const health = await page.evaluate(async () => (await (await fetch('/review-outbox/api/health')).json()))
+  assert.equal(health.backfill.status, 'ready')
+  assert.equal(health.stateError, null)
+  assert.equal(health.items.length, 0)
+  assert.equal(health.pending, 0)
   await page.screenshot({ path: 'docs/e2e/18-application-market-installed.png', fullPage: true })
 
   const report = {

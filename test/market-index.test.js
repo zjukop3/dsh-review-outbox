@@ -11,6 +11,7 @@ const indexUrl = 'https://zjukop3.github.io/dsh-review-outbox/plugins.json'
 test('application market index passes the official validator and reproducibly pins installation', async () => {
   const path = resolve(root, 'site/plugins.json')
   const source = JSON.parse(await readFile(path, 'utf8'))
+  const release = JSON.parse(await readFile(resolve(root, 'market-release.json'), 'utf8'))
   const parsed = parseMarketIndex(source, indexUrl)
   assert.equal(parsed.format, 1)
   assert.equal(parsed.plugins.length, 1)
@@ -22,6 +23,7 @@ test('application market index passes the official validator and reproducibly pi
   const version = plugin.versions[0]
   assert.equal(version.version, '0.1.0')
   assert.match(version.source.commit, /^[a-f0-9]{40}$/)
+  assert.equal(version.source.commit, release.commit)
   assert.equal(version.source.type, 'git')
   assert.deepEqual(version.engines, { dsh: '>=0.2.2-rc.1 <0.3.0-0' })
   assert.deepEqual(marketInstallTarget(plugin.name, version), {

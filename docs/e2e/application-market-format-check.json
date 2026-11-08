@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "verifiedAt": "2026-11-08T03:00:36Z",
+  "host": "DeepSeek Harness 0.2.2-rc.1",
+  "awesomeRegistry": {
+    "url": "https://awesome-dsh-plugin.com/plugins.json",
+    "addedToDiscover": true,
+    "acceptedByApplication": false,
+    "observedError": "https://awesome-dsh-plugin.com/plugins.json: $.format must be 1",
+    "interpretation": "The Awesome registry is a catalog payload, not a DSH format-1 application index."
+  },
+  "applicationIndex": {
+    "url": "https://zjukop3.github.io/dsh-review-outbox/plugins.json",
+    "format": 1,
+    "officialParser": "@deepseek-ai/dsh-plugin-market-index@0.2.2-rc.1 parseMarketIndex",
+    "onlineValidationPassed": true,
+    "installTarget": "git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac96236487ff9af1879dae",
+    "fullApplicationFlowEvidence": "docs/e2e/application-market.json"
+  },
+  "externalActivationClaim": false
+}

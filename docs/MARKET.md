@@ -49,14 +49,16 @@ git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac9623648
 node scripts/build-market-index.mjs
 ```
 
-默认使用 `DSH_MARKET_COMMIT`、`GITHUB_SHA` 或 `HEAD` 的优先顺序固定提交，并从该提交读取 Unix 发布时间。索引不包含访问统计、用户身份或远程写入逻辑。
+默认读取 `market-release.json` 中的明确发布提交，并从该提交读取 Unix 发布时间；`DSH_MARKET_COMMIT` 仅作为显式覆盖。文档提交和普通 `HEAD` 移动不会悄悄改变用户的安装字节。索引不包含访问统计、用户身份或远程写入逻辑。
 
-修改插件版本或运行代码后，先发布目标提交，再以该提交重新生成索引：
+修改插件版本或运行代码后，先发布并验证目标提交，再把 `market-release.json` 的 `commit` 更新到该提交并重新生成索引：
 
 ```bash
 DSH_MARKET_COMMIT=<full-public-commit> node scripts/build-market-index.mjs
 npm run check
 ```
+
+测试同时校验静态索引与 release 锚点一致，防止安装 pin 随文档提交漂移。
 
 `test/market-index.test.js` 使用官方解析器验证索引、安装目标和重复构建的字节一致性。
 
@@ -70,4 +72,4 @@ DSH_E2E_COMMIT=923d129731b5080c85ac96236487ff9af1879dae \
 node scripts/e2e-application-market.mjs
 ```
 
-脚本覆盖启用发现、添加索引、中文搜索、提交确认、安装、启用、Host 健康和原生侧栏。最终证据见 [application-market.json](e2e/application-market.json)。这是隔离安装验证，不计为外部用户激活或留存。
+脚本覆盖启用发现、添加索引、中文搜索、提交确认、安装、启用、Host 健康和原生侧栏。最终公开索引证据见 [application-market.json](e2e/application-market.json)，Awesome registry 与 `format: 1` 的差异见 [application-market-format-check.json](e2e/application-market-format-check.json)。这是隔离安装验证，不计为外部用户激活或留存。

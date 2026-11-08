@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "flow": "fresh Profile → enable Discover → add format-1 index → search → install → enable plugin → native Review Outbox",
+  "indexUrl": "https://zjukop3.github.io/dsh-review-outbox/plugins.json",
+  "searchQuery": "研究报告",
+  "searchCardVisible": true,
+  "version": "0.1.0",
+  "installSpec": "git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac96236487ff9af1879dae",
+  "resolvedCommit": "923d129731b5080c85ac96236487ff9af1879dae",
+  "marketSearches": [
+    200,
+    200,
+    200,
+    200
+  ],
+  "enabledAfterInstall": true,
+  "backfill": "ready",
+  "stateError": null,
+  "discoveredItems": 0,
+  "nativeSidebarOpened": true,
+  "emptyStateVisible": true,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedResponses": [],
+  "screenshots": [
+    "docs/e2e/17-application-market.png",
+    "docs/e2e/18-application-market-installed.png"
+  ],
+  "externalActivationClaim": false
+}

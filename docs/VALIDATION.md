@@ -235,6 +235,23 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 - 目录原样命令 `dsh plugin --profile web add github:zjukop3/dsh-review-outbox` 在全新 `DSH_HOME` 安装成功，锁文件解析到 `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`。随后启动独立端口，Host `backfill=ready`、`stateError=null`、原生侧栏和空状态通过，页面与控制台错误均为 0，见 [catalog-install.json](e2e/catalog-install.json)和[安装截图](e2e/15-catalog-install.png)。隔离实例已回收。
 - 目录合并、搜索可见和真实安装是自然分发里程碑，不计为外部用户审阅、自然激活或第二周留存。详见[目录收录准备](CATALOG.md)和 [catalog-preflight.json](e2e/catalog-preflight.json)。
 
+## DSH 应用内市场：发现 → 安装 → 启用
+
+结果见 [application-market.json](e2e/application-market.json)、[application-market-format-check.json](e2e/application-market-format-check.json)和[应用内市场指南](MARKET.md)。
+
+真实隔离界面首先证明，Awesome 的 `https://awesome-dsh-plugin.com/plugins.json` 直接添加到 DSH「发现」会返回 `$.format must be 1`。因此新增独立的 `site/plugins.json`，并由 `@deepseek-ai/dsh-plugin-market-index@0.2.2-rc.1` 官方 `parseMarketIndex` 校验格式、版本、engines、图标和 Git source；`marketInstallTarget` 生成完整提交固定的安装目标。线上 JSON 部署后再次通过同一官方解析器。
+
+在另一个全新 `DSH_HOME` 和独立端口中，`scripts/e2e-application-market.mjs` 使用**公开索引地址**完成：
+
+1. 启用实验性「自定义插件索引」，打开「发现」并添加 `https://zjukop3.github.io/dsh-review-outbox/plugins.json`。
+2. 搜索 `研究报告`，确认中文卡片、版本 `0.1.0`、作者、仓库和完整提交 `923d129731b5080c85ac96236487ff9af1879dae`。
+3. 点击安装并确认 `git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac96236487ff9af1879dae`。
+4. 安装完成后回到「已安装」，启用 `dsh-review-outbox`；安装与启用分别验证，不把依赖落盘等同于 Host 已挂载。
+5. 侧栏稳定后读取 Host：`backfill=ready`、`stateError=null`、`items=0`、`pending=0`，打开原生「成果审阅」和空状态。
+6. `pageErrors=[]`、`consoleErrors=[]`、`failedResponses=[]`，市场搜索请求均返回 200。
+
+截图：[应用内发现卡片](e2e/17-application-market.png)、[安装启用后的成果审阅](e2e/18-application-market-installed.png)。隔离实例已回收。这证明无需社交媒体的应用内分发路径已经可运行，但仍不计为外部用户激活、真实审阅或留存。
+
 ## Node 基线、干净 tarball 与恢复
 
 - Node.js `22.19.0`：45/45 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。

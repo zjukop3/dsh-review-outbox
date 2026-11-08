@@ -5,7 +5,8 @@ import { parseMarketIndex } from '@deepseek-ai/dsh-plugin-market-index'
 
 const root = resolve(import.meta.dirname, '..')
 const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'))
-const requestedCommit = process.env.DSH_MARKET_COMMIT || process.env.GITHUB_SHA || 'HEAD'
+const release = JSON.parse(await readFile(resolve(root, 'market-release.json'), 'utf8'))
+const requestedCommit = process.env.DSH_MARKET_COMMIT || release.commit
 const commit = execFileSync('git', ['rev-parse', requestedCommit], { cwd: root, encoding: 'utf8' }).trim()
 const publishTimestamp = Number(execFileSync('git', ['show', '-s', '--format=%ct', commit], { cwd: root, encoding: 'utf8' }).trim())
 const indexUrl = 'https://zjukop3.github.io/dsh-review-outbox/plugins.json'

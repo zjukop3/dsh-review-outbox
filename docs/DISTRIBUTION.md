@@ -52,4 +52,4 @@ Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已发布�
 
 ## 应用内索引格式
 
-真实界面验证发现，Awesome registry 直接添加到 DSH「发现」会报告 `$.format must be 1`。本项目因此在 GitHub Pages 额外发布经过宿主官方解析器验证的[应用内索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)，把网页目录收录转化为应用内可搜索、可固定提交、可安装和可启用的路径。Awesome 目录与自有索引互为补充，不复制或批量制造插件条目。
+真实界面验证发现，Awesome registry 直接添加到 DSH「发现」会报告 `$.format must be 1`。本项目因此在 GitHub Pages 额外发布经过宿主官方解析器验证的[应用内索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)，把网页目录收录转化为应用内可搜索、可固定提交、可安装和可启用的路径。Awesome 目录与自有索引互为补充，不复制或批量制造插件条目。公开索引的完整界面流程见[应用内验证](e2e/application-market.json)。
