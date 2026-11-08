@@ -8,6 +8,9 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 **The 0.1.3 first-value path is verified in the real Web GUI:** after installing the pinned public commit, a pre-install sealed report is backfilled with a default `0/4` evidence checklist, completed to `4/4`, approved, and exported as a standalone receipt whose entry point returns to the public install guide. See the [structured evidence](docs/e2e/application-first-value.json) and [downloaded receipt](docs/e2e/application-first-value.review.html).
 
+![Review Outbox walkthrough: backfilled artifacts, evidence entry, approval, and receipt export](assets/storefront/demo.gif)
+
+
 ![Review Outbox research-report evidence workbench](assets/storefront/review-workbench.png)
 
 ## Features

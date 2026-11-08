@@ -8,6 +8,9 @@
 
 **0.1.3 首次价值已在真实 Web GUI 跑通**：从公开 GitHub 安装固定提交后，安装前密封报告自动回填，默认显示 `必填证据 0/4`，四项证据完成后通过并下载独立验收单；验收单入口直接回到公开安装指南。查看[结构化证据](docs/e2e/application-first-value.json)与[实际下载的验收单](docs/e2e/application-first-value.review.html)。
 
+![Review Outbox 审阅流程演示：回填成果、逐项填写证据、通过并导出验收单](assets/storefront/demo.gif)
+
+
 ![Review Outbox 研究报告证据审阅台](assets/storefront/review-workbench.png)
 
 ## 当前范围
