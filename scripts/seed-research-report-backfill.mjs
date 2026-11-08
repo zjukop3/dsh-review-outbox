@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { existsSync } from 'node:fs'
 import { mkdir, readFile, realpath } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -14,6 +15,9 @@ const temporaryRoots = [await realpath(tmpdir()), await realpath('/tmp').catch((
   .map(root => `${root}${path.sep}`)
 if (!temporaryRoots.some(root => home.startsWith(root))) throw new Error('Seeding is restricted to an isolated temporary DSH_HOME')
 const checkout = path.resolve(process.env.DSH_RESEARCH_REPORT_CHECKOUT || '../dsh-research-report')
+if (!existsSync(checkout)) {
+  throw new Error(`dsh-research-report checkout not found at ${checkout}; set DSH_RESEARCH_REPORT_CHECKOUT to a local checkout of PerryLink/dsh-research-report`)
+}
 const researchPackage = JSON.parse(await readFile(path.join(checkout, 'package.json'), 'utf8'))
 assert.equal(researchPackage.name, 'dsh-research-report')
 const researchRequire = createRequire(path.join(checkout, 'package.json'))

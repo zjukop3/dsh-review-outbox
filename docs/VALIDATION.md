@@ -266,7 +266,7 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 在隔离临时 `DSH_HOME` 中，`scripts/seed-research-report-backfill.mjs` 通过真实 `dsh-research-report@0.3.32` 执行三次 `evidence_add` 和一次 `research_report`，把完整 turn/step/tool 生命周期写入生产 Zstandard JSONL。报告与 manifest 均生成于 Review Outbox 安装前；密封结果事件为 seq=19，`deliverables/presented=0`。
 
-`0.1.2` 运行用 CLI 从公开 GitHub 安装固定提交 `e9bb649d515a38de0f61226980f40e3d45173f1d`，安装来源记录为 `CLI pinned 0.1.2 commit e9bb649 from public GitHub`。更早的 `0.1.1` 运行曾在另一 Profile 经历 Discover 网络安装超时后改用 CLI 安装 `9f7e608a192094272638802e77ca9b1197f8cff1`；该 Profile 的 Discover 成功证据见上一节，不与本次混淆。恢复模式均未重新执行市场搜索，`searchQuery`、`searchCardVisible` 为 `null`，`marketSearches=[]`。
+`0.1.2` 运行通过**公开 Discover 界面**完成：真实 DSH「发现」添加公网索引、搜索 `研究报告`、确认卡片版本 `0.1.2` 与完整提交后安装（市场搜索请求均 200），安装来源记录为 `public Discover`，`installSpec` 固定到 `git+https://github.com/zjukop3/dsh-review-outbox.git#e9bb649d515a38de0f61226980f40e3d45173f1d`。更早的 `0.1.1` 运行曾在另一 Profile 经历 Discover 网络安装超时后改用 CLI 安装 `9f7e608a192094272638802e77ca9b1197f8cff1`，证明 CLI 是可靠的回退路径；两个来源互为补充。
 
 真实 Chrome 完成并逐项断言：
 
