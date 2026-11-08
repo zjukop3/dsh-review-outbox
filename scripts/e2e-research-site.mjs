@@ -26,8 +26,8 @@ try {
       h1: document.querySelector('h1')?.textContent,
       checklist: document.querySelectorAll('ul.checklist li').length,
       processSteps: document.querySelectorAll('.process-step').length,
-      faqQuestions: document.querySelectorAll('#s-07 h3').length,
-      english: document.querySelector('#s-09')?.textContent,
+      faqQuestions: [...document.querySelectorAll('h3')].filter(node => node.textContent.includes('？')).length,
+      english: [...document.querySelectorAll('section')].find(section => section.querySelector('h2')?.textContent === 'English research report acceptance checklist')?.textContent,
     }
   })
   if (!metadata.title.includes('研究报告验收清单')) throw new Error('SEO title missing')
@@ -42,14 +42,30 @@ try {
   }
   if (metadata.english.includes('Harness:**')) throw new Error('Malformed English Markdown remains')
   await page.getByRole('heading', { name: '四项必填检查', exact: true }).waitFor()
+  await page.getByRole('heading', { name: '安装 Review Outbox 0.1.1', exact: true }).waitFor()
+  const indexCommand = await page.locator('pre code').filter({ hasText: 'plugins.json' }).textContent()
+  const pinnedCommand = await page.locator('pre code').filter({ hasText: 'dsh plugin --profile web add' }).textContent()
+  if (!indexCommand.includes('https://zjukop3.github.io/dsh-review-outbox/plugins.json')) throw new Error('Current Discover index is missing')
+  if (!pinnedCommand.includes('github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1')) throw new Error('Pinned 0.1.1 CLI fallback is missing')
+  const firstValueImage = page.locator('#s-04 img[alt="密封研究报告自动回填后默认显示四项必填证据"]')
+  await firstValueImage.scrollIntoViewIfNeeded()
+  await page.waitForFunction(() => {
+    const image = document.querySelector('#s-04 img[alt="密封研究报告自动回填后默认显示四项必填证据"]')
+    return image?.complete && image.naturalWidth > 0
+  })
+  await page.evaluate(() => window.scrollTo(0, 0))
   await page.screenshot({ path: 'docs/e2e/09-research-site.png', fullPage: true })
 
   await page.getByRole('link', { name: '打开一份由真实浏览器流程导出的研究报告验收单', exact: true }).click()
   await page.getByText('研究报告验收 · v1', { exact: true }).waitFor()
+  await page.getByText(/公开固定提交安装后，历史密封报告自动回填/).first().waitFor()
   if (!page.url().endsWith('/research-report/receipt-example.html')) throw new Error('Receipt link failed')
   const receiptProjectLink = await page.locator('.brand a').getAttribute('href')
   if (!receiptProjectLink?.startsWith('https://github.com/zjukop3/dsh-review-outbox?')) throw new Error('Receipt does not lead to the public repository')
   await page.goto(`${origin}/`, { waitUntil: 'networkidle' })
+  await page.getByRole('heading', { name: '在 DSH 中安装 0.1.1', exact: true }).waitFor()
+  const homePinnedCommand = await page.locator('details pre code').textContent()
+  if (!homePinnedCommand.includes('#9f7e608a192094272638802e77ca9b1197f8cff1')) throw new Error('Homepage pinned installation is missing')
   const packageName = 'dsh-review-outbox-0.1.0.tgz'
   const download = await page.request.get(`${origin}/downloads/${packageName}`)
   if (!download.ok()) throw new Error(`Tarball download failed: ${download.status()}`)
@@ -78,6 +94,10 @@ try {
     ok: true,
     metadata,
     receiptOpened: true,
+    receiptFromPinnedFirstValue: true,
+    currentDiscoverIndexVisible: true,
+    pinnedCliFallbackVisible: true,
+    firstValueImageLoaded: true,
     receiptProjectLink,
     downloadBytes: downloadBody.length,
     downloadSha256,

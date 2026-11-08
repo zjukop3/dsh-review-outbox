@@ -1,10 +1,12 @@
 # Review Outbox · 成果审阅与研究报告验收
 
-中文 | [English](README.en.md) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [下载 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)
+中文 | [English](README.en.md) | [应用内安装 0.1.1](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [旧版 0.1.0 tarball](#下载-tarball)
 
 一个本地优先的 DeepSeek Harness 成果审阅插件：把 Agent 交付的文件集中起来，完成预览、场景化证据检查、通过、退回、归档和复盘，并可导出无需安装即可查看的独立 HTML 验收单。
 
 它处理的是**成果处置**，不是普通问题、审批或通知。通过只表示你已完成审阅，插件不会自动向外部平台发布，也不会自动改写原会话。
+
+**0.1.1 首次价值已在真实 Web GUI 跑通**：安装前密封报告自动回填，默认显示 `必填证据 0/4`，四项证据完成后通过并下载独立验收单。查看[结构化证据](docs/e2e/application-first-value.json)与[实际下载的验收单](docs/e2e/application-first-value.review.html)。
 
 ![Review Outbox 研究报告证据审阅台](assets/storefront/review-workbench.png)
 
@@ -48,6 +50,13 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 ```
 
 确认版本和完整提交后安装，再回到「已安装」启用插件。该 `format: 1` 索引由宿主官方解析器验证，详见[应用内市场指南](docs/MARKET.md)。
+
+应用内网络不可用时，可对同一个 `0.1.1` 公开提交使用 CLI 回退：
+
+```bash
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1'
+dsh web
+```
 
 ### 从 Awesome 目录安装
 

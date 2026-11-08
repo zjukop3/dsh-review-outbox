@@ -203,13 +203,14 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 结果见 [research-site-result.json](e2e/research-site-result.json)。
 
-工作区 `site/` 包含完整中文清单、English checklist、4 个 FAQ、真实验收单、首页、`robots.txt`、`sitemap.xml` 和 `llms.txt`。页面不请求外部字体、图片或统计脚本。
+工作区 `site/` 包含完整中文清单、English checklist、4 个 FAQ、当前固定提交链路的真实验收单、首值截图、首页、`robots.txt`、`sitemap.xml` 和 `llms.txt`。首页以 `0.1.1` 应用内索引安装为主路径，提供同一提交的 CLI 回退；`0.1.0` tarball 明确标为旧版。页面不请求外部字体、图片或统计脚本。
 
 真实 Chrome 验证通过：
 
-- SEO title、description、canonical、robots 和 `TechArticle`/`FAQPage`/`SoftwareApplication` JSON-LD。
-- 5 项检查、5 步流程、4 个 FAQ 和英文摘要。
-- 首页与验收单链接可导航，链接所在段落不会因可编辑模式而阻止点击；首页使用适配 Pages 项目子路径的相对链接。
+- SEO title、description、canonical、robots 和 `TechArticle`/`FAQPage`/`SoftwareApplication` JSON-LD；软件版本为 `0.1.1`，首值截图进入 Open Graph 图片元数据。
+- 5 项检查、5 步流程、4 个 FAQ 和英文摘要；FAQ 与英文段落断言不依赖易变化的章节编号。
+- 首页与研究页均显示当前应用内索引和完整提交固定的 CLI 回退，首值截图实际加载成功。
+- 首页与验收单链接可导航，公开示例包含本次“公开固定提交安装后”的审阅意见；链接所在段落不会因可编辑模式而阻止点击。
 - 站点构建可重复执行：本地域名与正式域名连续构建后只保留一套 canonical、Open Graph、JSON-LD、favicon 和链接处理脚本，不残留本地地址。
 - 验收单示例回流公开 GitHub 仓库；tarball 下载字节数与 SHA-256 同独立校验文件一致。
 - 移动端横向溢出为 0，离线打开成功。

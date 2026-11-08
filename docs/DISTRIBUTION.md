@@ -11,7 +11,7 @@
 3. **结构化发现**：`TechArticle`、`FAQPage`、`SoftwareApplication` JSON-LD，以及 `robots.txt`、`sitemap.xml`、`llms.txt`。
 4. **成果回流**：插件生成的验收单包含带 `utm_source=review-receipt`、`utm_medium=artifact` 的插件入口。
 5. **零外部依赖**：页面没有外部字体、图片、统计脚本、cookie 或后端写入，可离线打开。
-6. **应用内发现**：`site/plugins.json` 提供宿主 `format: 1` 索引，用户可在 DSH「发现」中搜索、固定提交、安装并启用，详见[应用内市场指南](MARKET.md)。
+6. **应用内发现**：`site/plugins.json` 提供宿主 `format: 1` 索引，用户可在 DSH「发现」中搜索、固定提交、安装并启用。公开首页以 `0.1.1` 应用内安装为主路径，提供同一提交的 CLI 回退；旧版 tarball 不再占据主入口。详见[应用内市场指南](MARKET.md)。
 7. **首次价值**：`0.1.1` 的密封研究报告默认附带验收包，打开报告即可看到 `0/4` 进度，不需要先理解并手选验收规则。真实 Web GUI 已验证“安装前报告 → 固定提交安装 → 历史回填 → 四项证据 → 通过 → 下载验收单”，见[首次价值证据](e2e/application-first-value.json)；本次安装使用 Discover 超时后的 CLI 固定提交路径，不计为外部激活。
 
 站点源文件位于工作区 `site/`。部署和构建方式见 `site/README.md`。

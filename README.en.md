@@ -1,10 +1,12 @@
 # Review Outbox — deliverable review for DeepSeek Harness
 
-[Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Download 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
+[Install 0.1.1 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
 
 Review Outbox is a local-first review workbench for files produced by DeepSeek Harness agents. It collects real deliverables, supports evidence-based research-report acceptance, records revisions and SHA-256 evidence, and exports standalone HTML review receipts that recipients can open without installing anything.
 
 It handles **deliverable disposition**, not generic notifications, questions, or tool approvals. Approval records a human review decision; it never auto-publishes the artifact or rewrites the source Session.
+
+**The 0.1.1 first-value path is verified in the real Web GUI:** a pre-install sealed report is backfilled with a default `0/4` evidence checklist, completed to `4/4`, approved, and exported as a standalone receipt. See the [structured evidence](docs/e2e/application-first-value.json) and [downloaded receipt](docs/e2e/application-first-value.review.html).
 
 ![Review Outbox research-report evidence workbench](assets/storefront/review-workbench.png)
 
@@ -40,6 +42,13 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 ```
 
 Search for `Review Outbox` or `研究报告`, verify the version and full commit, install, then enable the plugin under **Installed**. The `format: 1` index is validated with the official DSH parser; see the [application market guide](docs/MARKET.md).
+
+If application-native installation cannot reach GitHub, use the same public 0.1.1 commit through the CLI:
+
+```bash
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1'
+dsh web
+```
 
 Alternatively, copy the command from the [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/), or run the exact verified catalog command:
 
@@ -120,7 +129,7 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 This uses real Cordis, SessionStore, ToolRuntime, and `research_report` execution in isolated temporary directories. It is not counted among the 45 tests and does not claim a full Web GUI or external-user trial.
 
-Additional real-browser evidence covers application-native Discover search, pinned installation and activation, research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
+Additional real-browser evidence covers application-native Discover search, pinned installation and activation, the complete pre-install sealed-report first-value path, research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
 
 ## Natural distribution
 

@@ -7,8 +7,9 @@
 - `research-report/index.md`：页面正文源文件。
 - `research-report/annotations.json`：歸藏 Page 排版标注。
 - `research-report/index.html`：可索引的完整页面，默认不请求外部资源。
-- `research-report/receipt-example.html`：真实浏览器流程生成的独立验收单。
-- `index.html`：站点首页。
+- `research-report/receipt-example.html`：当前固定提交首次价值流程实际下载的独立验收单。
+- `research-report/first-value.png`：历史密封报告自动回填、默认 `0/4` 验收包的真实界面截图。
+- `index.html`：以 0.1.1 应用内安装为主路径的站点首页。
 - `robots.txt`、`sitemap.xml`、`llms.txt`：搜索与 Agent 发现入口。
 
 ## 重新生成
@@ -37,7 +38,7 @@ PUBLIC_ORIGIN='http://127.0.0.1:43222' node scripts/build-research-site.mjs
 node scripts/e2e-research-site.mjs
 ```
 
-验证脚本检查 SEO 元数据、三类结构化数据、清单和 FAQ 数量、验收单导航、首页跳转、移动端横向溢出、离线打开、外部请求和浏览器错误。
+验证脚本检查 SEO 元数据、三类结构化数据、清单和 FAQ 数量、0.1.1 应用内索引、固定提交 CLI、首值图片加载、当前验收单导航、首页跳转、移动端横向溢出、离线打开、外部请求和浏览器错误。生产构建后将 `SITE_URL=https://zjukop3.github.io/dsh-review-outbox` 传入同一脚本可复测公网版本。
 
 ## 部署
 

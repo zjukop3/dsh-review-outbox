@@ -32,6 +32,14 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 插件也接收安装前持久化 Session 中的官方交付和可配对的 `research_report` 密封结果，不要求上游研究插件专门适配。DOCX 和 PDF 可以恢复来源 Session 后进入官方 Viewer，不需要另行安装渲染器。
 
+## 已验证的首次价值
+
+真实 Chrome 已在隔离 Profile 中完整验证：安装前生成的密封研究报告，在固定提交安装后自动回填；报告默认显示 `必填证据 0/4`，完成四项证据后通过并下载独立验收单。manifest 同时回填，但不会误附研究报告验收包。
+
+![密封研究报告自动回填后默认显示四项必填证据](first-value.png)
+
+[查看这次首次价值验证的结构化证据](https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/e2e/application-first-value.json)。它证明合成固定证据在真实插件、持久化和 Web GUI 中的完整产品链路，不把验证环境算作外部用户。
+
 ## 直接查看真实验收单
 
 [打开一份由真实浏览器流程导出的研究报告验收单](receipt-example.html)。它展示了检查证据、revision、审阅意见、处理历史和文件摘要，不需要安装 DeepSeek Harness 或 Review Outbox。
@@ -47,16 +55,34 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 验收单是无脚本、无外部资源的独立 HTML，接收者无需安装即可打开。它不自动上传，不写入原报告，不包含本机绝对路径或会话内容；证据与意见按审阅者填写内容导出。
 
-## 安装与当前状态
+## 安装 Review Outbox 0.1.1
 
-项目处于 `0.1.x` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录。先[下载已验证的 tgz 安装包](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)，再安装到独立 Web Profile：
+目标宿主为 DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`，Node.js `>=22.19`。项目处于 `0.1.x` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录。
+
+### 从应用内「发现」安装
+
+1. 打开「插件」，启用实验性「自定义插件索引」。
+2. 进入「发现 → 添加索引源」，添加以下地址：
+
+```text
+https://zjukop3.github.io/dsh-review-outbox/plugins.json
+```
+
+3. 搜索 `Review Outbox` 或 `研究报告`，确认版本 `0.1.1`、仓库和完整提交后安装。
+4. 回到「已安装」，启用 `dsh-review-outbox`；左侧出现「成果审阅」后即可使用。
+
+### 使用固定提交 CLI 安装
+
+应用内安装网络不可用时，可对同一个公开提交执行：
 
 ```bash
-dsh plugin --profile web add /absolute/path/dsh-review-outbox-0.1.0.tgz
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1'
 dsh web
 ```
 
-目标宿主为 DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`，Node.js `>=22.19`。下载页同时提供 SHA-256 校验文件；新生成的验收单默认链接到 GitHub 仓库。应用内「发现」可添加[兼容索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)，搜索 Review Outbox 后安装并启用。
+### 旧版 tarball
+
+Pages 仍保留 [0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) 和 SHA-256 校验文件，用于复现旧版安装；它不包含 `0.1.1` 的密封报告默认验收包行为。新生成的验收单默认链接到 GitHub 仓库。
 
 ## 常见问题
 
