@@ -82,6 +82,7 @@ try {
   const installing = page.getByText('插件安装中…', { exact: true })
   await installing.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => {})
   await installing.waitFor({ state: 'hidden', timeout: 180_000 })
+  await page.locator('button[aria-label="在已安装中查看 Review Outbox · 成果审阅与研究报告验收"]').waitFor({ state: 'visible', timeout: 180_000 })
   await dismissOverlays()
 
   await page.getByRole('tab', { name: '已安装', exact: true }).click()

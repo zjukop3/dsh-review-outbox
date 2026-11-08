@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "verifiedAt": "2026-11-08T03:00:36Z",
+  "verifiedAt": "2026-11-08T04:21:35Z",
   "host": "DeepSeek Harness 0.2.2-rc.1",
   "awesomeRegistry": {
     "url": "https://awesome-dsh-plugin.com/plugins.json",
@@ -14,7 +14,8 @@
     "format": 1,
     "officialParser": "@deepseek-ai/dsh-plugin-market-index@0.2.2-rc.1 parseMarketIndex",
     "onlineValidationPassed": true,
-    "installTarget": "git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac96236487ff9af1879dae",
+    "version": "0.1.1",
+    "installTarget": "git+https://github.com/zjukop3/dsh-review-outbox.git#9f7e608a192094272638802e77ca9b1197f8cff1",
     "fullApplicationFlowEvidence": "docs/e2e/application-market.json"
   },
   "externalActivationClaim": false

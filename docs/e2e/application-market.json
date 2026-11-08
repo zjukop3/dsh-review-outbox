@@ -4,9 +4,9 @@
   "indexUrl": "https://zjukop3.github.io/dsh-review-outbox/plugins.json",
   "searchQuery": "研究报告",
   "searchCardVisible": true,
-  "version": "0.1.0",
-  "installSpec": "git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac96236487ff9af1879dae",
-  "resolvedCommit": "923d129731b5080c85ac96236487ff9af1879dae",
+  "version": "0.1.1",
+  "installSpec": "git+https://github.com/zjukop3/dsh-review-outbox.git#9f7e608a192094272638802e77ca9b1197f8cff1",
+  "resolvedCommit": "9f7e608a192094272638802e77ca9b1197f8cff1",
   "marketSearches": [
     200,
     200,

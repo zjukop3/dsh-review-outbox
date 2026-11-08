@@ -245,8 +245,8 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 在另一个全新 `DSH_HOME` 和独立端口中，`scripts/e2e-application-market.mjs` 使用**公开索引地址**完成：
 
 1. 启用实验性「自定义插件索引」，打开「发现」并添加 `https://zjukop3.github.io/dsh-review-outbox/plugins.json`。
-2. 搜索 `研究报告`，确认中文卡片、版本 `0.1.0`、作者、仓库和完整提交 `923d129731b5080c85ac96236487ff9af1879dae`。
-3. 点击安装并确认 `git+https://github.com/zjukop3/dsh-review-outbox.git#923d129731b5080c85ac96236487ff9af1879dae`。
+2. 搜索 `研究报告`，确认中文卡片、版本 `0.1.1`、作者、仓库和完整提交 `9f7e608a192094272638802e77ca9b1197f8cff1`。
+3. 点击安装并确认 `git+https://github.com/zjukop3/dsh-review-outbox.git#9f7e608a192094272638802e77ca9b1197f8cff1`；安装耗时以市场卡片明确变为「已安装」为准，不把网络等待误判为失败。
 4. 安装完成后回到「已安装」，启用 `dsh-review-outbox`；安装与启用分别验证，不把依赖落盘等同于 Host 已挂载。
 5. 侧栏稳定后读取 Host：`backfill=ready`、`stateError=null`、`items=0`、`pending=0`，打开原生「成果审阅」和空状态。
 6. `pageErrors=[]`、`consoleErrors=[]`、`failedResponses=[]`，市场搜索请求均返回 200。
