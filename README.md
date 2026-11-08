@@ -51,6 +51,8 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 确认版本和完整提交后安装，再回到「已安装」启用插件。该 `format: 1` 索引由宿主官方解析器验证，详见[应用内市场指南](docs/MARKET.md)。
 
+本插件运行时零依赖、无安装脚本，不会触发 pnpm 的 `allowBuilds` 构建放行提示；从 GitHub 源安装时也不会运行第三方构建脚本。
+
 应用内网络不可用时，可对同一个 `0.1.2` 公开提交使用 CLI 回退：
 
 ```bash

@@ -43,6 +43,8 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 Search for `Review Outbox` or `研究报告`, verify the version and full commit, install, then enable the plugin under **Installed**. The `format: 1` index is validated with the official DSH parser; see the [application market guide](docs/MARKET.md).
 
+The plugin ships with zero runtime dependencies and no install scripts, so it never triggers pnpm's `allowBuilds` build-approval prompt; installing from GitHub source runs no third-party build scripts either.
+
 If application-native installation cannot reach GitHub, use the same public 0.1.2 commit through the CLI:
 
 ```bash
