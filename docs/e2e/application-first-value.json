@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "flow": "seeded real research_report → CLI github source after Discover network timeout → historical backfill → default evidence pack → approve → standalone receipt",
+  "indexUrl": "https://zjukop3.github.io/dsh-review-outbox/plugins.json",
+  "installationDriver": "CLI github source after Discover network timeout",
+  "searchQuery": null,
+  "searchCardVisible": null,
+  "version": "0.1.1",
+  "installSpec": "git+https://github.com/zjukop3/dsh-review-outbox.git#9f7e608a192094272638802e77ca9b1197f8cff1",
+  "resolvedCommit": "9f7e608a192094272638802e77ca9b1197f8cff1",
+  "marketSearches": [],
+  "enabledAfterInstall": true,
+  "backfill": "ready",
+  "stateError": null,
+  "discoveredItems": 2,
+  "pending": 1,
+  "nativeSidebarOpened": true,
+  "emptyStateVisible": false,
+  "researchFirstValue": {
+    "discoveredArtifacts": 2,
+    "sourceType": "research-report",
+    "defaultPackAttached": true,
+    "manifestPackDetached": true,
+    "initialRequiredProgress": "0/4",
+    "completedRequiredProgress": "4/4",
+    "approved": true,
+    "reviewedDigest": "bb0fb58f881844eb235516f6d62b56c34e88217087a82f8822f250b010569634",
+    "reviewNote": "公开固定提交安装后，历史密封报告自动回填并默认携带验收包；四项证据已复核。",
+    "receiptPath": "docs/e2e/application-first-value.review.html",
+    "receiptFilename": "report.md.review-r1.html",
+    "receiptScriptFree": true,
+    "receiptOmitsTemporaryPaths": true
+  },
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedResponses": [],
+  "screenshots": [
+    "docs/e2e/19-application-first-value.png",
+    "docs/e2e/20-application-first-approved.png"
+  ],
+  "externalActivationClaim": false
+}

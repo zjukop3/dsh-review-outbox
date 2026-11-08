@@ -253,6 +253,25 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 截图：[应用内发现卡片](e2e/17-application-market.png)、[安装启用后的成果审阅](e2e/18-application-market-installed.png)。隔离实例已回收。这证明无需社交媒体的应用内分发路径已经可运行，但仍不计为外部用户激活、真实审阅或留存。
 
+## 固定提交安装后的研究报告首次价值
+
+结果见 [application-first-value.json](e2e/application-first-value.json)、[首次价值截图](e2e/19-application-first-value.png)、[通过后截图](e2e/20-application-first-approved.png)和[下载的独立验收单](e2e/application-first-value.review.html)。
+
+在另一个隔离临时 `DSH_HOME` 中，`scripts/seed-research-report-backfill.mjs` 通过真实 `dsh-research-report@0.3.32` 执行三次 `evidence_add` 和一次 `research_report`，把完整 turn/step/tool 生命周期写入生产 Zstandard JSONL。报告与 manifest 均生成于 Review Outbox 安装前；密封结果事件为 seq=19，`deliverables/presented=0`。
+
+本次对应 Profile 的 Discover 网络安装超时，随后用 CLI 安装公开固定提交 `9f7e608a192094272638802e77ca9b1197f8cff1`。因此这份证据的安装来源明确记录为 `CLI github source after Discover network timeout`，**不覆盖也不冒充此前另一 Profile 的 Discover 成功证据**。恢复模式没有重新执行市场搜索，`searchQuery`、`searchCardVisible` 为 `null`，`marketSearches=[]`。
+
+真实 Chrome 完成并逐项断言：
+
+1. 原生「成果审阅」打开后，历史扫描 `backfill=ready`、`stateError=null`，共发现 report 与 manifest 两项。
+2. manifest 的「场景验收包」为通用验收；report 自动附带 `research-report`，显示 `必填证据 0/4`，通过按钮禁用。
+3. 四项检查分别写入实际复核说明并勾选，每次 `/check` 持久化响应均为 200；进度达到 `4/4` 后通过。
+4. 报告状态为 `approved`，队列待审剩余 1 项，即不需要研究报告验收包的 manifest。
+5. 浏览器下载 `report.md.review-r1.html`；验收单包含清单、审阅意见和文件 SHA-256 一致提示，没有脚本或隔离临时目录路径。
+6. `pageErrors=[]`、`consoleErrors=[]`、`failedResponses=[]`。
+
+这是合成固定证据在真实插件、真实持久化和真实 Web GUI 中的完整首次价值链路，不是外部用户激活、真实行业研究结论或留存证据。隔离实例在证据收集后回收。
+
 ## Node 基线、干净 tarball 与恢复
 
 - Node.js `22.19.0`：45/45 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。

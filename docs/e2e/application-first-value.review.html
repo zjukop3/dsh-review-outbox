@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; object-src 'none'; img-src 'none'; font-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+  <title>report.md · Review Outbox 验收单</title>
+  <style>
+    :root{color-scheme:light;--ink:#17211b;--muted:#657069;--line:#dfe5e0;--paper:#fff;--wash:#f4f6f4;--accent:#176b48}
+    *{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:860px;margin:0 auto;padding:56px 24px 40px}.brand{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:36px}
+    .brand strong{font-size:14px;letter-spacing:.08em}.brand a{color:var(--accent);font-weight:650;text-decoration:none}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+    h1{font-size:clamp(28px,5vw,46px);line-height:1.16;margin:10px 0 18px;overflow-wrap:anywhere}.badge{display:inline-block;padding:5px 12px;border-radius:999px;font-weight:700;font-size:13px}
+    .approved{background:#e0f3e9;color:#12603e}.returned{background:#fff0dc;color:#9a4c00}.pending{background:#e8ebf5;color:#44527d}.archived{background:#e9ecea;color:#58615b}
+    section{margin-top:20px;padding:24px;background:var(--paper);border:1px solid var(--line);border-radius:16px}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .label{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.value{font-weight:650;overflow-wrap:anywhere}.comparison{margin-top:20px;padding:13px 16px;border-radius:10px;font-weight:650}
+    .comparison.match{background:#e0f3e9;color:#12603e}.comparison.changed{background:#fff0dc;color:#9a4c00}.comparison.unknown{background:#eef0ef;color:#606963}
+    .digest{display:block;margin-top:12px;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all;color:#39473f}
+    .note{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0}.description{color:#3d4942;margin:0}.pack-title{font-size:20px;margin:4px 0 8px}.checklist{list-style:none;padding:0;margin:16px 0 0}.check-row{padding:14px 0;border-top:1px solid var(--line)}.check-row>div{display:flex;justify-content:space-between;gap:16px}.check-row>div>span{color:var(--muted);font-size:12px;white-space:nowrap}.check-row p{margin:5px 0;color:var(--muted);font-size:13px}.check-row blockquote{margin:8px 0 0;padding:10px 12px;background:var(--wash);border-left:3px solid var(--accent);white-space:pre-wrap;overflow-wrap:anywhere}.history{list-style:none;padding:0;margin:0}.history-row{padding:16px 0;border-bottom:1px solid var(--line)}
+    .history-row:last-child{border-bottom:0}.history-row>div{display:flex;justify-content:space-between;gap:16px}.history-row time{color:var(--muted);font-size:12px;text-align:right}.history-row p{margin:6px 0;white-space:pre-wrap}.history-row code{display:block;font-size:11px;color:var(--muted);word-break:break-all}.empty{color:var(--muted)}
+    footer{display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:12px;margin-top:24px}.generated{margin-top:6px;color:var(--muted);font-size:12px}
+    @media(max-width:620px){main{padding:28px 14px}.meta{grid-template-columns:1fr 1fr}section{padding:18px}.brand,footer,.history-row>div{align-items:flex-start;flex-direction:column}.history-row time{text-align:left}}
+    @media print{body{background:#fff}main{max-width:none;padding:0}section{break-inside:avoid}.brand a{display:none}}
+  </style>
+</head>
+<body><main>
+  <header class="brand"><strong>REVIEW OUTBOX · 成果验收单</strong><a href="https://github.com/zjukop3/dsh-review-outbox?utm_source=review-receipt&amp;utm_medium=artifact&amp;utm_campaign=review-outbox" target="_blank" rel="noopener noreferrer">获取同款插件 ↗</a></header>
+  <div class="eyebrow">DeepSeek Harness deliverable review</div>
+  <h1>report.md</h1>
+  <span class="badge approved">已通过</span>
+  <section>
+    <div class="meta">
+      <div><span class="label">Revision</span><span class="value">r1</span></div>
+      <div><span class="label">首次发现</span><span class="value">2026-11-08T06:25:58.585Z</span></div>
+      <div><span class="label">最近处置</span><span class="value">2026-11-08T06:29:24.829Z</span></div>
+    </div>
+    <div class="comparison match">当前文件与审阅时摘要一致</div>
+    <code class="digest">审阅时 SHA-256 · bb0fb58f881844eb235516f6d62b56c34e88217087a82f8822f250b010569634</code>
+  </section>
+  <section><span class="label">成果说明</span><p class="description">dsh-research-report 密封研究报告</p></section>
+  <section>
+    <span class="label">场景验收包</span>
+    <h2 class="pack-title">研究报告验收 · v1</h2>
+    <p class="description">核验结论证据、引用来源、数据口径、方法限制和复现信息；检查由审阅者完成，不代表自动事实核查。</p>
+    <ol class="checklist"><li class="check-row">
+        <div><strong>✓ 核心结论有对应证据</strong><span>必填 · 证据已记录</span></div>
+        <p>逐条核对核心结论，记录能支持结论的正文位置、数据或原始来源。</p>
+        <blockquote>Appendix A 的 c-size、c-growth、c-share 均为 verified；manifest 中有 3 条 verdict 和 3 条 evidence。</blockquote>
+      </li><li class="check-row">
+        <div><strong>✓ 引用来源可复核</strong><span>必填 · 证据已记录</span></div>
+        <p>引用能定位到作者或机构、标题、日期及 URL/DOI，并且来源确实支持对应论断。</p>
+        <blockquote>三份固定证据 market-size、growth、players 已登记到真实 ledger，可逐项复核；未声称外部 URL 已访问。</blockquote>
+      </li><li class="check-row">
+        <div><strong>✓ 数据时间与统计口径明确</strong><span>必填 · 证据已记录</span></div>
+        <p>核对统计区间、时区、单位、样本范围和比较基线，避免把不同口径的数据直接比较。</p>
+        <blockquote>1,280 亿元、11.3% 与 57% 已对固定快照复核；数字口径仅限本次合成研究夹具。</blockquote>
+      </li><li class="check-row">
+        <div><strong>✓ 方法与限制已披露</strong><span>必填 · 证据已记录</span></div>
+        <p>检查检索或实验方法、纳入排除标准、局限性和重要相反证据。</p>
+        <blockquote>本次为无网络固定证据的应用内安装验收，只证明真实工作流，不外推为行业研究结论。</blockquote>
+      </li><li class="check-row">
+        <div><strong>○ 复现材料可定位</strong><span>可选 · 未完成</span></div>
+        <p>需要复现的报告应提供脚本、数据、环境和步骤；不适用时记录原因。</p>
+        
+      </li></ol>
+  </section>
+  <section><span class="label">当前审阅意见</span><p class="note">公开固定提交安装后，历史密封报告自动回填并默认携带验收包；四项证据已复核。</p></section>
+  <section><span class="label">处理历史 · 最近 2 条</span><ol class="history">
+    <li class="history-row">
+      <div><strong>通过</strong><time>2026-11-08T06:29:24.829Z</time></div>
+      <p>公开固定提交安装后，历史密封报告自动回填并默认携带验收包；四项证据已复核。</p>
+      <code title="审阅时 SHA-256">bb0fb58f881844eb235516f6d62b56c34e88217087a82f8822f250b010569634</code>
+    </li>
+    <li class="history-row">
+      <div><strong>发现成果</strong><time>2026-11-08T06:25:58.585Z</time></div>
+      
+      
+    </li></ol></section>
+  <footer><span>本地生成，未自动上传；不自动包含成果正文、绝对路径或会话内容，检查证据与意见按填写内容导出。</span><span class="generated">导出时间 2026-11-08T06:29:24.878Z</span></footer>
+</main></body></html>

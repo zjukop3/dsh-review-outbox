@@ -75,3 +75,25 @@ node scripts/e2e-application-market.mjs
 ```
 
 脚本覆盖启用发现、添加索引、中文搜索、提交确认、安装、启用、Host 健康和原生侧栏。最终公开索引证据见 [application-market.json](e2e/application-market.json)，Awesome registry 与 `format: 1` 的差异见 [application-market-format-check.json](e2e/application-market-format-check.json)。这是隔离安装验证，不计为外部用户激活或留存。
+
+### 历史研究报告的首次价值
+
+`scripts/seed-research-report-backfill.mjs` 用真实 `dsh-research-report` 工具在隔离临时 `DSH_HOME` 中生成安装前的密封报告和完整生产 JSONL。随后可从同一个公开固定提交安装并验证历史回填：
+
+```bash
+DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report \
+  node --experimental-transform-types scripts/seed-research-report-backfill.mjs "$DSH_HOME"
+
+dsh plugin --profile web add \
+  'github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1'
+
+DSH_E2E_URL='http://127.0.0.1:<port>/?token=<token>' \
+DSH_E2E_RESEARCH_FIRST_VALUE=1 \
+DSH_E2E_RESUME_INSTALLED=1 \
+DSH_E2E_INSTALLATION_DRIVER='CLI github source after Discover network timeout' \
+  node scripts/e2e-application-market.mjs
+```
+
+种子脚本只接受临时目录，不修改日常 Profile。恢复模式不重走「发现」搜索，因此证据中的 `searchQuery`、`searchCardVisible` 和 `marketSearches` 明确记录为未执行；本次对应 Profile 的 Discover 网络安装超时，使用 CLI 安装同一个公开提交，不把这次运行写成 Discover 安装成功。
+
+浏览器逐项断言 report 与 manifest 两项回填、manifest 无验收包、report 默认 `research-report` 和 `0/4`、四项证据、通过及验收单下载。结果见 [application-first-value.json](e2e/application-first-value.json)，截图为 [首次价值](e2e/19-application-first-value.png) 与 [通过后](e2e/20-application-first-approved.png)。
