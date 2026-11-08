@@ -218,6 +218,12 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 截图：[桌面页面](e2e/09-research-site.png)、[移动页面](e2e/10-research-mobile.png)。分发口径与部署边界见 [自然分发](DISTRIBUTION.md)。站点通过 GitHub Pages 公开，但公开部署本身不计为自然流量证据。
 
+## IndexNow 线上发现通知
+
+结果见 [indexnow-submission.json](e2e/indexnow-submission.json) 和 [Pages 工作流 42458492328](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42458492328)。公开密钥文件使用项目子路径 `keyLocation`，线上读取内容与 `indexnow.json` 一致；sitemap 中首页、研究清单和验收单三个 URL 的预检均为 HTTP 200。
+
+部署成功后，工作流向 `https://www.bing.com/indexnow` 提交这三个 URL，实际响应为 **HTTP 202 Accepted**，响应证据由 `actions/upload-artifact` 保存并原样入库。该状态只表示 URL 已接收、密钥验证等待完成；`indexingStatus` 保持 `unknown`，不声称已收录、获得排名、产生自然流量或外部激活。通知步骤失败不会把已经完成的 Pages 部署标记为失败。
+
 ## 公开仓库、Pages 与公网安装
 
 - 公开仓库：`zjukop3/dsh-review-outbox`，首个公开提交为 `780d2bb9bdd370ed42a9fb85c3a58e4a5feb91ed`。

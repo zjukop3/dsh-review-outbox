@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "submittedAt": "2026-11-08T07:22:19.860Z",
+  "endpoint": "https://www.bing.com/indexnow",
+  "keyLocation": "https://zjukop3.github.io/dsh-review-outbox/08986ba4f300c03bb388875263d41845.txt",
+  "urlList": [
+    "https://zjukop3.github.io/dsh-review-outbox/",
+    "https://zjukop3.github.io/dsh-review-outbox/research-report/",
+    "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html"
+  ],
+  "preflight": {
+    "keyFileVerified": true,
+    "urls": [
+      {
+        "url": "https://zjukop3.github.io/dsh-review-outbox/",
+        "status": 200
+      },
+      {
+        "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/",
+        "status": 200
+      },
+      {
+        "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html",
+        "status": 200
+      }
+    ]
+  },
+  "responseStatus": 202,
+  "responseBody": null,
+  "indexingStatus": "unknown",
+  "externalActivationClaim": false
+}
