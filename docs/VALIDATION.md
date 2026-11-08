@@ -280,6 +280,10 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 这是合成固定证据在真实插件、真实持久化和真实 Web GUI 中的完整首次价值链路，不是外部用户激活、真实行业研究结论或留存证据。隔离实例在证据收集后回收。
 
+### 验收单移动端渲染
+
+线上示例验收单在 390×844 移动视口（`isMobile` + 触屏）实测：无横向溢出，审阅状态与研究报告验收包正常渲染，「获取同款插件」链接带 `utm_source=review-receipt` 回到安装指南，页面错误为零。截图见 [21-receipt-mobile.png](e2e/21-receipt-mobile.png)。成果接收者在手机上打开验收单是常态场景，此验证补齐该面。
+
 ## Node 基线、干净 tarball 与恢复
 
 - Node.js `22.19.0`：45/45 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
