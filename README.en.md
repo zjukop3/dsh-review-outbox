@@ -1,6 +1,6 @@
 # Review Outbox — deliverable review for DeepSeek Harness
 
-[Install 0.1.1 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
+[Install 0.1.2 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
 
 Review Outbox is a local-first review workbench for files produced by DeepSeek Harness agents. It collects real deliverables, supports evidence-based research-report acceptance, records revisions and SHA-256 evidence, and exports standalone HTML review receipts that recipients can open without installing anything.
 
@@ -27,7 +27,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-The project is in `0.1.x` validation. Current source and the application index are `0.1.1`; the Pages tarball remains `0.1.0`. Source code, the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. npm and GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public GitHub repository.
+The project is in `0.1.x` validation. Current source and the application index are `0.1.2`; the Pages tarball remains `0.1.0`. Source code, the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. npm and GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -43,10 +43,10 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 Search for `Review Outbox` or `研究报告`, verify the version and full commit, install, then enable the plugin under **Installed**. The `format: 1` index is validated with the official DSH parser; see the [application market guide](docs/MARKET.md).
 
-If application-native installation cannot reach GitHub, use the same public 0.1.1 commit through the CLI:
+If application-native installation cannot reach GitHub, use the same public 0.1.2 commit through the CLI:
 
 ```bash
-dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1'
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#e9bb649d515a38de0f61226980f40e3d45173f1d'
 dsh web
 ```
 

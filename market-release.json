@@ -1,4 +1,4 @@
 {
-  "commit": "9f7e608a192094272638802e77ca9b1197f8cff1",
-  "notes": "Version 0.1.1: sealed research reports receive the acceptance pack automatically, while repeated backfill preserves a user's cleared selection. Real two-plugin evidence passed on Node 22 and 25. Documentation-only commits do not move this pin."
+  "commit": "e9bb649d515a38de0f61226980f40e3d45173f1d",
+  "notes": "Version 0.1.2: exported receipts link to the public install guide instead of the repository root, so artifact recipients reach the verified 0.1.2 installation path directly. Sealed reports still receive the acceptance pack automatically. Documentation-only commits do not move this pin."
 }

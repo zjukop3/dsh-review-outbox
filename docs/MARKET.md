@@ -5,7 +5,7 @@ Review Outbox 同时提供 Awesome 社区目录和 DSH「发现」页面所需�
 - [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)用于网页搜索、分类浏览和市场 registry。
 - [DSH 应用内索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)用于宿主「插件 → 发现 → 添加索引源」，支持搜索、版本确认、提交固定、安装和启用。
 
-当前源码索引版本为 `0.1.1`：密封研究报告进入成果审阅时自动附带研究报告验收包，manifest 不附加；用户可以更换或清除验收包，重复回填不会覆盖该选择。Pages 的 `0.1.0` tarball 保持原版本，不伪装成包含此行为的安装包。
+当前源码索引版本为 `0.1.2`：密封研究报告进入成果审阅时自动附带研究报告验收包，manifest 不附加；用户可以更换或清除验收包，重复回填不会覆盖该选择。新导出的验收单默认链接到公开安装指南。Pages 的 `0.1.0` tarball 保持原版本，不伪装成包含此行为的安装包。
 
 ## 用户安装
 
@@ -42,7 +42,7 @@ https://awesome-dsh-plugin.com/plugins.json: $.format must be 1
 应用内安装目标由官方 `marketInstallTarget` 生成：
 
 ```text
-git+https://github.com/zjukop3/dsh-review-outbox.git#9f7e608a192094272638802e77ca9b1197f8cff1
+git+https://github.com/zjukop3/dsh-review-outbox.git#e9bb649d515a38de0f61226980f40e3d45173f1d
 ```
 
 ## 构建与更新
