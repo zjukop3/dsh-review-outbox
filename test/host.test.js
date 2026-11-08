@@ -148,6 +148,12 @@ test('host joins research_report tool calls to sealed result artifacts', async (
   assert.equal(listed.data.items.length, 2)
   assert.deepEqual(listed.data.items.map(item => item.sourceType), ['research-report', 'research-report'])
   const report = listed.data.items.find(item => item.path.endsWith('report.md'))
+  assert.equal(report.reviewPack.id, 'research-report')
+  assert.equal(report.reviewProgress.requiredCompleted, 0)
+  assert.equal(report.reviewProgress.requiredTotal, 4)
+  const manifest = listed.data.items.find(item => item.path.endsWith('manifest.json'))
+  assert.equal(manifest.reviewPack, undefined)
+  assert.equal(manifest.reviewProgress, null)
   const preview = await invoke(ctx.handler, { url: `/review-outbox/api/preview?id=${encodeURIComponent(report.id)}` })
   assert.match(preview.data.preview.content, /Sealed research/)
 

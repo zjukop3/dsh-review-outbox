@@ -15,7 +15,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 - Preserves one artifact across different real `callId` values and turns later deliveries into revisions.
 - Text and common image previews, plus official `workspace/changes` diffs while the source Session remains available.
 - Opens DOCX and PDF artifacts through the official DSH document Viewer after restoring the source Session.
-- Research-report acceptance pack: claim evidence, citation review, data scope, and method limitations are required; reproduction materials are optional.
+- Sealed research reports automatically receive the acceptance pack: claim evidence, citation review, data scope, and method limitations are required; reproduction materials are optional. Users can replace or clear the pack without backfill overriding that choice.
 - Required checks need both a checked state and a reviewer-written evidence note before approval.
 - Approve, return, archive, and reopen with notes and durable history.
 - SHA-256 evidence on approval or return, with a visible warning if the artifact changes afterward.
@@ -25,7 +25,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-Version `0.1.0` is in validation. Source code, the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. npm and GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public GitHub repository.
+The project is in `0.1.x` validation. Current source and the application index are `0.1.1`; the Pages tarball remains `0.1.0`. Source code, the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. npm and GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public GitHub repository.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -79,7 +79,7 @@ For a tarball installation and recovery procedure, read [installation and recove
 
 1. Let the agent deliver through the official `present` tool, or generate a sealed report with `dsh-research-report`. Both paths enter the same review workbench.
 2. Open **Review Outbox / 成果审阅**.
-3. Select the artifact and the **Research report acceptance / 研究报告验收** pack.
+3. Select the sealed report. The **Research report acceptance / 研究报告验收** pack is already attached; replace or clear it if needed.
 4. Record evidence for all four required checks. Approval remains blocked when a required check lacks either its checked state or evidence text.
 5. Approve or return with review notes. A new delivery of the same artifact creates a new revision and clears the previous check states.
 6. Export the standalone HTML receipt. If the current file digest differs from the reviewed digest, the receipt asks for another review.

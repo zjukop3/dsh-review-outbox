@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict'
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { chromium } from 'playwright-core'
 
+const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+const release = JSON.parse(await readFile(new URL('../market-release.json', import.meta.url), 'utf8'))
 const url = process.env.DSH_E2E_URL
 const indexUrl = process.env.DSH_MARKET_INDEX_URL || 'https://zjukop3.github.io/dsh-review-outbox/plugins.json'
-const expectedCommit = process.env.DSH_E2E_COMMIT || '923d129731b5080c85ac96236487ff9af1879dae'
+const expectedCommit = process.env.DSH_E2E_COMMIT || release.commit
+const expectedVersion = process.env.DSH_E2E_VERSION || packageJson.version
 if (!url) throw new Error('DSH_E2E_URL is required; use a fresh isolated DSH Web Profile')
 if (!/^[a-f0-9]{40}$/.test(expectedCommit)) throw new Error('DSH_E2E_COMMIT must be a full commit SHA')
 
@@ -68,11 +71,12 @@ try {
   await installCardButton.waitFor({ state: 'visible', timeout: 30_000 })
   const discoveryText = await page.locator('body').innerText()
   assert.match(discoveryText, /Review Outbox · 成果审阅与研究报告验收/)
-  assert.match(discoveryText, /0\.1\.0 · zjukop3/)
+  assert.ok(discoveryText.includes(`${expectedVersion} · zjukop3`))
   await page.screenshot({ path: 'docs/e2e/17-application-market.png', fullPage: true })
 
   await installCardButton.click()
   const confirmation = page.locator('[role=dialog]')
+  await confirmation.getByText(expectedVersion, { exact: true }).waitFor({ timeout: 15_000 })
   await confirmation.getByText(expectedCommit, { exact: true }).waitFor({ timeout: 15_000 })
   await confirmation.locator('button:text-is("安装")').click()
   const installing = page.getByText('插件安装中…', { exact: true })
@@ -114,7 +118,7 @@ try {
     indexUrl,
     searchQuery: '研究报告',
     searchCardVisible: true,
-    version: '0.1.0',
+    version: expectedVersion,
     installSpec: `git+https://github.com/zjukop3/dsh-review-outbox.git#${expectedCommit}`,
     resolvedCommit: expectedCommit,
     marketSearches,

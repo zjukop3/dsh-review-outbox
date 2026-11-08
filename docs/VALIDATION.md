@@ -75,9 +75,10 @@
 1. 三次 `evidence_add` 和一次 `research_report` 经真实工具执行器产生 4 个 `tool/call` 与 4 个 `tool/result`，其中密封结果 seq=7。
 2. 3 条结论均为 `verified`，`manifest.json` 的 SHA-256 与工具返回的 `sealHash` 完全一致。
 3. Session 中 `deliverables/presented=0`；Outbox 仍通过 `tool/call.data.name` 与 `tool/result.data.meta` 自动发现 `report.md` 和 `manifest.json`，两条记录的 `eventSeq` 都等于真实密封结果事件。
-4. 报告正文预览包含 3 条 verified verdict；未填写证据时通过请求返回 400。
-5. 四项必填检查分别写入实际复核证据后通过，审阅时报告 SHA-256 与独立读取结果一致。
-6. 独立 HTML 验收单包含研究报告清单、审阅意见和文件一致提示，不包含脚本或隔离临时目录路径。
+4. 报告进入队列时已经默认附带研究报告验收包，进度为 `0/4`；manifest 不附带验收包。联合脚本不再调用 `/pack` 选择接口，证明零配置首次验收路径。
+5. 报告正文预览包含 3 条 verified verdict；未填写证据时通过请求返回 400。
+6. 四项必填检查分别写入实际复核证据后通过，审阅时报告 SHA-256 与独立读取结果一致。
+7. 独立 HTML 验收单包含研究报告清单、审阅意见和文件一致提示，不包含脚本或隔离临时目录路径。
 
 Node.js `22.19.0` 与 `25.2.1` 均完成该链路。测试使用无网络固定证据和独立临时目录，只证明插件间真实运行契约，不计为外部用户采用、真实行业研究结论或自然流量。
 

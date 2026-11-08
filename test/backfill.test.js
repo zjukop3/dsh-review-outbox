@@ -154,6 +154,14 @@ test('backfill joins research_report call ids to sealed result metadata only', a
   assert.equal(result.changed, 2)
   assert.deepEqual(store.list().map(item => item.sourceType), ['research-report', 'research-report'])
   assert.deepEqual(store.list().map(item => item.path).sort(), ['/work/one/manifest.json', '/work/one/report.md'])
+  const report = store.list().find(item => item.path.endsWith('report.md'))
+  const manifest = store.list().find(item => item.path.endsWith('manifest.json'))
+  assert.equal(report.reviewPack.id, 'research-report')
+  assert.equal(manifest.reviewPack, undefined)
+  await store.setReviewPack(report.id, null)
+  const repeated = await backfillPresented({ persistence, store })
+  assert.equal(repeated.changed, 0)
+  assert.equal(store.get(report.id).reviewPack, null)
 })
 
 test('backfill options reject zero, negative, fractional, and unsafe limits', () => {

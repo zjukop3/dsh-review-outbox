@@ -1,3 +1,5 @@
+import { getPack, initialReviewPack } from './packs.js'
+
 function isoTime(value, fallback = new Date()) {
   const date = typeof value === 'number' ? new Date(value) : value ? new Date(String(value)) : fallback
   return Number.isNaN(date.getTime()) ? fallback.toISOString() : date.toISOString()
@@ -71,6 +73,7 @@ export function researchReportRecords(session, event, toolName, fallbackNow) {
       description,
       now,
     }),
+    ...(index === 0 ? { reviewPack: initialReviewPack(getPack('research-report')) } : {}),
     callId,
     sourceIndex: index,
     occurrence: 0,

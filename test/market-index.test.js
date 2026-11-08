@@ -12,6 +12,7 @@ test('application market index passes the official validator and reproducibly pi
   const path = resolve(root, 'site/plugins.json')
   const source = JSON.parse(await readFile(path, 'utf8'))
   const release = JSON.parse(await readFile(resolve(root, 'market-release.json'), 'utf8'))
+  const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'))
   const parsed = parseMarketIndex(source, indexUrl)
   assert.equal(parsed.format, 1)
   assert.equal(parsed.plugins.length, 1)
@@ -21,7 +22,7 @@ test('application market index passes the official validator and reproducibly pi
   assert.match(plugin.icon, /^data:image\/svg\+xml;base64,/)
   assert.equal(plugin.versions.length, 1)
   const version = plugin.versions[0]
-  assert.equal(version.version, '0.1.0')
+  assert.equal(version.version, packageJson.version)
   assert.match(version.source.commit, /^[a-f0-9]{40}$/)
   assert.equal(version.source.commit, release.commit)
   assert.equal(version.source.type, 'git')

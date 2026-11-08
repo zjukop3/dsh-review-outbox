@@ -164,9 +164,11 @@ try {
   assert.match(preview.data.preview.content, /c-size/)
   assert.match(preview.data.preview.content, /✅ verified/)
 
-  const selected = await invoke('POST', '/review-outbox/api/pack', { id: reportItem.id, packId: 'research-report' })
-  assert.equal(selected.status, 200)
-  assert.equal(selected.data.item.reviewProgress.requiredCompleted, 0)
+  assert.equal(reportItem.reviewPack.id, 'research-report')
+  assert.equal(reportItem.reviewProgress.requiredCompleted, 0)
+  assert.equal(reportItem.reviewProgress.requiredTotal, 4)
+  assert.equal(manifestItem.reviewPack, undefined)
+  assert.equal(manifestItem.reviewProgress, null)
   const premature = await invoke('POST', '/review-outbox/api/action', { id: reportItem.id, action: 'approve' })
   assert.equal(premature.status, 400)
 
@@ -244,6 +246,9 @@ try {
       manifestId: manifestItem.id,
       resultEventSeqMatched: true,
       previewKind: preview.data.preview.kind,
+      defaultResearchPackAttached: reportItem.reviewPack.id === 'research-report',
+      manifestPackDetached: manifestItem.reviewPack === undefined,
+      manualPackSelectionRequired: false,
       prematureApprovalRejected: true,
       requiredChecksWithEvidence: Object.keys(reviewNotes),
       approved: true,

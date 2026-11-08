@@ -19,7 +19,7 @@
   },
   "sealed": {
     "kind": "sealed",
-    "sealHash": "bd24d1bda6dc79adfae01895079b50232c45ef209aa740a7dc05e846e7342038",
+    "sealHash": "3a91d8274c26f7fc49ff7b074e5a0a100ab5089b06e47e05fdf7b245224da627",
     "counts": {
       "verified": 3,
       "unverified": 0,
@@ -28,8 +28,8 @@
       "disproven": 0
     },
     "evidenceCount": 3,
-    "reportSha256": "e3ab9a6abb4332f2d427d4e98199f4342907a44ad6b13396b994b7e5bf32e52e",
-    "manifestSha256": "bd24d1bda6dc79adfae01895079b50232c45ef209aa740a7dc05e846e7342038",
+    "reportSha256": "699398d983670ca00bd0b7bc06383f967f87b3b3a3d6c9eb7e1b09b800a05b61",
+    "manifestSha256": "3a91d8274c26f7fc49ff7b074e5a0a100ab5089b06e47e05fdf7b245224da627",
     "manifestMatchesSeal": true
   },
   "outbox": {
@@ -42,6 +42,9 @@
     "manifestId": "research-report:review-outbox-interop:review-interop-4:1",
     "resultEventSeqMatched": true,
     "previewKind": "text",
+    "defaultResearchPackAttached": true,
+    "manifestPackDetached": true,
+    "manualPackSelectionRequired": false,
     "prematureApprovalRejected": true,
     "requiredChecksWithEvidence": [
       "claims-evidence",
