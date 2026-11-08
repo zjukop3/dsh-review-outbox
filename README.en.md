@@ -27,7 +27,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-The project is in `0.1.x` validation. Current source and the application index are `0.1.2`; the Pages tarball remains `0.1.0`. Source code, the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. npm and GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
+The project is in `0.1.x` validation. Current source and the application index are `0.1.2`; the Pages tarball remains `0.1.0`. Source code, npm (`dsh-review-outbox@0.1.2`), the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -49,6 +49,13 @@ If application-native installation cannot reach GitHub, use the same public 0.1.
 
 ```bash
 dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#e9bb649d515a38de0f61226980f40e3d45173f1d'
+dsh web
+```
+
+Or install directly from the published npm package — the same path dsh-market's one-click install uses, verified in an isolated Profile (about 2 seconds, version `0.1.2`, bundle selected automatically):
+
+```bash
+dsh plugin --profile web add dsh-review-outbox
 dsh web
 ```
 

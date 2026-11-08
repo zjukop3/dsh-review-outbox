@@ -35,7 +35,7 @@
 - 本面板不内嵌 Office/PDF 渲染器；可点击「在宿主 Viewer 打开」，先恢复来源 Session 再进入官方预览。实际格式支持以宿主 Viewer 为准。
 - 研究报告包记录人工检查证据，不自动访问引用，也不冒充自动事实核查。
 - 验收单默认在本地导出，不自动上传；不包含绝对路径或会话内容，检查证据和审阅意见按用户填写内容导出。
-- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.2，Pages tarball 仍为 0.1.0。GitHub 源码、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，npm 和 GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
+- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.2，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.2`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
 
 ## 安装
 
@@ -59,6 +59,17 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#e9bb649d515a38de0f61226980f40e3d45173f1d'
 dsh web
 ```
+
+### 从 npm 直接安装
+
+npm 包已发布，安装即用（dsh-market 一键安装走同一通道）：
+
+```bash
+dsh plugin --profile web add dsh-review-outbox
+dsh web
+```
+
+已在隔离 Profile 验证：安装耗时约 2 秒，版本 `0.1.2`，bundle 自动选中。
 
 ### 从 Awesome 目录安装
 
