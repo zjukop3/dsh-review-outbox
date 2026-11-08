@@ -38,6 +38,7 @@
 | 本地源码目录 | 已验证 |
 | `.tgz` 安装包 | 已在全新 `DSH_HOME` 验证 |
 | npm | `0.1.2` 起发布（`dsh-review-outbox`），npm 直装已验证（约 2 秒，bundle 自动选中）；详见 README 安装章节 |
+| dsh-market 共存 | `dshmarket@1.73.15` 与本插件同 Profile 加载无冲突：审阅侧栏、市场入口、Host 健康均正常，页面错误为零（隔离 Profile 实测） |
 | GitHub URL 直装 | 公开提交 `ac8246501e5009a8323b33ab39559bce191671ee`；全新 Profile、历史回填、文本预览和原生侧栏均通过 | 其他提交与平台按各自证据判断 |
 | GitHub 仓库 / Pages tarball | 公开克隆测试与构建、Pages 下载 SHA-256、全新 Profile 安装和真实浏览器挂载均通过 | 未覆盖平台见上表 |
 | Awesome 目录 / `github:` 直装 | PR #13088 已合并，目录搜索、中英文详情和市场 JSON 均通过；原样命令在全新 Profile 解析到 `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`，真实 Host、原生侧栏与空状态通过 |
