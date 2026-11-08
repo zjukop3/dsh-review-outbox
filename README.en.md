@@ -156,6 +156,7 @@ The project includes a static, offline research-checklist site with structured F
 - The research pack records human review evidence; it does not fetch citations or claim automatic fact-checking.
 - Receipts are generated locally and are never automatically uploaded. Reviewer-written evidence and notes are included when exported.
 - External-user retention and organic activation remain unverified.
+- The review UI is Chinese-first: panel, buttons, and pack labels render the same Chinese strings under the English host locale. The sidebar entry is bilingual (成果审阅 / Review Outbox); full i18n waits for real demand from English-locale users.
 
 ## License
 
