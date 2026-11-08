@@ -1,4 +1,4 @@
-const DEFAULT_PROJECT_URL = 'https://github.com/zjukop3/dsh-review-outbox'
+const DEFAULT_PROJECT_URL = 'https://zjukop3.github.io/dsh-review-outbox/'
 const STATUS = {
   pending: ['待审阅', 'pending'],
   approved: ['已通过', 'approved'],

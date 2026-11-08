@@ -4,6 +4,10 @@ import { resolve } from 'node:path'
 import { createHash } from 'node:crypto'
 
 const origin = process.env.SITE_URL || 'http://127.0.0.1:43222'
+const publishedIndex = JSON.parse(await readFile(resolve('site/plugins.json'), 'utf8'))
+const publishedRelease = publishedIndex.plugins[0].versions[0]
+const pluginVersion = publishedRelease.version
+const pinnedCommit = publishedRelease.source.commit
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } })
 const requests = []
@@ -42,11 +46,11 @@ try {
   }
   if (metadata.english.includes('Harness:**')) throw new Error('Malformed English Markdown remains')
   await page.getByRole('heading', { name: '四项必填检查', exact: true }).waitFor()
-  await page.getByRole('heading', { name: '安装 Review Outbox 0.1.1', exact: true }).waitFor()
+  await page.getByRole('heading', { name: `安装 Review Outbox ${pluginVersion}`, exact: true }).waitFor()
   const indexCommand = await page.locator('pre code').filter({ hasText: 'plugins.json' }).textContent()
   const pinnedCommand = await page.locator('pre code').filter({ hasText: 'dsh plugin --profile web add' }).textContent()
   if (!indexCommand.includes('https://zjukop3.github.io/dsh-review-outbox/plugins.json')) throw new Error('Current Discover index is missing')
-  if (!pinnedCommand.includes('github:zjukop3/dsh-review-outbox#9f7e608a192094272638802e77ca9b1197f8cff1')) throw new Error('Pinned 0.1.1 CLI fallback is missing')
+  if (!pinnedCommand.includes(`github:zjukop3/dsh-review-outbox#${pinnedCommit}`)) throw new Error(`Pinned ${pluginVersion} CLI fallback is missing`)
   const firstValueImage = page.locator('#s-04 img[alt="密封研究报告自动回填后默认显示四项必填证据"]')
   await firstValueImage.scrollIntoViewIfNeeded()
   await page.waitForFunction(() => {
@@ -61,11 +65,11 @@ try {
   await page.getByText(/公开固定提交安装后，历史密封报告自动回填/).first().waitFor()
   if (!page.url().endsWith('/research-report/receipt-example.html')) throw new Error('Receipt link failed')
   const receiptProjectLink = await page.locator('.brand a').getAttribute('href')
-  if (!receiptProjectLink?.startsWith('https://github.com/zjukop3/dsh-review-outbox?')) throw new Error('Receipt does not lead to the public repository')
+  if (!receiptProjectLink?.startsWith('https://zjukop3.github.io/dsh-review-outbox/?utm_source=review-receipt')) throw new Error('Receipt does not lead to the public install guide')
   await page.goto(`${origin}/`, { waitUntil: 'networkidle' })
-  await page.getByRole('heading', { name: '在 DSH 中安装 0.1.1', exact: true }).waitFor()
+  await page.getByRole('heading', { name: `在 DSH 中安装 ${pluginVersion}`, exact: true }).waitFor()
   const homePinnedCommand = await page.locator('details pre code').textContent()
-  if (!homePinnedCommand.includes('#9f7e608a192094272638802e77ca9b1197f8cff1')) throw new Error('Homepage pinned installation is missing')
+  if (!homePinnedCommand.includes(`#${pinnedCommit}`)) throw new Error('Homepage pinned installation is missing')
   const packageName = 'dsh-review-outbox-0.1.0.tgz'
   const download = await page.request.get(`${origin}/downloads/${packageName}`)
   if (!download.ok()) throw new Error(`Tarball download failed: ${download.status()}`)

@@ -118,6 +118,7 @@ async function completeResearchFirstValue() {
   assert.match(receipt, /公开固定提交安装后，历史密封报告自动回填/)
   assert.doesNotMatch(receipt, /<script\b/i)
   assert.doesNotMatch(receipt, /review-outbox-first-value/)
+  assert.match(receipt, /https:\/\/zjukop3\.github\.io\/dsh-review-outbox\/\?utm_source=review-receipt&amp;utm_medium=artifact&amp;utm_campaign=review-outbox/)
   await page.screenshot({ path: 'docs/e2e/20-application-first-approved.png', fullPage: true })
   return {
     discoveredArtifacts: 2,
@@ -133,6 +134,7 @@ async function completeResearchFirstValue() {
     receiptFilename: download.suggestedFilename(),
     receiptScriptFree: true,
     receiptOmitsTemporaryPaths: true,
+    receiptProjectLink: 'https://zjukop3.github.io/dsh-review-outbox/?utm_source=review-receipt&utm_medium=artifact&utm_campaign=review-outbox',
   }
 }
 

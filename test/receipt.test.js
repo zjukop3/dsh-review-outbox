@@ -31,7 +31,7 @@ test('receipt is self-contained, escapes artifact data, and omits local paths an
   assert.match(html, /r3/)
   assert.match(html, /Checked &lt;b&gt;sources&lt;\/b&gt; &amp; citations/)
   assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/)
-  assert.match(html, /utm_source=review-receipt&amp;utm_medium=artifact/)
+  assert.match(html, /https:\/\/zjukop3\.github\.io\/dsh-review-outbox\/\?utm_source=review-receipt&amp;utm_medium=artifact&amp;utm_campaign=review-outbox/)
   assert.match(html, /script-src 'none'/)
   assert.doesNotMatch(html, /<script>/i)
   assert.doesNotMatch(html, /\/private\/work/)
@@ -46,7 +46,7 @@ test('receipt visibly detects changes after review and rejects unsafe project li
   assert.match(html, /文件在审阅后发生变化/)
   assert.doesNotMatch(html, /当前文件与审阅时摘要一致/)
   assert.doesNotMatch(html, /javascript:/i)
-  assert.match(html, /https:\/\/github\.com\/zjukop3\/dsh-review-outbox/)
+  assert.match(html, /https:\/\/zjukop3\.github\.io\/dsh-review-outbox\//)
 })
 
 test('pending and unreadable receipts do not claim verified file equality', () => {

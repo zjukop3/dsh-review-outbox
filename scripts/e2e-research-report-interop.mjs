@@ -204,6 +204,7 @@ try {
   assert.match(receipt.data, /当前文件与审阅时摘要一致/)
   assert.match(receipt.data, /真实 research_report 结果已自动入库/)
   assert.doesNotMatch(receipt.data, /<script\b/i)
+  assert.match(receipt.data, /https:\/\/zjukop3\.github\.io\/dsh-review-outbox\/\?utm_source=review-receipt&amp;utm_medium=artifact&amp;utm_campaign=review-outbox/)
   assert.ok(!receipt.data.includes(base.root))
 
   preservedArtifact = path.join(tmpdir(), `research-report-interop-artifact-${Date.now()}`)
