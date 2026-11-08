@@ -11,6 +11,7 @@
 - `research-report/first-value.png`：历史密封报告自动回填、默认 `0/4` 验收包的真实界面截图。
 - `index.html`：以 0.1.1 应用内安装为主路径的站点首页。
 - `robots.txt`、`sitemap.xml`、`llms.txt`：搜索与 Agent 发现入口。
+- 根目录 `indexnow.json`：IndexNow 项目子路径密钥与提交范围；构建后生成对应 `<key>.txt`。
 
 ## 重新生成
 
@@ -44,4 +45,4 @@ node scripts/e2e-research-site.mjs
 
 将 `site/` 整个目录发布到任意静态托管。部署后用真实 `PUBLIC_ORIGIN` 重新构建一次。站点没有 cookie、遥测、后端写入或外部字体请求。
 
-公开部署由 `.github/workflows/pages.yml` 完成，推送到 `main` 后构建并发布 `site/`。`site/downloads/` 保存已验证的插件 tarball 与 SHA-256 文件。公开站点是自然获客基础设施，不代表已经产生搜索曝光、访问或激活数据。
+公开部署由 `.github/workflows/pages.yml` 完成，推送到 `main` 后构建并发布 `site/`。部署成功后调用 `scripts/submit-indexnow.mjs` 通知 IndexNow，并保存 30 天响应 artifact；HTTP 200/202 不等于搜索收录。`site/downloads/` 保存已验证的插件 tarball 与 SHA-256 文件。公开站点是自然获客基础设施，不代表已经产生搜索曝光、访问或激活数据。

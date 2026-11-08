@@ -54,3 +54,16 @@ Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已发布�
 ## 应用内索引格式
 
 真实界面验证发现，Awesome registry 直接添加到 DSH「发现」会报告 `$.format must be 1`。本项目因此在 GitHub Pages 额外发布经过宿主官方解析器验证的[应用内索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)，把网页目录收录转化为应用内可搜索、可固定提交、可安装和可启用的路径。Awesome 目录与自有索引互为补充，不复制或批量制造插件条目。公开索引的完整界面流程见[应用内验证](e2e/application-market.json)。
+
+## IndexNow 搜索发现通知
+
+根目录 `indexnow.json` 声明 Bing 提交端点、项目 URL 范围和公开所有权密钥。依据 [IndexNow 的 keyLocation 文档](https://www.indexnow.org/documentation)，密钥文件位于 `/dsh-review-outbox/` 项目子路径，只允许通知同一前缀下的 URL，不要求修改 `zjukop3.github.io` 根目录。
+
+`scripts/build-research-site.mjs` 校验配置并生成 `<key>.txt`；`scripts/submit-indexnow.mjs` 从 sitemap 读取 URL，先验证线上密钥文件内容与每个 URL 的 HTTP 状态，再提交 JSON。Pages 部署成功后自动执行通知，响应作为 30 天构建 artifact 保存；通知步骤使用 `continue-on-error`，避免搜索引擎临时故障把已完成的网站部署标为失败。
+
+```bash
+PUBLIC_ORIGIN='https://zjukop3.github.io/dsh-review-outbox' node scripts/build-research-site.mjs
+node scripts/submit-indexnow.mjs
+```
+
+HTTP 200/202 只表示搜索引擎已接收或等待密钥验证，**不表示已经收录、获得排名、产生自然流量或完成激活**。实际响应见 [IndexNow 提交证据](e2e/indexnow-submission.json)，收录和外部激活继续保持独立测量。

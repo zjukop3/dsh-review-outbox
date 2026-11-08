@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { validateIndexNowConfig } from '../scripts/indexnow-config.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 
@@ -13,6 +14,8 @@ test('research site builds are idempotent across local and public origins', asyn
   const pageDirectory = resolve(directory, 'site/research-report')
   await mkdir(resolve(directory, 'docs/e2e'), { recursive: true })
   await mkdir(pageDirectory, { recursive: true })
+  const indexNowSource = await readFile(resolve(root, 'indexnow.json'), 'utf8')
+  await writeFile(resolve(directory, 'indexnow.json'), indexNowSource)
   await writeFile(resolve(pageDirectory, 'index.html'), '<!doctype html><html><head><title>Fixture</title></head><body><p contenteditable="true"><a href="receipt-example.html">Receipt</a></p></body></html>')
   const receipt = await readFile(resolve(root, 'docs/e2e/application-first-value.review.html'), 'utf8')
   await writeFile(resolve(directory, 'docs/e2e/application-first-value.review.html'), receipt)
@@ -27,6 +30,13 @@ test('research site builds are idempotent across local and public origins', asyn
   }
 
   const html = await readFile(resolve(pageDirectory, 'index.html'), 'utf8')
+  const repeated = spawnSync(process.execPath, [resolve(root, 'scripts/build-research-site.mjs')], {
+    cwd: directory,
+    env: { ...process.env, PUBLIC_ORIGIN: 'https://zjukop3.github.io/dsh-review-outbox' },
+    encoding: 'utf8',
+  })
+  assert.equal(repeated.status, 0, repeated.stderr)
+  assert.equal(await readFile(resolve(pageDirectory, 'index.html'), 'utf8'), html)
   const publicOrigin = 'https://zjukop3.github.io/dsh-review-outbox'
   assert.equal((html.match(/<link rel="canonical"/g) || []).length, 1)
   assert.equal((html.match(/<meta property="og:url"/g) || []).length, 1)
@@ -36,6 +46,10 @@ test('research site builds are idempotent across local and public origins', asyn
   assert.match(html, new RegExp(`<link rel="canonical" href="${publicOrigin}/research-report/">`))
   assert.match(html, new RegExp(`<meta property="og:image" content="${publicOrigin}/research-report/first-value.png">`))
   assert.doesNotMatch(html, /127\.0\.0\.1/)
+  const indexNow = JSON.parse(indexNowSource)
+  assert.equal(await readFile(resolve(directory, `site/${indexNow.key}.txt`), 'utf8'), `${indexNow.key}\n`)
+  assert.throws(() => validateIndexNowConfig({ ...indexNow, keyLocation: 'https://zjukop3.github.io/other/08986ba4f300c03bb388875263d41845.txt' }), /inside urlPrefix/)
+  assert.throws(() => validateIndexNowConfig({ ...indexNow, endpoint: 'http://www.bing.com/indexnow' }), /must use HTTPS/)
 
   const schemas = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])
   assert.deepEqual(schemas.map(schema => schema['@type']), ['TechArticle', 'FAQPage', 'SoftwareApplication'])

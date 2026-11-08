@@ -1,7 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { readIndexNowConfig } from './indexnow-config.mjs'
 
 const root = process.cwd()
+const indexNow = await readIndexNowConfig(root)
 const directory = resolve(root, 'site/research-report')
 const origin = (process.env.PUBLIC_ORIGIN || '').replace(/\/+$/, '')
 const pageUrl = origin ? `${origin}/research-report/` : ''
@@ -86,7 +88,7 @@ const linkScript = '<script>document.querySelectorAll("a[href]").forEach(link =>
 
 let html = await readFile(resolve(directory, 'index.html'), 'utf8')
 html = html
-  .replace(/\n?<!-- review-outbox:metadata:start -->[\s\S]*?<!-- review-outbox:metadata:end -->\n?/g, '\n')
+  .replace(/\n?<!-- review-outbox:metadata:start -->[\s\S]*?<!-- review-outbox:metadata:end -->\n?/g, '')
   .replace(/<script>document\.querySelectorAll\("a\[href\]"\)[\s\S]*?<\/script>\n?/g, '')
   .replace(/<link[^>]*(?:fonts\.googleapis|fonts\.gstatic)[^>]*>\n?/g, '')
   .replace(/\sdata-href="[^"]*"/g, '')
@@ -118,4 +120,5 @@ const urls = origin ? [
 await writeFile(resolve(root, 'site/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((loc, index) => `  <url><loc>${escapeHtml(loc)}</loc><lastmod>${modifiedDate}</lastmod><priority>${index === 1 ? '1.0' : '0.7'}</priority></url>`).join('\n')}\n</urlset>\n`)
 await writeFile(resolve(root, 'site/llms.txt'), `# Review Outbox\n\n> Research report acceptance checklist and standalone SHA-256 review receipts for DeepSeek Harness.\n\n- ${pageUrl || '/research-report/'}: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.\n- ${receiptUrl || '/research-report/receipt-example.html'}: Real browser-generated standalone receipt; no installation required.\n- ${repositoryUrl}: Public source code, installation guide, and validation evidence.\n- ${marketIndexUrl}: Officially validated DSH format-1 application market index for Review Outbox 0.1.1, pinned installation, and activation.\n- ${firstValueEvidenceUrl}: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.\n- ${repositoryUrl}/blob/${currentCommit}: Immutable public source for the current 0.1.1 application-index installation.\n- ${catalogUrl}: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.\n- ${downloadUrl || `./downloads/${packageName}`}: Legacy Review Outbox 0.1.0 plugin tarball without the 0.1.1 default research acceptance behavior.\n\nReview Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.\n`)
 await mkdir(directory, { recursive: true })
-console.log(JSON.stringify({ ok: true, page: 'site/research-report/index.html', receipt: 'site/research-report/receipt-example.html', canonical: pageUrl || null, bytes: Buffer.byteLength(html) }))
+if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${indexNow.key}\n`)
+console.log(JSON.stringify({ ok: true, page: 'site/research-report/index.html', receipt: 'site/research-report/receipt-example.html', canonical: pageUrl || null, indexNowKeyFile: indexNow ? `site/${indexNow.key}.txt` : null, bytes: Buffer.byteLength(html) }))

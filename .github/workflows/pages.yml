@@ -6,7 +6,10 @@ on:
     paths:
       - 'site/**'
       - 'scripts/build-research-site.mjs'
-      - 'docs/e2e/research-report.review-r1.html'
+      - 'docs/e2e/application-first-value.review.html'
+      - 'indexnow.json'
+      - 'scripts/indexnow-config.mjs'
+      - 'scripts/submit-indexnow.mjs'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -43,3 +46,15 @@ jobs:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Notify IndexNow about deployed URLs
+        id: indexnow
+        continue-on-error: true
+        run: node scripts/submit-indexnow.mjs
+      - name: Archive IndexNow submission receipt
+        if: always() && steps.indexnow.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexnow-${{ github.run_id }}
+          path: docs/e2e/indexnow-submission.json
+          if-no-files-found: warn
+          retention-days: 30
