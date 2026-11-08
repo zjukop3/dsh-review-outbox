@@ -84,6 +84,8 @@ test('research site builds are idempotent across local and public origins', asyn
   assert.match(renderedPage, /dsh-research-report/)
   assert.match(renderedPage, /href="https:\/\/awesome-dsh-plugin\.com\/p\/zjukop3\/dsh-review-outbox\/"/)
   assert.match(renderedPage, new RegExp(`dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#${pinnedCommit}'`))
+  const headingVersion = (renderedPage.match(/安装 Review Outbox (\d+\.\d+\.\d+)/) || [])[1]
+  assert.equal(headingVersion, pluginVersion, 'landing install heading must match the published index version')
   assert.match(renderedPage, /src="first-value.png"/)
   assert.match(renderedPage, /旧版 tarball/)
 })
