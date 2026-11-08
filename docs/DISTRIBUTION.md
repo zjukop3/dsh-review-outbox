@@ -47,6 +47,8 @@
 
 [2026-11-08 收录基线](metrics/2026-11-08-catalog-merge.json) 记录 PR 合并、公开详情页、市场截图与当时的聚合流量。目录 CI 会产生克隆，因此克隆数不单独作为自然激活证据；目录引荐和真实审阅激活继续保持独立测量。
 
+[2026-11-08 0.1.2 发布快照](metrics/2026-11-08-0.1.2-release.json) 记录公开 Discover 安装验证、验收单回流链接与 IndexNow 通知上线后的聚合流量：views 仍为 1、referrers 仍为空，克隆增长主要来自目录 CI 验证。维护者运行的安装验证不计为外部激活；四项激活指标继续保持 `null` 口径。
+
 ## 插件目录
 
 Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已发布，具体规则与验证结果见[目录收录准备](CATALOG.md)。[目录 PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088) 已于 `2026-11-07T21:42:52Z` 合并，[公开详情页](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)和市场 `plugins.json` 均可匿名读取；原始安装命令已在隔离 Profile 验证。目录 README 正文由上游每日探针补充，当前不把目录收录直接换算为目录流量或外部采用。

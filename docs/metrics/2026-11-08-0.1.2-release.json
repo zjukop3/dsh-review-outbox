@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-08T09:55:00Z",
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "release": {
+    "version": "0.1.2",
+    "sourceCommit": "e9bb649d515a38de0f61226980f40e3d45173f1d",
+    "headCommit": "3d05ee08cd39c1c5aba4f7af183ba378af98e26f",
+    "discoverInstallVerified": true,
+    "receiptRoutingVerified": true,
+    "indexNowNotifications": "active on Pages deploys"
+  },
+  "githubTraffic": {
+    "views": {
+      "count": 1,
+      "uniques": 1
+    },
+    "clones": {
+      "count": 98,
+      "uniques": 50
+    },
+    "referrers": [],
+    "stars": 0,
+    "forks": 0,
+    "watchers": 0
+  },
+  "activation": {
+    "weeklyArtifactsActuallyReviewed": null,
+    "catalogReferredActivations": null,
+    "receiptReferredActivations": null,
+    "externalWeekTwoRetention": null
+  },
+  "searchIndexing": "Catalog-internal search verified; external search-engine indexing still not established; IndexNow submissions are receipt-only evidence",
+  "notes": [
+    "Clone growth since the catalog-merge baseline (31→98) is dominated by catalog CI validation clones, not organic activation.",
+    "Views remain flat at 1; referrers empty, so no external entry point is producing measurable visits yet.",
+    "The 0.1.2 public Discover verification is a maintainer-run install, not an external activation.",
+    "Null activation metrics mean no reliable measurement, not zero real-world usage."
+  ]
+}
