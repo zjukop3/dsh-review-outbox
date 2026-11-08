@@ -122,18 +122,23 @@ cp "$DSH_HOME/review-outbox/items.json.before-upgrade" \
 
 ## 升级与回滚
 
-升级：
+升级前通用步骤：停止 Profile 并备份状态（见上）。升级后检查 `stateError`、成果数量、待办和回填状态，并抽查一个成果的预览、revision 和验收单。
 
-1. 停止 Profile 并备份状态。
-2. 安装新版本 tarball。
-3. 启动并检查 `stateError`、成果数量、待办和回填状态。
-4. 抽查一个成果的预览、revision 和验收单。
+**按安装渠道更新**（来源锁定：市场只把"同来源"的新版本当作更新，不会把 npm 安装悄悄换成 GitHub 源，反之亦然）：
+
+- **npm 直装**：重新执行 `dsh plugin --profile web add dsh-review-outbox` 即升级到最新发布版本；dsh-market 用户直接点「更新」。
+- **应用内「发现」索引**：索引 pin 更新后，重新执行相同安装命令即升级到新固定提交。
+- **固定提交 CLI**：把命令里的 `#<commit>` 换成目标版本提交后重装。
+- **GitHub HEAD**：重新执行相同命令拉取最新提交。
+- **tarball**：下载新 tarball 并重装。
+
+npm 与 GitHub 上游的发布节奏可能不同步；以 [npm](https://www.npmjs.com/package/dsh-review-outbox) 与[应用内索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)各自显示的版本为准，不假设两条渠道同时更新。
 
 回滚：
 
 1. 停止 Profile。
 2. 再备份一次当前状态，保留新版本产生的数据。
-3. 安装保留的旧版本 tarball。
+3. 安装保留的旧版本 tarball（或把安装命令指回旧提交）。
 4. 启动并确认状态可读；如果旧版本无法理解新数据结构，恢复升级前备份。
 
 不要把不同 Profile 的状态文件混用，也不要同时让多个 Host 写同一个 `items.json`。
