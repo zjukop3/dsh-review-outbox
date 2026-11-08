@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-08T13:00:00Z",
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "release": {
+    "version": "0.1.3",
+    "sourceCommit": "5e95038a46fd1a63d6951c2f0aa8f1b45f9f41fb",
+    "npmPublished": true,
+    "npmVersions": ["0.1.2", "0.1.3"],
+    "npmVerifiedInstallSeconds": 1.6,
+    "pinnedInstallVerified": true,
+    "dshMarketCoexistenceVerified": true,
+    "demoWalkthrough": "assets/storefront/demo.gif (20s, real first-value flow on npm-installed 0.1.3)"
+  },
+  "distributionChannels": {
+    "ownPagesIndex": "live, pinned 0.1.3",
+    "awesomeCatalog": "merged (PR #13088), README cache awaiting daily probe",
+    "npm": "live (0.1.2, 0.1.3)",
+    "dshMarketIndex": "pending next catalog build (gate: npm publication, now satisfied)",
+    "indexNow": "active on Pages deploys"
+  },
+  "githubTraffic": {
+    "views": { "count": 1, "uniques": 1 },
+    "clones": { "count": 98, "uniques": 50 },
+    "referrers": [],
+    "stars": 0,
+    "forks": 0,
+    "watchers": 0
+  },
+  "activation": {
+    "weeklyArtifactsActuallyReviewed": null,
+    "catalogReferredActivations": null,
+    "receiptReferredActivations": null,
+    "externalWeekTwoRetention": null
+  },
+  "notes": [
+    "npm publication removed the version gate for dsh-market indexing; catalog build on/after 2026-11-09 is the verification point (scripts/check-catalog-presence.mjs).",
+    "npm downloads API unreachable at collection time; no download signal recorded.",
+    "Upstream integration issue op7418/dsh-guizang-design#2 open, no response yet (~3h).",
+    "Maintainer-run verifications are not external activation; all activation metrics remain null by the standing yardstick."
+  ]
+}
