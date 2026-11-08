@@ -68,8 +68,10 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 https://zjukop3.github.io/dsh-review-outbox/plugins.json
 ```
 
-3. 搜索 `Review Outbox` 或 `研究报告`，确认版本 `0.1.2`、仓库和完整提交后安装。
+3. 搜索 `Review Outbox` 或 `研究报告`，确认版本 `0.1.3`、仓库和完整提交后安装。
 4. 回到「已安装」，启用 `dsh-review-outbox`；左侧出现「成果审阅」后即可使用。
+
+![安装后即可使用的完整审阅流程：历史成果回填、逐项填写证据、通过并导出验收单](demo.gif)
 
 ### 使用固定提交 CLI 安装
 
