@@ -1,6 +1,6 @@
 # Review Outbox · 成果审阅与研究报告验收
 
-中文 | [English](README.en.md) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [下载 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)
+中文 | [English](README.en.md) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [下载 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)
 
 一个本地优先的 DeepSeek Harness 成果审阅插件：把 Agent 交付的文件集中起来，完成预览、场景化证据检查、通过、退回、归档和复盘，并可导出无需安装即可查看的独立 HTML 验收单。
 
@@ -33,11 +33,22 @@
 - 本面板不内嵌 Office/PDF 渲染器；可点击「在宿主 Viewer 打开」，先恢复来源 Session 再进入官方预览。实际格式支持以宿主 Viewer 为准。
 - 研究报告包记录人工检查证据，不自动访问引用，也不冒充自动事实核查。
 - 验收单默认在本地导出，不自动上传；不包含绝对路径或会话内容，检查证据和审阅意见按用户填写内容导出。
-- 项目仍处于 0.1.0 验证阶段；GitHub 源码与 Pages 清单已公开，npm 和 GitHub Release 尚未发布，Awesome 目录 PR 已提交但尚未合并。新生成的验收单默认链接到本仓库。
+- 项目仍处于 0.1.0 验证阶段；GitHub 源码、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，npm 和 GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到本仓库。
 
 ## 安装
 
 目标宿主：DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`；Node.js `>=22.19`。实测范围见[兼容矩阵](docs/COMPATIBILITY.md)，tarball 安装、备份、升级与损坏恢复见[安装恢复指南](docs/INSTALL-RECOVERY.md)。
+
+### 从 Awesome 目录安装
+
+打开[公开目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)复制命令，或执行：
+
+```bash
+dsh plugin --profile web add github:zjukop3/dsh-review-outbox
+dsh web
+```
+
+该目录原样命令已在全新隔离 Profile 实测并解析到 `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`。
 
 ### 从公开 GitHub 仓库安装
 

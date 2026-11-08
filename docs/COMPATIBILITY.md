@@ -40,7 +40,8 @@
 | npm | 尚未发布，无安装证据 |
 | GitHub URL 直装 | 公开提交 `ac8246501e5009a8323b33ab39559bce191671ee`；全新 Profile、历史回填、文本预览和原生侧栏均通过 | 其他提交与平台按各自证据判断 |
 | GitHub 仓库 / Pages tarball | 公开克隆测试与构建、Pages 下载 SHA-256、全新 Profile 安装和真实浏览器挂载均通过 | 未覆盖平台见上表 |
-| GitHub Release / 社区目录 | 尚未提交，无安装证据 |
+| Awesome 目录 / `github:` 直装 | PR #13088 已合并，目录搜索、中英文详情和市场 JSON 均通过；原样命令在全新 Profile 解析到 `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`，真实 Host、原生侧栏与空状态通过 |
+| GitHub Release | 尚未发布，无安装证据 |
 
 ## 原生加载器测试环境说明
 

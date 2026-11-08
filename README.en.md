@@ -1,6 +1,6 @@
 # Review Outbox — deliverable review for DeepSeek Harness
 
-[Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Download 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
+[Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Download 0.1.0](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
 
 Review Outbox is a local-first review workbench for files produced by DeepSeek Harness agents. It collects real deliverables, supports evidence-based research-report acceptance, records revisions and SHA-256 evidence, and exports standalone HTML review receipts that recipients can open without installing anything.
 
@@ -25,7 +25,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-Version `0.1.0` is in validation. Source code and the research-checklist site are public on GitHub and GitHub Pages. npm and GitHub Releases remain unpublished; the Awesome catalog PR is submitted but not merged. New receipts link to the public GitHub repository.
+Version `0.1.0` is in validation. Source code, the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. npm and GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public GitHub repository.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -33,7 +33,16 @@ See [verified compatibility](docs/COMPATIBILITY.md) for the exact environments t
 
 ## Install
 
-Install directly from the public GitHub repository, verified in a fresh isolated Profile:
+Copy the command from the [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/), or run the exact verified catalog command:
+
+```bash
+dsh plugin --profile web add github:zjukop3/dsh-review-outbox
+dsh web
+```
+
+The fresh isolated Profile resolved this command to `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`.
+
+Alternatively, install directly from the public GitHub repository, also verified in a fresh isolated Profile:
 
 ```bash
 dsh plugin --profile web add https://github.com/zjukop3/dsh-review-outbox

@@ -82,7 +82,7 @@ SKIP_PUBLISH_CHECKS=1 node scripts/build-site.mjs
 - 提交门禁检查了 1 个条目，Manifest 等检查通过，唯一失败是仓库当时 `0.4` 天、要求满 1 天；门禁原文明确年龄是唯一失败项。
 - 预检后已还原本地生成的两个上游 README，候选变更只剩 `data/plugins/zjukop3__dsh-review-outbox.yml`。
 
-## 已提交目录 PR
+## 已合并并公开收录
 
 一次性任务已于 `2026-11-07T14:45Z` 后执行，最终创建 [Awesome DSH Plugin #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088)。
 
@@ -92,4 +92,6 @@ SKIP_PUBLISH_CHECKS=1 node scripts/build-site.mjs
 - 上游 24/24 规则测试通过，提交门禁 `ok=true`，没有失败或不完整检查。
 - 完整站点构建成功：`site built: 9406 rows × 2 locales + sitemap + count badge`。
 - [PR check 42399620911](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911) 已全部通过，耗时 17m50s；后续 [Submission gate 42401151040](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42401151040) 也已成功，耗时 52s，日志确认检查了本插件且 `all checked entries pass`。
-- PR 当前为 `OPEN / CLEAN / MERGEABLE`，尚未合并。合并与收录仍以维护者审核和上游最终状态为准，不把已提交或检查通过等同于已收录、自然流量或真实采用。
+- PR 已于 `2026-11-07T21:42:52Z` 合并，上游合并提交为 [`4f5e365355d0220c00acfcd3742e5401a7f0ac16`](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/commit/4f5e365355d0220c00acfcd3742e5401a7f0ac16)，`main` 已包含原始 YAML 和中英文生成行。
+- [公开目录详情页](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) 已上线，提供 `dsh plugin --profile web add github:zjukop3/dsh-review-outbox`。市场 `plugins.json` 已包含双语描述、两张截图、capability 检查和同一安装命令；实时核验见 [catalog-listing.json](e2e/catalog-listing.json)。
+- 详情页 README 正文依赖上游每日探针缓存，push 构建只使用既有缓存；收录、目录卡片、安装入口和市场截图不等待该正文探针。收录仍不等于自然流量、真实激活或留存。

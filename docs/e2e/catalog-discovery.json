@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "searchQuery": "dsh-review-outbox",
+  "searchCardVisible": true,
+  "detail": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/",
+  "chineseDetail": "https://awesome-dsh-plugin.com/zh/p/zjukop3/dsh-review-outbox/",
+  "install": "dsh plugin --profile web add github:zjukop3/dsh-review-outbox",
+  "registryUpdated": "2026-11-07",
+  "registryCount": 9458,
+  "capabilities": [
+    "fs-write",
+    "fs-read",
+    "network",
+    "env"
+  ],
+  "capabilityCheckedAt": "2026-11-07T23:12:45.360Z",
+  "screenshots": [
+    "https://raw.githubusercontent.com/zjukop3/dsh-review-outbox/HEAD/assets/storefront/review-workbench.png",
+    "https://raw.githubusercontent.com/zjukop3/dsh-review-outbox/HEAD/assets/storefront/research-receipt.png"
+  ],
+  "readmeSectionPresent": false,
+  "readmeRefresh": "pending upstream daily README probe; push build uses cached data",
+  "pageErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 ()",
+    "Failed to load resource: the server responded with a status of 404 ()",
+    "Failed to load resource: the server responded with a status of 404 ()",
+    "Failed to load resource: the server responded with a status of 404 ()"
+  ],
+  "unexpectedConsoleErrors": [],
+  "failedResponses": [
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&first=15"
+    },
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&last=15"
+    },
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&first=15"
+    },
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&last=15"
+    }
+  ],
+  "unexpectedFailedResponses": [],
+  "expectedMissingDiscussionRequests": [
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&first=15"
+    },
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&last=15"
+    },
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&first=15"
+    },
+    {
+      "status": 404,
+      "url": "https://giscus.app/api/discussions?repo=awesome-dsh-plugin%2Fawesome-dsh-plugin&term=plugin%3Azjukop3%2Fdsh-review-outbox&category=Plugins&number=0&strict=true&last=15"
+    }
+  ],
+  "screenshot": "docs/e2e/16-awesome-listing.png",
+  "adoptionClaim": false
+}

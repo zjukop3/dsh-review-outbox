@@ -225,11 +225,15 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 - 首次线上 SEO 验收复现了重复构建遗留本地 canonical 的问题。构建脚本已改为清理受控元数据区块后再生成，链接处理脚本和示例 favicon 也保持幂等；新增回归测试连续使用本地与正式域名构建，断言只保留一套正式元数据。
 - 首次 Pages 工作流 [42236871049](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42236871049) 与修复后的 [42309148857](https://github.com/zjukop3/dsh-review-outbox/actions/runs/42309148857) 均成功。最终匿名线上 Chrome 复测确认正式 canonical、三类 JSON-LD、清单、验收单、下载哈希、移动端和离线打开全部通过；结果见 [research-site-result.json](e2e/research-site-result.json)。
 
-## 市场素材与目录预检
+## 市场素材与公开目录
 
 - 在全新隔离 Profile 中用官方 `present` 交付合成研究报告，真实填写四项证据、通过并导出验收单；随后生成 `review-workbench.png` 与 `research-receipt.png`，页面与控制台错误均为 0，见 [storefront-result.json](e2e/storefront-result.json)。
 - 根目录 `screenshots.json` 只声明两张相对路径 PNG；测试校验路径边界、文件存在性、PNG 签名、尺寸与大小。素材来自合成数据，不来自日常会话。
-- Awesome DSH Plugin 候选条目保持单 YAML 变更，双语生成、lint、24 项上游规则测试和 9,406 条目完整站点构建通过。[PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088) 的主检查与 Submission gate 均已成功，当前仍未合并；提交和检查通过不计为已收录或自然流量。详见[目录收录准备](CATALOG.md)和 [catalog-preflight.json](e2e/catalog-preflight.json)。
+- Awesome DSH Plugin 候选条目保持单 YAML 变更，双语生成、lint、24 项上游规则测试和 9,406 条目完整站点构建通过。[PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088) 的主检查与 Submission gate 均已成功，并于 `2026-11-07T21:42:52Z` 合并，合并提交为 `4f5e365355d0220c00acfcd3742e5401a7f0ac16`。
+- 上游 `main` 的原始 YAML 与中英文生成行均已核验；[英文目录详情](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)和[中文目录详情](https://awesome-dsh-plugin.com/zh/p/zjukop3/dsh-review-outbox/)可匿名打开。真实 Chrome 在目录首页输入 `dsh-review-outbox` 后能看到并进入本插件卡片，安装命令、市场 registry、capability 与两张截图一致，见 [catalog-listing.json](e2e/catalog-listing.json)、[catalog-discovery.json](e2e/catalog-discovery.json)和[目录截图](e2e/16-awesome-listing.png)。
+- 目录详情 README 正文尚未进入上游每日探针缓存，push 构建按上游设计使用旧缓存；这不影响目录搜索、详情和安装。giscus 对新插件空 Discussion 返回的 404 单独记录，其他页面资源错误为 0。
+- 目录原样命令 `dsh plugin --profile web add github:zjukop3/dsh-review-outbox` 在全新 `DSH_HOME` 安装成功，锁文件解析到 `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`。随后启动独立端口，Host `backfill=ready`、`stateError=null`、原生侧栏和空状态通过，页面与控制台错误均为 0，见 [catalog-install.json](e2e/catalog-install.json)和[安装截图](e2e/15-catalog-install.png)。隔离实例已回收。
+- 目录合并、搜索可见和真实安装是自然分发里程碑，不计为外部用户审阅、自然激活或第二周留存。详见[目录收录准备](CATALOG.md)和 [catalog-preflight.json](e2e/catalog-preflight.json)。
 
 ## Node 基线、干净 tarball 与恢复
 

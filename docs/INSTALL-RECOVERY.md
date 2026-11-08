@@ -1,12 +1,24 @@
 # 安装、升级与恢复指南
 
-本文适用于 Review Outbox `0.1.0` 验证阶段。源码位于 [zjukop3/dsh-review-outbox](https://github.com/zjukop3/dsh-review-outbox)；已验证的 tarball 和 SHA-256 文件由 GitHub Pages 提供。npm 和 GitHub Release 尚未发布；Awesome 社区目录 PR 已提交，但尚未合并收录。
+本文适用于 Review Outbox `0.1.0` 验证阶段。源码位于 [zjukop3/dsh-review-outbox](https://github.com/zjukop3/dsh-review-outbox)；已验证的 tarball 和 SHA-256 文件由 GitHub Pages 提供。npm 和 GitHub Release 尚未发布；[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录并上线。
 
 ## 环境要求
 
 - DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`
 - Node.js `>=22.19`
 - 当前真实验证环境见[兼容矩阵](COMPATIBILITY.md)
+
+## 从 Awesome 目录安装
+
+打开[公开目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)并复制安装命令，或在隔离环境执行：
+
+```bash
+export DSH_HOME=/tmp/dsh-review-outbox-catalog
+dsh plugin --profile web add github:zjukop3/dsh-review-outbox
+dsh web --no-open --port 43177
+```
+
+该原样命令已于 `2026-11-08` 在全新 `DSH_HOME` 和独立 Web Profile 中执行成功，锁文件解析到 `2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700`。安装结果见 [catalog-install.json](e2e/catalog-install.json)。
 
 ## 从公开 GitHub 仓库直装
 

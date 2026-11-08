@@ -43,15 +43,14 @@
     "number": 13088,
     "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088",
     "createdAt": "2026-11-07T18:06:40Z",
-    "state": "OPEN",
+    "state": "MERGED",
     "headCommit": "097826b80c6ed5d887d80ecf5549e98041c994fa",
     "changedFiles": 1,
     "additions": 6,
     "deletions": 0,
     "ciStatus": "all_checks_passed",
-    "mergeStateStatus": "CLEAN",
-    "mergeable": "MERGEABLE",
-    "mergedAt": null,
+    "mergedAt": "2026-11-07T21:42:52Z",
+    "mergeCommit": "4f5e365355d0220c00acfcd3742e5401a7f0ac16",
     "prCheckRun": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/42399620911",
     "prCheckConclusion": "success",
     "prCheckDuration": "17m50s",
@@ -59,5 +58,11 @@
     "submissionGateConclusion": "success",
     "submissionGateDuration": "52s",
     "submissionGateResult": "checking 1 entry; ok https://github.com/zjukop3/dsh-review-outbox; all checked entries pass"
+  },
+  "listing": {
+    "live": true,
+    "detail": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/",
+    "registry": "https://awesome-dsh-plugin.com/plugins.json",
+    "evidence": "docs/e2e/catalog-listing.json"
   }
 }

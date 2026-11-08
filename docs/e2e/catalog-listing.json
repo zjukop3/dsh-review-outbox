@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "verifiedAt": "2026-11-08T00:42:56Z",
+  "pullRequest": {
+    "number": 13088,
+    "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088",
+    "state": "MERGED",
+    "mergedAt": "2026-11-07T21:42:52Z",
+    "mergeCommit": "4f5e365355d0220c00acfcd3742e5401a7f0ac16"
+  },
+  "upstream": {
+    "entry": "data/plugins/zjukop3__dsh-review-outbox.yml",
+    "entryBlob": "736a1b35e77b2e49e684bb1a21bb132ffbe9d978",
+    "englishGeneratedRow": true,
+    "chineseGeneratedRow": true
+  },
+  "live": {
+    "detail": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/",
+    "chineseDetail": "https://awesome-dsh-plugin.com/zh/p/zjukop3/dsh-review-outbox/",
+    "registry": "https://awesome-dsh-plugin.com/plugins.json",
+    "registryUpdated": "2026-11-07",
+    "registryCount": 9458,
+    "catalogSearchVerified": true,
+    "installCommand": "dsh plugin --profile web add github:zjukop3/dsh-review-outbox",
+    "readmeSectionPresent": false,
+    "readmeRefresh": "Upstream push builds use the cached daily README probe; the listing and install command are already live."
+  },
+  "screenshots": [
+    {
+      "url": "https://raw.githubusercontent.com/zjukop3/dsh-review-outbox/HEAD/assets/storefront/review-workbench.png",
+      "blob": "5136cb07a4da1ee65d51ff685565fb6ae1149c1d",
+      "bytes": 184047,
+      "width": 1440,
+      "height": 1100
+    },
+    {
+      "url": "https://raw.githubusercontent.com/zjukop3/dsh-review-outbox/HEAD/assets/storefront/research-receipt.png",
+      "blob": "ec45c44870bb996dbb44f775051a8f4f950ccfee",
+      "bytes": 253327,
+      "width": 1280,
+      "height": 2087
+    }
+  ],
+  "browserEvidence": "docs/e2e/catalog-discovery.json",
+  "installEvidence": "docs/e2e/catalog-install.json",
+  "adoptionClaim": false
+}

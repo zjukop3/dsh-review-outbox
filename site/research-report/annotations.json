@@ -22,7 +22,7 @@
       "type": "process",
       "lines": [27, 28, 29, 30, 31],
       "items": [
-        { "title": "交付报告", "desc": "通过官方 present 记录真实成果与来源 Session。" },
+        { "title": "交付报告", "desc": "通过官方 present 或 dsh-research-report 密封结果进入成果审阅。" },
         { "title": "选择验收包", "desc": "在成果审阅中选择研究报告验收。" },
         { "title": "填写证据", "desc": "逐项记录可定位、可复核的证据说明。" },
         { "title": "通过或退回", "desc": "四项必填证据齐全后通过，否则写明返工意见。" },

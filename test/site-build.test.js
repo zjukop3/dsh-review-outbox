@@ -38,6 +38,10 @@ test('research site builds are idempotent across local and public origins', asyn
 
   const schemas = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])
   assert.deepEqual(schemas.map(schema => schema['@type']), ['TechArticle', 'FAQPage', 'SoftwareApplication'])
+  const catalogUrl = 'https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/'
+  assert.ok(schemas[2].sameAs.includes(catalogUrl))
+  assert.match(await readFile(resolve(directory, 'site/index.html'), 'utf8'), new RegExp(`href="${catalogUrl}"`))
+  assert.match(await readFile(resolve(directory, 'site/llms.txt'), 'utf8'), new RegExp(catalogUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
   const example = await readFile(resolve(pageDirectory, 'receipt-example.html'), 'utf8')
   assert.equal((example.match(/<link rel="icon"/g) || []).length, 1)
   assert.match(example, /https:\/\/github\.com\/zjukop3\/dsh-review-outbox\?utm_source=review-receipt/)
@@ -45,5 +49,7 @@ test('research site builds are idempotent across local and public origins', asyn
 
   const renderedPage = await readFile(resolve(root, 'site/research-report/index.html'), 'utf8')
   assert.doesNotMatch(renderedPage, /href=["']<a\b/)
+  assert.match(renderedPage, /dsh-research-report/)
+  assert.match(renderedPage, /href="https:\/\/awesome-dsh-plugin\.com\/p\/zjukop3\/dsh-review-outbox\/"/)
   assert.match(renderedPage, /dsh plugin --profile web add \/absolute\/path\/dsh-review-outbox-\d+\.\d+\.\d+\.tgz/)
 })

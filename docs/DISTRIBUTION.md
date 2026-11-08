@@ -35,7 +35,7 @@
 3. 以“首次完成真实验收”作为激活，不把页面访问或 npm 下载当成活跃用户。
 4. 只有形成匿名、聚合且可靠的归因后，才判断哪个场景继续扩展。
 
-站点已部署到 GitHub Pages，源码仓库与 tarball 下载入口已公开；npm 和 GitHub Release 尚未发布，Awesome 社区目录 PR 已提交但仍未合并。公开基础设施、目录 PR 和浏览器验证不等于自然流量或外部采用，后续仍需记录真实收录、首次验收和留存。
+站点已部署到 GitHub Pages，源码仓库与 tarball 下载入口已公开；npm 和 GitHub Release 尚未发布，[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录并上线。公开基础设施、目录收录和浏览器验证不等于自然流量或外部采用，后续仍需记录目录引荐、首次验收和留存。
 
 ## 首次聚合基线
 
@@ -43,6 +43,8 @@
 
 真实审阅激活、验收单回流激活和外部第二周留存记录为 `null`，表示尚无可靠测量，不表示真实使用量为 0。搜索收录也没有凭公开部署直接推定。后续对比沿用同一口径，北极星仍是每周被真正审阅并处置的成果数。
 
+[2026-11-08 收录基线](metrics/2026-11-08-catalog-merge.json) 记录 PR 合并、公开详情页、市场截图与当时的聚合流量。目录 CI 会产生克隆，因此克隆数不单独作为自然激活证据；目录引荐和真实审阅激活继续保持独立测量。
+
 ## 插件目录
 
-Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已准备，具体规则与验证结果见[目录收录准备](CATALOG.md)。一次性任务已创建 [目录 PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088)，仅新增一个 YAML。本地完整站点构建、上游 PR 主检查和 Submission gate 均已通过并保留证据；维护者审核与收录是后续独立状态，目前仍不声明目录流量或外部采用。
+Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已发布，具体规则与验证结果见[目录收录准备](CATALOG.md)。[目录 PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088) 已于 `2026-11-07T21:42:52Z` 合并，[公开详情页](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)和市场 `plugins.json` 均可匿名读取；原始安装命令已在隔离 Profile 验证。目录 README 正文由上游每日探针补充，当前不把目录收录直接换算为目录流量或外部采用。

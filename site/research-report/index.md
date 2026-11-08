@@ -24,13 +24,13 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 ## 在 Review Outbox 中使用
 
-1. 让 Agent 正常完成报告并通过官方 `present` 交付。
+1. 让 Agent 正常完成报告，通过官方 `present` 或 `dsh-research-report` 密封结果交付。
 2. 打开「成果审阅」，选择报告和「研究报告验收」。
 3. 阅读报告，逐项填写证据；勾选表示已完成该项人工检查。
 4. 四项必填证据齐全后通过；需要返工时填写退回意见。
 5. 通过后导出独立 HTML 验收单，与报告一起提供给成果接收者。
 
-插件也接收安装前持久化 Session 中的官方交付，不要求上游研究插件专门适配。DOCX 和 PDF 可以恢复来源 Session 后进入官方 Viewer，不需要另行安装渲染器。
+插件也接收安装前持久化 Session 中的官方交付和可配对的 `research_report` 密封结果，不要求上游研究插件专门适配。DOCX 和 PDF 可以恢复来源 Session 后进入官方 Viewer，不需要另行安装渲染器。
 
 ## 直接查看真实验收单
 
@@ -49,7 +49,7 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 ## 安装与当前状态
 
-项目处于 `0.1.0` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，Awesome 社区目录 PR 已提交但尚未合并。先[下载已验证的 tgz 安装包](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)，再安装到独立 Web Profile：
+项目处于 `0.1.0` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录。先[下载已验证的 tgz 安装包](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz)，再安装到独立 Web Profile：
 
 ```bash
 dsh plugin --profile web add /absolute/path/dsh-review-outbox-0.1.0.tgz
@@ -90,4 +90,4 @@ dsh web
 - Document search or experiment methods, inclusion criteria, limitations, and material counter-evidence.
 - Record scripts, data, environment, and reproduction steps when applicable.
 
-Review Outbox stores human review evidence; it does not claim automatic fact-checking. The standalone receipt works without installation and warns when the artifact changes after review.
+Review Outbox ingests official `present` deliveries and sealed `dsh-research-report` results, then stores human review evidence; it does not claim automatic fact-checking. The standalone receipt works without installation and warns when the artifact changes after review.

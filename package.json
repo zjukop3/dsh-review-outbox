@@ -58,6 +58,8 @@
     "test:browser:native": "node scripts/e2e-native-viewer.mjs",
     "test:browser:better": "node scripts/e2e-better-sidebar.mjs",
     "test:browser:github": "node scripts/e2e-github-source.mjs",
+    "test:browser:catalog": "node scripts/e2e-catalog-install.mjs",
+    "test:browser:catalog:listing": "node scripts/e2e-catalog-listing.mjs",
     "test:browser:recovery": "node scripts/e2e-cleanpack-recovery.mjs",
     "test:interop:research": "node --experimental-transform-types scripts/e2e-research-report-interop.mjs",
     "seed:official": "node scripts/seed-official-backfill.mjs",

@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "listing": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/",
+  "installCommand": "dsh plugin --profile web add github:zjukop3/dsh-review-outbox",
+  "dependencySpecifier": "github:zjukop3/dsh-review-outbox",
+  "resolvedCommit": "2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700",
+  "lockfileTarball": "https://codeload.github.com/zjukop3/dsh-review-outbox/tar.gz/2e8cb8d1f5b7237a6ad1159e6ae027b3cd6a5700",
+  "isolatedHome": true,
+  "isolatedPort": true,
+  "backfill": "ready",
+  "stateError": null,
+  "discoveredItems": 0,
+  "nativeSidebarOpened": true,
+  "emptyStateVisible": true,
+  "pageErrors": [],
+  "consoleErrors": [],
+  "screenshot": "docs/e2e/15-catalog-install.png"
+}

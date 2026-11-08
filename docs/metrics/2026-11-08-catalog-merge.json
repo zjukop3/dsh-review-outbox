@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-08T00:08:36Z",
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "catalog": {
+    "pullRequest": 13088,
+    "state": "MERGED",
+    "mergedAt": "2026-11-07T21:42:52Z",
+    "mergeCommit": "4f5e365355d0220c00acfcd3742e5401a7f0ac16",
+    "detail": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/",
+    "catalogSearchVerified": true,
+    "registryAndScreenshotsVerified": true,
+    "exactInstallCommandVerified": true
+  },
+  "githubTraffic": {
+    "views": {
+      "count": 1,
+      "uniques": 1
+    },
+    "clones": {
+      "count": 31,
+      "uniques": 19
+    },
+    "referrers": [],
+    "stars": 0,
+    "forks": 0,
+    "watchers": 0
+  },
+  "activation": {
+    "weeklyArtifactsActuallyReviewed": null,
+    "catalogReferredActivations": null,
+    "receiptReferredActivations": null,
+    "externalWeekTwoRetention": null
+  },
+  "searchIndexing": "Catalog-internal search is verified; external search-engine indexing is not established by this snapshot",
+  "notes": [
+    "Aggregate GitHub Traffic API values can lag and do not identify users.",
+    "Catalog validation and installation checks can generate clones; clone counts are not organic activation evidence.",
+    "A merged listing is a distribution milestone, not a real review, activated user, or retained user.",
+    "Null activation metrics mean no reliable measurement, not zero real-world usage."
+  ]
+}
