@@ -7,5 +7,6 @@
 - https://github.com/zjukop3/dsh-review-outbox: Public source code, installation guide, and validation evidence.
 - https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz: Review Outbox 0.1.0 plugin tarball.
 - https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.
+- https://zjukop3.github.io/dsh-review-outbox/plugins.json: Officially validated DSH format-1 application market index for Discover, pinned installation, and activation.
 
 Review Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.0 validation; the Awesome listing is live, while npm and GitHub Release publication remain separate.

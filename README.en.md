@@ -33,7 +33,15 @@ See [verified compatibility](docs/COMPATIBILITY.md) for the exact environments t
 
 ## Install
 
-Copy the command from the [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/), or run the exact verified catalog command:
+For application-native discovery, enable **Custom plugin index** under **Plugins**, open **Discover**, and add:
+
+```text
+https://zjukop3.github.io/dsh-review-outbox/plugins.json
+```
+
+Search for `Review Outbox` or `研究报告`, verify the version and full commit, install, then enable the plugin under **Installed**. The `format: 1` index is validated with the official DSH parser; see the [application market guide](docs/MARKET.md).
+
+Alternatively, copy the command from the [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/), or run the exact verified catalog command:
 
 ```bash
 dsh plugin --profile web add github:zjukop3/dsh-review-outbox
@@ -102,7 +110,7 @@ pnpm test
 pnpm run build
 ```
 
-The suite currently contains **44 tests**, passing on Node.js 22.19.0 and 25.2.1. Coverage includes real execution of the official `present` tool, production-default Zstandard JSONL persistence, cold reads, resumed-Session revisions across different `callId` values, Host authorization, receipt injection checks, and native Viewer address routing.
+The suite currently contains **45 tests**, passing on Node.js 22.19.0 and 25.2.1. Coverage includes real execution of the official `present` tool, production-default Zstandard JSONL persistence, cold reads, resumed-Session revisions across different `callId` values, Host authorization, receipt injection checks, and native Viewer address routing.
 
 Run the separate real two-plugin interoperability check after installing the external checkout's frozen dependencies:
 
@@ -110,7 +118,7 @@ Run the separate real two-plugin interoperability check after installing the ext
 DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:interop:research
 ```
 
-This uses real Cordis, SessionStore, ToolRuntime, and `research_report` execution in isolated temporary directories. It is not counted among the 44 tests and does not claim a full Web GUI or external-user trial.
+This uses real Cordis, SessionStore, ToolRuntime, and `research_report` execution in isolated temporary directories. It is not counted among the 45 tests and does not claim a full Web GUI or external-user trial.
 
 Additional real-browser evidence covers research acceptance, receipt downloads, changed-artifact detection, DOCX/PDF viewing, `dsh-better-sidebar@0.30.0` interoperability and hidden-tab polling, a 20-artifact dogfood pass, clean tarball installation, restart, and corrupt-state recovery. See [validation evidence](docs/VALIDATION.md) and the [dogfood report](docs/DOGFOOD.md).
 

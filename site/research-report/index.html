@@ -1676,7 +1676,6 @@
   @media print { h3 + .figure-card img { max-height: 38mm !important; } .hc-group { padding: 2mm 0 !important; } .hc-group .hc-bar { height: 10px !important; } .hc-bars { gap: 3px !important; } .hc-legend { margin-bottom: 3mm !important; } .hc-title { margin-bottom: 3mm !important; } .hc-row { padding: 1mm 0 !important; } .hc-bar { height: 13px !important; } }
 </style>
 
-
 <!-- review-outbox:metadata:start -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <meta name="description" content="免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。">
@@ -1756,7 +1755,7 @@
 <p>验收单是无脚本、无外部资源的独立 HTML，接收者无需安装即可打开。它不自动上传，不写入原报告，不包含本机绝对路径或会话内容；证据与意见按审阅者填写内容导出。</p></section><section class="section" id="s-06"><div class="section-header"><div class="section-number">06</div><h2>安装与当前状态</h2></div><p>项目处于 <code>0.1.0</code> 验证阶段，<a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a>与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，<a href="https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/">Awesome 社区目录</a>已合并收录。先<a href="https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz">下载已验证的 tgz 安装包</a>，再安装到独立 Web Profile：</p>
 <pre><code class="language-bash">dsh plugin --profile web add /absolute/path/dsh-review-outbox-0.1.0.tgz
 dsh web</code></pre>
-<p>目标宿主为 DeepSeek Harness <code>>=0.2.2-rc.1 <0.3.0-0</code>，Node.js <code>>=22.19</code>。下载页同时提供 SHA-256 校验文件；新生成的验收单默认链接到 GitHub 仓库。</p></section><section class="section" id="s-07"><div class="section-header"><div class="section-number">07</div><h2>常见问题</h2></div><h3>为什么只勾选检查项还不够？</h3>
+<p>目标宿主为 DeepSeek Harness <code>>=0.2.2-rc.1 <0.3.0-0</code>，Node.js <code>>=22.19</code>。下载页同时提供 SHA-256 校验文件；新生成的验收单默认链接到 GitHub 仓库。应用内「发现」可添加<a href="https://zjukop3.github.io/dsh-review-outbox/plugins.json">兼容索引</a>，搜索 Review Outbox 后安装并启用。</p></section><section class="section" id="s-07"><div class="section-header"><div class="section-number">07</div><h2>常见问题</h2></div><h3>为什么只勾选检查项还不够？</h3>
 <p>勾选只表示“认为完成了”，证据说明才能定位到具体章节、数据、引用或复现材料。Review Outbox 要求四项必填检查同时具有勾选和证据文本，避免验收流形式化。</p>
 <h3>验收单会自动上传报告吗？</h3>
 <p>不会。验收单在本地生成，不自动上传，也不自动包含成果正文、绝对路径或会话内容。你填写的检查证据和审阅意见会进入验收单，分享前应像检查任何交付物一样复核这些内容。</p>

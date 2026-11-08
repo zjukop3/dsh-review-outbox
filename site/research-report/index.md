@@ -56,7 +56,7 @@ dsh plugin --profile web add /absolute/path/dsh-review-outbox-0.1.0.tgz
 dsh web
 ```
 
-目标宿主为 DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`，Node.js `>=22.19`。下载页同时提供 SHA-256 校验文件；新生成的验收单默认链接到 GitHub 仓库。
+目标宿主为 DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`，Node.js `>=22.19`。下载页同时提供 SHA-256 校验文件；新生成的验收单默认链接到 GitHub 仓库。应用内「发现」可添加[兼容索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)，搜索 Review Outbox 后安装并启用。
 
 ## 常见问题
 

@@ -11,6 +11,7 @@
 3. **结构化发现**：`TechArticle`、`FAQPage`、`SoftwareApplication` JSON-LD，以及 `robots.txt`、`sitemap.xml`、`llms.txt`。
 4. **成果回流**：插件生成的验收单包含带 `utm_source=review-receipt`、`utm_medium=artifact` 的插件入口。
 5. **零外部依赖**：页面没有外部字体、图片、统计脚本、cookie 或后端写入，可离线打开。
+6. **应用内发现**：`site/plugins.json` 提供宿主 `format: 1` 索引，用户可在 DSH「发现」中搜索、固定提交、安装并启用，详见[应用内市场指南](MARKET.md)。
 
 站点源文件位于工作区 `site/`。部署和构建方式见 `site/README.md`。
 
@@ -48,3 +49,7 @@
 ## 插件目录
 
 Awesome DSH Plugin 的单文件条目、差异化描述和市场截图已发布，具体规则与验证结果见[目录收录准备](CATALOG.md)。[目录 PR #13088](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13088) 已于 `2026-11-07T21:42:52Z` 合并，[公开详情页](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)和市场 `plugins.json` 均可匿名读取；原始安装命令已在隔离 Profile 验证。目录 README 正文由上游每日探针补充，当前不把目录收录直接换算为目录流量或外部采用。
+
+## 应用内索引格式
+
+真实界面验证发现，Awesome registry 直接添加到 DSH「发现」会报告 `$.format must be 1`。本项目因此在 GitHub Pages 额外发布经过宿主官方解析器验证的[应用内索引](https://zjukop3.github.io/dsh-review-outbox/plugins.json)，把网页目录收录转化为应用内可搜索、可固定提交、可安装和可启用的路径。Awesome 目录与自有索引互为补充，不复制或批量制造插件条目。

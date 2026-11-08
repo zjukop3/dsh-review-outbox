@@ -39,6 +39,16 @@
 
 目标宿主：DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`；Node.js `>=22.19`。实测范围见[兼容矩阵](docs/COMPATIBILITY.md)，tarball 安装、备份、升级与损坏恢复见[安装恢复指南](docs/INSTALL-RECOVERY.md)。
 
+### 从应用内「发现」安装
+
+在「插件」中启用「自定义插件索引」，进入「发现」并添加以下索引源，然后搜索 `Review Outbox` 或 `研究报告`：
+
+```text
+https://zjukop3.github.io/dsh-review-outbox/plugins.json
+```
+
+确认版本和完整提交后安装，再回到「已安装」启用插件。该 `format: 1` 索引由宿主官方解析器验证，详见[应用内市场指南](docs/MARKET.md)。
+
 ### 从 Awesome 目录安装
 
 打开[公开目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)复制命令，或执行：
@@ -155,7 +165,7 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 pnpm run check
 ```
 
-当前单元、Host、官方工具、站点构建与市场素材集成测试共 44 项，Node.js 22.19.0 与 25.2.1 均通过。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。独立的真实双插件互操作脚本不计入这 44 项。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
+当前单元、Host、官方工具、站点构建与市场素材集成测试共 45 项，Node.js 22.19.0 与 25.2.1 均通过。其中 `test/official-present.test.js` 直接执行官方 `present`，经生产默认的 Zstandard JSONL 落盘、关闭写入上下文、冷读后进入回填；另一测试从同一 JSONL Session 恢复，以不同 `callId` 再次交付并验证只形成一条 revision 历史。独立的真实双插件互操作脚本不计入这 45 项。真实挂载和浏览器验证记录见 [验证文档](docs/VALIDATION.md)。
 
 ## API
 

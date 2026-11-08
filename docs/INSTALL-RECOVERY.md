@@ -8,6 +8,10 @@
 - Node.js `>=22.19`
 - 当前真实验证环境见[兼容矩阵](COMPATIBILITY.md)
 
+## 从应用内「发现」安装
+
+启用「自定义插件索引」后，在「发现」中添加 `https://zjukop3.github.io/dsh-review-outbox/plugins.json`，搜索并安装 Review Outbox，再回到「已安装」启用。该索引与 Awesome registry 是两种不同格式；完整步骤和官方 schema 验证见[应用内市场指南](MARKET.md)。
+
 ## 从 Awesome 目录安装
 
 打开[公开目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)并复制安装命令，或在隔离环境执行：

@@ -3,7 +3,7 @@
 ## 单元、Host 与官方工具集成测试
 
 命令：`node --test test/*.test.js`  
-结果：**44/44 通过**。
+结果：**45/45 通过**。
 
 覆盖：
 
@@ -90,7 +90,7 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 ## 构建
 
 命令：`pnpm run check`  
-结果：44/44 测试与客户端构建均通过。
+结果：45/45 测试与客户端构建均通过。
 
 - `dist/client.js`：39.42 kB
 - `dist/client.js.map`：55.67 kB
@@ -237,8 +237,8 @@ DSH_RESEARCH_REPORT_CHECKOUT=/absolute/path/dsh-research-report pnpm run test:in
 
 ## Node 基线、干净 tarball 与恢复
 
-- Node.js `22.19.0`：44/44 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
-- Node.js `25.2.1`：44/44 测试和客户端构建通过，见 [node25-check.json](e2e/node25-check.json)。一次误用 Homebrew `node@22` 别名实际运行 Node 25 的结果只记入 Node 25，不作为 Node 22 证据。
+- Node.js `22.19.0`：45/45 测试和客户端构建通过，见 [node22-check.json](e2e/node22-check.json)。
+- Node.js `25.2.1`：45/45 测试和客户端构建通过，见 [node25-check.json](e2e/node25-check.json)。一次误用 Homebrew `node@22` 别名实际运行 Node 25 的结果只记入 Node 25，不作为 Node 22 证据。
 - 完整链路 tarball（better-sidebar 集成前）：从包存储安装到全新 `DSH_HOME`，不是本地目录链接；历史回填、研究验收、验收单导出均通过。
 - 包含 better-sidebar 集成的最终候选 tarball：在另一个全新 `DSH_HOME` 从包存储安装，真实浏览器打开原生侧栏，空成果状态、`backfill=ready`、`stateError=null`，页面与控制台错误均为 0，见 [final-package-smoke.json](e2e/final-package-smoke.json)。具体哈希只记录于独立 `.sha256` 文件，避免包内文档自引用。
 - 正常重启：`approved`、两条历史、预览和文件变化检测保留，`changed=0`，见 [cleanpack-recovery-normal.json](e2e/cleanpack-recovery-normal.json)。
