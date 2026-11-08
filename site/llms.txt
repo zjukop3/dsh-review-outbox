@@ -5,10 +5,10 @@
 - https://zjukop3.github.io/dsh-review-outbox/research-report/: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.
 - https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html: Real browser-generated standalone receipt; no installation required.
 - https://github.com/zjukop3/dsh-review-outbox: Public source code, installation guide, and validation evidence.
-- https://zjukop3.github.io/dsh-review-outbox/plugins.json: Officially validated DSH format-1 application market index for Review Outbox 0.1.1, pinned installation, and activation.
+- https://zjukop3.github.io/dsh-review-outbox/plugins.json: Officially validated DSH format-1 application market index for Review Outbox 0.1.2, pinned installation, and activation.
 - https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/e2e/application-first-value.json: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.
-- https://github.com/zjukop3/dsh-review-outbox/blob/9f7e608a192094272638802e77ca9b1197f8cff1: Immutable public source for the current 0.1.1 application-index installation.
+- https://github.com/zjukop3/dsh-review-outbox/blob/e9bb649d515a38de0f61226980f40e3d45173f1d: Immutable public source for the current 0.1.2 application-index installation.
 - https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.
-- https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz: Legacy Review Outbox 0.1.0 plugin tarball without the 0.1.1 default research acceptance behavior.
+- https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.
 
 Review Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.

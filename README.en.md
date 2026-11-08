@@ -6,7 +6,7 @@ Review Outbox is a local-first review workbench for files produced by DeepSeek H
 
 It handles **deliverable disposition**, not generic notifications, questions, or tool approvals. Approval records a human review decision; it never auto-publishes the artifact or rewrites the source Session.
 
-**The 0.1.1 first-value path is verified in the real Web GUI:** a pre-install sealed report is backfilled with a default `0/4` evidence checklist, completed to `4/4`, approved, and exported as a standalone receipt. See the [structured evidence](docs/e2e/application-first-value.json) and [downloaded receipt](docs/e2e/application-first-value.review.html).
+**The 0.1.2 first-value path is verified in the real Web GUI:** after installing the pinned public commit, a pre-install sealed report is backfilled with a default `0/4` evidence checklist, completed to `4/4`, approved, and exported as a standalone receipt whose entry point returns to the public install guide. See the [structured evidence](docs/e2e/application-first-value.json) and [downloaded receipt](docs/e2e/application-first-value.review.html).
 
 ![Review Outbox research-report evidence workbench](assets/storefront/review-workbench.png)
 
