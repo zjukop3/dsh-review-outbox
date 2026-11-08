@@ -1,0 +1,58 @@
+name: Bug report
+description: 审阅队列、预览、验收单或安装问题
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请先确认已升级到[最新发布版本](https://github.com/zjukop3/dsh-review-outbox/releases)；问题样本请脱敏（不含密钥、私人路径全文或会话内容）。
+  - type: input
+    id: plugin-version
+    attributes:
+      label: 插件版本与安装来源
+      description: 例如 `0.1.3，npm 直装` 或 `0.1.3，github#5e95038`
+      placeholder: 0.1.3，npm 直装
+    validations:
+      required: true
+  - type: input
+    id: host-version
+    attributes:
+      label: DeepSeek Harness 版本
+      description: 设置页或 `dsh --version` 的输出
+      placeholder: 0.2.2-rc.1
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 问题区域
+      options:
+        - 安装 / 启用
+        - 历史回填（backfill）
+        - 成果列表 / 预览
+        - 验收包与证据检查
+        - 通过 / 退回 / 归档动作
+        - 验收单导出
+        - 宿主 Viewer 打开
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 从安装到出现问题做过什么；期望与实际分别是什么。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 事件样本或截图
+      description: 若涉及回填或 research_report 配对，附上相关事件的脱敏 JSON；界面问题附截图。
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 确认
+      options:
+        - label: 已升级到最新发布版本
+        - label: 样本已脱敏，不含密钥与会话内容
