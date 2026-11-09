@@ -181,8 +181,39 @@ export class OutboxStore {
     })
   }
 
-  action(id, action, note = '', { evidence } = {}) {
+  /**
+   * Archive every still-pending artifact of one session in a single step.
+   *
+   * A daily profile can hold dozens of unreviewed deliverables from sessions
+   * that are simply over; clearing them one row at a time is not a realistic
+   * backlog workflow. Only `archive` is offered in bulk: approval and return
+   * carry the human review decision and must stay per artifact. Archiving is
+   * reversible through `reopen`, and the per-item history still records it.
+   */
+  archiveSession(sessionId, note = '') {
     return this.enqueue(async () => {
+      this.assertWritable()
+      const session = String(sessionId || '')
+      if (!session) throw new Error('A session id is required')
+      const targets = this.items.filter(item => item.sessionId === session && item.status === 'pending')
+      if (targets.length === 0) throw new Error('No pending items in this session')
+      const at = this.now().toISOString()
+      const reviewNote = String(note || '').slice(0, 4000)
+      for (const item of targets) {
+        item.status = 'archived'
+        item.updatedAt = at
+        item.reviewNote = reviewNote
+        item.history = [
+          ...(Array.isArray(item.history) ? item.history : []),
+          { at, action: 'archive', note: reviewNote },
+        ].slice(-100)
+      }
+      await this.persist()
+      return { archived: targets.length, ids: targets.map(item => item.id) }
+    })
+  }
+
+  action(id, action, note = '', { evidence } = {}) {    return this.enqueue(async () => {
       this.assertWritable()
       const status = ACTION_STATUS.get(action)
       if (!status) throw new Error('Unknown action')

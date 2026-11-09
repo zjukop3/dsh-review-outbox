@@ -267,12 +267,21 @@ export function apply(ctx, config = {}) {
         const body = await readJson(req)
         const id = String(body.id || '')
         const action = String(body.action || '')
+        const note = typeof body.note === 'string' ? body.note : ''
+        // Session-scoped bulk disposition. Deliberately archive-only: approve
+        // and return each carry a human decision and evidence, so they stay
+        // one artifact at a time.
+        if (typeof body.sessionId === 'string' && body.sessionId) {
+          if (action !== 'archive') return json(res, 400, { error: 'Bulk actions are limited to archive' })
+          const result = await store.archiveSession(body.sessionId, note)
+          return json(res, 200, { archived: result.archived, ...summary(store, backfill) })
+        }
         const existing = store.get(id)
         assertReviewReady(existing, action)
         const evidence = existing && (action === 'approve' || action === 'return')
           ? await captureArtifactEvidence(existing, { allowOutsideWorkspace: config.allowOutsideWorkspace === true })
           : undefined
-        const item = await store.action(id, action, typeof body.note === 'string' ? body.note : '', { evidence })
+        const item = await store.action(id, action, note, { evidence })
         return json(res, 200, { item: withReviewProgress(item), ...summary(store, backfill) })
       }
       return json(res, 404, { error: 'Route not found' })

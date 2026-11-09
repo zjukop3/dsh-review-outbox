@@ -2,6 +2,11 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [0.1.5] - 2026-11-09
+
+- Session groups in the review list can be archived in one step («归档本组»), with a confirmation dialog. Only  is offered in bulk: approve and return carry the human decision and its evidence, so they stay one artifact at a time. Bulk archive is reversible per artifact through 重新打开, and each item keeps its own history entry.
+- The host rejects  with any action other than  (400), so a client cannot use the bulk path to skip review.
+
 ## [0.1.4] - 2026-11-09
 
 - Group the review list by session (collapsible) instead of one flat list. The first real daily-profile install backfilled 75 deliverables across 10 sessions; 63 of them inside one week, so a flat queue was unusable and narrowing by date would not have helped.

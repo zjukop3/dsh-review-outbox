@@ -282,3 +282,37 @@ test('every host route requires host connection authorization', async () => {
   assert.equal(response.status, 403)
   assert.deepEqual(response.data, { error: 'Forbidden' })
 })
+
+test('bulk archive is offered per session and bulk approval is refused', async () => {
+  const cwd = await mkdtemp(join(tmpdir(), 'review-outbox-host-bulk-'))
+  await writeFile(join(cwd, 'one.md'), '# One', 'utf8')
+  await writeFile(join(cwd, 'two.md'), '# Two', 'utf8')
+  const ctx = mockContext()
+  ctx.cwd = cwd
+  apply(ctx, { statePath: join(cwd, 'state.json') })
+
+  const session = { id: 'session-bulk', header: { cwd } }
+  ctx.listener(session, {
+    type: 'deliverables/presented', seq: 3, time: Date.now(),
+    data: { turn: 1, callId: 'present-bulk', files: [{ path: 'one.md' }, { path: 'two.md' }] },
+  })
+  await new Promise(resolve => setTimeout(resolve, 20))
+  assert.equal((await invoke(ctx.handler, { url: '/review-outbox/api/items' })).data.pending, 2)
+
+  // Approve must never be available in bulk: it carries the human decision.
+  const refused = await invoke(ctx.handler, {
+    method: 'POST', url: '/review-outbox/api/action',
+    body: { sessionId: 'session-bulk', action: 'approve' },
+  })
+  assert.equal(refused.status, 400)
+  assert.match(refused.data.error, /limited to archive/)
+  assert.equal((await invoke(ctx.handler, { url: '/review-outbox/api/items' })).data.pending, 2)
+
+  const archived = await invoke(ctx.handler, {
+    method: 'POST', url: '/review-outbox/api/action',
+    body: { sessionId: 'session-bulk', action: 'archive', note: '会话已结束' },
+  })
+  assert.equal(archived.status, 200, JSON.stringify(archived.data))
+  assert.equal(archived.data.archived, 2)
+  assert.equal(archived.data.pending, 0)
+})

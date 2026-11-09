@@ -255,6 +255,29 @@ function Outbox({ openSession, openNative, active = true }) {
     }
   }
 
+  const archiveGroup = async (group, event) => {
+    event?.preventDefault?.()
+    event?.stopPropagation?.()
+    if (!group?.sessionId) return
+    const label = group.items.length === 1 ? '1 项' : `${group.items.length} 项`
+    if (!window.confirm(`归档「${group.label}」中待审的 ${label}？归档后可在「归档」筛选里重新打开。`)) return
+    await checkQueue.current
+    setBusy(true)
+    setError('')
+    try {
+      const data = await request('action', {
+        method: 'POST',
+        body: JSON.stringify({ sessionId: group.sessionId, action: 'archive', note: note.trim() }),
+      })
+      setItems(data.items)
+      setPending(data.pending)
+    } catch (cause) {
+      setError(cause.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const openSource = async () => {
     if (!selected?.sessionId) return
     if (note.trim()) await navigator.clipboard?.writeText(note.trim()).catch(() => {})
@@ -330,6 +353,17 @@ function Outbox({ openSession, openNative, active = true }) {
                 <summary className="ro-group-head">
                   <span className="ro-group-title">{group.label}</span>
                   <span className="ro-group-meta">{group.items.length} 项 · {timeLabel(group.newest)}</span>
+                  {group.items.every(item => item.status === 'pending') ? (
+                    <button
+                      type="button"
+                      className="ro-group-archive"
+                      disabled={busy}
+                      onClick={event => archiveGroup(group, event)}
+                      title="归档本会话中仍在待审的成果（可在「归档」里重新打开）"
+                    >
+                      归档本组
+                    </button>
+                  ) : null}
                 </summary>
                 {group.items.map(renderCard)}
               </details>

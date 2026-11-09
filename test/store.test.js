@@ -117,3 +117,38 @@ test('unknown actions and missing items fail without mutation', async () => {
   await assert.rejects(store.action('missing', 'approve'), /Item not found/)
   assert.equal(store.get('presented:one').status, 'pending')
 })
+
+test('bulk archive clears one session and leaves other sessions alone', async () => {
+  const path = await fixture()
+  const store = new OutboxStore(path)
+  await store.initialize()
+  const mk = (id, sessionId, status = 'pending') => ({
+    ...record(), id, sessionId, path: `${id}.md`, status,
+    history: [{ at: '2026-01-01T00:00:00.000Z', action: 'observed', note: '' }],
+  })
+  await store.upsert([
+    mk('a1', 'session-a'), mk('a2', 'session-a'), mk('a3', 'session-a', 'approved'),
+    mk('b1', 'session-b'),
+  ])
+
+  const result = await store.archiveSession('session-a', '会话已结束')
+  assert.equal(result.archived, 2)
+  assert.deepEqual(result.ids.sort(), ['a1', 'a2'])
+
+  const byId = id => store.get(id)
+  assert.equal(byId('a1').status, 'archived')
+  assert.equal(byId('a2').status, 'archived')
+  assert.equal(byId('a3').status, 'approved', 'an already-reviewed artifact must not be re-archived')
+  assert.equal(byId('b1').status, 'pending', 'other sessions are untouched')
+  assert.equal(byId('a1').reviewNote, '会话已结束')
+  assert.equal(byId('a1').history.at(-1).action, 'archive')
+
+  const reloaded = new OutboxStore(path)
+  await reloaded.initialize()
+  assert.equal(reloaded.get('a1').status, 'archived')
+  const reopened = await reloaded.action('a1', 'reopen')
+  assert.equal(reopened.status, 'pending', 'bulk archive stays reversible per artifact')
+
+  await assert.rejects(() => store.archiveSession('session-a'), /No pending items/)
+  await assert.rejects(() => store.archiveSession(''), /session id is required/)
+})

@@ -1,6 +1,6 @@
 {
   "name": "dsh-review-outbox",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Human deliverable review and research-report acceptance for DeepSeek Harness: evidence checklists, SHA-256 receipts, preview, approve, return, and archive.",
   "type": "module",
   "main": "./src/host.js",
