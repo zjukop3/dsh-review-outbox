@@ -60,7 +60,7 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 应用内网络不可用时，可对同一个 `0.1.7` 公开提交使用 CLI 回退：
 
 ```bash
-dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#c3a9d272dc5f391669f4e2344e821d732ae3b9eb'
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#0f77f5f7a222b656d5b50e0d49aae885a0d2664e'
 dsh web
 ```
 

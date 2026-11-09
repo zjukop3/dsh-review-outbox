@@ -1,4 +1,4 @@
 {
-  "commit": "c3a9d272dc5f391669f4e2344e821d732ae3b9eb",
-  "notes": "Version 0.1.6: filter the review list by artifact kind with live counts, and single-key review actions (a/r/z/n/p) that refuse to fire while a text field has focus. The 0.1.5 release shipped session-scoped bulk archive. Documentation-only commits do not move this pin."
+  "commit": "0f77f5f7a222b656d5b50e0d49aae885a0d2664e",
+  "notes": "Version 0.1.7: one-at-a-time review that keeps the reviewer on the pending queue, a first-run sample artifact so an empty profile can walk preview -> decision -> SHA-256 receipt, and a next-step action when the queue drains. Documentation-only commits do not move this pin."
 }
