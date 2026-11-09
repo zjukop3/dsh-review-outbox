@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T18:38:59.309348Z",
+  "milestone": "0.1.9 released, and the product work it closes",
+  "release": {
+    "version": "0.1.9",
+    "runtimeCommit": "adc055b4045bd1941865846629243ecfb9d9c6ca",
+    "pinCommit": "adfc474",
+    "publishedAtLocal": "2026-11-10T02:30+08:00",
+    "tests": {
+      "total": 71,
+      "pass": 71
+    },
+    "contents": [
+      "inline 还不能通过，还差 N 项必填证据 line",
+      "inline receipt pointer after a decision"
+    ],
+    "verification": {
+      "npmjsLatest": "0.1.9",
+      "mirrorLatest": "0.1.9",
+      "install": "dsh plugin --profile web add dsh-review-outbox@0.1.9 resolved 0.1.9 and the bundle carries both hint strings",
+      "pages": "plugins.json serves 0.1.9 / adc055b"
+    }
+  },
+  "ecosystemContribution": {
+    "issue": "https://github.com/dsh-market/dsh-market/issues/1093",
+    "comment": "https://github.com/dsh-market/dsh-market/issues/1093#issuecomment-6748072819",
+    "content": "independent CLI reproduction of the orphan minimumReleaseAgeExclude entry, a cleanup rule that does not depend on matching installed packages, and the author-facing confusion between add <name> and add <name>@<version>"
+  },
+  "thesisAfterNineReleases": {
+    "whatIsBuilt": "evidence gates for research reports and spreadsheets, one-at-a-time review, first-run sample, receipts that teach their own verification, structured return messages, funnel reporting",
+    "whatIsMeasured": "every one of those paths was driven in a real browser against a real published build with screenshots and zero console errors",
+    "whatIsNot": "not one human decision exists outside this machine; the real daily profile still reads 75 pending and 0 actions",
+    "conclusion": "further feature work cannot move the only metric that matters. The next attempts must change who sees it, or which problem it claims to solve"
+  },
+  "nextRoundIfNothingChanges": [
+    "watch the dsh-market PR #13722 review and the daily catalog build at 04:46Z",
+    "check whether the daily profile resolved 0.1.4 after 22:42 local and whether any disposition appears in the funnel report",
+    "if the funnel is still zero, treat the product thesis as falsified and write the replacement thesis rather than shipping 0.2.0"
+  ]
+}
