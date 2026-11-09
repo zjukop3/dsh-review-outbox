@@ -1,4 +1,4 @@
 {
-  "commit": "a4ba0d5989ef9743dcadb4f476e3989e8c0c5e5f",
-  "notes": "Version 0.1.8: the first-run sample opens on the research evidence gate, receipts explain how to check their own digest, spreadsheets get a data-delivery pack (existing ones are offered it), and a decision copies a structured instruction back to the session. Documentation-only commits do not move this pin."
+  "commit": "adc055b4045bd1941865846629243ecfb9d9c6ca",
+  "notes": "Version 0.1.9: the panel states which required checks still lack evidence instead of hiding that in a tooltip, and points at the receipt after a decision. Documentation-only commits do not move this pin."
 }
