@@ -42,6 +42,14 @@ node &quot;$PNPM&quot; config get registry --config.userconfig=/tmp/x/.npmrc   #
 <p>这条约束解释的是「镜像故障时的失败形态」，而不是版本选择：</p>
 <ul><li>镜像整体故障那晚，它对这个包返回 <code>500 ER_NO_SUCH_TABLE</code>，抽查 <code>react</code> 等无关包同样 500，属于镜像自身故障；</li><li>那一刻默认安装仍然<strong>成功</strong>，只是装到旧版；显式指定新版本才报 <code>ERR_PNPM_NO_MATCHING_VERSION</code>，错误里写明抓取源是 <code>registry.npmmirror.com</code>；</li><li>镜像恢复后，同样的默认命令装到的还是旧版——原因不在镜像，而在上一节的冷却。</li></ul>
 <p>结论：<strong>版本落后先查冷却，装不动才查镜像。</strong> 顺序搞反会浪费一整晚。</p>
+<h2 id="2b-能不能自动更新-取决于装的时候写下的-spec">2b. 能不能自动更新，取决于装的时候写下的 spec</h2>
+<p>装完不是结束：<strong>profile 里记下的版本写法决定了它以后会不会自己动</strong>。三种写法，实测三条结果：</p>
+<div class="table-wrap"><table><thead><tr><th>装的时候</th><th>profile 里的 spec</th><th>之后 <code>pnpm update</code></th></tr></thead><tbody><tr><td><code>dsh plugin add &lt;name&gt;</code></td><td><code>^x.y.z</code></td><td>会动：冷却过了就升到当时最高成熟版本</td></tr><tr><td><code>dsh plugin add &lt;name&gt;@&lt;version&gt;</code></td><td><code>x.y.z</code>（精确）</td><td><strong>永远不动</strong>：精确版本是上限，<code>update</code> 也不会越过</td></tr><tr><td>市场一键安装</td><td><code>x.y.z</code>（精确）</td><td>不会随 <code>pnpm update</code> 动；要靠市场自己的更新动作改写 spec</td></tr></tbody></table></div>
+<p>复现（把冷却临时关掉等价于&quot;等它成熟&quot;，不必真等一天）：</p>
+<pre><code class="language-bash">cd &quot;$DSH_HOME/profiles/web&quot;
+node &quot;$PNPM&quot; update dsh-review-outbox --config.minimum-release-age=0   # 精确 spec → 仍是旧版
+# 改成 &quot;dsh-review-outbox&quot;: &quot;^0.1.3&quot; 再跑一遍 → 升到当时最高成熟版本</code></pre>
+<p><strong>作者最容易踩的坑</strong>：为了立刻验证新版本，用 <code>@&lt;version&gt;</code> 装了一次，于是这个 profile 从此不再自动更新，之后每发一版都&quot;看不到效果&quot;。这不是管线坏了，是那行 spec 被钉死了。</p>
 <h2 id="3-三条安装回退路径-都实测过">3. 三条安装回退路径（都实测过）</h2>
 <div class="table-wrap"><table><thead><tr><th>路径</th><th>命令形态</th><th>实测结果</th><th>代价</th></tr></thead><tbody><tr><td>应用内目录一键安装</td><td>市场里点安装</td><td>依赖镜像健康</td><td>—</td></tr><tr><td>固定提交的 GitHub 源</td><td><code>dsh plugin --profile web add &#39;github:OWNER/REPO#COMMIT&#39;</code></td><td>解析到 <code>0.1.5</code></td><td>6 分 52 秒（走 git）</td></tr><tr><td>显式 npmjs registry</td><td><code>pnpm add PKG@VER --registry=https://registry.npmjs.org</code></td><td>解析到 <code>0.1.5</code>，9.4 秒</td><td>需改配置</td></tr></tbody></table></div>
 <p>固定提交路径绕过 registry，是镜像故障期间唯一「不改用户配置」也能装到新版的路径。它的代价是慢，且要求包<strong>零运行时依赖、无安装脚本</strong>——否则依赖解析照样会撞上 registry。</p>

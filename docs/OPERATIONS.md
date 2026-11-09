@@ -92,6 +92,26 @@ node "$PNPM" config get registry --config.userconfig=/tmp/x/.npmrc   # 可被覆
 
 结论：**版本落后先查冷却，装不动才查镜像。** 顺序搞反会浪费一整晚。
 
+## 2b. 能不能自动更新，取决于装的时候写下的 spec
+
+装完不是结束：**profile 里记下的版本写法决定了它以后会不会自己动**。三种写法，实测三条结果：
+
+| 装的时候 | profile 里的 spec | 之后 `pnpm update` |
+| --- | --- | --- |
+| `dsh plugin add <name>` | `^x.y.z` | 会动：冷却过了就升到当时最高成熟版本 |
+| `dsh plugin add <name>@<version>` | `x.y.z`（精确） | **永远不动**：精确版本是上限，`update` 也不会越过 |
+| 市场一键安装 | `x.y.z`（精确） | 不会随 `pnpm update` 动；要靠市场自己的更新动作改写 spec |
+
+复现（把冷却临时关掉等价于"等它成熟"，不必真等一天）：
+
+```bash
+cd "$DSH_HOME/profiles/web"
+node "$PNPM" update dsh-review-outbox --config.minimum-release-age=0   # 精确 spec → 仍是旧版
+# 改成 "dsh-review-outbox": "^0.1.3" 再跑一遍 → 升到当时最高成熟版本
+```
+
+**作者最容易踩的坑**：为了立刻验证新版本，用 `@<version>` 装了一次，于是这个 profile 从此不再自动更新，之后每发一版都"看不到效果"。这不是管线坏了，是那行 spec 被钉死了。
+
 ## 3. 三条安装回退路径（都实测过）
 
 | 路径 | 命令形态 | 实测结果 | 代价 |
