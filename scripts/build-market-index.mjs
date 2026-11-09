@@ -8,7 +8,16 @@ const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'ut
 const release = JSON.parse(await readFile(resolve(root, 'market-release.json'), 'utf8'))
 const requestedCommit = process.env.DSH_MARKET_COMMIT || release.commit
 const commit = execFileSync('git', ['rev-parse', requestedCommit], { cwd: root, encoding: 'utf8' }).trim()
-const publishTimestamp = Number(execFileSync('git', ['show', '-s', '--format=%ct', commit], { cwd: root, encoding: 'utf8' }).trim())
+let publishTimestamp
+try {
+  publishTimestamp = Number(execFileSync('git', ['show', '-s', '--format=%ct', commit], { cwd: root, encoding: 'utf8' }).trim())
+} catch {
+  throw new Error(
+    `Cannot read the committer time of ${commit}. This is usually a shallow clone: fetch the full history ` +
+    `(git fetch --unshallow, or actions/checkout with fetch-depth: 0) before building the index, ` +
+    `because the index publishes that timestamp as the version's release time.`,
+  )
+}
 const indexUrl = 'https://zjukop3.github.io/dsh-review-outbox/plugins.json'
 const repositoryUrl = 'https://github.com/zjukop3/dsh-review-outbox'
 const iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#176b48"/><path d="M16 20h32v27H16z" fill="none" stroke="#fff" stroke-width="4"/><path d="M24 28h16M24 35h9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="m35 39 4 4 8-10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'

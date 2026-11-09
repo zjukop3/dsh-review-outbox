@@ -22,6 +22,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          # scripts/build-market-index.mjs reads the pinned commit's committer time,
+          # so a depth-1 clone fails with "git show: bad object".
+          fetch-depth: 0
       - name: Use Node.js 22.19
         uses: actions/setup-node@v4
         with:
