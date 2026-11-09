@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T23:03:48.937701Z",
+  "kind": "regression gate after a night of edits, plus two findings that were not about the product",
+  "gate": {
+    "npmTest": "76/76",
+    "clientBuild": "ok",
+    "marketIndexValidation": "ok",
+    "browserE2E": {
+      "ok": true,
+      "pendingAfterApproval": 0,
+      "approvedItem": "demo:release-notes.md",
+      "pageErrors": [],
+      "consoleErrors": []
+    }
+  },
+  "findingOne": {
+    "what": "the mirror still had no 0.1.10 metadata about 1.8 hours after publish",
+    "why": "the bundled pnpm resolves against registry.npmmirror.com, so installing the exact version failed with ERR_PNPM_NO_MATCHING_VERSION even though registry.npmjs.org served it",
+    "action": "re-triggered the sync endpoint; within 30 seconds the mirror listed 0.1.10",
+    "lesson": "the sync request at publish time is a request, not a guarantee; a re-trigger is cheap and effective, and a publish is not 'installable everywhere' until the mirror says so",
+    "thirdTimeSamePit": "this is the third time in one night that a test setup installed an exact version the mirror did not yet know"
+  },
+  "findingTwo": {
+    "what": "scripts/e2e-browser.mjs waited for the literal string 'Review Outbox 0.1.0' in the preview",
+    "why": "the demo fixture is supplied by the caller (DSH_REVIEW_OUTBOX_DEMO_DIR), so a fixture using any other version fails a hardcoded assertion",
+    "fix": "the assertion now matches any semantic version, and the reason is written in the script",
+    "note": "the script had encoded one historical fixture's content; the release it was written for is months of fixtures ago in this project's terms"
+  }
+}

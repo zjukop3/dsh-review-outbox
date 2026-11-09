@@ -45,7 +45,9 @@ try {
   await entry.click()
   await page.getByText('Deliverables review outbox', { exact: true }).waitFor({ timeout: 30_000 })
   await page.getByText('release-notes.md', { exact: true }).first().click()
-  await page.locator('.ro-preview').getByText(/Review Outbox 0\.1\.0/).waitFor({ timeout: 20_000 })
+  // The demo fixture is supplied by the caller, so assert on the shape it must
+  // have rather than on one historical version string baked into this script.
+  await page.locator('.ro-preview').getByText(/Review Outbox \d+\.\d+\.\d+/).waitFor({ timeout: 20_000 })
   await page.screenshot({ path: 'docs/e2e/02-review-outbox.png', fullPage: true })
 
   await page.getByRole('button', { name: '通过', exact: true }).click()
