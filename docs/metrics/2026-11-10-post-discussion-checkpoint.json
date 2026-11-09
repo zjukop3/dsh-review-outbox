@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:18:09.341844Z",
+  "kind": "checkpoint after the official discussion",
+  "discussion": {
+    "number": 12788,
+    "comments": 0,
+    "reactions": 0,
+    "ageMinutes": 40
+  },
+  "linksInPost": {
+    "https://zjukop3.github.io/dsh-review-outbox/operations/": 200,
+    "https://zjukop3.github.io/dsh-review-outbox/research-report/": 200
+  },
+  "handbookChange": "the page now opens with the four numbers a hurried reader needs, because it is the landing target for anyone arriving from the discussion",
+  "trafficInstrumentation": {
+    "repositoryViews": "2 total, last reported day 2026-11-08; the API lags a day or two, so today's effect from the discussion cannot be read yet",
+    "site": "no analytics by design — site visits are unmeasured, not zero"
+  },
+  "whatWouldShowItWorked": [
+    "any comment or reaction on the discussion, even a correction",
+    "a non-zero week of package downloads that is not concentrated on a publish day",
+    "one star on the repository from an account that is not mine",
+    "one human decision in a review queue anywhere outside this machine"
+  ],
+  "whatWasNotDone": {
+    "answeringOtherDiscussions": "the Q&A threads available are platform bugs (win32 directory picker, enterprise WeChat, clipboard) where we have no first-hand evidence; guessing there would cost credibility for nothing"
+  }
+}
