@@ -12,6 +12,7 @@ import {
   nextAfterRemoval,
   shortcutAction,
   stepIndex,
+  suggestedPack,
 } from '../client/logic.js'
 
 // The real daily profile held 75 deliverables: 35 .md, 14 .json, 9 .png, 5 .html,
@@ -125,4 +126,13 @@ test('after a decision the reviewer keeps their place instead of jumping to the 
   assert.equal(nextAfterRemoval(remaining, 9).id, 'd', 'past the end falls back to the last remaining item')
   assert.equal(nextAfterRemoval([{ id: 'z' }], 4).id, 'z')
   assert.equal(nextAfterRemoval([], 0), null)
+})
+
+test('spreadsheets without a pack get a suggestion, everything else does not', () => {
+  assert.deepEqual(suggestedPack('/work/回款明细.csv'), { id: 'data-delivery', label: '数据交付验收' })
+  assert.deepEqual(suggestedPack('/work/sheet.XLSX'), { id: 'data-delivery', label: '数据交付验收' })
+  assert.equal(suggestedPack('/work/report.md'), null)
+  assert.equal(suggestedPack('/work/data.json'), null)
+  assert.equal(suggestedPack('Makefile'), null)
+  assert.equal(suggestedPack(''), null)
 })

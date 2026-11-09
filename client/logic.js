@@ -107,3 +107,20 @@ export function nextAfterRemoval(remaining, removedIndex) {
   const index = Math.min(Math.max(Number.isInteger(removedIndex) ? removedIndex : 0, 0), remaining.length - 1)
   return remaining[index]
 }
+
+/** Packs that can be applied to an artifact by its extension, in display order. */
+const PACK_HINTS = [
+  ['data-delivery', '数据交付验收', ['csv', 'tsv', 'xlsx', 'xls']],
+]
+
+/**
+ * Pack worth offering for an artifact that carries none, or null.
+ * Old presentations predate automatic pack attachment, so the panel suggests one
+ * instead of silently leaving a spreadsheet on a generic review.
+ */
+export function suggestedPack(path) {
+  const extension = fileExtension(path)
+  if (!extension) return null
+  const match = PACK_HINTS.find(([, , extensions]) => extensions.includes(extension))
+  return match ? { id: match[0], label: match[1] } : null
+}

@@ -48,5 +48,21 @@
     "previewShowsCsv": true,
     "consolePageErrors": []
   },
-  "releaseTiming": "held in Unreleased rather than published within the hour after 0.1.7, because each publish restarts that version's 24-hour release-age clock"
+  "releaseTiming": "held in Unreleased rather than published within the hour after 0.1.7, because each publish restarts that version's 24-hour release-age clock",
+  "suggestionForOlderItems": {
+    "why": "the 75 items already in the daily profile were presented before automatic pack attachment existed",
+    "uiVerification": {
+      "artifact": "回款明细.csv with no pack",
+      "packSelectBefore": "(empty)",
+      "hint": "这是表格类交付：套用「数据交付验收」…",
+      "afterApplying": {
+        "packValue": "data-delivery",
+        "progressChip": "必填证据 0/3",
+        "hintGone": true,
+        "approveDisabled": true
+      },
+      "consolePageErrors": []
+    },
+    "unitTest": "suggestedPack returns the data pack for csv/tsv/xlsx/xls and null otherwise"
+  }
 }

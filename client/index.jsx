@@ -1,7 +1,7 @@
 import React from 'react'
 import { watchBetterSidebar } from './better-sidebar.js'
 import { openNativeArtifact } from './native-open.js'
-import { KINDS, OTHER_KIND, artifactKind, filterByKind, focusProgress, kindCounts, kindLabel, nextAfterRemoval, shortcutAction, stepIndex } from './logic.js'
+import { KINDS, OTHER_KIND, artifactKind, filterByKind, focusProgress, kindCounts, kindLabel, nextAfterRemoval, shortcutAction, stepIndex, suggestedPack } from './logic.js'
 import css from './styles.js'
 
 const API = '/review-outbox/api'
@@ -522,6 +522,12 @@ function Outbox({ openSession, openNative, active = true }) {
                   </select>
                   {selected.reviewProgress ? <span className="ro-subtle">必填证据 {selected.reviewProgress.requiredCompleted}/{selected.reviewProgress.requiredTotal}</span> : null}
                 </div>
+                {!selectedPack && selected.status === 'pending' && suggestedPack(selected.path) ? (
+                  <p className="ro-pack-hint">
+                    这是表格类交付：<button className="ro-button" disabled={busy} onClick={() => choosePack(suggestedPack(selected.path).id)}>套用「{suggestedPack(selected.path).label}」</button>
+                    <span className="ro-subtle">套用后需要写清来源口径、字段单位并抽样核对才能通过。</span>
+                  </p>
+                ) : null}
                 {selectedPack ? (
                   <>
                     <p className="ro-pack-summary">{selectedPack.summary}</p>
