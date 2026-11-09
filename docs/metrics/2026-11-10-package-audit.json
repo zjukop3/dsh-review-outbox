@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T20:40:24.687065Z",
+  "kind": "published artifact audit",
+  "package": "dsh-review-outbox@0.1.9",
+  "tarball": {
+    "files": 34,
+    "unpackedSizeMb": 2.2,
+    "license": "MIT",
+    "repository": "git+https://github.com/zjukop3/dsh-review-outbox.git",
+    "engines": {
+      "node": ">=22.19.0",
+      "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+    }
+  },
+  "contents": {
+    "runtime": [
+      "src/*.js (8 files)",
+      "dist/client.js",
+      "client/*.jsx|js",
+      "cordis.patch.yml"
+    ],
+    "docs": [
+      "CHANGELOG",
+      "README zh/en",
+      "docs/*.md (13)",
+      "docs/packs/research-report.md"
+    ],
+    "assets": [
+      "assets/storefront/demo.gif",
+      "assets/storefront/research-first-value.png",
+      "assets/storefront/review-workbench.png"
+    ]
+  },
+  "scan": {
+    "secrets": "no matches for npm_ tokens, gho_ tokens or private-key headers",
+    "personalAbsolutePaths": "no /Users/... paths shipped; the only absolute paths are /tmp fixture examples inside documentation",
+    "note": "documentation examples using /tmp are intentional and read as fixtures, not as someone's machine"
+  },
+  "gapsFound": [
+    "assets/icon-180.png is not in 0.1.9 because it was added to package.json files after that publish; 0.1.10 will carry it",
+    "docs/REVIEWABLE-ARTIFACTS.md is likewise post-0.1.9 and will ship next",
+    "docs/checklist.txt stays out of the package on purpose: the files pattern is docs/**/*.md, and the checklist is a website download"
+  ],
+  "whyItMatters": "the repository field is what lets the catalog link a package to a claimed repository; a stray absolute path or token in a public tarball is unrecoverable once downloaded"
+}
