@@ -1,4 +1,4 @@
 {
-  "commit": "adc055b4045bd1941865846629243ecfb9d9c6ca",
-  "notes": "Version 0.1.9: the panel states which required checks still lack evidence instead of hiding that in a tooltip, and points at the receipt after a decision. Documentation-only commits do not move this pin."
+  "commit": "6000c13c2b0ebd34701d8c66b8123e06beee8530",
+  "notes": "Version 0.1.10. Documentation-only commits do not move this pin."
 }

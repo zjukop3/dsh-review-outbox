@@ -51,7 +51,7 @@ The plugin ships with zero runtime dependencies and no install scripts, so it ne
 If application-native installation cannot reach GitHub, use the same public 0.1.10 commit through the CLI:
 
 ```bash
-dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#adc055b4045bd1941865846629243ecfb9d9c6ca'
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#6000c13c2b0ebd34701d8c66b8123e06beee8530'
 dsh web
 ```
 
