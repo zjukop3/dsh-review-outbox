@@ -36,5 +36,12 @@
     "0.1.8": "2026-11-11T02:11+08:00",
     "reading": "the daily profile resolves a caret range, so it will move 0.1.4 tonight and reach 0.1.8 the following night without any manual step"
   },
-  "stillUnproven": "no person outside this machine has recorded a decision; the funnel report reads 75 pending and 0 human actions"
+  "stillUnproven": "no person outside this machine has recorded a decision; the funnel report reads 75 pending and 0 human actions",
+  "pagesDeploy": {
+    "firstAttempt": "run 42671664131 reported failure with zero jobs recorded",
+    "action": "gh run rerun",
+    "secondAttempt": "completed success on the same commit d1522d4",
+    "liveAfter": "plugins.json serves 0.1.8 / a4ba0d5, home reads 在 DSH 中安装 0.1.8, /operations/ still carries the usage-report section",
+    "reading": "a deploy that fails before any job starts is a GitHub-side hiccup, not a repository fault; the fix is to rerun rather than to change the workflow"
+  }
 }
