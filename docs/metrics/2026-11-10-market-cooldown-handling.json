@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T16:45:28.336233Z",
+  "focus": "how the application market treats the release-age cooldown, and what that implies for release timing",
+  "coexistence": {
+    "profile": "isolated DSH_HOME",
+    "installed": {
+      "dsh-review-outbox": "0.1.6",
+      "dshmarket": "^1.73.15"
+    },
+    "bundles": [
+      "@deepseek-ai/dsh-base",
+      "@deepseek-ai/dsh-web-app",
+      "dsh-review-outbox",
+      "dshmarket"
+    ],
+    "marketUi": "已安装 view lists dsh-review-outbox with its description; both bundles load with no page errors"
+  },
+  "marketSideCooldown": {
+    "evidence": "dshmarket@1.73.15 lib/updates.js",
+    "functions": [
+      "readMinimumReleaseAgeMs",
+      "selectMatureUpdate",
+      "resolveDesktopMatureUpdate"
+    ],
+    "behaviour": "The market computes latestMaturityAt and nextMaturityAt, and marks a newer version as held while it is still inside the release-age window, with an estimated maturity time when the registry cannot say.",
+    "consequence": "The 'why do I still get the old version' symptom authors hit with dsh plugin add is the same policy the market already surfaces as a pending update.",
+    "verified": "read from the installed bundle source; the UI message itself was not driven"
+  },
+  "publishWindowRule": {
+    "catalogBuildUtc": "04:46Z daily",
+    "cooldown": "1440 minutes from publish time",
+    "recommendedWindowLocal": "12:00-12:40 Asia/Shanghai (04:00Z-04:40Z)",
+    "why": "the next daily build then lands after the cooldown expires, so the card version and the resolvable version agree for the whole day",
+    "counterExample": "publishing late in the evening leaves the catalog showing the new version while installs still resolve the previous one, for up to about a day"
+  },
+  "releaseTimelineForDailyProfile": {
+    "installedSpec": "^0.1.3",
+    "matures": {
+      "0.1.4": "2026-11-10T22:42+08:00",
+      "0.1.5": "2026-11-10T23:05+08:00",
+      "0.1.6": "2026-11-11T00:25+08:00"
+    },
+    "note": "a caret range resolves to the highest matured version, so the daily profile reaches 0.1.4 first and 0.1.6 a day later, without any manual step"
+  }
+}

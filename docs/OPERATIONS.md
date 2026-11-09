@@ -29,6 +29,8 @@ node "$PNPM" add dsh-review-outbox --dir "$Y" --config.minimum-release-age=0
 
 冷却值记录在 pnpm 的 `lockfile-verified.jsonl` 策略里（`"minimumReleaseAge":1440`）。同一份策略还带 `tarballUrlBinding`、`resolutionShapeCheck`，是供应链防护的一部分，默认按设计工作。
 
+市场侧怎么看这件事（2026-11-10 读 `dshmarket@1.73.15` 源码确认，未做界面验证）：它的 `lib/updates.js` 里已经有 `readMinimumReleaseAgeMs`、`selectMatureUpdate`、`latestMaturityAt`、`nextMaturityAt` 这一整套判定，会把「还太新」的版本标记成 held，并给出可用时间。也就是说应用内市场自己就处理了冷却，作者手动 `dsh plugin add` 撞到的那次「怎么装都是旧版」，在市场里表现为「新版等待中」。
+
 对作者的实际含义：
 
 - **发布后的 24 小时内，不要用「用户装不到新版」去推断哪里坏了**，那是设计。
@@ -41,6 +43,15 @@ node "$PNPM" add dsh-review-outbox --dir "$Y" --config.minimum-release-age=0
 2026-11-09T04:49:06Z  2026-11-08T04:46:05Z  2026-11-07T21:13:53Z
 2026-11-07T04:59:33Z  2026-11-06T04:47:52Z  2026-11-05T04:41:31Z
 ```
+
+### 把两条时钟合成一条发布规则
+
+冷却按「发布时刻 + 24h」到期，目录按每天固定时刻重建。两者可以对齐：**在目录日构建之前不久发布**，第二天那次构建就正好落在冷却到期之后，卡片与安装版本一致，没有空窗。
+
+以实测的 `04:46Z` 构建估算，发布窗口是**北京时间 12:00–12:40 左右**（即 `04:00Z–04:40Z`）：
+
+- 这个窗口发布 → 次日 `04:46Z` 构建收录，同时冷却已在当天 `04:00Z–04:40Z` 到期 → 用户当天中午就能装到新版。
+- 深夜发布（我们几次都是）→ 次日构建先到、冷却还没到期 → 「卡片显示新版、装上是旧版」的空窗最长约一天。
 
 判断方法：
 
