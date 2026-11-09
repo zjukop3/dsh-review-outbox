@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T16:54:06.395299Z",
+  "focus": "a real artifact goes through review, produces a receipt, and the receipt notices a later change",
+  "environment": {
+    "kind": "isolated DSH_HOME with one real markdown file on disk, local workspace install, dsh web, Chrome headless",
+    "artifact": "workspace/sunprize/bisai/market-analysis.md",
+    "artifactSha256AtReview": "80f7686299f2bfb9d3f49d779e2262bed341f7b9cefff0b338889fd1fa8dd541"
+  },
+  "review": {
+    "previewRendered": true,
+    "note": "核对过回款周期与 SKU 分组，结论可用。",
+    "action": "approve",
+    "tabsAfter": "待审 0 | 通过 1 | 退回 0 | 归档 0 | 全部 1",
+    "statusBadge": "通过"
+  },
+  "receipt": {
+    "filename": "market-analysis.md.review-r1.html",
+    "bytes": 5427,
+    "statusShown": "已通过",
+    "containsArtifactName": true,
+    "containsReviewedSha256": true,
+    "containsReviewNote": true,
+    "leaksAbsolutePath": false,
+    "claimsMismatchWhileUnchanged": false,
+    "projectLink": "utm_source=review-receipt&utm_medium=artifact&utm_campaign=review-outbox"
+  },
+  "afterEdit": {
+    "edit": "appended a note to the reviewed file",
+    "sha256AfterEdit": "a928b9a1e8c3099f…",
+    "receiptWarns": true,
+    "warningText": "重新审阅当前版本",
+    "bothDigestsPresent": true,
+    "digestsDiffer": true,
+    "reading": "the receipt is a claim about a specific byte sequence, not about a file name; it degrades honestly when the bytes move"
+  },
+  "consolePageErrors": [],
+  "notVerified": [
+    "DOCX/PDF artifacts through the native viewer on a real document",
+    "a receipt handed to a second person and read outside this machine"
+  ]
+}
