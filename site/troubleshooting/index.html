@@ -5,6 +5,9 @@
 <nav class="nav"><a href="../">首页</a><a href="../operations/">发布与收录手册</a><a href="../research-report/">验收清单</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
 <p>六种症状，每条给一句原因、一条诊断命令、一个处理动作。<strong>只有我们亲手量过的才写成结论</strong>；没量过的分支会明确标注。</p>
 <h2 id="1-命令报-errpnpmnomatchingversion">1. 命令报 <code>ERR_PNPM_NO_MATCHING_VERSION</code></h2>
+<p>你会看到的原文（pnpm）:</p>
+<pre><code>ERR_PNPM_NO_MATCHING_VERSION  No matching version found for &lt;name&gt;@&lt;version&gt;
+while fetching it from https://registry.npmmirror.com/</code></pre>
 <p><strong>原因</strong>：你请求的那个版本不在 registry 的<strong>元数据</strong>里。注意 tarball 与元数据是两件事：文件可能已经在服务，元数据还没更新。</p>
 <p><strong>诊断</strong>：</p>
 <pre><code class="language-bash">curl -s https://registry.npmmirror.com/&lt;name&gt; | grep -o &#39;&quot;latest&quot;:&quot;[^&quot;]*&quot;&#39;
@@ -14,12 +17,18 @@ curl -s -o /dev/null -w &#39;%{http_code}\n&#39; https://registry.npmmirror.com/
 <pre><code class="language-bash">mkdir -p /tmp/npmjs &amp;&amp; printf &#39;registry=https://registry.npmjs.org\n&#39; &gt; /tmp/npmjs/.npmrc
 node &quot;$PNPM&quot; add &lt;name&gt;@&lt;version&gt; --config.userconfig=/tmp/npmjs/.npmrc</code></pre>
 <h2 id="2-装上了-但装到的是旧版本">2. 装上了，但装到的是旧版本</h2>
+<p>你会看到的原文（安装输出里的这一行）:</p>
+<pre><code>+ dsh-review-outbox 0.1.3</code></pre>
+<p>明明 npm 上已经有更新的版本，这里却是旧的。</p>
 <p><strong>原因</strong>：宿主的发布等待期（<code>minimumReleaseAge</code>，默认 1440 分钟）。浮动范围只解析<strong>最高成熟版本</strong>，装到旧版不报错。</p>
 <p><strong>诊断</strong>：</p>
 <pre><code class="language-bash">npm view &lt;name&gt; time --registry=https://registry.npmjs.org | tail -3
 # 把某版本的发布时间 + 24 小时，与当前时间比较</code></pre>
 <p><strong>处理</strong>：等它成熟；或者用精确版本装（前提是元数据里已有，见第 1 条）。</p>
 <h2 id="3-从此再也不自动更新了">3. 从此再也不自动更新了</h2>
+<p>你会看到的原文（profile 的 <code>package.json</code>）:</p>
+<pre><code class="language-json">&quot;dependencies&quot;: { &quot;&lt;name&gt;&quot;: &quot;1.2.3&quot; }     ← 冻住
+&quot;dependencies&quot;: { &quot;&lt;name&gt;&quot;: &quot;^1.2.3&quot; }    ← 会更新</code></pre>
 <p><strong>原因</strong>：装的时候写成了精确版本。精确 spec 是上限，<code>pnpm update</code> 也不会越过它。</p>
 <p><strong>诊断</strong>：</p>
 <pre><code class="language-bash">node -e &quot;console.log(require(&#39;&lt;DSH_HOME&gt;/profiles/web/package.json&#39;).dependencies[&#39;&lt;name&gt;&#39;])&quot;

@@ -106,6 +106,7 @@ test('research site builds are idempotent across local and public origins', asyn
   assert.match(await readFile(resolve(directory, 'site/llms.txt'), 'utf8'), /Measured constraints on publishing, catalog ingestion/)
   const troubleshooting = await readFile(resolve(root, 'site/troubleshooting/index.html'), 'utf8')
   assert.match(troubleshooting, /ERR_PNPM_NO_MATCHING_VERSION/, 'the symptom-first page names the error people search for')
+  assert.match(troubleshooting, /No matching version found for/, 'and quotes the literal pnpm line people paste into a search box')
   assert.match(troubleshooting, /这不是故障/, 'and says plainly when a mismatch is not a fault')
   assert.match(await readFile(resolve(directory, 'site/sitemap.xml'), 'utf8'), new RegExp(`<loc>${publicOrigin}/troubleshooting/</loc>`))
   const checklistText = await readFile(resolve(directory, 'site/checklist.txt'), 'utf8')

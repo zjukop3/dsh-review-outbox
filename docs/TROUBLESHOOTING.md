@@ -4,6 +4,13 @@
 
 ## 1. 命令报 `ERR_PNPM_NO_MATCHING_VERSION`
 
+你会看到的原文（pnpm）:
+
+```
+ERR_PNPM_NO_MATCHING_VERSION  No matching version found for <name>@<version>
+while fetching it from https://registry.npmmirror.com/
+```
+
 **原因**：你请求的那个版本不在 registry 的**元数据**里。注意 tarball 与元数据是两件事：文件可能已经在服务，元数据还没更新。
 
 **诊断**：
@@ -24,6 +31,14 @@ node "$PNPM" add <name>@<version> --config.userconfig=/tmp/npmjs/.npmrc
 
 ## 2. 装上了，但装到的是旧版本
 
+你会看到的原文（安装输出里的这一行）:
+
+```
++ dsh-review-outbox 0.1.3
+```
+
+明明 npm 上已经有更新的版本，这里却是旧的。
+
 **原因**：宿主的发布等待期（`minimumReleaseAge`，默认 1440 分钟）。浮动范围只解析**最高成熟版本**，装到旧版不报错。
 
 **诊断**：
@@ -36,6 +51,13 @@ npm view <name> time --registry=https://registry.npmjs.org | tail -3
 **处理**：等它成熟；或者用精确版本装（前提是元数据里已有，见第 1 条）。
 
 ## 3. 从此再也不自动更新了
+
+你会看到的原文（profile 的 `package.json`）:
+
+```json
+"dependencies": { "<name>": "1.2.3" }     ← 冻住
+"dependencies": { "<name>": "^1.2.3" }    ← 会更新
+```
 
 **原因**：装的时候写成了精确版本。精确 spec 是上限，`pnpm update` 也不会越过它。
 
