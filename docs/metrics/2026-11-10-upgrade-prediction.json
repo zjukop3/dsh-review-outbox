@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:35:22.221001Z",
+  "kind": "prediction test for tonight's daily-profile upgrade, plus a status read of the pending pulls",
+  "dailyProfile": {
+    "spec": "^0.1.3",
+    "installedNow": "0.1.3",
+    "path": "/Users/zjukop/.dsh/profiles/desktop"
+  },
+  "predictionMethod": "replicated the spec in an isolated profile and ran the bundled pnpm's update with the release-age window disabled, which is what the clock will do at 22:42",
+  "prediction": {
+    "resolved": "0.1.9",
+    "whyNotLatest": "the bundled pnpm resolves against registry.npmmirror.com, whose metadata does not list 0.1.10 yet, so the highest mature-and-listed version is 0.1.9"
+  },
+  "functionalMeaning": "0.1.9 already contains everything a user notices: session grouping, bulk archive, kind filter, one-at-a-time review, the first-run sample on the evidence gate, and the inline missing-evidence line. 0.1.10 adds packaging and documentation (icon in the tarball, the convention document, the checklist downloads) plus CI and the release script",
+  "pendingPulls": {
+    "awesome-dsh-plugin#13722": {
+      "state": "OPEN",
+      "mergeable": "MERGEABLE",
+      "mergeState": "CLEAN",
+      "checks": "check SUCCESS, Submission gate SUCCESS"
+    },
+    "awesome-dsh-plugin#13729": {
+      "state": "OPEN",
+      "mergeable": "MERGEABLE",
+      "mergeState": "CLEAN",
+      "checks": "check SUCCESS, Submission gate SUCCESS"
+    },
+    "reading": "nothing on our side is blocking either pull; the only remaining dependency is a human review"
+  },
+  "notDone": "no ping comment on the pulls: they are five and four hours old, and a review request inside a day reads as pressure rather than information"
+}
