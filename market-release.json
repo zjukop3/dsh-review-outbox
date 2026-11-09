@@ -1,4 +1,4 @@
 {
-  "commit": "bdcd446863e3c79d359871cb159d4fc120586a6f",
-  "notes": "Version 0.1.5: session groups can be archived in one step (host-side guard refuses anything but archive, so bulk cannot skip review). The 0.1.4 session grouping shipped after the first real daily-profile install backfilled 75 deliverables across 10 sessions. Documentation-only commits do not move this pin."
+  "commit": "c3a9d272dc5f391669f4e2344e821d732ae3b9eb",
+  "notes": "Version 0.1.6: filter the review list by artifact kind with live counts, and single-key review actions (a/r/z/n/p) that refuse to fire while a text field has focus. The 0.1.5 release shipped session-scoped bulk archive. Documentation-only commits do not move this pin."
 }

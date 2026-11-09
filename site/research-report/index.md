@@ -78,7 +78,7 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 应用内安装网络不可用时，可对同一个公开提交执行：
 
 ```bash
-dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#bdcd446863e3c79d359871cb159d4fc120586a6f'
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#c3a9d272dc5f391669f4e2344e821d732ae3b9eb'
 dsh web
 ```
 
