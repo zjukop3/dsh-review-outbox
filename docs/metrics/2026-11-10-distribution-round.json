@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T18:49:57.570268Z",
+  "kind": "distribution and ecosystem contribution",
+  "changes": [
+    {
+      "what": "the landing page finally contains the checklist it tells people to copy",
+      "why": "the FAQ said 清单可直接复制使用 but there was nothing to copy; a visitor who will not install anything hit a dead end",
+      "how": [
+        "docs/checklist.txt is now the single source",
+        "the build writes site/checklist.txt and embeds the same text in a <pre> block at #s-05b",
+        "the page links the plain-text download"
+      ]
+    },
+    {
+      "what": "docs PR to the awesome catalog explaining the publish-to-install gap",
+      "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13729",
+      "why": "every author in a 4,985-entry catalog hits it once, and the answer lives nowhere in that repository",
+      "content": "daily rebuild cadence plus the release-age window, in the file's existing bilingual style, with no plugin names or links"
+    },
+    {
+      "what": "independent reproduction comment on dsh-market#1093",
+      "url": "https://github.com/dsh-market/dsh-market/issues/1093#issuecomment-6748072819"
+    }
+  ],
+  "nicheChecks": {
+    "doctorAndUpdateHelp": {
+      "matches": 88,
+      "exampleNames": [
+        "@ragnoryok1/dsh-plugin-doctor",
+        "@jorinyang/dsh-doctor",
+        "dsh-update-checker",
+        "@sueleven/dsh-auto-update",
+        "dsh-stall-guard"
+      ],
+      "conclusion": "a diagnostics plugin would enter a crowded field; the idea is dropped rather than built"
+    }
+  },
+  "tests": {
+    "total": 71,
+    "pass": 71
+  },
+  "thesisTestUnchanged": "still zero human decisions in the real profile; this round changed what a non-installer can get, not what an installer does"
+}

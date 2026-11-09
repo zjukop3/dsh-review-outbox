@@ -129,6 +129,9 @@ ${handbookBody}
 await mkdir(resolve(root, 'site/operations'), { recursive: true })
 await writeFile(resolve(root, 'site/operations/index.html'), handbook)
 
+const checklistText = await readFile(resolve(root, 'docs/checklist.txt'), 'utf8')
+await writeFile(resolve(root, 'site/checklist.txt'), checklistText)
+
 const home = `<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Review Outbox · 研究报告验收</title>${favicon}<meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="index,follow">${pageUrl ? `<link rel="canonical" href="${escapeHtml(`${origin}/`)}">` : ''}<style>
 body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(36px,7vw,72px);font-weight:250;line-height:1.08;margin-bottom:24px}h2{font-size:24px;font-weight:500;line-height:1.3}p,li{color:#525252}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.install,.proof{padding:24px;margin:32px 0;background:#fff;border:1px solid #d4d4d2}.install code{display:block;padding:12px;overflow-wrap:anywhere;background:#f0f0ee;color:#0a0a0a}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit}details{margin-top:20px}summary{cursor:pointer;color:#002fa7}a{display:inline-block;margin-top:16px;padding:12px 18px;background:#002fa7;color:#fff;text-decoration:none}a.dark{background:#0a0a0a}img{display:block;max-width:100%;height:auto;margin-top:20px;border:1px solid #d4d4d2}.links a{margin-right:8px}small{display:block;margin-top:28px;color:#737373}small a{padding:0;background:none;color:inherit}@media(max-width:600px){body{margin:2vh auto;padding:18px}.install,.proof{padding:18px}a{margin-top:12px}}

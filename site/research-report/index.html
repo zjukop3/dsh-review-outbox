@@ -1757,7 +1757,39 @@
 <p>插件也接收安装前持久化 Session 中的官方交付和可配对的 <code>research_report</code> 密封结果，不要求上游研究插件专门适配。DOCX 和 PDF 可以恢复来源 Session 后进入官方 Viewer，不需要另行安装渲染器。</p></section><section class="section" id="s-04"><div class="section-header"><div class="section-number">04</div><h2>已验证的首次价值</h2></div><p>真实 Chrome 已在隔离 Profile 中完整验证：安装前生成的密封研究报告，在固定提交安装后自动回填；报告默认显示 <code>必填证据 0/4</code>，完成四项证据后通过并下载独立验收单。manifest 同时回填，但不会误附研究报告验收包。</p>
 <figure class="figure-card"><img src="first-value.png" alt="密封研究报告自动回填后默认显示四项必填证据" loading="lazy" style="border-radius:0" /><figcaption>密封研究报告自动回填后默认显示四项必填证据</figcaption></figure>
 <p><a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/e2e/application-first-value.json">查看这次首次价值验证的结构化证据</a>。它证明合成固定证据在真实插件、持久化和 Web GUI 中的完整产品链路，不把验证环境算作外部用户。</p>
-<div class="aside-card"><div class="aside-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div><div class="aside-content"><div class="aside-title">先看真实产物，再决定是否安装</div><p>验收单无需安装即可打开。你可以先检查它是否真正保留了审阅证据，再决定是否采用插件。</p></div></div></section><section class="section" id="s-05"><div class="section-header"><div class="section-number">05</div><h2>直接查看真实验收单</h2></div><p><a href="receipt-example.html">打开一份由真实浏览器流程导出的研究报告验收单</a>。它展示了检查证据、revision、审阅意见、处理历史和文件摘要，不需要安装 DeepSeek Harness 或 Review Outbox。</p></section><section class="section" id="s-06"><div class="section-header"><div class="section-number">06</div><h2>验收单包含什么</h2></div><div class="gallery-grid"><div class="gallery-grid-item"><div class="img-placeholder"><span>成果身份</span></div><div class="gallery-cap">文件名、revision、当前状态和审阅意见。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>检查证据</span></div><div class="gallery-cap">每个检查项的完成状态和人工填写的证据。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>处理历史</span></div><div class="gallery-cap">发现、退回、revision、通过与归档轨迹。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>文件摘要</span></div><div class="gallery-cap">通过或退回时记录的 SHA-256。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>版本变化</span></div><div class="gallery-cap">导出时重新计算并比较当前文件摘要。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>插件入口</span></div><div class="gallery-cap">需要处理同类成果时继续进入 Review Outbox。</div></div></div>
+<div class="aside-card"><div class="aside-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div><div class="aside-content"><div class="aside-title">先看真实产物，再决定是否安装</div><p>验收单无需安装即可打开。你可以先检查它是否真正保留了审阅证据，再决定是否采用插件。</p></div></div></section><section class="section" id="s-05"><div class="section-header"><div class="section-number">05</div><h2>直接查看真实验收单</h2></div><p><a href="receipt-example.html">打开一份由真实浏览器流程导出的研究报告验收单</a>。它展示了检查证据、revision、审阅意见、处理历史和文件摘要，不需要安装 DeepSeek Harness 或 Review Outbox。</p></section><section class="section" id="s-05b"><div class="section-header"><div class="section-number">05b</div><h2>不装插件也能用的清单</h2></div><p>下面这份清单可以整段选中复制，或<a href="checklist.txt">下载纯文本</a>，粘到文档或群聊里直接用。插件的作用是把它变成「不填证据就没法通过」的流程，而不是清单本身。</p><pre class="checklist-block" style="white-space:pre-wrap;overflow:auto;padding:18px 20px;border:1px solid #d4d4d2;background:#f0f0ee;font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#252524;max-height:520px">研究报告验收清单（可复制）
+================================
+
+什么时候用：Agent 交来一份「结论型」研究报告，你要决定它能不能算完成。
+
+四项必填（缺一项就不算通过）
+1. 核心结论有对应证据
+   逐条核对结论，记下支持它的正文位置、数据或原始来源。
+   例：结论 1 见第 3 节表 2；样本数据与结论一致。
+
+2. 引用来源可复核
+   引用能定位到作者/机构、标题、日期与 URL 或 DOI，且来源确实支持该论断。
+   例：抽查引用 [1][3][5]，链接可访问，原文段落与报告表述一致。
+
+3. 数据时间与统计口径明确
+   核对统计区间、时区、单位、样本范围与比较基线。
+   例：数据截至 2026-10-31，UTC；金额为人民币，同比基线一致。
+
+4. 方法与限制已披露
+   检查检索/实验方法、纳入排除标准、局限性与重要相反证据。
+   例：检索式与数据库已记录；仅覆盖公开中文资料的限制已说明。
+
+可选（有复现需求时填）
+5. 复现材料可定位
+   脚本、数据、环境与步骤；不适用时写清原因。
+
+判定
+- 四项必填都「有勾选 + 有书面证据」→ 通过
+- 任一项缺证据 → 退回，并在意见里写明要补什么
+- 报告之后被改过 → 需要重新审阅当前版本（按文件 SHA-256 判断）
+
+来源：https://zjukop3.github.io/dsh-review-outbox/research-report/
+</pre></section><section class="section" id="s-06"><div class="section-header"><div class="section-number">06</div><h2>验收单包含什么</h2></div><div class="gallery-grid"><div class="gallery-grid-item"><div class="img-placeholder"><span>成果身份</span></div><div class="gallery-cap">文件名、revision、当前状态和审阅意见。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>检查证据</span></div><div class="gallery-cap">每个检查项的完成状态和人工填写的证据。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>处理历史</span></div><div class="gallery-cap">发现、退回、revision、通过与归档轨迹。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>文件摘要</span></div><div class="gallery-cap">通过或退回时记录的 SHA-256。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>版本变化</span></div><div class="gallery-cap">导出时重新计算并比较当前文件摘要。</div></div><div class="gallery-grid-item"><div class="img-placeholder"><span>插件入口</span></div><div class="gallery-cap">需要处理同类成果时继续进入 Review Outbox。</div></div></div>
 <p>验收单是无脚本、无外部资源的独立 HTML，接收者无需安装即可打开。它不自动上传，不写入原报告，不包含本机绝对路径或会话内容；证据与意见按审阅者填写内容导出。</p></section><section class="section" id="s-07"><div class="section-header"><div class="section-number">07</div><h2>安装 Review Outbox 0.1.9</h2></div><p>目标宿主为 DeepSeek Harness <code>>=0.2.2-rc.1 <0.3.0-0</code>，Node.js <code>>=22.19</code>。项目处于 <code>0.1.x</code> 验证阶段，<a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a>与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，<a href="https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/">Awesome 社区目录</a>已合并收录。</p>
 <h3>从应用内「发现」安装</h3>
 <ol><li>打开「插件」，启用实验性「自定义插件索引」。</li><li>进入「发现 → 添加索引源」，添加以下地址：</li></ol>
