@@ -73,7 +73,9 @@ dsh plugin --profile web add dsh-review-outbox
 dsh web
 ```
 
-已在隔离 Profile 验证：安装耗时约 2 秒，版本 `0.1.5`，bundle 自动选中。
+已在隔离 Profile 验证：固定提交的 GitHub 源安装可解析到 `0.1.5`（6 分 52 秒，bundle 自动选中）；`registry.npmjs.org` 上的 `dsh-review-outbox@0.1.5` 用 pnpm 直装 9.4 秒成功。
+
+注意：DSH 内置 pnpm 固定走 `registry.npmmirror.com`，并忽略 `npm_config_registry`。该镜像在 2026-11-09 晚对我们的包返回 500（`ER_NO_SUCH_TABLE`），此时 `dsh plugin ... add dsh-review-outbox` 会解析到镜像缓存的 `0.1.3` 或以 `ERR_PNPM_NO_MATCHING_VERSION` 失败。镜像恢复前，用上面的固定提交回退路径安装。
 
 ### 从 Awesome 目录安装
 

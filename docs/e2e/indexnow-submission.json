@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "submittedAt": "2026-11-08T07:22:19.860Z",
+  "submittedAt": "2026-11-09T15:12:15.729Z",
   "endpoint": "https://www.bing.com/indexnow",
   "keyLocation": "https://zjukop3.github.io/dsh-review-outbox/08986ba4f300c03bb388875263d41845.txt",
   "urlList": [
@@ -25,7 +25,7 @@
       }
     ]
   },
-  "responseStatus": 202,
+  "responseStatus": 200,
   "responseBody": null,
   "indexingStatus": "unknown",
   "externalActivationClaim": false

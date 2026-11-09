@@ -45,6 +45,22 @@
 
 **2026-11-09 已收录**：`dsh-plugin-catalog@2026.1109.17642`（4985 条目）中本插件条目为 `dsh-review-outbox` v`0.1.3`，`source: npm`。真实市场界面（dshmarket 1.73.16）实测：卡片正确渲染（名称、作者、v0.1.3、工作流与自动化分类），搜索 `研究报告`、`成果人工审阅`、`验收单`、`outbox`、`zjukop3` 均能命中；点击安装会弹出含版本、能力扫描与安装命令的确认对话框。
 
+## 安装通道的真实约束：镜像决定安装版本
+
+2026-11-09 发布 `0.1.5` 时实测到一条比元数据更硬的约束：**DSH 内置 pnpm 的 registry 是写死的**。
+
+- `dsh plugin --profile web add dsh-review-outbox` 使用 `runtime/primary-runtime/dependencies/pnpm/bin/pnpm.mjs`，实际请求 `https://registry.npmmirror.com`；设置 `npm_config_registry=https://registry.npmjs.org` 后请求仍打向镜像，未被采纳。
+- 当晚 `registry.npmmirror.com/dsh-review-outbox` 与 `dsh-plugin-catalog` 同时返回 `500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist`，镜像对这两个包的元数据整体不可用。结果：默认安装命令解析到镜像缓存的 `0.1.3`；显式指定 `dsh-review-outbox@0.1.5` 则报 `ERR_PNPM_NO_MATCHING_VERSION`。
+- 已用 `PUT /-/package/dsh-review-outbox/syncs` 触发同步（`201 waiting`），同步任务只排队，元数据仍是 500。
+- 同一时刻 `registry.npmjs.org` 的 latest 已是 `0.1.5`，`pnpm add dsh-review-outbox@0.1.5` 在临时目录 9.4 秒装成功。
+
+结论，写进文档而不是写进愿景：
+
+1. `npm publish` 成功**不等于**国内用户能装到新版。必要条件是镜像也同步完成。镜像同步是外部依赖，我们能做的只有发布后立刻触发 sync、并在镜像不可用时给出回退路径。
+2. 回退路径已验证可用：`dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#<commit>'` 绕过 registry，直接取 GitHub 源码解析到 `0.1.5`，代价是耗时 6 分 52 秒。
+3. 官方目录 `dsh-plugin-catalog@2026.1109.17642` 仍把本插件记为 `0.1.3`，而 npm 上的 `0.1.4` 早在数小时前就发布了。目录重建管线很可能同样读镜像；这一点是推断，未验证，不做结论。
+4. 产品含义：更新触达不掌握在自己手里。这也是把插件做成零运行时依赖、无安装脚本的理由之一——少了依赖解析，镜像故障时至少 GitHub 源这条路还在。
+
 已知边界（如实记录，含两处自我修正）：① **市场搜索本身工作正常**——唯一短语 `研究报告证据清单` 能精确命中本插件；宽泛查询（`验收` 102 条、`看板` 108 条、`侧边栏` 103 条）返回 100+ 结果并出现「加载更多」，而 0 下载 0 星标的条目排在折叠线以下。**真正的约束是热度信号为零，不是搜索覆盖或条目元数据。** ② 上游 `metadata.keywords` 为空是**刻意设计**——`scripts/lib/market-index.mjs` 注释明确写着省略 format 默认字段以节省每个条目字节，因此它不是缺陷，也不是我们能单方面改的杠杆。③ 确认对话框接受后，headless 自动化环境中 profile 未实际安装且无错误浮出，因此**一键安装的点击链路未验证**；底层的 `dsh plugin --profile web add dsh-review-outbox` 已独立验证（1.6 秒、0.1.3、bundle 自动选中）。证据见[市场收录快照](metrics/2026-11-09-market-listing.json)。
 
 ## 首次聚合基线

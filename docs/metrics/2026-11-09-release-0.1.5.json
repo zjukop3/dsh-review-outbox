@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T15:25:00Z",
+  "milestone": "0.1.5 release: session grouping plus session-scoped bulk archive",
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "version": {
+    "version": "0.1.5",
+    "runtimeCommit": "bdcd446863e3c79d359871cb159d4fc120586a6f",
+    "pinCommit": "3e34b03b714fba3197f5453ef9eefb291f1134e6",
+    "npm": {
+      "published": true,
+      "shasum": "9d12541209b3b2e5849a67dd9afa0c46a5e99c05",
+      "unpackedSizeBytes": 2200000,
+      "totalFiles": 32,
+      "distTagLatest": "0.1.5",
+      "registry": "https://registry.npmjs.org"
+    },
+    "tests": { "total": 47, "pass": 47, "fail": 0 }
+  },
+  "whatChanged": [
+    "Review list groups items by session; the groups themselves stay collapsible and every artifact remains reachable.",
+    "A session group can be archived in one step. The host accepts only action=archive for a session-scoped bulk request and returns 400 otherwise, so the bulk path cannot be used to approve or return without a human decision.",
+    "Bulk archive is reversible per artifact; each archived item keeps its own history entry."
+  ],
+  "inProductVerification": {
+    "environment": "isolated DSH_HOME with a copy of the real 75-item daily-profile state",
+    "groupsRendered": 10,
+    "archiveResult": { "clickedGroupSize": 4, "response": { "archived": 4 }, "pending": 75, "pendingAfter": 71, "archivedAfter": 4, "groupsAfter": 9 },
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "persistedState": { "pending": 71, "archived": 4 },
+    "historySample": ["observed", "revision", "archive"]
+  },
+  "installChannels": {
+    "githubPinnedCommit": {
+      "command": "dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#bdcd446863e3c79d359871cb159d4fc120586a6f'",
+      "resolvedVersion": "0.1.5",
+      "durationSeconds": 412,
+      "verified": true
+    },
+    "registryNpmjs": {
+      "command": "pnpm add dsh-review-outbox@0.1.5 --registry=https://registry.npmjs.org",
+      "resolvedVersion": "0.1.5",
+      "durationSeconds": 9.4,
+      "verified": true
+    },
+    "dshDefault": {
+      "command": "dsh plugin --profile web add dsh-review-outbox",
+      "resolvedVersion": "0.1.3",
+      "verified": false,
+      "failure": "The pnpm bundled with DSH is pinned to registry.npmmirror.com and ignores npm_config_registry. The mirror answered 500 ER_NO_SUCH_TABLE for this package, so resolution fell back to the mirror's cached 0.1.3; requesting 0.1.5 explicitly failed with ERR_PNPM_NO_MATCHING_VERSION.",
+      "mirrorSyncTriggered": "PUT https://registry.npmmirror.com/-/package/dsh-review-outbox/syncs -> 201 {state: waiting}",
+      "mirrorStateAtCollection": "500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist"
+    }
+  },
+  "catalogState": {
+    "package": "dsh-plugin-catalog",
+    "version": "2026.1109.17642",
+    "indexEntries": 4985,
+    "listed": true,
+    "listedVersion": "0.1.3",
+    "note": "The catalog still records 0.1.3 even though 0.1.4 was published hours earlier. The rebuild pipeline most likely reads the same mirror; that is inference, not a verified claim."
+  },
+  "searchDiscovery": {
+    "indexNowSubmitted": true,
+    "responseStatus": 200,
+    "submittedUrls": [
+      "https://zjukop3.github.io/dsh-review-outbox/",
+      "https://zjukop3.github.io/dsh-review-outbox/research-report/",
+      "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html"
+    ],
+    "indexingStatus": "unknown",
+    "externalActivationClaim": false
+  },
+  "dailyProfile": {
+    "path": "/Users/zjukop/.dsh/profiles/desktop",
+    "installedSpec": "^0.1.3",
+    "installedVersion": "0.1.3",
+    "updatePerformedBy": "the Electron application, which manages this profile exclusively; the CLI refuses to modify it",
+    "pendingItems": 75,
+    "humanReviewActionsEver": 0
+  },
+  "releaseProcessNote": "The 0.1.5 changelog lines were first written through a bash heredoc, which executed the backticked words as commands and silently dropped them from the text. The pin commit restores them. Release write-ups now use direct file writes, not shell heredocs.",
+  "whatWouldCountAsSuccess": [
+    "A human review action (approve, return, or archive) in the daily desktop profile after the update lands.",
+    "One receipt export produced outside this machine's own testing.",
+    "One install that did not originate from a session where the author described the plugin."
+  ]
+}

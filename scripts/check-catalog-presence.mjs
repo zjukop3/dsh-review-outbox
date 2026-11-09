@@ -4,7 +4,7 @@ const packageName = 'dsh-review-outbox'
 const catalogPackage = 'dsh-plugin-catalog'
 
 function npmView(spec, field) {
-  return execFileSync('npm', ['view', spec, field, '--json'], { encoding: 'utf8' }).trim()
+  return execFileSync('npm', ['view', spec, field, '--json', '--registry=https://registry.npmjs.org'], { encoding: 'utf8' }).trim()
 }
 
 const catalogVersion = JSON.parse(npmView(catalogPackage, 'version'))
