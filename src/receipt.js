@@ -110,7 +110,7 @@ export function renderReceipt(item, {
     section{margin-top:20px;padding:24px;background:var(--paper);border:1px solid var(--line);border-radius:16px}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .label{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.value{font-weight:650;overflow-wrap:anywhere}.comparison{margin-top:20px;padding:13px 16px;border-radius:10px;font-weight:650}
     .comparison.match{background:#e0f3e9;color:#12603e}.comparison.changed{background:#fff0dc;color:#9a4c00}.comparison.unknown{background:#eef0ef;color:#606963}
-    .digest{display:block;margin-top:12px;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all;color:#39473f}
+    .digest{display:block;margin-top:12px;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all;color:#39473f}.verify{margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.6}.verify code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
     .note{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0}.description{color:#3d4942;margin:0}.pack-title{font-size:20px;margin:4px 0 8px}.checklist{list-style:none;padding:0;margin:16px 0 0}.check-row{padding:14px 0;border-top:1px solid var(--line)}.check-row>div{display:flex;justify-content:space-between;gap:16px}.check-row>div>span{color:var(--muted);font-size:12px;white-space:nowrap}.check-row p{margin:5px 0;color:var(--muted);font-size:13px}.check-row blockquote{margin:8px 0 0;padding:10px 12px;background:var(--wash);border-left:3px solid var(--accent);white-space:pre-wrap;overflow-wrap:anywhere}.history{list-style:none;padding:0;margin:0}.history-row{padding:16px 0;border-bottom:1px solid var(--line)}
     .history-row:last-child{border-bottom:0}.history-row>div{display:flex;justify-content:space-between;gap:16px}.history-row time{color:var(--muted);font-size:12px;text-align:right}.history-row p{margin:6px 0;white-space:pre-wrap}.history-row code{display:block;font-size:11px;color:var(--muted);word-break:break-all}.empty{color:var(--muted)}
     footer{display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:12px;margin-top:24px}.generated{margin-top:6px;color:var(--muted);font-size:12px}
@@ -131,6 +131,7 @@ export function renderReceipt(item, {
     </div>
     <div class="comparison ${current.kind}">${current.text}</div>
     ${reviewedDigest ? `<code class="digest">审阅时 SHA-256 · ${escape(reviewedDigest, 64)}</code>` : ''}
+    ${reviewedDigest ? `<p class="verify">自查方法：对这份文件跑 <code>shasum -a 256 '${escape(name, 240)}'</code>（或用 <code>sha256sum</code>），输出应与上面的摘要一致。不一致说明文件在审阅之后被改过。</p>` : ''}
   </section>
   ${item.description ? `<section><span class="label">成果说明</span><p class="description">${escape(item.description)}</p></section>` : ''}
   ${packHtml}

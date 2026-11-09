@@ -32,5 +32,10 @@
   "serverSideTest": "test/host.test.js now asserts the sample carries reviewPack research-report with requiredTotal 4 and that a bare approve is refused with 400 before the checks carry evidence",
   "notVerified": [
     "the same gate on a real dsh-research-report sealed report in this round (verified in earlier rounds through backfill)"
-  ]
+  ],
+  "receiptSelfCheck": {
+    "added": "a line telling the recipient to run shasum -a 256 '<file name>' or sha256sum and compare",
+    "usesFileNameOnly": true,
+    "unitTest": "test/receipt.test.js asserts the command names the artifact and that no absolute path reappears"
+  }
 }

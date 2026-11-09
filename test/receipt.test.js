@@ -56,3 +56,20 @@ test('pending and unreadable receipts do not claim verified file equality', () =
   assert.match(html, /此版本没有可用的审阅时文件摘要/)
   assert.doesNotMatch(html, /当前文件与审阅时摘要一致/)
 })
+
+test('a receipt tells the recipient how to check the digest themselves', () => {
+  const now = new Date('2026-11-10T00:00:00Z')
+  const evidence = { status: 'available', algorithm: 'sha256', digest: 'a'.repeat(64) }
+  const html = renderReceipt({
+    path: '/work/market-analysis.md',
+    status: 'approved',
+    revision: 2,
+    firstSeenAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+    reviewEvidence: evidence,
+    history: [],
+  }, { currentEvidence: evidence, now: () => now })
+  assert.match(html, /shasum -a 256 'market-analysis\.md'/, 'the command names the artifact, not a path')
+  assert.match(html, /sha256sum/)
+  assert.doesNotMatch(html, /\/work\//, 'the hint must not reintroduce the absolute path the receipt omits')
+})
