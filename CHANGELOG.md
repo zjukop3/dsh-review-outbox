@@ -2,7 +2,7 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
-## [Unreleased] — 0.1.9
+## [0.1.9] - 2026-11-10
 
 - The panel now says out loud what a disabled 通过 button is waiting for: 还不能通过，还差 N 项必填证据：…, listing every required check that lacks a tick or written evidence. A tooltip is not an explanation, and the gap was found by walking the published build as a stranger.
 - After a decision the panel points at the receipt instead of leaving the reviewer to notice the button: 这一步已经记下来了。想让对方能自己核对，用「导出验收单」生成一份带 SHA-256 的独立 HTML。

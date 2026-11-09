@@ -55,7 +55,7 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 验收单是无脚本、无外部资源的独立 HTML，接收者无需安装即可打开。它不自动上传，不写入原报告，不包含本机绝对路径或会话内容；证据与意见按审阅者填写内容导出。
 
-## 安装 Review Outbox 0.1.8
+## 安装 Review Outbox 0.1.9
 
 目标宿主为 DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`，Node.js `>=22.19`。项目处于 `0.1.x` 验证阶段，[GitHub 源码](https://github.com/zjukop3/dsh-review-outbox)与 Pages 清单已公开；npm 和 GitHub Release 尚未发布，[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录。
 
@@ -68,7 +68,7 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 https://zjukop3.github.io/dsh-review-outbox/plugins.json
 ```
 
-3. 搜索 `Review Outbox` 或 `研究报告`，确认版本 `0.1.8`、仓库和完整提交后安装。
+3. 搜索 `Review Outbox` 或 `研究报告`，确认版本 `0.1.9`、仓库和完整提交后安装。
 4. 回到「已安装」，启用 `dsh-review-outbox`；左侧出现「成果审阅」后即可使用。
 
 ![安装后即可使用的完整审阅流程：历史成果回填、逐项填写证据、通过并导出验收单](demo.gif)
