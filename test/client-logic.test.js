@@ -10,6 +10,7 @@ import {
   focusProgress,
   kindCounts,
   kindLabel,
+  missingRequiredChecks,
   nextAfterRemoval,
   shortcutAction,
   stepIndex,
@@ -174,4 +175,20 @@ test('an artifact with no pack still gets a usable message', () => {
   assert.doesNotMatch(message, /必填检查/)
   assert.match(message, /notes\.txt/)
   assert.equal(buildReviewMessage(null, null), '')
+})
+
+test('the missing-evidence line names every required check that is not done', () => {
+  const pack = { checks: [
+    { id: 'a', label: '核心结论有对应证据', required: true },
+    { id: 'b', label: '引用来源可复核', required: true },
+    { id: 'c', label: '复现材料', required: false },
+  ] }
+  assert.deepEqual(missingRequiredChecks({ reviewPack: { checks: {} } }, pack), ['核心结论有对应证据', '引用来源可复核'])
+  assert.deepEqual(
+    missingRequiredChecks({ reviewPack: { checks: { a: { checked: true, detail: '第 3 节' }, b: { checked: true, detail: '   ' } } } }, pack),
+    ['引用来源可复核'],
+    'a tick without written evidence still counts as missing',
+  )
+  assert.deepEqual(missingRequiredChecks({ reviewPack: { checks: { a: { checked: true, detail: 'x' }, b: { checked: true, detail: 'y' } } } }, pack), [])
+  assert.deepEqual(missingRequiredChecks({}, null), [], 'no pack means nothing to miss')
 })

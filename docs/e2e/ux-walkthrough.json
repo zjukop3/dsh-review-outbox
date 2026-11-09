@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T18:26:56.270649Z",
+  "method": "a stranger's walkthrough with no instructions: only on-screen text was read, and the published 0.1.8 build from npm was used, not a local build",
+  "environment": "fresh isolated DSH_HOME, dsh plugin add dsh-review-outbox@0.1.8, dsh web, Chrome headless, screenshots in docs/e2e/ux/",
+  "walkthrough": [
+    {
+      "step": 1,
+      "screenshot": "01-first-paint.png",
+      "found": "the sidebar entry 成果审阅 is visible with a count of 0",
+      "verdict": "discoverable; the label alone does not say what it reviews"
+    },
+    {
+      "step": 2,
+      "screenshot": "03-empty-panel.png",
+      "found": "这里还没有成果 … 也可以先生成一条示例，把流程走一遍 / [生成一条示例成果]",
+      "verdict": "the dead end is closed; one obvious action"
+    },
+    {
+      "step": 3,
+      "screenshot": "04-sample-opened.png",
+      "found": "必填证据 0/4, 5 checks with example placeholders, 通过 disabled",
+      "verdict": "the gate is visible, but the reason sat only in a tooltip"
+    },
+    {
+      "step": 4,
+      "screenshot": "05-half-filled.png",
+      "found": "必填证据 2/4, 通过 still disabled",
+      "verdict": "count moves, which two remain was not stated in the open"
+    },
+    {
+      "step": 5,
+      "screenshot": "06-all-checked.png",
+      "found": "必填证据 4/4, 通过 enabled",
+      "verdict": "next action obvious"
+    },
+    {
+      "step": 6,
+      "screenshot": "07-approved.png",
+      "found": "tabs switch to 通过 1, 导出验收单 available",
+      "verdict": "nothing told the reviewer a receipt now exists"
+    },
+    {
+      "step": 7,
+      "screenshot": "08-receipt-exported.png",
+      "found": "sample-review-*.md.review-r1.html downloaded",
+      "verdict": "the loop closes without console or page errors"
+    }
+  ],
+  "frictionsFound": [
+    {
+      "id": "A",
+      "problem": "a disabled 通过 button explained itself only through a hover tooltip",
+      "fix": "inline line naming every required check that is still missing, e.g. 还不能通过，还差 4 项必填证据：核心结论有对应证据、引用来源可复核、数据时间与统计口径明确、方法与限制已披露"
+    },
+    {
+      "id": "B",
+      "problem": "after a decision, nothing pointed at the receipt",
+      "fix": "inline line 这一步已经记下来了。想让对方能自己核对，用「导出验收单」生成一份带 SHA-256 的独立 HTML"
+    }
+  ],
+  "afterFix": {
+    "hintAtZero": "还不能通过，还差 4 项必填证据：核心结论有对应证据、引用来源可复核、数据时间与统计口径明确、方法与限制已披露",
+    "hintWhenAllChecked": "absent",
+    "hintAfterApproval": "这一步已经记下来了。想让对方能自己核对，用「导出验收单」生成一份带 SHA-256 的独立 HTML。",
+    "hintStyling": "warning tone before approval, success tone after",
+    "consolePageErrors": []
+  },
+  "stillOpen": [
+    "the sidebar label 成果审阅 does not tell a stranger what kind of deliverables it is for; the count 0 does not invite a click",
+    "the demo banner 当前包含合成示例 stays until the sample is archived, which is correct but reads as unfinished state"
+  ]
+}

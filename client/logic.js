@@ -159,3 +159,21 @@ export function buildReviewMessage(item, pack) {
   else lines.push(`本次审阅针对 ${revision} 的文件摘要，文件若已改动需要重新审阅。`)
   return lines.join('\n')
 }
+
+/**
+ * Required checks that still lack either a tick or written evidence.
+ * Surfaced as text next to a disabled approve button: a tooltip is not a
+ * explanation, and a stranger should not have to hover to learn what is missing.
+ */
+export function missingRequiredChecks(item, pack) {
+  const checks = pack?.checks || []
+  if (checks.length === 0) return []
+  const state = item?.reviewPack?.checks || {}
+  return checks
+    .filter(check => check.required)
+    .filter(check => {
+      const entry = state[check.id] || {}
+      return entry.checked !== true || String(entry.detail || '').trim() === ''
+    })
+    .map(check => check.label)
+}

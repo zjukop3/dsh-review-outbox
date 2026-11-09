@@ -1,7 +1,7 @@
 import React from 'react'
 import { watchBetterSidebar } from './better-sidebar.js'
 import { openNativeArtifact } from './native-open.js'
-import { KINDS, OTHER_KIND, artifactKind, buildReviewMessage, filterByKind, focusProgress, kindCounts, kindLabel, nextAfterRemoval, shortcutAction, stepIndex, suggestedPack } from './logic.js'
+import { KINDS, OTHER_KIND, artifactKind, buildReviewMessage, filterByKind, focusProgress, kindCounts, kindLabel, missingRequiredChecks, nextAfterRemoval, shortcutAction, stepIndex, suggestedPack } from './logic.js'
 import css from './styles.js'
 
 const API = '/review-outbox/api'
@@ -576,6 +576,15 @@ function Outbox({ openSession, openNative, active = true }) {
               <section className="ro-actions">
                 <textarea className="ro-note" value={note} onChange={event => setNote(event.target.value)} placeholder="审阅意见；退回时可复制到原会话" />
                 <div className="ro-shortcuts">快捷键：<b>a</b> 通过 · <b>r</b> 退回 · <b>z</b> 归档 · <b>n</b>/<b>p</b> 下一项/上一项（在输入框内不生效）</div>
+                {selected.status === 'pending' && selectedPack && missingRequiredChecks(selected, selectedPack).length > 0 ? (
+                  <p className="ro-next">
+                    还不能通过，还差 {missingRequiredChecks(selected, selectedPack).length} 项必填证据：
+                    {missingRequiredChecks(selected, selectedPack).join('、')}
+                  </p>
+                ) : null}
+                {selected.status !== 'pending' ? (
+                  <p className="ro-next ok">这一步已经记下来了。想让对方能自己核对，用「导出验收单」生成一份带 SHA-256 的独立 HTML。</p>
+                ) : null}
                 {sessionMissing ? (
                   <div className="ro-error">原会话已不存在（可能已删除），审阅文字已复制，可粘贴到任意会话。</div>
                 ) : null}

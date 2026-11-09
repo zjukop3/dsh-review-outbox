@@ -2,6 +2,12 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [Unreleased] — 0.1.9
+
+- The panel now says out loud what a disabled 通过 button is waiting for: 还不能通过，还差 N 项必填证据：…, listing every required check that lacks a tick or written evidence. A tooltip is not an explanation, and the gap was found by walking the published build as a stranger.
+- After a decision the panel points at the receipt instead of leaving the reviewer to notice the button: 这一步已经记下来了。想让对方能自己核对，用「导出验收单」生成一份带 SHA-256 的独立 HTML。
+- `docs/e2e/ux-walkthrough.json` records the walkthrough with screenshots in `docs/e2e/ux/`.
+
 ## [0.1.8] - 2026-11-10
 
 - The first-run sample is now a research report and arrives with the 研究报告验收 pack attached, so a new user's first screen is `必填证据 0/4` with 通过 disabled until each required check carries written evidence. The generic markdown sample taught nothing about what this plugin actually enforces.
