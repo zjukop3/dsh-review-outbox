@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T21:20:53.538200Z",
+  "kind": "release executed by the new script",
+  "release": {
+    "version": "0.1.10",
+    "runtimeCommit": "6000c13",
+    "pinCommit": "39c60ce",
+    "tooling": "node scripts/release.mjs 0.1.10",
+    "whatItDid": [
+      "promoted ## [Unreleased] to ## [0.1.10] - 2026-11-10 with the local date",
+      "bumped package.json",
+      "rewrote four files' version strings",
+      "rebuilt the index and site and ran the tests twice (before and after pinning)",
+      "committed runtime then pin"
+    ],
+    "whatItDidNotDo": "npm publish — deliberately left as a printed command"
+  },
+  "gapsClosed": {
+    "from": "docs/metrics/2026-11-10-package-audit.json listed two artifacts missing from 0.1.9",
+    "nowInTarball": [
+      "assets/icon-180.png",
+      "docs/REVIEWABLE-ARTIFACTS.md",
+      "docs/FIRST-10-MINUTES.md"
+    ]
+  },
+  "milestoneAfterRelease": {
+    "npmLatest": "0.1.10",
+    "catalogListed": "0.1.3",
+    "funnel": {
+      "artifacts": 77,
+      "pending": 77,
+      "decisions": 0,
+      "oldestPendingHours": 1136.4
+    },
+    "upstream": {
+      "13722": "OPEN 0 comments",
+      "13729": "OPEN 0 comments",
+      "research-report#27": "OPEN 1 comment",
+      "dsh-market#1093": "OPEN 7 comments"
+    }
+  },
+  "note": "the funnel grew by two artifacts during the night — our own sessions keep producing deliverables, which is exactly the pile the product exists to drain"
+}
