@@ -32,6 +32,21 @@
     ],
     "gate": "assertReviewReady refuses approve and allows archive until the three required checks carry evidence"
   },
-  "uiVerification": "not run for this pack: the panel renders whichever pack the item carries, and that path was verified end to end for the research pack in docs/e2e/first-run-gate.json",
+  "uiVerification": {
+    "state": "seeded one delivered csv whose record carried the data pack, then drove the panel headless",
+    "title": "回款明细.csv",
+    "packShownInSelect": "数据交付验收",
+    "progressChip": "必填证据 0/3",
+    "checksRendered": [
+      "来源与口径写清",
+      "字段与单位可解释",
+      "抽样核对过",
+      "复现或更新路径可定位"
+    ],
+    "approveDisabled": true,
+    "archiveEnabled": true,
+    "previewShowsCsv": true,
+    "consolePageErrors": []
+  },
   "releaseTiming": "held in Unreleased rather than published within the hour after 0.1.7, because each publish restarts that version's 24-hour release-age clock"
 }
