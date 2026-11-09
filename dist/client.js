@@ -133,7 +133,7 @@ window.__ModuleLoader__.load({
 .ro-root *{box-sizing:border-box}.ro-header{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 22px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}
 .ro-title{font-size:18px;font-weight:650;letter-spacing:-.01em}.ro-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 7px;border-radius:99px;background:var(--ro-accent);color:#fff;font-size:12px}.ro-spacer{flex:1}.ro-subtle{color:var(--ro-muted);font-size:12px}.ro-demo{padding:8px 22px;background:#fff5d6;color:#745400;font-size:12px;border-bottom:1px solid #ead79b}
 .ro-toolbar{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-root button{font:inherit}.ro-tab,.ro-button{border:1px solid var(--ro-line);background:var(--ro-panel);color:var(--ro-text);border-radius:8px;padding:7px 11px;cursor:pointer}.ro-tab{font-size:12px}.ro-tab.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-button:hover,.ro-tab:hover{border-color:var(--ro-accent)}.ro-button:disabled{opacity:.45;cursor:not-allowed}.ro-button.primary{background:var(--ro-accent);color:#fff;border-color:var(--ro-accent)}.ro-button.danger{color:#b3261e}.ro-button.link{border:0;background:transparent;padding:4px 0;color:var(--ro-accent)}
-.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-group{border-bottom:1px solid var(--ro-line);padding-bottom:4px;margin-bottom:4px}.ro-group:last-child{border-bottom:0}.ro-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px;cursor:pointer;list-style:none;font-size:11px;color:var(--ro-muted)}.ro-group-head::-webkit-details-marker{display:none}.ro-group-head::before{content:"▸";flex:none;transition:transform .12s ease}.ro-group[open]>summary::before{transform:rotate(90deg)}.ro-group-title{flex:1;min-width:0;font-weight:600;color:var(--ro-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-group-meta{flex:none;white-space:nowrap}.ro-group[open] .ro-card:first-of-type{margin-top:2px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ro-detail{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:auto}.ro-detail-head{padding:18px 22px 12px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-detail-title{margin:0;font-size:17px;line-height:1.35;word-break:break-word}.ro-path{margin-top:6px;color:var(--ro-muted);font:11px ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all}.ro-preview{margin:16px 22px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel);min-height:160px;overflow:hidden}.ro-preview pre{margin:0;padding:16px;max-height:52vh;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}.ro-preview img{display:block;max-width:100%;max-height:58vh;margin:auto}.ro-preview-message{padding:32px 18px;text-align:center;color:var(--ro-muted);font-size:13px}.ro-diff-line{display:block;padding:0 12px;white-space:pre-wrap}.ro-diff-line.add{background:#e8f6ec;color:#176b3a}.ro-diff-line.del{background:#fdecea;color:#9d332c}
 .ro-pack{margin:0 22px 16px;padding:14px 16px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel)}.ro-pack-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.ro-pack-head select{max-width:100%;padding:7px 10px;border:1px solid var(--ro-line);border-radius:8px;background:var(--ro-bg);color:var(--ro-text);font:12px inherit}.ro-pack-summary{margin:10px 0 0;color:var(--ro-muted);font-size:12px;line-height:1.55}.ro-checks{margin-top:8px}.ro-check{padding:10px 0;border-top:1px dashed var(--ro-line)}.ro-check label{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer}.ro-check label span{margin-left:auto;color:var(--ro-muted);font-size:10px}.ro-check p{margin:5px 0 7px 23px;color:var(--ro-muted);font-size:11px;line-height:1.5}.ro-check textarea{display:block;width:calc(100% - 23px);margin-left:23px;resize:vertical;padding:8px 10px;border:1px solid var(--ro-line);border-radius:7px;background:var(--ro-bg);color:var(--ro-text);font:11px/1.5 inherit}.ro-check textarea:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-check textarea[readonly]{opacity:.75}
 .ro-actions{padding:0 22px 20px}.ro-note{width:100%;min-height:72px;resize:vertical;padding:10px 12px;border:1px solid var(--ro-line);border-radius:9px;background:var(--ro-panel);color:var(--ro-text);font:12px/1.5 inherit}.ro-note:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}.ro-history{margin:0 22px 20px;padding-top:12px;border-top:1px solid var(--ro-line)}.ro-history summary{cursor:pointer;color:var(--ro-muted);font-size:12px}.ro-history-item{padding:8px 0;border-bottom:1px dashed var(--ro-line);font-size:12px}.ro-history-note{margin-top:3px;white-space:pre-wrap;color:var(--ro-muted)}.ro-empty{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:36px;color:var(--ro-muted);text-align:center}.ro-empty strong{color:var(--ro-text);font-size:15px}.ro-error{padding:10px 14px;margin:12px 22px 0;border:1px solid #e5b2ae;background:#fdecea;color:#8c2b25;border-radius:8px;font-size:12px}.ro-footer{padding:10px 22px;border-top:1px solid var(--ro-line);color:var(--ro-muted);font-size:11px;background:var(--ro-panel)}
@@ -174,6 +174,13 @@ window.__ModuleLoader__.load({
 		}
 		function basename(path) {
 			return String(path || "").split(/[\\/]/).filter(Boolean).pop() || path;
+		}
+		/** Group label for one session: the last two cwd segments, else its short id. */
+		function sessionLabel(item) {
+			const parts = String(item?.cwd || "").split(/[\\/]/).filter(Boolean);
+			if (parts.length > 0) return parts.slice(-2).join("/");
+			const id = String(item?.sessionId || "");
+			return id ? id.slice(0, 18) : "未记录来源";
 		}
 		function timeLabel(value) {
 			if (!value) return "";
@@ -276,7 +283,9 @@ window.__ModuleLoader__.load({
 					setStateError(data.stateError);
 					setSelectedId((current) => {
 						if (current && data.items.some((item) => item.id === current)) return current;
-						return data.items.find((item) => item.status === "pending")?.id || data.items[0]?.id || "";
+						const newestFirst = (list) => [...list].sort((left, right) => String(right.updatedAt || "").localeCompare(String(left.updatedAt || "")));
+						const pendingItems = data.items.filter((item) => item.status === "pending");
+						return newestFirst(pendingItems.length > 0 ? pendingItems : data.items)[0]?.id || "";
 					});
 				} catch (cause) {
 					if (!quiet) setError(cause.message);
@@ -292,8 +301,55 @@ window.__ModuleLoader__.load({
 			react.default.useEffect(() => {
 				request("packs").then((data) => setPacks(data.packs || [])).catch((cause) => setError(cause.message));
 			}, []);
-			const filtered = react.default.useMemo(() => filter === "all" ? items : items.filter((item) => item.status === filter), [filter, items]);
+			const filtered = react.default.useMemo(() => {
+				return [...filter === "all" ? items : items.filter((item) => item.status === filter)].sort((left, right) => String(right.updatedAt || "").localeCompare(String(left.updatedAt || "")));
+			}, [filter, items]);
 			const selected = filtered.find((item) => item.id === selectedId) || filtered[0] || null;
+			const groups = react.default.useMemo(() => {
+				if (filtered.length < 2) return null;
+				const bySession = /* @__PURE__ */ new Map();
+				for (const item of filtered) {
+					const key = item.sessionId || "";
+					if (!bySession.has(key)) bySession.set(key, []);
+					bySession.get(key).push(item);
+				}
+				if (bySession.size < 2) return null;
+				return [...bySession.entries()].map(([sessionId, members]) => ({
+					sessionId,
+					items: members,
+					label: sessionLabel(members[0]),
+					newest: members.reduce((newest, item) => String(item.updatedAt) > newest ? String(item.updatedAt) : newest, "")
+				})).sort((left, right) => String(right.newest).localeCompare(String(left.newest)));
+			}, [filtered]);
+			const renderCard = (item) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+				className: `ro-card ${selected?.id === item.id ? "selected" : ""}`,
+				onClick: () => setSelectedId(item.id),
+				children: [
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						className: "ro-card-title",
+						children: basename(item.path)
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+						className: "ro-card-meta",
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: `ro-badge ${item.status}`,
+								children: STATUS_LABELS[item.status] || item.status
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: "ro-badge",
+								children: SOURCE_LABELS[item.sourceType] || item.sourceType
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", { children: ["r", item.revision] }),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: timeLabel(item.updatedAt) })
+						]
+					}),
+					item.description ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+						className: "ro-card-desc",
+						children: item.description
+					}) : null
+				]
+			}, item.id);
 			const selectedPack = packs.find((pack) => pack.id === selected?.reviewPack?.id) || null;
 			react.default.useEffect(() => {
 				setCheckDetails(Object.fromEntries(Object.entries(selected?.reviewPack?.checks || {}).map(([id, state]) => [id, state.detail || ""])));
@@ -511,35 +567,24 @@ window.__ModuleLoader__.load({
 						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("aside", {
 							className: "ro-list",
 							"aria-label": "成果列表",
-							children: [filtered.map((item) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
-								className: `ro-card ${selected?.id === item.id ? "selected" : ""}`,
-								onClick: () => setSelectedId(item.id),
-								children: [
-									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
-										className: "ro-card-title",
-										children: basename(item.path)
-									}),
-									/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
-										className: "ro-card-meta",
+							children: [groups ? groups.map((group, index) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("details", {
+								className: "ro-group",
+								open: index === 0 || group.items.some((item) => item.id === selected?.id),
+								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("summary", {
+									className: "ro-group-head",
+									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+										className: "ro-group-title",
+										children: group.label
+									}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", {
+										className: "ro-group-meta",
 										children: [
-											/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
-												className: `ro-badge ${item.status}`,
-												children: STATUS_LABELS[item.status] || item.status
-											}),
-											/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
-												className: "ro-badge",
-												children: SOURCE_LABELS[item.sourceType] || item.sourceType
-											}),
-											/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("span", { children: ["r", item.revision] }),
-											/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: timeLabel(item.updatedAt) })
+											group.items.length,
+											" 项 · ",
+											timeLabel(group.newest)
 										]
-									}),
-									item.description ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
-										className: "ro-card-desc",
-										children: item.description
-									}) : null
-								]
-							}, item.id)), filtered.length === 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+									})]
+								}), group.items.map(renderCard)]
+							}, group.sessionId || `group-${index}`)) : filtered.map(renderCard), filtered.length === 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 								className: "ro-empty",
 								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("strong", { children: "这里还没有成果" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: "当 Agent 交付文件，或你切换其他状态筛选时，成果会出现在这里。" })]
 							}) : null]

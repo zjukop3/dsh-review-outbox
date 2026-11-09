@@ -28,6 +28,14 @@ function basename(path) {
   return String(path || '').split(/[\\/]/).filter(Boolean).pop() || path
 }
 
+/** Group label for one session: the last two cwd segments, else its short id. */
+function sessionLabel(item) {
+  const parts = String(item?.cwd || '').split(/[\\/]/).filter(Boolean)
+  if (parts.length > 0) return parts.slice(-2).join('/')
+  const id = String(item?.sessionId || '')
+  return id ? id.slice(0, 18) : '未记录来源'
+}
+
 function timeLabel(value) {
   if (!value) return ''
   const date = new Date(value)
@@ -91,7 +99,12 @@ function Outbox({ openSession, openNative, active = true }) {
       setStateError(data.stateError)
       setSelectedId(current => {
         if (current && data.items.some(item => item.id === current)) return current
-        return data.items.find(item => item.status === 'pending')?.id || data.items[0]?.id || ''
+        // Open on the newest pending artifact, not on whatever the state file
+        // happens to list first: after a historical backfill those are rarely
+        // the same, and landing on a week-old item reads like a stale panel.
+        const newestFirst = (list) => [...list].sort((left, right) => String(right.updatedAt || '').localeCompare(String(left.updatedAt || '')))
+        const pendingItems = data.items.filter(item => item.status === 'pending')
+        return (newestFirst(pendingItems.length > 0 ? pendingItems : data.items))[0]?.id || ''
       })
     } catch (cause) {
       if (!quiet) setError(cause.message)
@@ -110,8 +123,47 @@ function Outbox({ openSession, openNative, active = true }) {
     request('packs').then(data => setPacks(data.packs || [])).catch(cause => setError(cause.message))
   }, [])
 
-  const filtered = React.useMemo(() => filter === 'all' ? items : items.filter(item => item.status === filter), [filter, items])
+  // Newest first, once, so list order, group order and the default selection
+  // agree. The host hands items back in state-file order, which is not strictly
+  // by updatedAt; without this the panel could open on a week-old artifact.
+  const filtered = React.useMemo(() => {
+    const scoped = filter === 'all' ? items : items.filter(item => item.status === filter)
+    return [...scoped].sort((left, right) => String(right.updatedAt || '').localeCompare(String(left.updatedAt || '')))
+  }, [filter, items])
   const selected = filtered.find(item => item.id === selectedId) || filtered[0] || null
+  // Long queues are the normal case after a historical backfill: one real profile
+  // produced 63 pending deliverables across 9 sessions in a week. Grouping by
+  // session turns that into scannable batches without hiding or dropping anything.
+  const groups = React.useMemo(() => {
+    if (filtered.length < 2) return null
+    const bySession = new Map()
+    for (const item of filtered) {
+      const key = item.sessionId || ''
+      if (!bySession.has(key)) bySession.set(key, [])
+      bySession.get(key).push(item)
+    }
+    if (bySession.size < 2) return null
+    return [...bySession.entries()]
+      .map(([sessionId, members]) => ({
+        sessionId,
+        items: members,
+        label: sessionLabel(members[0]),
+        newest: members.reduce((newest, item) => (String(item.updatedAt) > newest ? String(item.updatedAt) : newest), ''),
+      }))
+      .sort((left, right) => String(right.newest).localeCompare(String(left.newest)))
+  }, [filtered])
+  const renderCard = item => (
+    <button className={`ro-card ${selected?.id === item.id ? 'selected' : ''}`} key={item.id} onClick={() => setSelectedId(item.id)}>
+      <span className="ro-card-title">{basename(item.path)}</span>
+      <span className="ro-card-meta">
+        <span className={`ro-badge ${item.status}`}>{STATUS_LABELS[item.status] || item.status}</span>
+        <span className="ro-badge">{SOURCE_LABELS[item.sourceType] || item.sourceType}</span>
+        <span>r{item.revision}</span>
+        <span>{timeLabel(item.updatedAt)}</span>
+      </span>
+      {item.description ? <span className="ro-card-desc">{item.description}</span> : null}
+    </button>
+  )
   const selectedPack = packs.find(pack => pack.id === selected?.reviewPack?.id) || null
 
   React.useEffect(() => {
@@ -272,18 +324,17 @@ function Outbox({ openSession, openNative, active = true }) {
       </nav>
       <div className="ro-body">
         <aside className="ro-list" aria-label="成果列表">
-          {filtered.map(item => (
-            <button className={`ro-card ${selected?.id === item.id ? 'selected' : ''}`} key={item.id} onClick={() => setSelectedId(item.id)}>
-              <span className="ro-card-title">{basename(item.path)}</span>
-              <span className="ro-card-meta">
-                <span className={`ro-badge ${item.status}`}>{STATUS_LABELS[item.status] || item.status}</span>
-                <span className="ro-badge">{SOURCE_LABELS[item.sourceType] || item.sourceType}</span>
-                <span>r{item.revision}</span>
-                <span>{timeLabel(item.updatedAt)}</span>
-              </span>
-              {item.description ? <span className="ro-card-desc">{item.description}</span> : null}
-            </button>
-          ))}
+          {groups
+            ? groups.map((group, index) => (
+              <details className="ro-group" key={group.sessionId || `group-${index}`} open={index === 0 || group.items.some(item => item.id === selected?.id)}>
+                <summary className="ro-group-head">
+                  <span className="ro-group-title">{group.label}</span>
+                  <span className="ro-group-meta">{group.items.length} 项 · {timeLabel(group.newest)}</span>
+                </summary>
+                {group.items.map(renderCard)}
+              </details>
+            ))
+            : filtered.map(renderCard)}
           {filtered.length === 0 ? <div className="ro-empty"><strong>这里还没有成果</strong><span>当 Agent 交付文件，或你切换其他状态筛选时，成果会出现在这里。</span></div> : null}
         </aside>
         <main className="ro-detail">

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T14:25:00Z",
+  "what": "First real-world usage data: the maintainer installed 0.1.3 into the daily desktop Profile and the startup backfill ran against real sessions.",
+  "backfill": {
+    "items": 75,
+    "sessions": 10,
+    "uniqueFilenames": 67,
+    "duplicateFilenames": 5,
+    "oldestSeen": "2026-09-23",
+    "newestSeen": "2026-11-08",
+    "spanDays": 47,
+    "last7Days": 63,
+    "last3Days": 10,
+    "last1Day": 0,
+    "sessionsLast7Days": 9,
+    "itemsPerSession": [25, 19, 12, 6, 4, 3, 2, 2, 1, 1],
+    "allPending": true
+  },
+  "fileTypes": { ".md": 35, ".json": 14, ".png": 9, ".html": 5, ".csv": 5, ".py": 2, ".tgz": 1, ".gz": 1, ".zip": 1, ".pdf": 1, ".sha256": 1 },
+  "finding": "A 47-day, 75-item backfill is not a review queue. 63 items landed inside one week, so narrowing by time does not help: the volume is the user's real output rate (~9 deliverables/day), not stale history. Flat rendering made the panel unusable.",
+  "fix": {
+    "change": "Group the list by session (collapsible), label each group with the last two cwd segments plus item count and newest timestamp; open only the newest group.",
+    "secondaryFix": "Sort items newest-first in the client and select the newest pending artifact by default. The host returns state-file order, which is not strictly by updatedAt, so the panel previously opened on a week-old item.",
+    "verified": "Real 75-item state in an isolated Profile: 10 groups, 75 cards retained, exactly 1 group open, detail pane shows the newest artifact, collapse/expand works, zero page/console errors.",
+    "dataHandling": "The real state file was copied into a temporary DSH_HOME for verification and deleted afterwards; it was never committed."
+  },
+  "boundary": "Maintainer's own daily use. This is first-hand demand validation, not external adoption: no third-party user, no second-week retention."
+}
