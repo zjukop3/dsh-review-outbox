@@ -2,6 +2,13 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [0.1.6] - 2026-11-10
+
+- Filter the list by artifact kind (文档 / 表格 / 图片 / 数据 / 代码 / 其他) with live counts, so a backlog of 75 mixed deliverables can be narrowed to the ~40 that actually need reading. Filtering only narrows the view; nothing is hidden permanently and the counts always add up.
+- Single-key review actions: `a` approve, `r` return, `z` archive, `n`/`p` step through the current list. Keys are ignored while an input, textarea, select or contenteditable has focus, so typing 「az」 into the note field cannot approve or archive anything.
+- Artifact kind is shown on each card, so the type is readable before opening anything.
+- Fixed a render-order crash the browser check caught: the keyboard effect referenced `filtered` before it existed and took the whole panel down. Unit tests could not see it because the helpers were correct; only a real render exposed it.
+
 ## [0.1.5] - 2026-11-09
 
 - Session groups in the review list can be archived in one step («归档本组»), with a confirmation dialog. Only `archive` is offered in bulk: approve and return carry the human decision and its evidence, so they stay one artifact at a time. Bulk archive is reversible per artifact through `重新打开`, and each item keeps its own history entry.

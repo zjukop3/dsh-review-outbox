@@ -1,6 +1,6 @@
 # Review Outbox · 成果审阅与研究报告验收
 
-中文 | [English](README.en.md) | [应用内安装 0.1.5](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/) | [旧版 0.1.0 tarball](#下载-tarball)
+中文 | [English](README.en.md) | [应用内安装 0.1.6](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/) | [旧版 0.1.0 tarball](#下载-tarball)
 
 一个本地优先的 DeepSeek Harness 成果审阅插件：把 Agent 交付的文件集中起来，完成预览、场景化证据检查、通过、退回、归档和复盘，并可导出无需安装即可查看的独立 HTML 验收单。
 
@@ -39,7 +39,7 @@
 - 研究报告包记录人工检查证据，不自动访问引用，也不冒充自动事实核查。
 - 界面文案为中文优先：英文宿主 locale 下面板、按钮与验收包标签仍显示中文（侧栏入口为中英双语「成果审阅 / Review Outbox」）；完整 i18n 等待英文 locale 用户的真实需求信号。
 - 验收单默认在本地导出，不自动上传；不包含绝对路径或会话内容，检查证据和审阅意见按用户填写内容导出。
-- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.5，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.5`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
+- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.6，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.6`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
 
 ## 安装
 
@@ -57,7 +57,7 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 本插件运行时零依赖、无安装脚本，不会触发 pnpm 的 `allowBuilds` 构建放行提示；从 GitHub 源安装时也不会运行第三方构建脚本。
 
-应用内网络不可用时，可对同一个 `0.1.5` 公开提交使用 CLI 回退：
+应用内网络不可用时，可对同一个 `0.1.6` 公开提交使用 CLI 回退：
 
 ```bash
 dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#bdcd446863e3c79d359871cb159d4fc120586a6f'
@@ -73,7 +73,7 @@ dsh plugin --profile web add dsh-review-outbox
 dsh web
 ```
 
-已在隔离 Profile 验证：固定提交的 GitHub 源安装可解析到 `0.1.5`（6 分 52 秒，bundle 自动选中）；`registry.npmjs.org` 上的 `dsh-review-outbox@0.1.5` 用 pnpm 直装 9.4 秒成功。
+已在隔离 Profile 验证：固定提交的 GitHub 源安装可解析到 `0.1.5`（6 分 52 秒，bundle 自动选中）；`registry.npmjs.org` 上的 `dsh-review-outbox@0.1.5` 用 pnpm 直装 9.4 秒成功。`0.1.6` 沿用同一条通道，发布后按下面的冷却说明理解可见时间。
 
 注意版本解析顺序，这两条都能让人误判：① **`minimumReleaseAge` 冷却**——DSH 的插件安装对发布不满 24 小时的新版默认不可见（策略值 `1440` 分钟），所以发布当晚用默认命令装到的是 `0.1.3` 而不是 `0.1.5`，这不是镜像或目录的问题；显式钉版本 `dsh-review-outbox@0.1.5` 不受冷却限制，实测 2 秒装好。② **镜像故障**——2026-11-09 23:30 前后 `registry.npmmirror.com` 整体返回 500（连 `react` 也 500，属镜像自身故障），那段时间连显式版本也会报 `ERR_PNPM_NO_MATCHING_VERSION`。细节与复现命令见[插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/)。
 

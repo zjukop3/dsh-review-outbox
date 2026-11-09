@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T16:22:29.943338Z",
+  "feature": "artifact-kind filter plus single-key review actions (0.1.6)",
+  "environment": {
+    "kind": "isolated DSH_HOME, local workspace install, dsh web on 127.0.0.1",
+    "home": "<temporary home, deleted after verification>",
+    "state": "29 synthetic artifacts matching the real daily-profile mix, plus one seeded official delivery (30 total)",
+    "browser": "Chrome headless via playwright-core"
+  },
+  "observed": {
+    "kindRow": "全部 30 | 文档 13 | 表格 3 | 图片 5 | 数据 6 | 代码 2 | 其他 1",
+    "visibleCardsAll": 30,
+    "imageChipCards": 5,
+    "documentChipCards": 13,
+    "chart": "counts match the fixture mix exactly; each artifact belongs to one kind only",
+    "nextShortcut": {
+      "before": "preinstall-review.md",
+      "after": "report-0.md"
+    },
+    "previousShortcut": {
+      "after": "preinstall-review.md"
+    },
+    "typingGuard": {
+      "typed": "az",
+      "noteValue": "az",
+      "pendingBadgesUnchanged": true
+    },
+    "archiveShortcut": {
+      "tabAfter": "归档 1",
+      "activeTab": "归档 1"
+    }
+  },
+  "defectFoundAndFixed": {
+    "symptom": "slot entry crashed in 'main': ReferenceError: Cannot access 'filtered' before initialization",
+    "cause": "the keyboard effect was inserted above the declarations it closes over",
+    "fix": "moved the effect below act(), then re-ran the same browser check",
+    "note": "unit tests could not have caught this: it is a render-order bug in the JSX, not in the helpers"
+  },
+  "notVerified": [
+    "keyboard shortcuts on a real 75-item daily profile (only the 30-item fixture state was driven here)",
+    "the panel with the real desktop profile: that profile is managed by the Electron application and cannot be driven by the CLI"
+  ]
+}

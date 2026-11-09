@@ -1,6 +1,7 @@
 import React from 'react'
 import { watchBetterSidebar } from './better-sidebar.js'
 import { openNativeArtifact } from './native-open.js'
+import { KINDS, OTHER_KIND, artifactKind, filterByKind, kindCounts, kindLabel, shortcutAction, stepIndex } from './logic.js'
 import css from './styles.js'
 
 const API = '/review-outbox/api'
@@ -74,6 +75,7 @@ function Outbox({ openSession, openNative, active = true }) {
   const [items, setItems] = React.useState([])
   const [pending, setPending] = React.useState(0)
   const [filter, setFilter] = React.useState('pending')
+  const [kind, setKind] = React.useState('all')
   const [selectedId, setSelectedId] = React.useState('')
   const [preview, setPreview] = React.useState(null)
   const [previewLoading, setPreviewLoading] = React.useState(false)
@@ -123,13 +125,19 @@ function Outbox({ openSession, openNative, active = true }) {
     request('packs').then(data => setPacks(data.packs || [])).catch(cause => setError(cause.message))
   }, [])
 
+
   // Newest first, once, so list order, group order and the default selection
   // agree. The host hands items back in state-file order, which is not strictly
   // by updatedAt; without this the panel could open on a week-old artifact.
+  const statusScoped = React.useMemo(
+    () => (filter === 'all' ? items : items.filter(item => item.status === filter)),
+    [filter, items],
+  )
+  const counts = React.useMemo(() => kindCounts(statusScoped), [statusScoped])
   const filtered = React.useMemo(() => {
-    const scoped = filter === 'all' ? items : items.filter(item => item.status === filter)
+    const scoped = filterByKind(statusScoped, kind)
     return [...scoped].sort((left, right) => String(right.updatedAt || '').localeCompare(String(left.updatedAt || '')))
-  }, [filter, items])
+  }, [statusScoped, kind])
   const selected = filtered.find(item => item.id === selectedId) || filtered[0] || null
   // Long queues are the normal case after a historical backfill: one real profile
   // produced 63 pending deliverables across 9 sessions in a week. Grouping by
@@ -157,6 +165,7 @@ function Outbox({ openSession, openNative, active = true }) {
       <span className="ro-card-title">{basename(item.path)}</span>
       <span className="ro-card-meta">
         <span className={`ro-badge ${item.status}`}>{STATUS_LABELS[item.status] || item.status}</span>
+        <span className="ro-badge kind">{kindLabel(artifactKind(item.path))}</span>
         <span className="ro-badge">{SOURCE_LABELS[item.sourceType] || item.sourceType}</span>
         <span>r{item.revision}</span>
         <span>{timeLabel(item.updatedAt)}</span>
@@ -255,6 +264,33 @@ function Outbox({ openSession, openNative, active = true }) {
     }
   }
 
+
+  // j/k-style single keys, so a 75-item backlog can be triaged without a mouse.
+  // shortcutAction refuses while an input, textarea, select or contenteditable
+  // has focus, which is where the note field and every evidence box live.
+  React.useEffect(() => {
+    if (!active) return undefined
+    const onKeyDown = event => {
+      const action = shortcutAction(event)
+      if (!action) return
+      if (action === 'next' || action === 'previous') {
+        event.preventDefault()
+        const index = filtered.findIndex(item => item.id === selected?.id)
+        const target = filtered[stepIndex(index, filtered.length, action)]
+        if (target) setSelectedId(target.id)
+        return
+      }
+      if (busy || !selected) return
+      if (action === 'approve' && (selected.status !== 'pending' || (selectedPack && !selected.reviewProgress?.complete))) return
+      if (action === 'return' && selected.status !== 'pending') return
+      if (action === 'archive' && selected.status === 'archived') return
+      event.preventDefault()
+      void act(action)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [active, busy, filtered, selected, selectedPack, act])
+
   const archiveGroup = async (group, event) => {
     event?.preventDefault?.()
     event?.stopPropagation?.()
@@ -345,6 +381,19 @@ function Outbox({ openSession, openNative, active = true }) {
           </button>
         ))}
       </nav>
+      <nav className="ro-kinds" aria-label="成果类型筛选">
+        {[['all', '全部'], ...KINDS.map(([id, label]) => [id, label]), OTHER_KIND].map(([id, label]) => (
+          <button
+            key={id}
+            className={`ro-kind ${kind === id ? 'active' : ''}`}
+            aria-label={`类型：${label}`}
+            disabled={id !== 'all' && !counts[id]}
+            onClick={() => setKind(id)}
+          >
+            {label} {counts[id] || 0}
+          </button>
+        ))}
+      </nav>
       <div className="ro-body">
         <aside className="ro-list" aria-label="成果列表">
           {groups
@@ -431,6 +480,7 @@ function Outbox({ openSession, openNative, active = true }) {
               </section>
               <section className="ro-actions">
                 <textarea className="ro-note" value={note} onChange={event => setNote(event.target.value)} placeholder="审阅意见；退回时可复制到原会话" />
+                <div className="ro-shortcuts">快捷键：<b>a</b> 通过 · <b>r</b> 退回 · <b>z</b> 归档 · <b>n</b>/<b>p</b> 下一项/上一项（在输入框内不生效）</div>
                 <div className="ro-action-row">
                   {selected.status === 'pending' ? (
                     <>

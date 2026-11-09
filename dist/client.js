@@ -127,17 +127,146 @@ window.__ModuleLoader__.load({
 			sidebar.openResource(address);
 			return address;
 		}
+		// client/logic.js
+		/** Artifact kinds, ordered as they appear in the filter row. */
+		const KINDS = [
+			[
+				"document",
+				"文档",
+				[
+					"md",
+					"markdown",
+					"txt",
+					"docx",
+					"pdf",
+					"html",
+					"htm"
+				]
+			],
+			[
+				"sheet",
+				"表格",
+				[
+					"csv",
+					"tsv",
+					"xlsx",
+					"xls"
+				]
+			],
+			[
+				"image",
+				"图片",
+				[
+					"png",
+					"jpg",
+					"jpeg",
+					"webp",
+					"gif",
+					"svg"
+				]
+			],
+			[
+				"data",
+				"数据",
+				[
+					"json",
+					"jsonl",
+					"yaml",
+					"yml",
+					"xml",
+					"log"
+				]
+			],
+			[
+				"code",
+				"代码",
+				[
+					"js",
+					"jsx",
+					"ts",
+					"tsx",
+					"py",
+					"sh",
+					"mjs",
+					"rb",
+					"go",
+					"rs"
+				]
+			]
+		];
+		const OTHER_KIND = ["other", "其他"];
+		function fileExtension(path) {
+			const name = String(path || "").split(/[\\/]/).filter(Boolean).pop() || "";
+			const dot = name.lastIndexOf(".");
+			if (dot <= 0 || dot === name.length - 1) return "";
+			return name.slice(dot + 1).toLowerCase();
+		}
+		/** Kind id for one artifact path; unknown or missing extensions are 'other'. */
+		function artifactKind(path) {
+			const extension = fileExtension(path);
+			if (!extension) return OTHER_KIND[0];
+			const match = KINDS.find(([, , extensions]) => extensions.includes(extension));
+			return match ? match[0] : OTHER_KIND[0];
+		}
+		function kindLabel(kindId) {
+			if (kindId === OTHER_KIND[0]) return OTHER_KIND[1];
+			const match = KINDS.find(([id]) => id === kindId);
+			return match ? match[1] : OTHER_KIND[1];
+		}
+		/** Counts per kind plus 'all', so the filter row can label itself without extra passes. */
+		function kindCounts(items) {
+			const counts = { all: items.length };
+			for (const [id] of [...KINDS, OTHER_KIND]) counts[id] = 0;
+			for (const item of items) counts[artifactKind(item?.path)] += 1;
+			return counts;
+		}
+		/** Items of one kind; 'all' passes everything and an unknown kind yields an empty list. */
+		function filterByKind(items, kindId) {
+			if (kindId === "all") return items;
+			return items.filter((item) => artifactKind(item?.path) === kindId);
+		}
+		const ACTION_KEYS = /* @__PURE__ */ new Map([
+			["a", "approve"],
+			["r", "return"],
+			["z", "archive"],
+			["n", "next"],
+			["p", "previous"]
+		]);
+		function isTypingTarget(target) {
+			if (!target || typeof target !== "object") return false;
+			const tag = String(target.tagName || "").toUpperCase();
+			if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
+			if (target.isContentEditable === true) return true;
+			return false;
+		}
+		/**
+		* Maps a keydown event to a review action.
+		* Returns null when nothing should happen: modifier keys, typing targets, or
+		* a key this panel does not bind. Refusing while typing matters more than any
+		* shortcut — the note field and evidence boxes are plain textareas.
+		*/
+		function shortcutAction(event) {
+			if (!event || isTypingTarget(event.target)) return null;
+			if (event.metaKey || event.ctrlKey || event.altKey) return null;
+			const key = String(event.key || "").toLowerCase();
+			return ACTION_KEYS.get(key) || null;
+		}
+		/** Next/previous index with wraparound, used when a shortcut steps the selection. */
+		function stepIndex(current, length, direction) {
+			if (length <= 0) return -1;
+			return (((Number.isInteger(current) && current >= 0 ? current : 0) + (direction === "previous" ? -1 : 1)) % length + length) % length;
+		}
 		// client/styles.js
 		var styles_default = String.raw`
 .ro-root{--ro-bg:var(--dsw-alias-bg-base,#f7f8fa);--ro-panel:var(--dsw-alias-bg-elevated,#fff);--ro-text:var(--dsw-alias-label-primary,#17202a);--ro-muted:var(--dsw-alias-label-secondary,#687180);--ro-line:var(--dsw-alias-border-primary,#dfe3e8);--ro-accent:var(--dsw-alias-brand-primary,#315efb);display:flex;flex-direction:column;width:100%;height:100%;min-height:0;background:var(--ro-bg);color:var(--ro-text);font-family:inherit}
 .ro-root *{box-sizing:border-box}.ro-header{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 22px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}
 .ro-title{font-size:18px;font-weight:650;letter-spacing:-.01em}.ro-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 7px;border-radius:99px;background:var(--ro-accent);color:#fff;font-size:12px}.ro-spacer{flex:1}.ro-subtle{color:var(--ro-muted);font-size:12px}.ro-demo{padding:8px 22px;background:#fff5d6;color:#745400;font-size:12px;border-bottom:1px solid #ead79b}
 .ro-toolbar{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-root button{font:inherit}.ro-tab,.ro-button{border:1px solid var(--ro-line);background:var(--ro-panel);color:var(--ro-text);border-radius:8px;padding:7px 11px;cursor:pointer}.ro-tab{font-size:12px}.ro-tab.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-button:hover,.ro-tab:hover{border-color:var(--ro-accent)}.ro-button:disabled{opacity:.45;cursor:not-allowed}.ro-button.primary{background:var(--ro-accent);color:#fff;border-color:var(--ro-accent)}.ro-button.danger{color:#b3261e}.ro-button.link{border:0;background:transparent;padding:4px 0;color:var(--ro-accent)}
-.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-group{border-bottom:1px solid var(--ro-line);padding-bottom:4px;margin-bottom:4px}.ro-group:last-child{border-bottom:0}.ro-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px;cursor:pointer;list-style:none;font-size:11px;color:var(--ro-muted)}.ro-group-head::-webkit-details-marker{display:none}.ro-group-head::before{content:"▸";flex:none;transition:transform .12s ease}.ro-group[open]>summary::before{transform:rotate(90deg)}.ro-group-archive{flex:none;font:inherit;font-size:10px;padding:2px 7px;border:1px solid var(--ro-line);border-radius:5px;background:var(--ro-panel);color:var(--ro-muted);cursor:pointer}.ro-group-archive:hover:not(:disabled){border-color:var(--ro-accent);color:var(--ro-accent)}.ro-group-archive:disabled{opacity:.5;cursor:default}.ro-group-title{flex:1;min-width:0;font-weight:600;color:var(--ro-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-group-meta{flex:none;white-space:nowrap}.ro-group[open] .ro-card:first-of-type{margin-top:2px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ro-kinds{display:flex;flex-wrap:wrap;gap:5px;padding:0 22px 11px;background:var(--ro-panel);border-bottom:1px solid var(--ro-line)}.ro-kind{font:inherit;font-size:11px;padding:4px 9px;border:1px solid transparent;border-radius:999px;background:var(--ro-bg);color:var(--ro-muted);cursor:pointer}.ro-kind.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-kind:hover:not(:disabled){color:var(--ro-accent)}.ro-kind:disabled{opacity:.4;cursor:default}.ro-badge.kind{background:var(--ro-panel);border:1px solid var(--ro-line)}.ro-shortcuts{margin-top:9px;color:var(--ro-muted);font-size:11px}.ro-shortcuts b{display:inline-block;min-width:14px;padding:0 4px;margin:0 1px;border:1px solid var(--ro-line);border-radius:4px;background:var(--ro-bg);color:var(--ro-text);font:10px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center}.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-group{border-bottom:1px solid var(--ro-line);padding-bottom:4px;margin-bottom:4px}.ro-group:last-child{border-bottom:0}.ro-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px;cursor:pointer;list-style:none;font-size:11px;color:var(--ro-muted)}.ro-group-head::-webkit-details-marker{display:none}.ro-group-head::before{content:"▸";flex:none;transition:transform .12s ease}.ro-group[open]>summary::before{transform:rotate(90deg)}.ro-group-archive{flex:none;font:inherit;font-size:10px;padding:2px 7px;border:1px solid var(--ro-line);border-radius:5px;background:var(--ro-panel);color:var(--ro-muted);cursor:pointer}.ro-group-archive:hover:not(:disabled){border-color:var(--ro-accent);color:var(--ro-accent)}.ro-group-archive:disabled{opacity:.5;cursor:default}.ro-group-title{flex:1;min-width:0;font-weight:600;color:var(--ro-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-group-meta{flex:none;white-space:nowrap}.ro-group[open] .ro-card:first-of-type{margin-top:2px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ro-detail{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:auto}.ro-detail-head{padding:18px 22px 12px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-detail-title{margin:0;font-size:17px;line-height:1.35;word-break:break-word}.ro-path{margin-top:6px;color:var(--ro-muted);font:11px ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all}.ro-preview{margin:16px 22px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel);min-height:160px;overflow:hidden}.ro-preview pre{margin:0;padding:16px;max-height:52vh;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}.ro-preview img{display:block;max-width:100%;max-height:58vh;margin:auto}.ro-preview-message{padding:32px 18px;text-align:center;color:var(--ro-muted);font-size:13px}.ro-diff-line{display:block;padding:0 12px;white-space:pre-wrap}.ro-diff-line.add{background:#e8f6ec;color:#176b3a}.ro-diff-line.del{background:#fdecea;color:#9d332c}
 .ro-pack{margin:0 22px 16px;padding:14px 16px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel)}.ro-pack-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.ro-pack-head select{max-width:100%;padding:7px 10px;border:1px solid var(--ro-line);border-radius:8px;background:var(--ro-bg);color:var(--ro-text);font:12px inherit}.ro-pack-summary{margin:10px 0 0;color:var(--ro-muted);font-size:12px;line-height:1.55}.ro-checks{margin-top:8px}.ro-check{padding:10px 0;border-top:1px dashed var(--ro-line)}.ro-check label{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer}.ro-check label span{margin-left:auto;color:var(--ro-muted);font-size:10px}.ro-check p{margin:5px 0 7px 23px;color:var(--ro-muted);font-size:11px;line-height:1.5}.ro-check textarea{display:block;width:calc(100% - 23px);margin-left:23px;resize:vertical;padding:8px 10px;border:1px solid var(--ro-line);border-radius:7px;background:var(--ro-bg);color:var(--ro-text);font:11px/1.5 inherit}.ro-check textarea:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-check textarea[readonly]{opacity:.75}
 .ro-actions{padding:0 22px 20px}.ro-note{width:100%;min-height:72px;resize:vertical;padding:10px 12px;border:1px solid var(--ro-line);border-radius:9px;background:var(--ro-panel);color:var(--ro-text);font:12px/1.5 inherit}.ro-note:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}.ro-history{margin:0 22px 20px;padding-top:12px;border-top:1px solid var(--ro-line)}.ro-history summary{cursor:pointer;color:var(--ro-muted);font-size:12px}.ro-history-item{padding:8px 0;border-bottom:1px dashed var(--ro-line);font-size:12px}.ro-history-note{margin-top:3px;white-space:pre-wrap;color:var(--ro-muted)}.ro-empty{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:36px;color:var(--ro-muted);text-align:center}.ro-empty strong{color:var(--ro-text);font-size:15px}.ro-error{padding:10px 14px;margin:12px 22px 0;border:1px solid #e5b2ae;background:#fdecea;color:#8c2b25;border-radius:8px;font-size:12px}.ro-footer{padding:10px 22px;border-top:1px solid var(--ro-line);color:var(--ro-muted);font-size:11px;background:var(--ro-panel)}
-@media(max-width:850px){.ro-body{grid-template-columns:1fr}.ro-list{max-height:38vh;border-right:0;border-bottom:1px solid var(--ro-line)}.ro-detail{min-height:55vh}.ro-subtle{display:none}.ro-header{padding:12px 16px}.ro-toolbar{padding:10px 16px;overflow:auto}.ro-detail-head,.ro-actions{padding-left:16px;padding-right:16px}.ro-preview,.ro-history{margin-left:16px;margin-right:16px}.ro-pack{margin-left:16px;margin-right:16px}}
+@media(max-width:850px){.ro-body{grid-template-columns:1fr}.ro-list{max-height:38vh;border-right:0;border-bottom:1px solid var(--ro-line)}.ro-detail{min-height:55vh}.ro-subtle{display:none}.ro-header{padding:12px 16px}.ro-toolbar{padding:10px 16px;overflow:auto}.ro-kinds{padding:0 16px 10px}.ro-detail-head,.ro-actions{padding-left:16px;padding-right:16px}.ro-preview,.ro-history{margin-left:16px;margin-right:16px}.ro-pack{margin-left:16px;margin-right:16px}}
 `;
 		// client/index.jsx
 		const API = "/review-outbox/api";
@@ -259,6 +388,7 @@ window.__ModuleLoader__.load({
 			const [items, setItems] = react.default.useState([]);
 			const [pending, setPending] = react.default.useState(0);
 			const [filter, setFilter] = react.default.useState("pending");
+			const [kind, setKind] = react.default.useState("all");
 			const [selectedId, setSelectedId] = react.default.useState("");
 			const [preview, setPreview] = react.default.useState(null);
 			const [previewLoading, setPreviewLoading] = react.default.useState(false);
@@ -301,9 +431,11 @@ window.__ModuleLoader__.load({
 			react.default.useEffect(() => {
 				request("packs").then((data) => setPacks(data.packs || [])).catch((cause) => setError(cause.message));
 			}, []);
+			const statusScoped = react.default.useMemo(() => filter === "all" ? items : items.filter((item) => item.status === filter), [filter, items]);
+			const counts = react.default.useMemo(() => kindCounts(statusScoped), [statusScoped]);
 			const filtered = react.default.useMemo(() => {
-				return [...filter === "all" ? items : items.filter((item) => item.status === filter)].sort((left, right) => String(right.updatedAt || "").localeCompare(String(left.updatedAt || "")));
-			}, [filter, items]);
+				return [...filterByKind(statusScoped, kind)].sort((left, right) => String(right.updatedAt || "").localeCompare(String(left.updatedAt || "")));
+			}, [statusScoped, kind]);
 			const selected = filtered.find((item) => item.id === selectedId) || filtered[0] || null;
 			const groups = react.default.useMemo(() => {
 				if (filtered.length < 2) return null;
@@ -335,6 +467,10 @@ window.__ModuleLoader__.load({
 							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: `ro-badge ${item.status}`,
 								children: STATUS_LABELS[item.status] || item.status
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: "ro-badge kind",
+								children: kindLabel(artifactKind(item.path))
 							}),
 							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: "ro-badge",
@@ -466,6 +602,35 @@ window.__ModuleLoader__.load({
 					setBusy(false);
 				}
 			};
+			react.default.useEffect(() => {
+				if (!active) return void 0;
+				const onKeyDown = (event) => {
+					const action = shortcutAction(event);
+					if (!action) return;
+					if (action === "next" || action === "previous") {
+						event.preventDefault();
+						const index = filtered.findIndex((item) => item.id === selected?.id);
+						const target = filtered[stepIndex(index, filtered.length, action)];
+						if (target) setSelectedId(target.id);
+						return;
+					}
+					if (busy || !selected) return;
+					if (action === "approve" && (selected.status !== "pending" || selectedPack && !selected.reviewProgress?.complete)) return;
+					if (action === "return" && selected.status !== "pending") return;
+					if (action === "archive" && selected.status === "archived") return;
+					event.preventDefault();
+					act(action);
+				};
+				window.addEventListener("keydown", onKeyDown);
+				return () => window.removeEventListener("keydown", onKeyDown);
+			}, [
+				active,
+				busy,
+				filtered,
+				selected,
+				selectedPack,
+				act
+			]);
 			const archiveGroup = async (group, event) => {
 				event?.preventDefault?.();
 				event?.stopPropagation?.();
@@ -585,6 +750,25 @@ window.__ModuleLoader__.load({
 								label,
 								" ",
 								id === "all" ? items.length : items.filter((item) => item.status === id).length
+							]
+						}, id))
+					}),
+					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("nav", {
+						className: "ro-kinds",
+						"aria-label": "成果类型筛选",
+						children: [
+							["all", "全部"],
+							...KINDS.map(([id, label]) => [id, label]),
+							OTHER_KIND
+						].map(([id, label]) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("button", {
+							className: `ro-kind ${kind === id ? "active" : ""}`,
+							"aria-label": `类型：${label}`,
+							disabled: id !== "all" && !counts[id],
+							onClick: () => setKind(id),
+							children: [
+								label,
+								" ",
+								counts[id] || 0
 							]
 						}, id))
 					}),
@@ -752,57 +936,76 @@ window.__ModuleLoader__.load({
 								}),
 								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("section", {
 									className: "ro-actions",
-									children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("textarea", {
-										className: "ro-note",
-										value: note,
-										onChange: (event) => setNote(event.target.value),
-										placeholder: "审阅意见；退回时可复制到原会话"
-									}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
-										className: "ro-action-row",
-										children: [
-											selected.status === "pending" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button primary",
-												disabled: busy || selectedPack && !selected.reviewProgress?.complete,
-												title: selectedPack && !selected.reviewProgress?.complete ? "完成所有必填检查并填写证据后可通过" : "",
-												onClick: () => act("approve"),
-												children: "通过"
-											}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button danger",
-												disabled: busy,
-												onClick: () => act("return"),
-												children: "退回"
-											})] }) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button",
-												disabled: busy,
-												onClick: () => act("reopen"),
-												children: "重新打开"
-											}),
-											selected.status !== "archived" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button",
-												disabled: busy,
-												onClick: () => act("archive"),
-												children: "归档"
-											}) : null,
-											selected.sessionId ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button",
-												disabled: busy,
-												onClick: openInNativeViewer,
-												children: "在宿主 Viewer 打开"
-											}) : null,
-											/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button",
-												disabled: busy,
-												onClick: exportReceipt,
-												title: "独立 HTML，不包含成果正文或本机路径",
-												children: "导出验收单"
-											}),
-											selected.sessionId ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
-												className: "ro-button",
-												onClick: openSource,
-												children: "复制意见并打开原会话"
-											}) : null
-										]
-									})]
+									children: [
+										/* @__PURE__ */ (0, react_jsx_runtime.jsx)("textarea", {
+											className: "ro-note",
+											value: note,
+											onChange: (event) => setNote(event.target.value),
+											placeholder: "审阅意见；退回时可复制到原会话"
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+											className: "ro-shortcuts",
+											children: [
+												"快捷键：",
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("b", { children: "a" }),
+												" 通过 · ",
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("b", { children: "r" }),
+												" 退回 · ",
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("b", { children: "z" }),
+												" 归档 · ",
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("b", { children: "n" }),
+												"/",
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("b", { children: "p" }),
+												" 下一项/上一项（在输入框内不生效）"
+											]
+										}),
+										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+											className: "ro-action-row",
+											children: [
+												selected.status === "pending" ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button primary",
+													disabled: busy || selectedPack && !selected.reviewProgress?.complete,
+													title: selectedPack && !selected.reviewProgress?.complete ? "完成所有必填检查并填写证据后可通过" : "",
+													onClick: () => act("approve"),
+													children: "通过"
+												}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button danger",
+													disabled: busy,
+													onClick: () => act("return"),
+													children: "退回"
+												})] }) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button",
+													disabled: busy,
+													onClick: () => act("reopen"),
+													children: "重新打开"
+												}),
+												selected.status !== "archived" ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button",
+													disabled: busy,
+													onClick: () => act("archive"),
+													children: "归档"
+												}) : null,
+												selected.sessionId ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button",
+													disabled: busy,
+													onClick: openInNativeViewer,
+													children: "在宿主 Viewer 打开"
+												}) : null,
+												/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button",
+													disabled: busy,
+													onClick: exportReceipt,
+													title: "独立 HTML，不包含成果正文或本机路径",
+													children: "导出验收单"
+												}),
+												selected.sessionId ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+													className: "ro-button",
+													onClick: openSource,
+													children: "复制意见并打开原会话"
+												}) : null
+											]
+										})
+									]
 								}),
 								/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("details", {
 									className: "ro-history",
