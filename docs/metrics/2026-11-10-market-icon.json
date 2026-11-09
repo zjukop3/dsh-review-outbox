@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T19:34:29.868618Z",
+  "kind": "market card presentation",
+  "problem": "the catalog entry had no icon field, so the market card falls back to the owner avatar — the least informative option in a 4,985-entry list",
+  "whatWasMade": {
+    "file": "assets/icon-180.png",
+    "size": "180x180 PNG, 2.6 KB",
+    "design": "rounded tile in the plugin accent #176B72-family green, white R, a baseline rule; typographic because the drawing could not be inspected visually in this environment",
+    "includedInNpmPackage": true
+  },
+  "catalogPr": {
+    "number": 13722,
+    "branch": "update-zjukop3-entry-description",
+    "commit": "5b495f5",
+    "change": "added icon: https://raw.githubusercontent.com/zjukop3/dsh-review-outbox/main/assets/icon-180.png alongside the description rewrite"
+  },
+  "verification": {
+    "fileOnGitHub": "contents API reports assets/icon-180.png, 2586 bytes",
+    "rawUrlFromThisMachine": "curl could not connect to raw.githubusercontent.com (000); the asset is confirmed present through the API instead",
+    "notVerified": "how the card renders the tile inside the market UI; that needs the catalog rebuild after the PR merges"
+  },
+  "whyItMattersForTheGoal": "the card is the only visual the market shows; a missing icon reads as an unfinished entry before anyone reads a word of the description"
+}
