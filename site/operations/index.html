@@ -67,6 +67,11 @@ node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
 <p>插件生态里最容易自欺的三个数字：</p>
 <ul><li><strong>页面访问</strong>——可能是自己刷新；</li><li><strong>npm 下载</strong>——包含 CI、镜像抓取、<code>npm view</code> 之外的自动化；</li><li><strong>目录收录</strong>——只说明能被搜到，不说明有人装。</li></ul>
 <p>我们采用的激活定义是「<strong>一次真实的人工审阅动作</strong>」：通过、退回或归档任意一条真实成果。到 <code>0.1.5</code> 为止，日常 profile 里这条计数是 <strong>0</strong>（75 条待审项，0 次人工动作）。这个 0 比任何发布里程碑都更能说明产品处在什么位置。</p>
+<h2 id="7b-一条命令看住发布状态">7b. 一条命令看住发布状态</h2>
+<p>发布之后真正要盯的不是&quot;有没有发成功&quot;，而是<strong>四个会各自漂移的数字</strong>：</p>
+<pre><code class="language-bash">node scripts/check-milestones.mjs            # 人读
+node scripts/check-milestones.mjs --json     # 可入库</code></pre>
+<p>它一次打印：npm latest 与本地版本、目录条目版本与描述开头、默认安装解析到的版本（<code>--with-install</code>，会真的装一次）、本机漏斗（成果/待审/人工动作/最久停留）、以及上游 PR/issue 的状态与评论数。慢的步骤出声提示，避免&quot;看起来卡住&quot;。</p>
 <h2 id="8-发布后检查清单">8. 发布后检查清单</h2>
 <p>八条，按顺序做，每条都有可观测的产出：</p>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
