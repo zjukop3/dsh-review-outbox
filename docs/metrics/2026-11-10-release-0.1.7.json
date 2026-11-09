@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T17:11:15.394386Z",
+  "milestone": "0.1.7 published outside the recommended window, with the resulting gap measured instead of assumed",
+  "release": {
+    "version": "0.1.7",
+    "runtimeCommit": "0f77f5f7a222b656d5b50e0d49aae885a0d2664e",
+    "pinCommit": "59cb307",
+    "publishedAtLocal": "2026-11-10T01:05+08:00",
+    "recommendedWindowLocal": "12:00-12:40",
+    "whyOutsideWindow": "four improvements would have stayed unreleased for eleven hours; measuring the gap is worth more than obeying the rule blindly",
+    "tests": {
+      "total": 62,
+      "pass": 62
+    }
+  },
+  "registryStateAfterPublish": {
+    "npmjsLatest": "0.1.7",
+    "mirrorLatest": "0.1.7",
+    "mirrorSyncTriggered": "PUT /-/package/dsh-review-outbox/syncs -> 201",
+    "npmPropagationObserved": "abbreviated metadata still served latest 0.1.6 about two minutes after publish, and 0.1.7 about four minutes after"
+  },
+  "installResolutionMeasured": {
+    "bareName": {
+      "command": "dsh plugin --profile web add dsh-review-outbox",
+      "resolved": "0.1.3"
+    },
+    "pinned": {
+      "command": "dsh plugin --profile web add dsh-review-outbox@0.1.7",
+      "resolved": "0.1.7"
+    },
+    "cause": "minimumReleaseAge 1440 minutes: 0.1.4, 0.1.5, 0.1.6 and 0.1.7 were all published inside the window, so the highest mature version is still 0.1.3",
+    "consequence": "a person installing right now gets a build without session grouping, bulk archive, the kind filter, one-at-a-time review and the first-run sample — four releases behind"
+  },
+  "catalogState": {
+    "version": "2026.1109.17642",
+    "listedVersion": "0.1.3",
+    "nextBuildUtc": "2026-11-10T04:46Z",
+    "note": "because the card and the resolvable version are both 0.1.3 today, no mismatch is visible right now; the mismatch appears when a publish lands shortly before a daily build"
+  },
+  "maturitySchedule": {
+    "0.1.4": "2026-11-10T22:42+08:00",
+    "0.1.5": "2026-11-10T23:05+08:00",
+    "0.1.6": "2026-11-11T00:25+08:00",
+    "0.1.7": "2026-11-11T01:05+08:00",
+    "reading": "the daily desktop profile follows this schedule on its own, one version at a time, because it resolves a caret range"
+  },
+  "whatThisChangesForTheNextRelease": [
+    "publish in the recommended window: it makes the new version installable at the moment the catalog advertises it",
+    "or accept a full day of being four versions ahead on npm and one version behind on every default install"
+  ]
+}
