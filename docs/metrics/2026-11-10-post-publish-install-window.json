@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:01:04.653523Z",
+  "focus": "what actually blocks an install in the first hour after a publish",
+  "timeline": {
+    "publishedLocal": "2026-11-10T05:18+08:00",
+    "checkedLocal": "2026-11-10T06:00+08:00",
+    "delayMinutes": 42
+  },
+  "registryState": {
+    "npmjsLatest": "0.1.10",
+    "mirrorLatest": "0.1.9",
+    "mirrorKnowsVersions": [
+      "0.0.0-stage",
+      "0.1.2",
+      "0.1.3",
+      "0.1.4",
+      "0.1.5",
+      "0.1.6",
+      "0.1.7",
+      "0.1.8",
+      "0.1.9"
+    ],
+    "mirrorTarballFor0_1_10": "HTTP 302 — the file is served even though the metadata does not list it"
+  },
+  "installAttempts": [
+    {
+      "command": "dsh plugin --profile web add dsh-review-outbox@0.1.10",
+      "result": "ERR_PNPM_NO_MATCHING_VERSION, fetching from registry.npmmirror.com",
+      "elapsed": "2s"
+    },
+    {
+      "command": "dsh plugin --profile web add dsh-review-outbox",
+      "result": "resolved 0.1.3",
+      "why": "the mirror lists 0.1.9 as latest, but 0.1.9 was published 02:30 today and is still inside the 24-hour window, so the highest mature version is 0.1.3"
+    }
+  ],
+  "correctionToOurOwnHandbook": {
+    "previousClaim": "an exact version spec bypasses minimumReleaseAge, so pinning installs immediately",
+    "refinedClaim": "an exact spec bypasses the release-age window only if the registry's metadata lists that version; a stale mirror rejects it with ERR_PNPM_NO_MATCHING_VERSION even when the tarball is already fetchable",
+    "practicalWindow": "on this machine, for roughly the first hour after a publish, neither the bare name nor the exact pin installs the new version through the bundled pnpm"
+  },
+  "whatStaysTrue": "the market's one-click install delivered a freshly published version earlier tonight, because it resolves against a registry whose metadata already carried it",
+  "notMeasured": "how long the mirror takes to publish 0.1.10 metadata; the sync request was accepted (201 waiting) and had not landed 42 minutes later"
+}
