@@ -2,11 +2,13 @@
 
 中文 | [English](README.en.md) | [应用内安装 0.1.10](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/) | [旧版 0.1.0 tarball](#下载-tarball)
 
-一个本地优先的 DeepSeek Harness 成果审阅插件：把 Agent 交付的文件集中起来，完成预览、场景化证据检查、通过、退回、归档和复盘，并可导出无需安装即可查看的独立 HTML 验收单。
+一个本地优先的 DeepSeek Harness 成果审阅插件。核心是一道**证据门**：研究报告要核四项（结论证据、引用可复核、数据口径、方法限制），表格要核三项（来源口径、字段单位、抽样核对），**勾选之外必须写清证据才能通过**。
+
+通过之后导出一份独立 HTML 验收单，带被审阅文件的 SHA-256；文件事后被改动，同一份验收单会明确提示重新审阅，而不是假装通过仍然有效。
 
 它处理的是**成果处置**，不是普通问题、审批或通知。通过只表示你已完成审阅，插件不会自动向外部平台发布，也不会自动改写原会话。
 
-**0.1.4 首次价值已在真实 Web GUI 跑通**：从公开 GitHub 安装固定提交后，安装前密封报告自动回填，默认显示 `必填证据 0/4`，四项证据完成后通过并下载独立验收单；验收单入口直接回到公开安装指南。查看[结构化证据](docs/e2e/application-first-value.json)与[实际下载的验收单](docs/e2e/application-first-value.review.html)。
+**首次价值已在真实 Web GUI 跑通**：安装前密封的研究报告会自动回填，打开即显示 `必填证据 0/4`；四项证据完成后通过并下载独立验收单。空队列时也可以先生成一条示例成果，把「预览 → 证据门 → 通过 → 验收单」整条链路走一遍。查看[结构化证据](docs/e2e/application-first-value.json)与[实际下载的验收单](docs/e2e/application-first-value.review.html)。
 
 ![Review Outbox 审阅流程演示：回填成果、逐项填写证据、通过并导出验收单](assets/storefront/demo.gif)
 

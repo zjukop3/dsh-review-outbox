@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:51:20.760640Z",
+  "kind": "positioning consistency across the surfaces a stranger meets",
+  "surfaces": {
+    "README.zh": {
+      "before": "opened with a generic description of collecting agent deliverables",
+      "after": "opens with the evidence gate, names the four research checks and the three data checks, then the receipt and its change warning"
+    },
+    "README.en": {
+      "change": "removed a stale '0.1.4' from the first-value sentence"
+    },
+    "package.json.description": {
+      "change": "leads with evidence-gated acceptance and names both packs; happens on npm at the next publish",
+      "note": "adding Chinese keywords as well, because npm search matches them"
+    },
+    "site research-report page": {
+      "status": "already leads with the checklist, which is the right pitch for someone who has not installed anything",
+      "change": "none"
+    },
+    "catalog entry": {
+      "status": "pending the two open pull requests",
+      "change": "none"
+    }
+  },
+  "why": "the same product was described three ways on three surfaces: a card, a README and an npm page. A stranger should meet the same sentence in all three",
+  "tests": {
+    "total": 76,
+    "pass": 76
+  },
+  "deferredToNextPublish": [
+    "package.json description",
+    "npm keywords"
+  ]
+}

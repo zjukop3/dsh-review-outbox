@@ -1,7 +1,7 @@
 {
   "name": "dsh-review-outbox",
   "version": "0.1.10",
-  "description": "Human deliverable review and research-report acceptance for DeepSeek Harness: evidence checklists, SHA-256 receipts, preview, approve, return, and archive.",
+  "description": "Evidence-gated acceptance for DeepSeek Harness deliverables: research reports need claims, citations, data scope and method limits checked with written evidence before approval, spreadsheets need source, units and a spot check; approvals produce a standalone SHA-256 receipt that says when the reviewed bytes moved.",
   "type": "module",
   "main": "./src/host.js",
   "exports": {
@@ -36,7 +36,12 @@
     "citation-review",
     "acceptance",
     "review-receipt",
-    "workflow"
+    "workflow",
+    "evidence-gate",
+    "research-report-acceptance",
+    "deliverable-review",
+    "\u7814\u7a76\u62a5\u544a",
+    "\u9a8c\u6536"
   ],
   "license": "MIT",
   "author": "zjukop3",
