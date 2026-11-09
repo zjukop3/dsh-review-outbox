@@ -4,6 +4,7 @@ import {
   KINDS,
   OTHER_KIND,
   artifactKind,
+  buildReviewMessage,
   fileExtension,
   filterByKind,
   focusProgress,
@@ -135,4 +136,42 @@ test('spreadsheets without a pack get a suggestion, everything else does not', (
   assert.equal(suggestedPack('/work/data.json'), null)
   assert.equal(suggestedPack('Makefile'), null)
   assert.equal(suggestedPack(''), null)
+})
+
+test('the message pasted back into a session names what still fails', () => {
+  const pack = { checks: [
+    { id: 'a', label: '来源与口径写清', required: true },
+    { id: 'b', label: '字段与单位可解释', required: true },
+    { id: 'c', label: '复现路径', required: false },
+  ] }
+  const item = {
+    path: '/work/回款明细.csv', revision: 2, status: 'returned', reviewNote: '第 57 行对不上。',
+    reviewPack: { checks: { a: { checked: true, detail: '来源已写' }, b: { checked: true, detail: '' } } },
+  }
+  const message = buildReviewMessage(item, pack)
+  assert.match(message, /\[成果审阅 · 退回\] 回款明细\.csv（第 2 次交付）/)
+  assert.match(message, /未通过的必填检查：字段与单位可解释/)
+  assert.doesNotMatch(message, /来源与口径写清/, 'a satisfied check is not listed as missing')
+  assert.doesNotMatch(message, /复现路径/, 'optional checks never block')
+  assert.match(message, /审阅意见：\n第 57 行对不上。/)
+  assert.match(message, /重新交付到同一路径/)
+  assert.match(message, /r2/)
+})
+
+test('an approved artifact still produces a message a person can paste', () => {
+  const pack = { checks: [{ id: 'a', label: '核心结论有对应证据', required: true }] }
+  const item = { path: '/work/report.md', revision: 1, status: 'approved', reviewPack: { checks: { a: { checked: true, detail: '第 3 节' } } } }
+  const message = buildReviewMessage(item, pack)
+  assert.match(message, /已通过/)
+  assert.match(message, /必填检查已全部通过/)
+  assert.match(message, /审阅意见：（未填写）/)
+  assert.match(message, /文件若已改动需要重新审阅/)
+})
+
+test('an artifact with no pack still gets a usable message', () => {
+  const message = buildReviewMessage({ path: '/work/notes.txt', revision: 1, status: 'archived' }, null)
+  assert.match(message, /已归档/)
+  assert.doesNotMatch(message, /必填检查/)
+  assert.match(message, /notes\.txt/)
+  assert.equal(buildReviewMessage(null, null), '')
 })

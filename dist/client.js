@@ -305,6 +305,37 @@ window.__ModuleLoader__.load({
 				label: match[1]
 			} : null;
 		}
+		/**
+		* The text a reviewer pastes back into the originating session.
+		* It names the artifact, the revision, what still fails, and the note, so the
+		* agent receives an instruction instead of a bare opinion. Deliberately plain
+		* text: it has to survive a paste into any chat box.
+		*/
+		function buildReviewMessage(item, pack) {
+			if (!item) return "";
+			const name = String(item.path || "").split(/[\\/]/).filter(Boolean).pop() || "成果";
+			const revision = `r${Number(item.revision || 1)}`;
+			const lines = [`[成果审阅 · ${{
+				approved: "已通过",
+				returned: "退回",
+				archived: "已归档",
+				pending: "待审"
+			}[item.status] || item.status}] ${name}（第 ${revision.slice(1)} 次交付）`];
+			const checks = pack?.checks || [];
+			if (checks.length > 0) {
+				const state = item.reviewPack?.checks || {};
+				const incomplete = checks.filter((check) => check.required).filter((check) => {
+					const entry = state[check.id] || {};
+					return entry.checked !== true || String(entry.detail || "").trim() === "";
+				}).map((check) => check.label);
+				lines.push(incomplete.length > 0 ? `未通过的必填检查：${incomplete.join("、")}` : "必填检查已全部通过。");
+			}
+			const note = String(item.reviewNote || "").trim();
+			lines.push(note ? `审阅意见：\n${note}` : "审阅意见：（未填写）");
+			if (item.status === "returned") lines.push(`请修改后重新交付到同一路径；本次审阅针对 ${revision} 的文件摘要。`);
+			else lines.push(`本次审阅针对 ${revision} 的文件摘要，文件若已改动需要重新审阅。`);
+			return lines.join("\n");
+		}
 		// client/styles.js
 		var styles_default = String.raw`
 .ro-root{--ro-bg:var(--dsw-alias-bg-base,#f7f8fa);--ro-panel:var(--dsw-alias-bg-elevated,#fff);--ro-text:var(--dsw-alias-label-primary,#17202a);--ro-muted:var(--dsw-alias-label-secondary,#687180);--ro-line:var(--dsw-alias-border-primary,#dfe3e8);--ro-accent:var(--dsw-alias-brand-primary,#315efb);display:flex;flex-direction:column;width:100%;height:100%;min-height:0;background:var(--ro-bg);color:var(--ro-text);font-family:inherit}
@@ -314,7 +345,7 @@ window.__ModuleLoader__.load({
 .ro-focus-bar{display:flex;align-items:center;gap:10px;padding:10px 22px;background:var(--ro-panel);border-bottom:1px solid var(--ro-line);flex-wrap:wrap}.ro-focus-progress{font-size:12px;font-weight:600;color:var(--ro-accent)}.ro-body.focused{grid-template-columns:minmax(0,1fr)}.ro-kinds{display:flex;flex-wrap:wrap;gap:5px;padding:0 22px 11px;background:var(--ro-panel);border-bottom:1px solid var(--ro-line)}.ro-kind{font:inherit;font-size:11px;padding:4px 9px;border:1px solid transparent;border-radius:999px;background:var(--ro-bg);color:var(--ro-muted);cursor:pointer}.ro-kind.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-kind:hover:not(:disabled){color:var(--ro-accent)}.ro-kind:disabled{opacity:.4;cursor:default}.ro-badge.kind{background:var(--ro-panel);border:1px solid var(--ro-line)}.ro-shortcuts{margin-top:9px;color:var(--ro-muted);font-size:11px}.ro-shortcuts b{display:inline-block;min-width:14px;padding:0 4px;margin:0 1px;border:1px solid var(--ro-line);border-radius:4px;background:var(--ro-bg);color:var(--ro-text);font:10px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center}.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-group{border-bottom:1px solid var(--ro-line);padding-bottom:4px;margin-bottom:4px}.ro-group:last-child{border-bottom:0}.ro-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px;cursor:pointer;list-style:none;font-size:11px;color:var(--ro-muted)}.ro-group-head::-webkit-details-marker{display:none}.ro-group-head::before{content:"▸";flex:none;transition:transform .12s ease}.ro-group[open]>summary::before{transform:rotate(90deg)}.ro-group-archive{flex:none;font:inherit;font-size:10px;padding:2px 7px;border:1px solid var(--ro-line);border-radius:5px;background:var(--ro-panel);color:var(--ro-muted);cursor:pointer}.ro-group-archive:hover:not(:disabled){border-color:var(--ro-accent);color:var(--ro-accent)}.ro-group-archive:disabled{opacity:.5;cursor:default}.ro-group-title{flex:1;min-width:0;font-weight:600;color:var(--ro-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-group-meta{flex:none;white-space:nowrap}.ro-group[open] .ro-card:first-of-type{margin-top:2px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ro-detail{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:auto}.ro-detail-head{padding:18px 22px 12px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-detail-title{margin:0;font-size:17px;line-height:1.35;word-break:break-word}.ro-path{margin-top:6px;color:var(--ro-muted);font:11px ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all}.ro-preview{margin:16px 22px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel);min-height:160px;overflow:hidden}.ro-preview pre{margin:0;padding:16px;max-height:52vh;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}.ro-preview img{display:block;max-width:100%;max-height:58vh;margin:auto}.ro-preview-message{padding:32px 18px;text-align:center;color:var(--ro-muted);font-size:13px}.ro-diff-line{display:block;padding:0 12px;white-space:pre-wrap}.ro-diff-line.add{background:#e8f6ec;color:#176b3a}.ro-diff-line.del{background:#fdecea;color:#9d332c}
 .ro-pack{margin:0 22px 16px;padding:14px 16px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel)}.ro-pack-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.ro-pack-hint{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0 0;color:var(--ro-muted);font-size:12px}.ro-pack-hint .ro-button{font-size:11px;padding:4px 9px}.ro-pack-head select{max-width:100%;padding:7px 10px;border:1px solid var(--ro-line);border-radius:8px;background:var(--ro-bg);color:var(--ro-text);font:12px inherit}.ro-pack-summary{margin:10px 0 0;color:var(--ro-muted);font-size:12px;line-height:1.55}.ro-checks{margin-top:8px}.ro-check{padding:10px 0;border-top:1px dashed var(--ro-line)}.ro-check label{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer}.ro-check label span{margin-left:auto;color:var(--ro-muted);font-size:10px}.ro-check p{margin:5px 0 7px 23px;color:var(--ro-muted);font-size:11px;line-height:1.5}.ro-check textarea{display:block;width:calc(100% - 23px);margin-left:23px;resize:vertical;padding:8px 10px;border:1px solid var(--ro-line);border-radius:7px;background:var(--ro-bg);color:var(--ro-text);font:11px/1.5 inherit}.ro-check textarea:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-check textarea[readonly]{opacity:.75}
-.ro-actions{padding:0 22px 20px}.ro-note{width:100%;min-height:72px;resize:vertical;padding:10px 12px;border:1px solid var(--ro-line);border-radius:9px;background:var(--ro-panel);color:var(--ro-text);font:12px/1.5 inherit}.ro-note:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}.ro-history{margin:0 22px 20px;padding-top:12px;border-top:1px solid var(--ro-line)}.ro-history summary{cursor:pointer;color:var(--ro-muted);font-size:12px}.ro-history-item{padding:8px 0;border-bottom:1px dashed var(--ro-line);font-size:12px}.ro-history-note{margin-top:3px;white-space:pre-wrap;color:var(--ro-muted)}.ro-empty{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:36px;color:var(--ro-muted);text-align:center}.ro-empty strong{color:var(--ro-text);font-size:15px}.ro-error{padding:10px 14px;margin:12px 22px 0;border:1px solid #e5b2ae;background:#fdecea;color:#8c2b25;border-radius:8px;font-size:12px}.ro-footer{padding:10px 22px;border-top:1px solid var(--ro-line);color:var(--ro-muted);font-size:11px;background:var(--ro-panel)}
+.ro-actions{padding:0 22px 20px}.ro-note{width:100%;min-height:72px;resize:vertical;padding:10px 12px;border:1px solid var(--ro-line);border-radius:9px;background:var(--ro-panel);color:var(--ro-text);font:12px/1.5 inherit}.ro-note:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}.ro-copied{margin:10px 0 0;padding:10px 12px;border:1px solid var(--ro-line);border-radius:9px;background:var(--ro-bg)}.ro-copied summary{cursor:pointer;color:var(--ro-accent);font-size:12px}.ro-copied pre{margin:8px 0 0;padding:10px;max-height:220px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ro-text)}.ro-history{margin:0 22px 20px;padding-top:12px;border-top:1px solid var(--ro-line)}.ro-history summary{cursor:pointer;color:var(--ro-muted);font-size:12px}.ro-history-item{padding:8px 0;border-bottom:1px dashed var(--ro-line);font-size:12px}.ro-history-note{margin-top:3px;white-space:pre-wrap;color:var(--ro-muted)}.ro-empty{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:36px;color:var(--ro-muted);text-align:center}.ro-empty strong{color:var(--ro-text);font-size:15px}.ro-error{padding:10px 14px;margin:12px 22px 0;border:1px solid #e5b2ae;background:#fdecea;color:#8c2b25;border-radius:8px;font-size:12px}.ro-footer{padding:10px 22px;border-top:1px solid var(--ro-line);color:var(--ro-muted);font-size:11px;background:var(--ro-panel)}
 @media(max-width:850px){.ro-body{grid-template-columns:1fr}.ro-list{max-height:38vh;border-right:0;border-bottom:1px solid var(--ro-line)}.ro-detail{min-height:55vh}.ro-subtle{display:none}.ro-header{padding:12px 16px}.ro-toolbar{padding:10px 16px;overflow:auto}.ro-kinds{padding:0 16px 10px}.ro-detail-head,.ro-actions{padding-left:16px;padding-right:16px}.ro-preview,.ro-history{margin-left:16px;margin-right:16px}.ro-pack{margin-left:16px;margin-right:16px}}
 `;
 		// client/index.jsx
@@ -446,6 +477,8 @@ window.__ModuleLoader__.load({
 			const [note, setNote] = react.default.useState("");
 			const [error, setError] = react.default.useState("");
 			const [busy, setBusy] = react.default.useState(false);
+			const [copied, setCopied] = react.default.useState("");
+			const [sessionMissing, setSessionMissing] = react.default.useState(false);
 			const [stateError, setStateError] = react.default.useState(null);
 			const [packs, setPacks] = react.default.useState([]);
 			const [checkDetails, setCheckDetails] = react.default.useState({});
@@ -736,8 +769,18 @@ window.__ModuleLoader__.load({
 			};
 			const openSource = async () => {
 				if (!selected?.sessionId) return;
-				if (note.trim()) await navigator.clipboard?.writeText(note.trim()).catch(() => {});
-				openSession(selected.sessionId);
+				const message = buildReviewMessage({
+					...selected,
+					reviewNote: note.trim() || selected.reviewNote
+				}, selectedPack);
+				const copied = await navigator.clipboard?.writeText(message).then(() => true).catch(() => false);
+				setCopied(copied === true ? message : "");
+				try {
+					await openSession(selected.sessionId);
+					setSessionMissing(false);
+				} catch {
+					setSessionMissing(true);
+				}
 			};
 			const exportReceipt = async () => {
 				if (!selected) return;
@@ -1121,6 +1164,15 @@ window.__ModuleLoader__.load({
 												" 下一项/上一项（在输入框内不生效）"
 											]
 										}),
+										sessionMissing ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+											className: "ro-error",
+											children: "原会话已不存在（可能已删除），审阅文字已复制，可粘贴到任意会话。"
+										}) : null,
+										copied ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("details", {
+											className: "ro-copied",
+											open: true,
+											children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("summary", { children: "已复制这段文字，粘贴到原会话即可" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("pre", { children: copied })]
+										}) : null,
 										/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 											className: "ro-action-row",
 											children: [

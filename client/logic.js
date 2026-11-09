@@ -124,3 +124,38 @@ export function suggestedPack(path) {
   const match = PACK_HINTS.find(([, , extensions]) => extensions.includes(extension))
   return match ? { id: match[0], label: match[1] } : null
 }
+
+/**
+ * The text a reviewer pastes back into the originating session.
+ * It names the artifact, the revision, what still fails, and the note, so the
+ * agent receives an instruction instead of a bare opinion. Deliberately plain
+ * text: it has to survive a paste into any chat box.
+ */
+export function buildReviewMessage(item, pack) {
+  if (!item) return ''
+  const name = String(item.path || '').split(/[\\/]/).filter(Boolean).pop() || '成果'
+  const revision = `r${Number(item.revision || 1)}`
+  const label = { approved: '已通过', returned: '退回', archived: '已归档', pending: '待审' }[item.status] || item.status
+  const lines = [`[成果审阅 · ${label}] ${name}（第 ${revision.slice(1)} 次交付）`]
+
+  const checks = pack?.checks || []
+  if (checks.length > 0) {
+    const state = item.reviewPack?.checks || {}
+    const incomplete = checks
+      .filter(check => check.required)
+      .filter(check => {
+        const entry = state[check.id] || {}
+        return entry.checked !== true || String(entry.detail || '').trim() === ''
+      })
+      .map(check => check.label)
+    lines.push(incomplete.length > 0
+      ? `未通过的必填检查：${incomplete.join('、')}`
+      : '必填检查已全部通过。')
+  }
+
+  const note = String(item.reviewNote || '').trim()
+  lines.push(note ? `审阅意见：\n${note}` : '审阅意见：（未填写）')
+  if (item.status === 'returned') lines.push(`请修改后重新交付到同一路径；本次审阅针对 ${revision} 的文件摘要。`)
+  else lines.push(`本次审阅针对 ${revision} 的文件摘要，文件若已改动需要重新审阅。`)
+  return lines.join('\n')
+}

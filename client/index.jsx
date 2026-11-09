@@ -1,7 +1,7 @@
 import React from 'react'
 import { watchBetterSidebar } from './better-sidebar.js'
 import { openNativeArtifact } from './native-open.js'
-import { KINDS, OTHER_KIND, artifactKind, filterByKind, focusProgress, kindCounts, kindLabel, nextAfterRemoval, shortcutAction, stepIndex, suggestedPack } from './logic.js'
+import { KINDS, OTHER_KIND, artifactKind, buildReviewMessage, filterByKind, focusProgress, kindCounts, kindLabel, nextAfterRemoval, shortcutAction, stepIndex, suggestedPack } from './logic.js'
 import css from './styles.js'
 
 const API = '/review-outbox/api'
@@ -84,6 +84,8 @@ function Outbox({ openSession, openNative, active = true }) {
   const [note, setNote] = React.useState('')
   const [error, setError] = React.useState('')
   const [busy, setBusy] = React.useState(false)
+  const [copied, setCopied] = React.useState('')
+  const [sessionMissing, setSessionMissing] = React.useState(false)
   const [stateError, setStateError] = React.useState(null)
   const [packs, setPacks] = React.useState([])
   const [checkDetails, setCheckDetails] = React.useState({})
@@ -351,8 +353,20 @@ function Outbox({ openSession, openNative, active = true }) {
 
   const openSource = async () => {
     if (!selected?.sessionId) return
-    if (note.trim()) await navigator.clipboard?.writeText(note.trim()).catch(() => {})
-    openSession(selected.sessionId)
+    // A bare opinion pasted into the session makes the agent guess. Send a
+    // structured message: what was decided, which required checks still fail,
+    // the note, and which revision the decision belongs to.
+    const message = buildReviewMessage({ ...selected, reviewNote: note.trim() || selected.reviewNote }, selectedPack)
+    const copied = await navigator.clipboard?.writeText(message).then(() => true).catch(() => false)
+    setCopied(copied === true ? message : '')
+    // The originating session may already be gone (deleted, or a fixture). The
+    // message is still in the clipboard, so say that instead of throwing.
+    try {
+      await openSession(selected.sessionId)
+      setSessionMissing(false)
+    } catch {
+      setSessionMissing(true)
+    }
   }
 
   const exportReceipt = async () => {
@@ -562,6 +576,15 @@ function Outbox({ openSession, openNative, active = true }) {
               <section className="ro-actions">
                 <textarea className="ro-note" value={note} onChange={event => setNote(event.target.value)} placeholder="审阅意见；退回时可复制到原会话" />
                 <div className="ro-shortcuts">快捷键：<b>a</b> 通过 · <b>r</b> 退回 · <b>z</b> 归档 · <b>n</b>/<b>p</b> 下一项/上一项（在输入框内不生效）</div>
+                {sessionMissing ? (
+                  <div className="ro-error">原会话已不存在（可能已删除），审阅文字已复制，可粘贴到任意会话。</div>
+                ) : null}
+                {copied ? (
+                  <details className="ro-copied" open>
+                    <summary>已复制这段文字，粘贴到原会话即可</summary>
+                    <pre>{copied}</pre>
+                  </details>
+                ) : null}
                 <div className="ro-action-row">
                   {selected.status === 'pending' ? (
                     <>

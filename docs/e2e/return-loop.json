@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T18:06:25.767124Z",
+  "focus": "what a reviewer actually sends back to the session after a decision",
+  "problem": "the button used to copy the raw note and open the session, which asks the agent to guess what was decided and which checks still failed",
+  "environment": "isolated DSH_HOME with a delivered csv carrying partial evidence, dsh web, Chrome headless with clipboard permissions",
+  "observed": {
+    "returnAction": {
+      "tabsAfter": "待审 0 | 通过 0 | 退回 1 | 归档 0 | 全部 1"
+    },
+    "copiedMessage": [
+      "[成果审阅 · 退回] 回款明细.csv（第 2 次交付）",
+      "未通过的必填检查：字段与单位可解释、抽样核对过",
+      "审阅意见：",
+      "第 57 行回款天数与源系统差 2 天，请核对导出条件。",
+      "请修改后重新交付到同一路径；本次审阅针对 r2 的文件摘要。"
+    ],
+    "clipboardMatchesPanel": true,
+    "satisfiedCheckNotListed": "来源与口径写清 was already ticked with evidence and does not appear as missing",
+    "optionalCheckIgnored": "复现或更新路径可定位 never blocks"
+  },
+  "defectFoundByTheFixture": {
+    "symptom": "pageerror: sessions.retain: unknown session s1",
+    "cause": "openSession() throws when the originating session no longer exists (deleted session, or a fixture id)",
+    "fix": "the click now catches that failure, keeps the clipboard copy, and shows 原会话已不存在（可能已删除），审阅文字已复制，可粘贴到任意会话。",
+    "reverified": {
+      "notice": "原会话已不存在（可能已删除），审阅文字已复制，可粘贴到任意会话。",
+      "clipboardFirstLine": "[成果审阅 · 退回] 回款明细.csv（第 2 次交付）",
+      "pageErrors": []
+    }
+  },
+  "notPossibleYet": "appending the decision into the session log itself: dsh-session exposes appendPluginRecord only for record types a plugin owns at the type level, and no service here submits a user turn, so the decision travels as text the reviewer pastes"
+}
