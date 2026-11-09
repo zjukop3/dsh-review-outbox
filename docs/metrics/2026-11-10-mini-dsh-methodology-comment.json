@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:02:51.878708Z",
+  "kind": "ecosystem contribution — someone else's methodology",
+  "target": {
+    "repo": "hsliuustc0106/mini-dsh",
+    "issue": 97,
+    "title": "Acceptance samples: DSH TOP10 plugins (install ≠ run matrix)",
+    "comment": "https://github.com/hsliuustc0106/mini-dsh/issues/97#issuecomment-6752643814",
+    "whyThisThread": "an independent DSH-compatible host is recording install-vs-runtime outcomes for the ten most popular plugins; a 'rejected at install' row there becomes ecosystem truth for anyone reading it"
+  },
+  "contribution": {
+    "claim": "an install outcome depends on three things, only one of which is the plugin: which registry answered, whether the version is inside the release-age window, and the spec form written into the profile",
+    "controlsOffered": [
+      "re-run with --config.minimum-release-age=0",
+      "re-run against registry.npmjs.org instead of the mirror",
+      "if either changes the outcome, the row is an environment result, not a compatibility result"
+    ],
+    "concreteEvidenceCited": "42 minutes after a publish, the mirror served the tarball (302) while its metadata listed only earlier versions, so an exact pin failed with ERR_PNPM_NO_MATCHING_VERSION"
+  },
+  "whyItIsNotPromotion": "the comment asks the maintainer to change how a row is classified; the only link is a write-up of the timings, offered as a way to avoid rediscovery",
+  "risk": "the maintainer may consider registry behaviour out of scope for a host-compatibility matrix; the comment explicitly says no action is requested"
+}
