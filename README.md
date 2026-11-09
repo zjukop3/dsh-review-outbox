@@ -231,4 +231,5 @@ pnpm run check
 
 MIT
 
+- [十分钟清掉一次积压](docs/FIRST-10-MINUTES.md)：已有几十条待审成果时的具体点击顺序。
 - [可审阅产物约定](docs/REVIEWABLE-ARTIFACTS.md)：第三方插件怎样把产物交给审阅方而不耦合实现。

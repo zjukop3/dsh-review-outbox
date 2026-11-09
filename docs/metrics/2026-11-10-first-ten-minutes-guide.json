@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T20:48:27.000359Z",
+  "artifact": "docs/FIRST-10-MINUTES.md",
+  "purpose": "the one document a person with a backlog needs; every claim in it is checkable against the code or the funnel snapshot",
+  "claimsCrossChecked": {
+    "shortcuts": "a/r/z/n/p exist in client/logic.js ACTION_KEYS and refuse to fire inside inputs",
+    "focusModeButton": "逐项审阅 / 退出逐项 exist in client/index.jsx",
+    "kindCountsUsedAsExample": "41 document / 14 data / 9 image / 5 sheet / 2 code / 4 other matches docs/metrics/2026-11-10-funnel-snapshot.json",
+    "receiptPointer": "导出验收单 and 复制意见并打开原会话 are the button labels",
+    "sampleOnlyWhenEmpty": "the sample button renders only when items.length === 0"
+  },
+  "whatItDeliberatelyOmits": "no architecture, no design rationale, no benchmark numbers — a person with 75 pending items needs a click order, not a product story",
+  "alsoUsefulAs": "the briefing for the only confirmed user, whose profile receives 0.1.4 tonight at 22:42 local"
+}
