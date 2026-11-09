@@ -38,6 +38,28 @@
     "oneClickInstallNote": "After accepting the confirmation dialog the profile still listed only dshmarket and no review-outbox directory existed after ~3 minutes; no error surfaced in the UI or console. The underlying `dsh plugin --profile web add dsh-review-outbox` path is independently verified (1.6s, version 0.1.3, bundle selected).",
     "pageErrors": []
   },
+  "catalogDetailPage": {
+    "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/",
+    "probeRefreshed": true,
+    "staleVersionLineGone": true,
+    "currentIndexVersionShown": "0.1.3",
+    "pluginAuthorIntegrationGuideLinked": true,
+    "walkthroughDemoGifRendered": true,
+    "zeroRuntimeDependencyNoteShown": true,
+    "note": "The daily upstream probe picked up the current README, so catalog visitors now see 0.1.3 status, the integration guide and the recorded walkthrough instead of the 0.1.0-era text."
+  },
+  "trafficAtCollection": {
+    "views": 2,
+    "uniques": 2,
+    "referrers": [{ "referrer": "github.com", "count": 1, "uniques": 1 }],
+    "note": "First non-empty referrer ever recorded. Two views cannot distinguish a curious external visitor from tooling; it is not an activation signal."
+  },
+  "upstreamIssue": {
+    "url": "https://github.com/op7418/dsh-guizang-design/issues/2",
+    "state": "OPEN",
+    "comments": 0,
+    "note": "No maintainer response after ~35 hours; third-party response timing is outside our control."
+  },
   "activation": {
     "marketReferredInstalls": null,
     "externalWeekTwoRetention": null,
