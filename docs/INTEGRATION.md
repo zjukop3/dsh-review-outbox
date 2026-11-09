@@ -25,6 +25,14 @@ Review Outbox 监听宿主 Session 事件流，不要求你的插件注册任何
 
 配对规则由结果事件自身决定：`tool/result` 且工具名为 `research_report`、`event.data.meta.reportFile` 与 `meta.manifestFile` 均为非空字符串。`isError === true` 的失败结果不会入库。该规则已通过真实双插件互操作验证（见[验证记录](VALIDATION.md)），不要求研究插件做任何改动。
 
+### 这个耦合的稳定性边界
+
+`meta.reportFile` / `meta.manifestFile` 是 `dsh-research-report` 工具结果里的投影字段，它在本包内部是承重的（`presentResult` 用它声明交付位置），但**不属于**该仓库 `verify-frozen-contract.mjs` 的字节冻结范围——那个门禁只覆盖 `ctx.researchReport.assemble` 的 `AssembleReportResult`（其中只有 `reportDir`，不含显式文件名）。
+
+因此：若上游重命名这两个字段，本插件会静默地不再入库任何研究报告（`src/events.js` 遇到缺失字段时返回空记录，不报错）。这不是设计缺陷，是已知耦合风险。
+
+已向上游提出精确问题：**哪个 seam 才是给兄弟插件的契约**——[PerryLink/dsh-research-report#27](https://github.com/PerryLink/dsh-research-report/issues/27)。若答复是"请用 `reportDir`"，本插件会改为消费冻结契约；若答复是"meta 属受支持表面"，上游会补文档或门禁。
+
 ### 3. 工作区变更（只读展示）
 
 宿主 `workspace/changes` 事件中的文件变更会以只读形式进入队列，含增删行数与二进制/超大标记。这条路径服务于"改了哪些文件"的复查场景，不产生验收包。
