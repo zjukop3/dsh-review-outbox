@@ -45,7 +45,7 @@ node &quot;$PNPM&quot; config get registry --config.userconfig=/tmp/x/.npmrc   #
 <p>这条约束解释的是「镜像故障时的失败形态」，而不是版本选择：</p>
 <ul><li>镜像整体故障那晚，它对这个包返回 <code>500 ER_NO_SUCH_TABLE</code>，抽查 <code>react</code> 等无关包同样 500，属于镜像自身故障；</li><li>那一刻默认安装仍然<strong>成功</strong>，只是装到旧版；显式指定新版本才报 <code>ERR_PNPM_NO_MATCHING_VERSION</code>，错误里写明抓取源是 <code>registry.npmmirror.com</code>；</li><li>镜像恢复后，同样的默认命令装到的还是旧版——原因不在镜像，而在上一节的冷却。</li></ul>
 <p>结论：<strong>版本落后先查冷却，装不动才查镜像。</strong> 顺序搞反会浪费一整晚。</p>
-<h2 id="2b-能不能自动更新-取决于装的时候写下的-spec">2b. 能不能自动更新，取决于装的时候写下的 spec</h2>
+<h2 id="3-能不能自动更新-取决于装的时候写下的-spec">3. 能不能自动更新，取决于装的时候写下的 spec</h2>
 <p>装完不是结束：<strong>profile 里记下的版本写法决定了它以后会不会自己动</strong>。三种写法，实测三条结果：</p>
 <div class="table-wrap"><table><thead><tr><th>装的时候</th><th>profile 里的 spec</th><th>之后 <code>pnpm update</code></th></tr></thead><tbody><tr><td><code>dsh plugin add &lt;name&gt;</code></td><td><code>^x.y.z</code></td><td>会动：冷却过了就升到当时最高成熟版本</td></tr><tr><td><code>dsh plugin add &lt;name&gt;@&lt;version&gt;</code></td><td><code>x.y.z</code>（精确）</td><td><strong>永远不动</strong>：精确版本是上限，<code>update</code> 也不会越过</td></tr><tr><td>市场一键安装</td><td><code>x.y.z</code>（精确）</td><td>不会随 <code>pnpm update</code> 动；要靠市场自己的更新动作改写 spec</td></tr></tbody></table></div>
 <p>复现（把冷却临时关掉等价于&quot;等它成熟&quot;，不必真等一天）：</p>
@@ -53,24 +53,24 @@ node &quot;$PNPM&quot; config get registry --config.userconfig=/tmp/x/.npmrc   #
 node &quot;$PNPM&quot; update dsh-review-outbox --config.minimum-release-age=0   # 精确 spec → 仍是旧版
 # 改成 &quot;dsh-review-outbox&quot;: &quot;^0.1.3&quot; 再跑一遍 → 升到当时最高成熟版本</code></pre>
 <p><strong>作者最容易踩的坑</strong>：为了立刻验证新版本，用 <code>@&lt;version&gt;</code> 装了一次，于是这个 profile 从此不再自动更新，之后每发一版都&quot;看不到效果&quot;。这不是管线坏了，是那行 spec 被钉死了。</p>
-<h2 id="3-三条安装回退路径-都实测过">3. 三条安装回退路径（都实测过）</h2>
+<h2 id="4-三条安装回退路径-都实测过">4. 三条安装回退路径（都实测过）</h2>
 <div class="table-wrap"><table><thead><tr><th>路径</th><th>命令形态</th><th>实测结果</th><th>代价</th></tr></thead><tbody><tr><td>应用内目录一键安装</td><td>市场里点安装</td><td>依赖镜像健康</td><td>—</td></tr><tr><td>固定提交的 GitHub 源</td><td><code>dsh plugin --profile web add &#39;github:OWNER/REPO#COMMIT&#39;</code></td><td>解析到 <code>0.1.5</code></td><td>6 分 52 秒（走 git）</td></tr><tr><td>显式 npmjs registry</td><td><code>pnpm add PKG@VER --registry=https://registry.npmjs.org</code></td><td>解析到 <code>0.1.5</code>，9.4 秒</td><td>需改配置</td></tr></tbody></table></div>
 <p>固定提交路径绕过 registry，是镜像故障期间唯一「不改用户配置」也能装到新版的路径。它的代价是慢，且要求包<strong>零运行时依赖、无安装脚本</strong>——否则依赖解析照样会撞上 registry。</p>
-<h2 id="4-应用内索引的-pin-语义">4. 应用内索引的 pin 语义</h2>
+<h2 id="5-应用内索引的-pin-语义">5. 应用内索引的 pin 语义</h2>
 <p>应用内市场索引（<code>format: 1</code>）用「固定提交」表达版本，不是用分支头。我们用 <code>market-release.json</code> 显式持有被 pin 的提交：</p>
 <ul><li>索引里的 <code>version</code> 取自<strong>工作区</strong> <code>package.json</code>；</li><li><code>publishTimestamp</code> 取自<strong>被 pin 提交</strong>的提交时间（<code>git show -s --format=%ct</code>）；</li><li>因此「改代码」和「改索引」是两次提交：先运行时提交，再 pin 提交；</li><li>纯文档提交<strong>不动 pin</strong>，否则每次改错别字都会把用户钉到不相关的提交上。</li></ul>
 <p>这条语义直接决定了发布顺序：运行时提交 → 更新 pin → 重建索引 → 重建页面 → 校验 → 推送。</p>
-<h2 id="5-验证只能在隔离-profile-里做">5. 验证只能在隔离 Profile 里做</h2>
+<h2 id="6-验证只能在隔离-profile-里做">6. 验证只能在隔离 Profile 里做</h2>
 <p>桌面端 profile 由 Electron 应用独占管理，CLI 拒绝修改它。想验证安装、回填、审阅这类动作，必须另起 <code>DSH_HOME</code>：</p>
 <pre><code class="language-bash">H=$(mktemp -d /tmp/dsh-verify.XXXXXX)
 DSH_HOME=&quot;$H&quot; dsh plugin --profile web add PKG</code></pre>
 <p>好处是可以把<strong>真实状态</strong>拷进去跑：我们就是把日常 profile 里 75 条真实待审项复制到隔离环境，才验证出分组归档在生产数据上的行为（点 4 条那组 → <code>{&quot;archived&quot;:4}</code> → pending 75→71、分组 10→9、零报错）。用自己的真实数据验证，和用造出来的 3 条假数据验证，发现的问题不是一个量级。</p>
-<h2 id="6-消费兄弟插件的产物的正确接缝">6. 消费兄弟插件的产物的正确接缝</h2>
+<h2 id="7-消费兄弟插件的产物的正确接缝">7. 消费兄弟插件的产物的正确接缝</h2>
 <p>上游插件如果把结果写成「冻结契约」（frozen contract），契约表面往往比实际可用的东西窄。以 <code>dsh-research-report</code> 为例，冻结的 <code>AssembleReportResult</code> 只暴露 <code>reportDir</code>、<code>sealHash</code>、<code>verdicts</code>，而实际拿到文件路径的稳定接缝是工具结果里的 <code>tool/result.data.meta.reportFile</code>。</p>
 <p>判断哪个接缝是契约的、哪个是实现细节，问上游比猜便宜。我们把这个问题作为<a href="https://github.com/PerryLink/dsh-research-report/issues/27">上游 issue</a>提出，同时在自己的集成代码里按 <code>reportFile</code> 优先、<code>reportDir</code> 兜底的顺序处理，两边都不假设。</p>
-<h2 id="6b-把消费关系写成约定-而不是靠读对方代码">6b. 把消费关系写成约定，而不是靠读对方代码</h2>
+<h2 id="8-把消费关系写成约定-而不是靠读对方代码">8. 把消费关系写成约定，而不是靠读对方代码</h2>
 <p>跨插件耦合写进文档才可能被讨论。我们把「第三方插件怎样把产物交给审阅方」写成七条可反驳的约定：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/REVIEWABLE-ARTIFACTS.md">REVIEWABLE-ARTIFACTS.md</a>。它的价值不在措辞，而在于<strong>把隐性依赖变成可以被拒绝的提案</strong>——上游若不同意，可以直接说哪一条不成立。</p>
-<h2 id="7-度量-什么不算激活">7. 度量：什么不算激活</h2>
+<h2 id="9-度量-什么不算激活">9. 度量：什么不算激活</h2>
 <p>用一条命令拿到这条度量，而不是靠感觉：</p>
 <pre><code class="language-bash">node scripts/report-usage.mjs ~/.dsh            # 人读
 node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
@@ -78,13 +78,13 @@ node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
 <p>插件生态里最容易自欺的三个数字：</p>
 <ul><li><strong>页面访问</strong>——可能是自己刷新；</li><li><strong>npm 下载</strong>——包含 CI、镜像抓取、<code>npm view</code> 之外的自动化；</li><li><strong>目录收录</strong>——只说明能被搜到，不说明有人装。</li></ul>
 <p>我们采用的激活定义是「<strong>一次真实的人工审阅动作</strong>」：通过、退回或归档任意一条真实成果。到 <code>0.1.5</code> 为止，日常 profile 里这条计数是 <strong>0</strong>（75 条待审项，0 次人工动作）。这个 0 比任何发布里程碑都更能说明产品处在什么位置。</p>
-<h2 id="7b-一条命令看住发布状态">7b. 一条命令看住发布状态</h2>
+<h2 id="10-一条命令看住发布状态">10. 一条命令看住发布状态</h2>
 <p>发布之后真正要盯的不是&quot;有没有发成功&quot;，而是<strong>四个会各自漂移的数字</strong>：</p>
 <pre><code class="language-bash">node scripts/check-milestones.mjs            # 人读
 node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <p>它一次打印：npm latest 与本地版本、目录条目版本与描述开头、默认安装解析到的版本（<code>--with-install</code>，会真的装一次）、本机漏斗（成果/待审/人工动作/最久停留）、以及上游 PR/issue 的状态与评论数。慢的步骤出声提示，避免&quot;看起来卡住&quot;。</p>
 <p>按症状查的版本在<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/../troubleshooting/">排障页</a>：<code>ERR_PNPM_NO_MATCHING_VERSION</code>、装到旧版、从此不更新、市场版本不一致、目录不收录、以及被连带拦住。</p>
-<h2 id="8-发布后检查清单">8. 发布后检查清单</h2>
+<h2 id="11-发布后检查清单">11. 发布后检查清单</h2>
 <p>八条，按顺序做，每条都有可观测的产出：</p>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
 <h2 id="已知不确定项">已知不确定项</h2>

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:32:14.854459Z",
+  "kind": "maintenance audit of the public surface",
+  "linkAudit": {
+    "pagesChecked": [
+      "/",
+      "/research-report/",
+      "/operations/",
+      "/troubleshooting/"
+    ],
+    "internalLinks": 11,
+    "broken": 0,
+    "includes": [
+      "checklist.txt",
+      "checklist.docx",
+      "checklist.pdf",
+      "receipt-example.html",
+      "plugins.json",
+      "legacy tarball + sha256"
+    ]
+  },
+  "structureFix": {
+    "problem": "the handbook had drifted into 1, 2, 2b, 3, 4, 5, 6, 6b, 7, 7b, 8 as sections were appended over rounds",
+    "fix": "renumbered to 1-11 in reading order, no content moved",
+    "why": "it is now a landing page for strangers arriving from an error search; lettered insertions read as accretion"
+  },
+  "crossLinks": {
+    "troubleshooting": [
+      "home",
+      "handbook §11 area",
+      "README zh",
+      "README en",
+      "llms.txt",
+      "sitemap"
+    ]
+  },
+  "tests": {
+    "total": 71,
+    "pass": 71
+  }
+}

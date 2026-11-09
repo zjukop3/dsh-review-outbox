@@ -99,7 +99,7 @@ node "$PNPM" config get registry --config.userconfig=/tmp/x/.npmrc   # 可被覆
 
 结论：**版本落后先查冷却，装不动才查镜像。** 顺序搞反会浪费一整晚。
 
-## 2b. 能不能自动更新，取决于装的时候写下的 spec
+## 3. 能不能自动更新，取决于装的时候写下的 spec
 
 装完不是结束：**profile 里记下的版本写法决定了它以后会不会自己动**。三种写法，实测三条结果：
 
@@ -119,7 +119,7 @@ node "$PNPM" update dsh-review-outbox --config.minimum-release-age=0   # 精确 
 
 **作者最容易踩的坑**：为了立刻验证新版本，用 `@<version>` 装了一次，于是这个 profile 从此不再自动更新，之后每发一版都"看不到效果"。这不是管线坏了，是那行 spec 被钉死了。
 
-## 3. 三条安装回退路径（都实测过）
+## 4. 三条安装回退路径（都实测过）
 
 | 路径 | 命令形态 | 实测结果 | 代价 |
 | --- | --- | --- | --- |
@@ -129,7 +129,7 @@ node "$PNPM" update dsh-review-outbox --config.minimum-release-age=0   # 精确 
 
 固定提交路径绕过 registry，是镜像故障期间唯一「不改用户配置」也能装到新版的路径。它的代价是慢，且要求包**零运行时依赖、无安装脚本**——否则依赖解析照样会撞上 registry。
 
-## 4. 应用内索引的 pin 语义
+## 5. 应用内索引的 pin 语义
 
 应用内市场索引（`format: 1`）用「固定提交」表达版本，不是用分支头。我们用 `market-release.json` 显式持有被 pin 的提交：
 
@@ -140,7 +140,7 @@ node "$PNPM" update dsh-review-outbox --config.minimum-release-age=0   # 精确 
 
 这条语义直接决定了发布顺序：运行时提交 → 更新 pin → 重建索引 → 重建页面 → 校验 → 推送。
 
-## 5. 验证只能在隔离 Profile 里做
+## 6. 验证只能在隔离 Profile 里做
 
 桌面端 profile 由 Electron 应用独占管理，CLI 拒绝修改它。想验证安装、回填、审阅这类动作，必须另起 `DSH_HOME`：
 
@@ -151,17 +151,17 @@ DSH_HOME="$H" dsh plugin --profile web add PKG
 
 好处是可以把**真实状态**拷进去跑：我们就是把日常 profile 里 75 条真实待审项复制到隔离环境，才验证出分组归档在生产数据上的行为（点 4 条那组 → `{"archived":4}` → pending 75→71、分组 10→9、零报错）。用自己的真实数据验证，和用造出来的 3 条假数据验证，发现的问题不是一个量级。
 
-## 6. 消费兄弟插件的产物的正确接缝
+## 7. 消费兄弟插件的产物的正确接缝
 
 上游插件如果把结果写成「冻结契约」（frozen contract），契约表面往往比实际可用的东西窄。以 `dsh-research-report` 为例，冻结的 `AssembleReportResult` 只暴露 `reportDir`、`sealHash`、`verdicts`，而实际拿到文件路径的稳定接缝是工具结果里的 `tool/result.data.meta.reportFile`。
 
 判断哪个接缝是契约的、哪个是实现细节，问上游比猜便宜。我们把这个问题作为[上游 issue](https://github.com/PerryLink/dsh-research-report/issues/27)提出，同时在自己的集成代码里按 `reportFile` 优先、`reportDir` 兜底的顺序处理，两边都不假设。
 
-## 6b. 把消费关系写成约定，而不是靠读对方代码
+## 8. 把消费关系写成约定，而不是靠读对方代码
 
 跨插件耦合写进文档才可能被讨论。我们把「第三方插件怎样把产物交给审阅方」写成七条可反驳的约定：[REVIEWABLE-ARTIFACTS.md](REVIEWABLE-ARTIFACTS.md)。它的价值不在措辞，而在于**把隐性依赖变成可以被拒绝的提案**——上游若不同意，可以直接说哪一条不成立。
 
-## 7. 度量：什么不算激活
+## 9. 度量：什么不算激活
 
 用一条命令拿到这条度量，而不是靠感觉：
 
@@ -182,7 +182,7 @@ node scripts/report-usage.mjs --json ~/.dsh     # 可入库
 
 我们采用的激活定义是「**一次真实的人工审阅动作**」：通过、退回或归档任意一条真实成果。到 `0.1.5` 为止，日常 profile 里这条计数是 **0**（75 条待审项，0 次人工动作）。这个 0 比任何发布里程碑都更能说明产品处在什么位置。
 
-## 7b. 一条命令看住发布状态
+## 10. 一条命令看住发布状态
 
 发布之后真正要盯的不是"有没有发成功"，而是**四个会各自漂移的数字**：
 
@@ -195,7 +195,7 @@ node scripts/check-milestones.mjs --json     # 可入库
 
 按症状查的版本在[排障页](../troubleshooting/)：`ERR_PNPM_NO_MATCHING_VERSION`、装到旧版、从此不更新、市场版本不一致、目录不收录、以及被连带拦住。
 
-## 8. 发布后检查清单
+## 11. 发布后检查清单
 
 八条，按顺序做，每条都有可观测的产出：
 
