@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T20:45:51.589814Z",
+  "kind": "no-install asset",
+  "why": "the page tells people the checklist works without the plugin, so the checklist has to be usable as a document, not only as a paragraph of text",
+  "artifacts": {
+    "docx": {
+      "path": "site/downloads/review-outbox-checklist.docx",
+      "bytes": 37989,
+      "form": "four required checks, each with a 已完成/证据 table, plus an optional reproduction check and a verdict line"
+    },
+    "pdf": {
+      "path": "site/downloads/review-outbox-checklist.pdf",
+      "bytes": 61401,
+      "how": "LibreOffice --convert-to pdf"
+    },
+    "source": "docs/checklist.txt stays the single source; scripts/build_checklist_docx.py renders the document from it"
+  },
+  "verification": {
+    "docxReopened": {
+      "paragraphs": 18,
+      "tables": 4,
+      "headings": [
+        "1. 核心结论有对应证据",
+        "2. 引用来源可复核",
+        "3. 数据时间与统计口径明确",
+        "4. 方法与限制已披露",
+        "可选：复现材料可定位"
+      ],
+      "verdictLinePresent": true
+    },
+    "pdfRendered": "first page rasterised to 816x1056 and inspected as an ink map: title, four sections with tables, verdict line, no overlap",
+    "pageLinks": [
+      "checklist.txt",
+      "downloads/review-outbox-checklist.docx",
+      "downloads/review-outbox-checklist.pdf"
+    ]
+  },
+  "notDone": "no DOCX/PDF equivalents in English; the page's English section still points at the HTML checklist"
+}

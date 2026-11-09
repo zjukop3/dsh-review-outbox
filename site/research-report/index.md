@@ -46,7 +46,7 @@ Review Outbox 将下面这份清单变成持久化检查项、通过条件和独
 
 ## 不装插件也能用的清单
 
-整段复制下面的清单，或下载[纯文本清单](checklist.txt)。插件的作用是把它变成「不填证据就没法通过」的流程，而不是清单本身。
+整段复制下面的清单，或按需要下载：[纯文本清单](checklist.txt) · [Word 模板](../downloads/review-outbox-checklist.docx) · [PDF](../downloads/review-outbox-checklist.pdf)。插件的作用是把它变成「不填证据就没法通过」的流程，而不是清单本身。
 
 ```
 研究报告验收清单（可复制）

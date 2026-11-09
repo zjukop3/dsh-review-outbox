@@ -109,4 +109,6 @@ test('research site builds are idempotent across local and public origins', asyn
   const landing = await readFile(resolve(root, 'site/research-report/index.html'), 'utf8')
   assert.match(landing, /不装插件也能用的清单/, 'the page admits the checklist works without the plugin')
   assert.match(landing, /href="checklist\.txt"/, 'and links the plain-text copy')
+  assert.match(landing, /downloads\/review-outbox-checklist\.docx/, 'the fillable Word template is linked')
+  assert.match(landing, /downloads\/review-outbox-checklist\.pdf/, 'and the PDF')
 })
