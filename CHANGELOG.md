@@ -2,6 +2,14 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [Unreleased]
+
+- The package now ships `assets/icon-180.png` (the market-card tile) and `docs/REVIEWABLE-ARTIFACTS.md` (the convention for handing an artifact to a reviewer), both of which were written after 0.1.9.
+- The landing page offers the checklist as a fillable Word template and a PDF built from the same `docs/checklist.txt`, so "the checklist works without the plugin" is true in the form people actually use.
+- `docs/FIRST-10-MINUTES.md` gives the click order for a backlog: clear the data and images first, then walk the documents with 逐项审阅.
+- Tests and the market-index validation now run on every push (`Tests` workflow). Its first run exposed that the index build needs full git history — the workflow fetches it and the build script now says so instead of failing in `git show`.
+- `scripts/release.mjs` performs the release sequence (promote, bump, pin, rebuild, verify) with a `--dry-run` plan, because two of the nine hand-run releases lost a changelog line and a version string.
+
 ## [0.1.9] - 2026-11-10
 
 - The panel now says out loud what a disabled 通过 button is waiting for: 还不能通过，还差 N 项必填证据：…, listing every required check that lacks a tick or written evidence. A tooltip is not an explanation, and the gap was found by walking the published build as a stranger.
