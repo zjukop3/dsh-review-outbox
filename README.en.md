@@ -1,12 +1,12 @@
 # Review Outbox — deliverable review for DeepSeek Harness
 
-[Install 0.1.3 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
+[Install 0.1.4 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
 
 Review Outbox is a local-first review workbench for files produced by DeepSeek Harness agents. It collects real deliverables, supports evidence-based research-report acceptance, records revisions and SHA-256 evidence, and exports standalone HTML review receipts that recipients can open without installing anything.
 
 It handles **deliverable disposition**, not generic notifications, questions, or tool approvals. Approval records a human review decision; it never auto-publishes the artifact or rewrites the source Session.
 
-**The 0.1.3 first-value path is verified in the real Web GUI:** after installing the pinned public commit, a pre-install sealed report is backfilled with a default `0/4` evidence checklist, completed to `4/4`, approved, and exported as a standalone receipt whose entry point returns to the public install guide. See the [structured evidence](docs/e2e/application-first-value.json) and [downloaded receipt](docs/e2e/application-first-value.review.html).
+**The 0.1.4 first-value path is verified in the real Web GUI:** after installing the pinned public commit, a pre-install sealed report is backfilled with a default `0/4` evidence checklist, completed to `4/4`, approved, and exported as a standalone receipt whose entry point returns to the public install guide. See the [structured evidence](docs/e2e/application-first-value.json) and [downloaded receipt](docs/e2e/application-first-value.review.html).
 
 ![Review Outbox walkthrough: backfilled artifacts, evidence entry, approval, and receipt export](assets/storefront/demo.gif)
 
@@ -30,7 +30,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-The project is in `0.1.x` validation. Current source and the application index are `0.1.3`; the Pages tarball remains `0.1.0`. Source code, npm (`dsh-review-outbox@0.1.3`), the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
+The project is in `0.1.x` validation. Current source and the application index are `0.1.4`; the Pages tarball remains `0.1.0`. Source code, npm (`dsh-review-outbox@0.1.4`), the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -48,14 +48,14 @@ Search for `Review Outbox` or `研究报告`, verify the version and full commit
 
 The plugin ships with zero runtime dependencies and no install scripts, so it never triggers pnpm's `allowBuilds` build-approval prompt; installing from GitHub source runs no third-party build scripts either.
 
-If application-native installation cannot reach GitHub, use the same public 0.1.3 commit through the CLI:
+If application-native installation cannot reach GitHub, use the same public 0.1.4 commit through the CLI:
 
 ```bash
-dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#5e95038a46fd1a63d6951c2f0aa8f1b45f9f41fb'
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#f61ad3972c24cf54dfc08a0f35ef2d82abc49bbf'
 dsh web
 ```
 
-Or install directly from the published npm package — the same path dsh-market's one-click install uses, verified in an isolated Profile (about 2 seconds, version `0.1.3`, bundle selected automatically):
+Or install directly from the published npm package — the same path dsh-market's one-click install uses, verified in an isolated Profile (about 2 seconds, version `0.1.4`, bundle selected automatically):
 
 ```bash
 dsh plugin --profile web add dsh-review-outbox

@@ -1,12 +1,12 @@
 # Review Outbox · 成果审阅与研究报告验收
 
-中文 | [English](README.en.md) | [应用内安装 0.1.3](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [旧版 0.1.0 tarball](#下载-tarball)
+中文 | [English](README.en.md) | [应用内安装 0.1.4](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [旧版 0.1.0 tarball](#下载-tarball)
 
 一个本地优先的 DeepSeek Harness 成果审阅插件：把 Agent 交付的文件集中起来，完成预览、场景化证据检查、通过、退回、归档和复盘，并可导出无需安装即可查看的独立 HTML 验收单。
 
 它处理的是**成果处置**，不是普通问题、审批或通知。通过只表示你已完成审阅，插件不会自动向外部平台发布，也不会自动改写原会话。
 
-**0.1.3 首次价值已在真实 Web GUI 跑通**：从公开 GitHub 安装固定提交后，安装前密封报告自动回填，默认显示 `必填证据 0/4`，四项证据完成后通过并下载独立验收单；验收单入口直接回到公开安装指南。查看[结构化证据](docs/e2e/application-first-value.json)与[实际下载的验收单](docs/e2e/application-first-value.review.html)。
+**0.1.4 首次价值已在真实 Web GUI 跑通**：从公开 GitHub 安装固定提交后，安装前密封报告自动回填，默认显示 `必填证据 0/4`，四项证据完成后通过并下载独立验收单；验收单入口直接回到公开安装指南。查看[结构化证据](docs/e2e/application-first-value.json)与[实际下载的验收单](docs/e2e/application-first-value.review.html)。
 
 ![Review Outbox 审阅流程演示：回填成果、逐项填写证据、通过并导出验收单](assets/storefront/demo.gif)
 
@@ -39,7 +39,7 @@
 - 研究报告包记录人工检查证据，不自动访问引用，也不冒充自动事实核查。
 - 界面文案为中文优先：英文宿主 locale 下面板、按钮与验收包标签仍显示中文（侧栏入口为中英双语「成果审阅 / Review Outbox」）；完整 i18n 等待英文 locale 用户的真实需求信号。
 - 验收单默认在本地导出，不自动上传；不包含绝对路径或会话内容，检查证据和审阅意见按用户填写内容导出。
-- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.3，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.3`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
+- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.4，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.4`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
 
 ## 安装
 
@@ -57,10 +57,10 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 本插件运行时零依赖、无安装脚本，不会触发 pnpm 的 `allowBuilds` 构建放行提示；从 GitHub 源安装时也不会运行第三方构建脚本。
 
-应用内网络不可用时，可对同一个 `0.1.3` 公开提交使用 CLI 回退：
+应用内网络不可用时，可对同一个 `0.1.4` 公开提交使用 CLI 回退：
 
 ```bash
-dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#5e95038a46fd1a63d6951c2f0aa8f1b45f9f41fb'
+dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#f61ad3972c24cf54dfc08a0f35ef2d82abc49bbf'
 dsh web
 ```
 
@@ -73,7 +73,7 @@ dsh plugin --profile web add dsh-review-outbox
 dsh web
 ```
 
-已在隔离 Profile 验证：安装耗时约 2 秒，版本 `0.1.3`，bundle 自动选中。
+已在隔离 Profile 验证：安装耗时约 2 秒，版本 `0.1.4`，bundle 自动选中。
 
 ### 从 Awesome 目录安装
 
