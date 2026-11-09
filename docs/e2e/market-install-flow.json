@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T19:51:35.805087Z",
+  "focus": "the market one-click install, end to end, measured for the first time",
+  "environment": "isolated DSH_HOME with only dshmarket 1.73.16 installed, dsh web, Chrome headless",
+  "steps": {
+    "search": {
+      "placeholder": "搜索插件，例如：通知、终端、记忆…",
+      "query": "dsh-review-outbox",
+      "cardFound": true,
+      "cardShows": [
+        "dsh-review-outbox",
+        "安装"
+      ]
+    },
+    "dialog": {
+      "title": "安装 dsh-review-outbox?",
+      "line": [
+        "zjukop3",
+        "· v0.1.3",
+        "· 2026-11-07",
+        "工作流与自动化"
+      ],
+      "description": "the OLD description, still the catalog copy",
+      "capabilityScan": "它会做什么 4 项",
+      "buttons": [
+        "取消",
+        "确认安装"
+      ]
+    },
+    "confirmationLabel": "确认安装 — not 安装; a script matching '安装' exactly silently misses it",
+    "result": {
+      "dependenciesAfter": {
+        "dsh-review-outbox": "0.1.9"
+      },
+      "elapsedSeconds": 5,
+      "ui": [
+        "✓ 已安装",
+        "1 项变更需重启 DeepSeek Harness 后生效",
+        "立即重启"
+      ]
+    }
+  },
+  "correctionToOurOwnDocs": {
+    "whatWeHadClaimed": "the market card advertises one version while the install resolves an older one during the release-age window",
+    "whatActuallyHappens": "the card advertised v0.1.3 from the daily catalog, and the install delivered 0.1.9 — the newest published version — because the market pins an exact version, and an exact spec bypasses minimumReleaseAge (measured separately)",
+    "stillTrue": "a bare `dsh plugin --profile web add dsh-review-outbox` on the CLI still resolves the highest mature version, which was 0.1.3 at the time",
+    "notMeasured": "what the market's own update check does with a too-new version; dshmarket's lib/updates.js computes latestMaturityAt for that path, but the path was not driven"
+  },
+  "automationNotes": [
+    "the 开始使用 login dialog intercepts clicks; Escape dismisses it once it has rendered, so automation must retry with waits rather than assume a single keypress",
+    "dsh-session-superagent was installed by accident during an earlier attempt because the wrong search field was filled; the throwaway profile made that harmless, and it independently proved the install path works"
+  ]
+}

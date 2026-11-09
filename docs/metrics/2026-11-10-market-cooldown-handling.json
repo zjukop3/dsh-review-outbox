@@ -42,5 +42,11 @@
       "0.1.6": "2026-11-11T00:25+08:00"
     },
     "note": "a caret range resolves to the highest matured version, so the daily profile reaches 0.1.4 first and 0.1.6 a day later, without any manual step"
+  },
+  "correction2026_11_10": {
+    "claim": "the card and the installable version can disagree for about a day because of the cooldown",
+    "measured": "the card showed v0.1.3 from the daily catalog and the install delivered 0.1.9 in 5 seconds; the market pins an exact version, which bypasses minimumReleaseAge",
+    "scope": "the market's update-check path is still unmeasured",
+    "evidence": "docs/e2e/market-install-flow.json"
   }
 }

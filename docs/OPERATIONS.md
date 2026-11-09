@@ -29,7 +29,17 @@ node "$PNPM" add dsh-review-outbox --dir "$Y" --config.minimum-release-age=0
 
 冷却值记录在 pnpm 的 `lockfile-verified.jsonl` 策略里（`"minimumReleaseAge":1440`）。同一份策略还带 `tarballUrlBinding`、`resolutionShapeCheck`，是供应链防护的一部分，默认按设计工作。
 
-市场侧怎么看这件事（2026-11-10 读 `dshmarket@1.73.15` 源码确认，未做界面验证）：它的 `lib/updates.js` 里已经有 `readMinimumReleaseAgeMs`、`selectMatureUpdate`、`latestMaturityAt`、`nextMaturityAt` 这一整套判定，会把「还太新」的版本标记成 held，并给出可用时间。也就是说应用内市场自己就处理了冷却，作者手动 `dsh plugin add` 撞到的那次「怎么装都是旧版」，在市场里表现为「新版等待中」。
+市场侧怎么看这件事，**已做界面验证**（2026-11-10，`dshmarket@1.73.16`，隔离 Profile 实测）：卡片上写的是目录里的 `v0.1.3`，点「安装 → 确认安装」之后，profile 里落地的是 **`0.1.9`**，耗时 5 秒——也就是**最新发布版，不受冷却限制**。原因是市场按精确版本安装，而精确版本规格会绕过 `minimumReleaseAge`。
+
+所以三条路径的实际行为要分开记：
+
+| 路径 | 拿到的版本 |
+| --- | --- |
+| 市场一键安装 | 最新发布版（精确版本，绕过冷却） |
+| `dsh plugin add <name>`（浮动范围） | 最高**成熟**版本（受冷却） |
+| `dsh plugin add <name>@<version>` | 指定版本（绕过冷却） |
+
+`dshmarket` 的 `lib/updates.js` 里另有 `latestMaturityAt` / `nextMaturityAt` 一套判定，用于**更新检查**那条路径；那条路径没有实测，不要与安装混为一谈。
 
 对作者的实际含义：
 

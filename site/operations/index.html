@@ -16,7 +16,10 @@ node &quot;$PNPM&quot; add dsh-review-outbox --dir &quot;$Y&quot; --config.minim
 <p>这不是镜像故障，也不是目录问题——DSH 自己的代码注释里写明了这件事：</p>
 <blockquote>The installed bundle&#39;s manifest version, when declared; pnpm&#39;s <code>minimumReleaseAge</code> can make it older than the newest release.</blockquote>
 <p>冷却值记录在 pnpm 的 <code>lockfile-verified.jsonl</code> 策略里（<code>&quot;minimumReleaseAge&quot;:1440</code>）。同一份策略还带 <code>tarballUrlBinding</code>、<code>resolutionShapeCheck</code>，是供应链防护的一部分，默认按设计工作。</p>
-<p>市场侧怎么看这件事（2026-11-10 读 <code>dshmarket@1.73.15</code> 源码确认，未做界面验证）：它的 <code>lib/updates.js</code> 里已经有 <code>readMinimumReleaseAgeMs</code>、<code>selectMatureUpdate</code>、<code>latestMaturityAt</code>、<code>nextMaturityAt</code> 这一整套判定，会把「还太新」的版本标记成 held，并给出可用时间。也就是说应用内市场自己就处理了冷却，作者手动 <code>dsh plugin add</code> 撞到的那次「怎么装都是旧版」，在市场里表现为「新版等待中」。</p>
+<p>市场侧怎么看这件事，<strong>已做界面验证</strong>（2026-11-10，<code>dshmarket@1.73.16</code>，隔离 Profile 实测）：卡片上写的是目录里的 <code>v0.1.3</code>，点「安装 → 确认安装」之后，profile 里落地的是 <strong><code>0.1.9</code></strong>，耗时 5 秒——也就是<strong>最新发布版，不受冷却限制</strong>。原因是市场按精确版本安装，而精确版本规格会绕过 <code>minimumReleaseAge</code>。</p>
+<p>所以三条路径的实际行为要分开记：</p>
+<div class="table-wrap"><table><thead><tr><th>路径</th><th>拿到的版本</th></tr></thead><tbody><tr><td>市场一键安装</td><td>最新发布版（精确版本，绕过冷却）</td></tr><tr><td><code>dsh plugin add &lt;name&gt;</code>（浮动范围）</td><td>最高<strong>成熟</strong>版本（受冷却）</td></tr><tr><td><code>dsh plugin add &lt;name&gt;@&lt;version&gt;</code></td><td>指定版本（绕过冷却）</td></tr></tbody></table></div>
+<p><code>dshmarket</code> 的 <code>lib/updates.js</code> 里另有 <code>latestMaturityAt</code> / <code>nextMaturityAt</code> 一套判定，用于<strong>更新检查</strong>那条路径；那条路径没有实测，不要与安装混为一谈。</p>
 <p>对作者的实际含义：</p>
 <ul><li><strong>发布后的 24 小时内，不要用「用户装不到新版」去推断哪里坏了</strong>，那是设计。</li><li>想让某个用户立刻拿到新版，就<strong>显式钉版本</strong>（<code>pkg@0.1.5</code>）；显式版本不受冷却限制，我们实测 2 秒安装成功。</li><li>市场卡片上的版本来自目录（每天构建），安装解析到的版本来自冷却与 registry，两者最多可以差一天。<strong>看到「卡片是 X、装上是 X-1」不算矛盾。</strong></li></ul>
 <p>实测的目录构建时刻（连续六次）：</p>
