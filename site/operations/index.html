@@ -54,6 +54,10 @@ DSH_HOME=&quot;$H&quot; dsh plugin --profile web add PKG</code></pre>
 <p>上游插件如果把结果写成「冻结契约」（frozen contract），契约表面往往比实际可用的东西窄。以 <code>dsh-research-report</code> 为例，冻结的 <code>AssembleReportResult</code> 只暴露 <code>reportDir</code>、<code>sealHash</code>、<code>verdicts</code>，而实际拿到文件路径的稳定接缝是工具结果里的 <code>tool/result.data.meta.reportFile</code>。</p>
 <p>判断哪个接缝是契约的、哪个是实现细节，问上游比猜便宜。我们把这个问题作为<a href="https://github.com/PerryLink/dsh-research-report/issues/27">上游 issue</a>提出，同时在自己的集成代码里按 <code>reportFile</code> 优先、<code>reportDir</code> 兜底的顺序处理，两边都不假设。</p>
 <h2 id="7-度量-什么不算激活">7. 度量：什么不算激活</h2>
+<p>用一条命令拿到这条度量，而不是靠感觉：</p>
+<pre><code class="language-bash">node scripts/report-usage.mjs ~/.dsh            # 人读
+node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
+<p>它从状态文件里数出：成果总数、按状态与类型分布、<strong>人工动作次数</strong>（approve/return/archive/reopen，按动作与类型分开）、待审的中位与最久停留小时、积压最重的会话。输出里的最后一行会直说「没有任何人工决定」——待审深度不是采用。</p>
 <p>插件生态里最容易自欺的三个数字：</p>
 <ul><li><strong>页面访问</strong>——可能是自己刷新；</li><li><strong>npm 下载</strong>——包含 CI、镜像抓取、<code>npm view</code> 之外的自动化；</li><li><strong>目录收录</strong>——只说明能被搜到，不说明有人装。</li></ul>
 <p>我们采用的激活定义是「<strong>一次真实的人工审阅动作</strong>」：通过、退回或归档任意一条真实成果。到 <code>0.1.5</code> 为止，日常 profile 里这条计数是 <strong>0</strong>（75 条待审项，0 次人工动作）。这个 0 比任何发布里程碑都更能说明产品处在什么位置。</p>

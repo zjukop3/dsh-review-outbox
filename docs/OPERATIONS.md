@@ -120,6 +120,17 @@ DSH_HOME="$H" dsh plugin --profile web add PKG
 
 ## 7. 度量：什么不算激活
 
+用一条命令拿到这条度量，而不是靠感觉：
+
+```bash
+node scripts/report-usage.mjs ~/.dsh            # 人读
+node scripts/report-usage.mjs --json ~/.dsh     # 可入库
+```
+
+它从状态文件里数出：成果总数、按状态与类型分布、**人工动作次数**（approve/return/archive/reopen，按动作与类型分开）、待审的中位与最久停留小时、积压最重的会话。输出里的最后一行会直说「没有任何人工决定」——待审深度不是采用。
+
+
+
 插件生态里最容易自欺的三个数字：
 
 - **页面访问**——可能是自己刷新；
