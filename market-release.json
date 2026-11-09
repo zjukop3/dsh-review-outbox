@@ -1,4 +1,4 @@
 {
-  "commit": "0f77f5f7a222b656d5b50e0d49aae885a0d2664e",
-  "notes": "Version 0.1.7: one-at-a-time review that keeps the reviewer on the pending queue, a first-run sample artifact so an empty profile can walk preview -> decision -> SHA-256 receipt, and a next-step action when the queue drains. Documentation-only commits do not move this pin."
+  "commit": "a4ba0d5989ef9743dcadb4f476e3989e8c0c5e5f",
+  "notes": "Version 0.1.8: the first-run sample opens on the research evidence gate, receipts explain how to check their own digest, spreadsheets get a data-delivery pack (existing ones are offered it), and a decision copies a structured instruction back to the session. Documentation-only commits do not move this pin."
 }

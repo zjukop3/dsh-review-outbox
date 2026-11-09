@@ -59,17 +59,17 @@
         ],
         "labels": [],
         "sortKeys": {
-          "added": 1794243919
+          "added": 1794247816
         }
       },
       "versions": [
         {
-          "version": "0.1.7",
-          "publishTimestamp": 1794243919,
+          "version": "0.1.8",
+          "publishTimestamp": 1794247816,
           "source": {
             "type": "git",
             "url": "https://github.com/zjukop3/dsh-review-outbox",
-            "commit": "0f77f5f7a222b656d5b50e0d49aae885a0d2664e"
+            "commit": "a4ba0d5989ef9743dcadb4f476e3989e8c0c5e5f"
           },
           "engines": {
             "dsh": ">=0.2.2-rc.1 <0.3.0-0"
