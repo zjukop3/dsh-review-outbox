@@ -103,6 +103,7 @@ test('research site builds are idempotent across local and public origins', asyn
   assert.match(await readFile(resolve(directory, 'site/sitemap.xml'), 'utf8'), new RegExp(`<loc>${publicOrigin}/operations/</loc>`))
   assert.match(await readFile(resolve(directory, 'site/llms.txt'), 'utf8'), /Measured constraints on publishing, catalog ingestion/)
   const checklistText = await readFile(resolve(directory, 'site/checklist.txt'), 'utf8')
+  assert.equal(await readFile(resolve(directory, 'site/research-report/checklist.txt'), 'utf8'), checklistText, 'the relative link target exists beside the page')
   assert.match(checklistText, /研究报告验收清单（可复制）/, 'the plain-text checklist ships with the site')
   assert.match(checklistText, /四项必填/, 'and states the four required checks')
   const landing = await readFile(resolve(root, 'site/research-report/index.html'), 'utf8')

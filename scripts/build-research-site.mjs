@@ -131,6 +131,8 @@ await writeFile(resolve(root, 'site/operations/index.html'), handbook)
 
 const checklistText = await readFile(resolve(root, 'docs/checklist.txt'), 'utf8')
 await writeFile(resolve(root, 'site/checklist.txt'), checklistText)
+// the landing page links checklist.txt relatively, so the file has to sit beside it
+await writeFile(resolve(root, 'site/research-report/checklist.txt'), checklistText)
 
 const home = `<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Review Outbox · 研究报告验收</title>${favicon}<meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="index,follow">${pageUrl ? `<link rel="canonical" href="${escapeHtml(`${origin}/`)}">` : ''}<style>
