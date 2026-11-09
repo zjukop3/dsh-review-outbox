@@ -230,3 +230,5 @@ pnpm run check
 ## License
 
 MIT
+
+- [可审阅产物约定](docs/REVIEWABLE-ARTIFACTS.md)：第三方插件怎样把产物交给审阅方而不耦合实现。

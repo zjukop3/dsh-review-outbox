@@ -130,6 +130,10 @@ DSH_HOME="$H" dsh plugin --profile web add PKG
 
 判断哪个接缝是契约的、哪个是实现细节，问上游比猜便宜。我们把这个问题作为[上游 issue](https://github.com/PerryLink/dsh-research-report/issues/27)提出，同时在自己的集成代码里按 `reportFile` 优先、`reportDir` 兜底的顺序处理，两边都不假设。
 
+## 6b. 把消费关系写成约定，而不是靠读对方代码
+
+跨插件耦合写进文档才可能被讨论。我们把「第三方插件怎样把产物交给审阅方」写成七条可反驳的约定：[REVIEWABLE-ARTIFACTS.md](REVIEWABLE-ARTIFACTS.md)。它的价值不在措辞，而在于**把隐性依赖变成可以被拒绝的提案**——上游若不同意，可以直接说哪一条不成立。
+
 ## 7. 度量：什么不算激活
 
 用一条命令拿到这条度量，而不是靠感觉：

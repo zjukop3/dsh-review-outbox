@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T20:05:00Z",
+  "kind": "standards-style contribution",
+  "artifact": "docs/REVIEWABLE-ARTIFACTS.md",
+  "sevenRules": [
+    "events not imports",
+    "absolute resolved paths",
+    "artifact identity across revisions",
+    "separable artifact vs manifest",
+    "declare which fields are contractual",
+    "do not store review state in the artifact",
+    "minimal duties of a consumer"
+  ],
+  "upstreamUse": {
+    "issue": "https://github.com/PerryLink/dsh-research-report/issues/27",
+    "comment": "https://github.com/PerryLink/dsh-research-report/issues/27#issuecomment-6750028745",
+    "whatItAdds": "an explicit fallback: if the meta pair is declared an implementation detail, name another seam and the consumer switches; an undeclared-but-load-bearing field is the only outcome that hurts"
+  },
+  "whyThisIsInfluenceRatherThanPromotion": "it asks the upstream to accept or reject a specific interface, which is a decision that outlives our plugin; no product claim, no link in the comment body beyond the document itself",
+  "notVerified": "whether upstream replies at all; the issue has been open since 2026-11-09 with zero comments"
+}
