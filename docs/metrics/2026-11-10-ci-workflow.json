@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T21:15:27.020237Z",
+  "kind": "repository engineering",
+  "added": ".github/workflows/tests.yml — runs npm test, the client build and the market-index validation on every push and pull request",
+  "whyItMattersForAnOutsideReader": "the repository only checked that the site renders; a visitor could not tell whether the review flow still worked. A green Tests check is the cheapest honest signal a plugin repo can give",
+  "firstRunFound": {
+    "failure": "not ok 44 - application market index passes the official validator and reproducibly pins installation",
+    "cause": "actions/checkout clones one commit deep; scripts/build-market-index.mjs reads the pinned commit's committer time with git show, so the object was absent",
+    "fixes": [
+      "the workflow now uses fetch-depth: 0",
+      "the build script raises a message naming the shallow clone instead of letting git show fail bare"
+    ],
+    "after": "run 42700385221 completed success on a97a149"
+  },
+  "dependencyCheckBeforeAddingCI": "all 19 pinned dependencies resolve on the public npm registry, so a hosted runner can install them without a private registry",
+  "unchanged": "the funnel still reads 75 pending and 0 human decisions; CI changes what a contributor can see, not what a user has done"
+}
