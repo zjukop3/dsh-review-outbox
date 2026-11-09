@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T21:58:57.408897Z",
+  "source": "GitHub traffic API (14-day window, reporting lags by a day or two)",
+  "repository": {
+    "views": {
+      "count": 2,
+      "uniques": 2,
+      "perDay": {
+        "2026-11-06": 1,
+        "2026-11-08": 1,
+        "other days": 0
+      }
+    },
+    "clones": {
+      "count": 454,
+      "uniques": 169,
+      "perDay": {
+        "2026-11-06": 31,
+        "2026-11-07": 67,
+        "2026-11-08": 356
+      }
+    },
+    "referrers": [
+      {
+        "referrer": "github.com",
+        "count": 1,
+        "uniques": 1
+      }
+    ],
+    "popularPaths": [
+      {
+        "path": "/zjukop3/dsh-review-outbox",
+        "count": 2,
+        "uniques": 2
+      }
+    ]
+  },
+  "reading": [
+    "two page views in the whole window, both on days something was published: nobody is reading the repository",
+    "454 clones with 169 distinct cloners but 2 views is not a human pattern; install specs, mirrors and crawlers fetch repositories without opening them",
+    "the single referrer is github.com itself, so no external page links to the repository yet"
+  ],
+  "whatThisChanges": {
+    "previousFraming": "the product has installs but no decisions, so retention is the problem",
+    "measuredFraming": "there is no measurable acquisition: the decision count is zero because the arrival count is zero, and a retention metric cannot diagnose an audience that never arrived",
+    "consequence": "F1 (no decisions after a week) would not falsify the product so much as measure an empty funnel; the acquisition question has to be answered first"
+  },
+  "limitsOfThisEvidence": [
+    "in-app market installs never touch the repository or its traffic counters, so this measures repository reach, not plugin reach",
+    "GitHub counts bot traffic in clones and cannot separate it from people",
+    "no analytics exist on the Pages site by design, so site reach is unmeasured rather than zero"
+  ]
+}
