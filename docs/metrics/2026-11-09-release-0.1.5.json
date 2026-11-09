@@ -15,7 +15,11 @@
       "distTagLatest": "0.1.5",
       "registry": "https://registry.npmjs.org"
     },
-    "tests": { "total": 47, "pass": 47, "fail": 0 }
+    "tests": {
+      "total": 47,
+      "pass": 47,
+      "fail": 0
+    }
   },
   "whatChanged": [
     "Review list groups items by session; the groups themselves stay collapsible and every artifact remains reachable.",
@@ -25,11 +29,27 @@
   "inProductVerification": {
     "environment": "isolated DSH_HOME with a copy of the real 75-item daily-profile state",
     "groupsRendered": 10,
-    "archiveResult": { "clickedGroupSize": 4, "response": { "archived": 4 }, "pending": 75, "pendingAfter": 71, "archivedAfter": 4, "groupsAfter": 9 },
+    "archiveResult": {
+      "clickedGroupSize": 4,
+      "response": {
+        "archived": 4
+      },
+      "pending": 75,
+      "pendingAfter": 71,
+      "archivedAfter": 4,
+      "groupsAfter": 9
+    },
     "pageErrors": 0,
     "consoleErrors": 0,
-    "persistedState": { "pending": 71, "archived": 4 },
-    "historySample": ["observed", "revision", "archive"]
+    "persistedState": {
+      "pending": 71,
+      "archived": 4
+    },
+    "historySample": [
+      "observed",
+      "revision",
+      "archive"
+    ]
   },
   "installChannels": {
     "githubPinnedCommit": {
@@ -48,9 +68,10 @@
       "command": "dsh plugin --profile web add dsh-review-outbox",
       "resolvedVersion": "0.1.3",
       "verified": false,
-      "failure": "The pnpm bundled with DSH is pinned to registry.npmmirror.com and ignores npm_config_registry. The mirror answered 500 ER_NO_SUCH_TABLE for this package, so resolution fell back to the mirror's cached 0.1.3; requesting 0.1.5 explicitly failed with ERR_PNPM_NO_MATCHING_VERSION.",
+      "failure": "The pnpm bundled with DSH is pinned to registry.npmmirror.com and ignores npm_config_registry. That mirror answered 500 ER_NO_SUCH_TABLE for every package probed (react, dsh-plugin-catalog, dsh-bili-scroll, this one), so it is a mirror-side outage rather than a package problem. Resolution still fell back to the mirror's cached 0.1.3, and requesting 0.1.5 explicitly failed with ERR_PNPM_NO_MATCHING_VERSION.",
       "mirrorSyncTriggered": "PUT https://registry.npmmirror.com/-/package/dsh-review-outbox/syncs -> 201 {state: waiting}",
-      "mirrorStateAtCollection": "500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist"
+      "mirrorStateAtCollection": "500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist",
+      "mirrorScope": "mirror-wide: react=500, dsh-plugin-catalog=500, dsh-bili-scroll=500, dsh-review-outbox=500"
     }
   },
   "catalogState": {

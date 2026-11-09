@@ -50,7 +50,7 @@
 2026-11-09 发布 `0.1.5` 时实测到一条比元数据更硬的约束：**DSH 内置 pnpm 的 registry 是写死的**。
 
 - `dsh plugin --profile web add dsh-review-outbox` 使用 `runtime/primary-runtime/dependencies/pnpm/bin/pnpm.mjs`，实际请求 `https://registry.npmmirror.com`；设置 `npm_config_registry=https://registry.npmjs.org` 后请求仍打向镜像，未被采纳。
-- 当晚 `registry.npmmirror.com/dsh-review-outbox` 与 `dsh-plugin-catalog` 同时返回 `500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist`，镜像对这两个包的元数据整体不可用。结果：默认安装命令解析到镜像缓存的 `0.1.3`；显式指定 `dsh-review-outbox@0.1.5` 则报 `ERR_PNPM_NO_MATCHING_VERSION`。
+- 当晚镜像返回 `500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist`。抽查 `react`、`dsh-plugin-catalog`、`dsh-bili-scroll` 同样 500，说明是**镜像自身故障，不是本包问题**。后果仍然一样：默认安装命令解析到镜像缓存的 `0.1.3`；显式指定 `dsh-review-outbox@0.1.5` 则报 `ERR_PNPM_NO_MATCHING_VERSION`。
 - 已用 `PUT /-/package/dsh-review-outbox/syncs` 触发同步（`201 waiting`），同步任务只排队，元数据仍是 500。
 - 同一时刻 `registry.npmjs.org` 的 latest 已是 `0.1.5`，`pnpm add dsh-review-outbox@0.1.5` 在临时目录 9.4 秒装成功。
 

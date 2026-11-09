@@ -57,7 +57,7 @@ dsh web
 
 Or install directly from the published npm package — the same path dsh-market's one-click install uses. Verified: the pinned GitHub source resolves `0.1.5` in an isolated Profile (6m52s, bundle selected automatically), and `dsh-review-outbox@0.1.5` installs from `registry.npmjs.org` with pnpm in 9.4s.
 
-Caveat: DSH's bundled pnpm is pinned to `registry.npmmirror.com` and ignores `npm_config_registry`. On 2026-11-09 that mirror returned 500 (`ER_NO_SUCH_TABLE`) for this package, so `dsh plugin ... add dsh-review-outbox` resolved the mirror's cached `0.1.3` or failed with `ERR_PNPM_NO_MATCHING_VERSION`. Until the mirror recovers, use the pinned-commit fallback above.
+Caveat: DSH's bundled pnpm is pinned to `registry.npmmirror.com` and ignores `npm_config_registry`. Around 2026-11-09 23:30 that mirror returned 500 (`ER_NO_SUCH_TABLE`) for every package we probed, `react` included — a mirror-side outage, not a package problem — so `dsh plugin ... add dsh-review-outbox` resolved the mirror's cached `0.1.3` or failed with `ERR_PNPM_NO_MATCHING_VERSION`. Until the mirror recovers, use the pinned-commit fallback above.
 
 ```bash
 dsh plugin --profile web add dsh-review-outbox
