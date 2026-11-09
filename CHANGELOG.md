@@ -2,6 +2,13 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [0.1.4] - 2026-11-09
+
+- Group the review list by session (collapsible) instead of one flat list. The first real daily-profile install backfilled 75 deliverables across 10 sessions; 63 of them inside one week, so a flat queue was unusable and narrowing by date would not have helped.
+- Each group is labelled with the last two path segments plus item count and newest timestamp; only the newest group opens.
+- Sort items newest-first in the client and select the newest pending artifact by default. The host hands back state-file order, so the panel could previously open on a week-old item.
+- No data is hidden or dropped: every artifact stays reachable in its group.
+
 ## [0.1.3] - 2026-11-08
 
 - Documentation accuracy: bundled README now reflects that npm publication is live; compatibility matrix records the verified npm install; per-channel upgrade semantics documented in the install & recovery guide.
