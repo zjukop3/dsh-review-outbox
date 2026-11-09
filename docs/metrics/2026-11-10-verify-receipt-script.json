@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T23:05:29.746500Z",
+  "artifact": "scripts/verify-receipt.mjs",
+  "problem": "the receipt says 'these bytes were reviewed, here is their SHA-256'; until now only a human with a browser could check that claim",
+  "solution": "a script that reads the reviewed digest out of the receipt HTML and recomputes the file's",
+  "interface": {
+    "match": "exit 0, prints 'match <digest>'",
+    "mismatch": "exit 1, prints both digests and says to re-review the current bytes",
+    "unreadableOrPending": "exit 2, with a message that a receipt exported before any decision has nothing to verify",
+    "printOnly": "--print emits the digest, for scripts that want the value"
+  },
+  "whyExitCodes": "a receipt check that cannot gate a CI job is a formality; 0/1/2 is what a test runner uses",
+  "tests": {
+    "total": 79,
+    "pass": 79,
+    "cases": [
+      "matching file passes and the digest prints",
+      "changed file exits 1 with both digests",
+      "a pending receipt exits 2 with an explanation"
+    ]
+  },
+  "smokeTestOnThePublishedExample": {
+    "file": "site/research-report/receipt-example.html",
+    "digest": "ee041771fe015db04a8679e58349c979f15bdbb4a97bd3171e24df5317fa651e",
+    "result": "printed cleanly"
+  },
+  "notDone": "the script does not verify that the receipt was produced by this plugin or check any signature — it compares bytes to a digest, which is all the receipt claims"
+}

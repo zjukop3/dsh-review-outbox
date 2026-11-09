@@ -70,7 +70,15 @@ DSH_HOME=&quot;$H&quot; dsh plugin --profile web add PKG</code></pre>
 <p>判断哪个接缝是契约的、哪个是实现细节，问上游比猜便宜。我们把这个问题作为<a href="https://github.com/PerryLink/dsh-research-report/issues/27">上游 issue</a>提出，同时在自己的集成代码里按 <code>reportFile</code> 优先、<code>reportDir</code> 兜底的顺序处理，两边都不假设。</p>
 <h2 id="8-把消费关系写成约定-而不是靠读对方代码">8. 把消费关系写成约定，而不是靠读对方代码</h2>
 <p>跨插件耦合写进文档才可能被讨论。我们把「第三方插件怎样把产物交给审阅方」写成七条可反驳的约定：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/REVIEWABLE-ARTIFACTS.md">REVIEWABLE-ARTIFACTS.md</a>。它的价值不在措辞，而在于<strong>把隐性依赖变成可以被拒绝的提案</strong>——上游若不同意，可以直接说哪一条不成立。</p>
-<h2 id="9-度量-什么不算激活">9. 度量：什么不算激活</h2>
+<h2 id="9-让验收单可以被脚本核对">9. 让验收单可以被脚本核对</h2>
+<p>验收单说&quot;这些字节被审阅过，摘要如下&quot;。人不该只有打开浏览器才能验证这一点：</p>
+<pre><code class="language-bash">node scripts/verify-receipt.mjs &lt;receipt.html&gt; &lt;file&gt;
+#  匹配    → 退出码 0，打印 match &lt;digest&gt;
+#  不一致  → 退出码 1，同时打印两个摘要并提示重新审阅当前字节
+#  无法验证 → 退出码 2（例如在决定之前导出的验收单，本来就没有可核对的东西）
+node scripts/verify-receipt.mjs &lt;receipt.html&gt; --print   # 只取摘要</code></pre>
+<p>退出码 0/1/2 是按测试工具的约定选的 —— <strong>一个不能卡住 CI 的核对只是形式</strong>。</p>
+<h2 id="10-度量-什么不算激活">10. 度量：什么不算激活</h2>
 <p>用一条命令拿到这条度量，而不是靠感觉：</p>
 <pre><code class="language-bash">node scripts/report-usage.mjs ~/.dsh            # 人读
 node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
@@ -78,13 +86,13 @@ node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
 <p>插件生态里最容易自欺的三个数字：</p>
 <ul><li><strong>页面访问</strong>——可能是自己刷新；</li><li><strong>npm 下载</strong>——包含 CI、镜像抓取、<code>npm view</code> 之外的自动化；</li><li><strong>目录收录</strong>——只说明能被搜到，不说明有人装。</li></ul>
 <p>我们采用的激活定义是「<strong>一次真实的人工审阅动作</strong>」：通过、退回或归档任意一条真实成果。到 <code>0.1.5</code> 为止，日常 profile 里这条计数是 <strong>0</strong>（75 条待审项，0 次人工动作）。这个 0 比任何发布里程碑都更能说明产品处在什么位置。</p>
-<h2 id="10-一条命令看住发布状态">10. 一条命令看住发布状态</h2>
+<h2 id="11-一条命令看住发布状态">11. 一条命令看住发布状态</h2>
 <p>发布之后真正要盯的不是&quot;有没有发成功&quot;，而是<strong>四个会各自漂移的数字</strong>：</p>
 <pre><code class="language-bash">node scripts/check-milestones.mjs            # 人读
 node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <p>它一次打印：npm latest 与本地版本、目录条目版本与描述开头、默认安装解析到的版本（<code>--with-install</code>，会真的装一次）、本机漏斗（成果/待审/人工动作/最久停留）、以及上游 PR/issue 的状态与评论数。慢的步骤出声提示，避免&quot;看起来卡住&quot;。</p>
 <p>按症状查的版本在<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/../troubleshooting/">排障页</a>：<code>ERR_PNPM_NO_MATCHING_VERSION</code>、装到旧版、从此不更新、市场版本不一致、目录不收录、以及被连带拦住。</p>
-<h2 id="11-发布后检查清单">11. 发布后检查清单</h2>
+<h2 id="12-发布后检查清单">12. 发布后检查清单</h2>
 <p>八条，按顺序做，每条都有可观测的产出：</p>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
 <h2 id="已知不确定项">已知不确定项</h2>

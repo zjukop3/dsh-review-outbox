@@ -4,6 +4,9 @@ All notable changes to Review Outbox are documented here. The format follows [Ke
 
 ## [Unreleased]
 
+- `scripts/verify-receipt.mjs` checks a receipt against a file without a browser: exit 0 on a match, 1 on a mismatch with both digests, 2 when the receipt carries no reviewed digest because it was exported before any decision. A claim that cannot gate a CI job is a formality.
+
+
 - Reliability tests for the state file: concurrent decisions on different artifacts all persist, a rejected action does not block the queue behind it, and two instances on one file are last-write-wins (pinned rather than assumed away).
 - A real DOCX deliverable was walked through the panel: it counts under 文档, the preview correctly refuses to render it inline and points at the host Viewer, approval is a one-click decision, and the exported receipt carries the file's digest without leaking a path.
 - The repository now declares `screenshots.json`, so the market's detail view shows the evidence gate, one-at-a-time review and an approved artifact instead of whatever the storefront scrapes from the README. The images were regenerated from the current UI, not the older captures.
