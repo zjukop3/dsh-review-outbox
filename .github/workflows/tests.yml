@@ -1,0 +1,42 @@
+name: Tests
+
+# The Pages workflow only builds the site. This one runs the suite on every push,
+# so a change that breaks the review flow, the receipt rules or the market index
+# is visible on the pull request instead of after a publish.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Use Node.js 22.19
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.19.0
+      - name: Enable pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Install dependencies
+        # The lockfile is the source of truth; a resolution that drifts would hide
+        # exactly the kind of version surprise this project documents.
+        run: pnpm install --frozen-lockfile
+      - name: Run tests
+        run: npm test
+      - name: Build the client bundle
+        run: pnpm run build
+      - name: Rebuild the market index and check it validates
+        run: node scripts/build-market-index.mjs
