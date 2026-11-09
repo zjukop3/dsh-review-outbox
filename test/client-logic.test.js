@@ -6,8 +6,10 @@ import {
   artifactKind,
   fileExtension,
   filterByKind,
+  focusProgress,
   kindCounts,
   kindLabel,
+  nextAfterRemoval,
   shortcutAction,
   stepIndex,
 } from '../client/logic.js'
@@ -105,4 +107,22 @@ test('stepping the selection wraps around and survives empty lists', () => {
   assert.equal(stepIndex(2, 5, 'previous'), 1)
   assert.equal(stepIndex(-1, 3, 'next'), 1)
   assert.equal(stepIndex(0, 0, 'next'), -1)
+})
+
+test('focus progress reports a human position and nothing when empty', () => {
+  const queue = [{ id: 'a' }, { id: 'b' }, { id: 'c' }]
+  assert.deepEqual(focusProgress(queue, 'a'), { index: 0, total: 3, position: 1 })
+  assert.deepEqual(focusProgress(queue, 'c'), { index: 2, total: 3, position: 3 })
+  assert.deepEqual(focusProgress(queue, 'missing'), { index: 0, total: 3, position: 1 })
+  assert.equal(focusProgress([], 'a'), null)
+  assert.equal(focusProgress(null, 'a'), null)
+})
+
+test('after a decision the reviewer keeps their place instead of jumping to the end', () => {
+  const remaining = [{ id: 'b' }, { id: 'c' }, { id: 'd' }]
+  assert.equal(nextAfterRemoval(remaining, 0).id, 'b', 'first decision lands on the new first item')
+  assert.equal(nextAfterRemoval(remaining, 1).id, 'c')
+  assert.equal(nextAfterRemoval(remaining, 9).id, 'd', 'past the end falls back to the last remaining item')
+  assert.equal(nextAfterRemoval([{ id: 'z' }], 4).id, 'z')
+  assert.equal(nextAfterRemoval([], 0), null)
 })

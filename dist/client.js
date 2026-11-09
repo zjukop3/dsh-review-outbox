@@ -256,13 +256,37 @@ window.__ModuleLoader__.load({
 			if (length <= 0) return -1;
 			return (((Number.isInteger(current) && current >= 0 ? current : 0) + (direction === "previous" ? -1 : 1)) % length + length) % length;
 		}
+		/**
+		* Position of one artifact inside a review queue, for the one-at-a-time view.
+		* Returns null when the queue is empty so callers render nothing rather than
+		* "1 / 0".
+		*/
+		function focusProgress(items, currentId) {
+			if (!items || items.length === 0) return null;
+			const index = items.findIndex((item) => item.id === currentId);
+			return {
+				index: index < 0 ? 0 : index,
+				total: items.length,
+				position: (index < 0 ? 0 : index) + 1
+			};
+		}
+		/**
+		* Which artifact to show after the current one leaves the queue.
+		* Keeps the reviewer in place — the item that slid into the old index becomes
+		* the next one they look at — and falls back to the last item when they were
+		* at the end. Returns null when the queue is exhausted.
+		*/
+		function nextAfterRemoval(remaining, removedIndex) {
+			if (!remaining || remaining.length === 0) return null;
+			return remaining[Math.min(Math.max(Number.isInteger(removedIndex) ? removedIndex : 0, 0), remaining.length - 1)];
+		}
 		// client/styles.js
 		var styles_default = String.raw`
 .ro-root{--ro-bg:var(--dsw-alias-bg-base,#f7f8fa);--ro-panel:var(--dsw-alias-bg-elevated,#fff);--ro-text:var(--dsw-alias-label-primary,#17202a);--ro-muted:var(--dsw-alias-label-secondary,#687180);--ro-line:var(--dsw-alias-border-primary,#dfe3e8);--ro-accent:var(--dsw-alias-brand-primary,#315efb);display:flex;flex-direction:column;width:100%;height:100%;min-height:0;background:var(--ro-bg);color:var(--ro-text);font-family:inherit}
 .ro-root *{box-sizing:border-box}.ro-header{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 22px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}
 .ro-title{font-size:18px;font-weight:650;letter-spacing:-.01em}.ro-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 7px;border-radius:99px;background:var(--ro-accent);color:#fff;font-size:12px}.ro-spacer{flex:1}.ro-subtle{color:var(--ro-muted);font-size:12px}.ro-demo{padding:8px 22px;background:#fff5d6;color:#745400;font-size:12px;border-bottom:1px solid #ead79b}
 .ro-toolbar{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-root button{font:inherit}.ro-tab,.ro-button{border:1px solid var(--ro-line);background:var(--ro-panel);color:var(--ro-text);border-radius:8px;padding:7px 11px;cursor:pointer}.ro-tab{font-size:12px}.ro-tab.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-button:hover,.ro-tab:hover{border-color:var(--ro-accent)}.ro-button:disabled{opacity:.45;cursor:not-allowed}.ro-button.primary{background:var(--ro-accent);color:#fff;border-color:var(--ro-accent)}.ro-button.danger{color:#b3261e}.ro-button.link{border:0;background:transparent;padding:4px 0;color:var(--ro-accent)}
-.ro-kinds{display:flex;flex-wrap:wrap;gap:5px;padding:0 22px 11px;background:var(--ro-panel);border-bottom:1px solid var(--ro-line)}.ro-kind{font:inherit;font-size:11px;padding:4px 9px;border:1px solid transparent;border-radius:999px;background:var(--ro-bg);color:var(--ro-muted);cursor:pointer}.ro-kind.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-kind:hover:not(:disabled){color:var(--ro-accent)}.ro-kind:disabled{opacity:.4;cursor:default}.ro-badge.kind{background:var(--ro-panel);border:1px solid var(--ro-line)}.ro-shortcuts{margin-top:9px;color:var(--ro-muted);font-size:11px}.ro-shortcuts b{display:inline-block;min-width:14px;padding:0 4px;margin:0 1px;border:1px solid var(--ro-line);border-radius:4px;background:var(--ro-bg);color:var(--ro-text);font:10px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center}.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-group{border-bottom:1px solid var(--ro-line);padding-bottom:4px;margin-bottom:4px}.ro-group:last-child{border-bottom:0}.ro-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px;cursor:pointer;list-style:none;font-size:11px;color:var(--ro-muted)}.ro-group-head::-webkit-details-marker{display:none}.ro-group-head::before{content:"▸";flex:none;transition:transform .12s ease}.ro-group[open]>summary::before{transform:rotate(90deg)}.ro-group-archive{flex:none;font:inherit;font-size:10px;padding:2px 7px;border:1px solid var(--ro-line);border-radius:5px;background:var(--ro-panel);color:var(--ro-muted);cursor:pointer}.ro-group-archive:hover:not(:disabled){border-color:var(--ro-accent);color:var(--ro-accent)}.ro-group-archive:disabled{opacity:.5;cursor:default}.ro-group-title{flex:1;min-width:0;font-weight:600;color:var(--ro-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-group-meta{flex:none;white-space:nowrap}.ro-group[open] .ro-card:first-of-type{margin-top:2px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ro-focus-bar{display:flex;align-items:center;gap:10px;padding:10px 22px;background:var(--ro-panel);border-bottom:1px solid var(--ro-line);flex-wrap:wrap}.ro-focus-progress{font-size:12px;font-weight:600;color:var(--ro-accent)}.ro-body.focused{grid-template-columns:minmax(0,1fr)}.ro-kinds{display:flex;flex-wrap:wrap;gap:5px;padding:0 22px 11px;background:var(--ro-panel);border-bottom:1px solid var(--ro-line)}.ro-kind{font:inherit;font-size:11px;padding:4px 9px;border:1px solid transparent;border-radius:999px;background:var(--ro-bg);color:var(--ro-muted);cursor:pointer}.ro-kind.active{border-color:var(--ro-accent);color:var(--ro-accent);background:color-mix(in srgb,var(--ro-accent) 8%,transparent)}.ro-kind:hover:not(:disabled){color:var(--ro-accent)}.ro-kind:disabled{opacity:.4;cursor:default}.ro-badge.kind{background:var(--ro-panel);border:1px solid var(--ro-line)}.ro-shortcuts{margin-top:9px;color:var(--ro-muted);font-size:11px}.ro-shortcuts b{display:inline-block;min-width:14px;padding:0 4px;margin:0 1px;border:1px solid var(--ro-line);border-radius:4px;background:var(--ro-bg);color:var(--ro-text);font:10px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center}.ro-body{display:grid;grid-template-columns:minmax(260px,34%) minmax(0,1fr);flex:1;min-height:0}.ro-list{overflow:auto;border-right:1px solid var(--ro-line);padding:12px}.ro-group{border-bottom:1px solid var(--ro-line);padding-bottom:4px;margin-bottom:4px}.ro-group:last-child{border-bottom:0}.ro-group-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px;cursor:pointer;list-style:none;font-size:11px;color:var(--ro-muted)}.ro-group-head::-webkit-details-marker{display:none}.ro-group-head::before{content:"▸";flex:none;transition:transform .12s ease}.ro-group[open]>summary::before{transform:rotate(90deg)}.ro-group-archive{flex:none;font:inherit;font-size:10px;padding:2px 7px;border:1px solid var(--ro-line);border-radius:5px;background:var(--ro-panel);color:var(--ro-muted);cursor:pointer}.ro-group-archive:hover:not(:disabled){border-color:var(--ro-accent);color:var(--ro-accent)}.ro-group-archive:disabled{opacity:.5;cursor:default}.ro-group-title{flex:1;min-width:0;font-weight:600;color:var(--ro-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-group-meta{flex:none;white-space:nowrap}.ro-group[open] .ro-card:first-of-type{margin-top:2px}.ro-card{display:block;width:100%;text-align:left;padding:13px;margin-bottom:9px;border:1px solid var(--ro-line);border-radius:11px;background:var(--ro-panel);color:inherit;cursor:pointer}.ro-card.selected{border-color:var(--ro-accent);box-shadow:0 0 0 1px var(--ro-accent)}.ro-card-title{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ro-card-meta{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--ro-muted);font-size:11px}.ro-badge{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--ro-bg);color:var(--ro-muted);font-size:10px}.ro-badge.pending{color:#8a5a00;background:#fff2cc}.ro-badge.approved{color:#176b3a;background:#dcf4e5}.ro-badge.returned{color:#9d332c;background:#fde6e3}.ro-badge.archived{color:#626975;background:#eceff3}.ro-card-desc{margin-top:7px;color:var(--ro-muted);font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ro-detail{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:auto}.ro-detail-head{padding:18px 22px 12px;border-bottom:1px solid var(--ro-line);background:var(--ro-panel)}.ro-detail-title{margin:0;font-size:17px;line-height:1.35;word-break:break-word}.ro-path{margin-top:6px;color:var(--ro-muted);font:11px ui-monospace,SFMono-Regular,Consolas,monospace;word-break:break-all}.ro-preview{margin:16px 22px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel);min-height:160px;overflow:hidden}.ro-preview pre{margin:0;padding:16px;max-height:52vh;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace}.ro-preview img{display:block;max-width:100%;max-height:58vh;margin:auto}.ro-preview-message{padding:32px 18px;text-align:center;color:var(--ro-muted);font-size:13px}.ro-diff-line{display:block;padding:0 12px;white-space:pre-wrap}.ro-diff-line.add{background:#e8f6ec;color:#176b3a}.ro-diff-line.del{background:#fdecea;color:#9d332c}
 .ro-pack{margin:0 22px 16px;padding:14px 16px;border:1px solid var(--ro-line);border-radius:10px;background:var(--ro-panel)}.ro-pack-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.ro-pack-head select{max-width:100%;padding:7px 10px;border:1px solid var(--ro-line);border-radius:8px;background:var(--ro-bg);color:var(--ro-text);font:12px inherit}.ro-pack-summary{margin:10px 0 0;color:var(--ro-muted);font-size:12px;line-height:1.55}.ro-checks{margin-top:8px}.ro-check{padding:10px 0;border-top:1px dashed var(--ro-line)}.ro-check label{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer}.ro-check label span{margin-left:auto;color:var(--ro-muted);font-size:10px}.ro-check p{margin:5px 0 7px 23px;color:var(--ro-muted);font-size:11px;line-height:1.5}.ro-check textarea{display:block;width:calc(100% - 23px);margin-left:23px;resize:vertical;padding:8px 10px;border:1px solid var(--ro-line);border-radius:7px;background:var(--ro-bg);color:var(--ro-text);font:11px/1.5 inherit}.ro-check textarea:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-check textarea[readonly]{opacity:.75}
 .ro-actions{padding:0 22px 20px}.ro-note{width:100%;min-height:72px;resize:vertical;padding:10px 12px;border:1px solid var(--ro-line);border-radius:9px;background:var(--ro-panel);color:var(--ro-text);font:12px/1.5 inherit}.ro-note:focus{outline:1px solid var(--ro-accent);border-color:var(--ro-accent)}.ro-action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}.ro-history{margin:0 22px 20px;padding-top:12px;border-top:1px solid var(--ro-line)}.ro-history summary{cursor:pointer;color:var(--ro-muted);font-size:12px}.ro-history-item{padding:8px 0;border-bottom:1px dashed var(--ro-line);font-size:12px}.ro-history-note{margin-top:3px;white-space:pre-wrap;color:var(--ro-muted)}.ro-empty{display:flex;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:36px;color:var(--ro-muted);text-align:center}.ro-empty strong{color:var(--ro-text);font-size:15px}.ro-error{padding:10px 14px;margin:12px 22px 0;border:1px solid #e5b2ae;background:#fdecea;color:#8c2b25;border-radius:8px;font-size:12px}.ro-footer{padding:10px 22px;border-top:1px solid var(--ro-line);color:var(--ro-muted);font-size:11px;background:var(--ro-panel)}
@@ -389,6 +413,7 @@ window.__ModuleLoader__.load({
 			const [pending, setPending] = react.default.useState(0);
 			const [filter, setFilter] = react.default.useState("pending");
 			const [kind, setKind] = react.default.useState("all");
+			const [focus, setFocus] = react.default.useState(false);
 			const [selectedId, setSelectedId] = react.default.useState("");
 			const [preview, setPreview] = react.default.useState(null);
 			const [previewLoading, setPreviewLoading] = react.default.useState(false);
@@ -486,6 +511,8 @@ window.__ModuleLoader__.load({
 					}) : null
 				]
 			}, item.id);
+			const focusQueue = react.default.useMemo(() => filtered.filter((item) => item.status === "pending"), [filtered]);
+			const progress = focus ? focusProgress(focusQueue, selected?.id) : null;
 			const selectedPack = packs.find((pack) => pack.id === selected?.reviewPack?.id) || null;
 			react.default.useEffect(() => {
 				setCheckDetails(Object.fromEntries(Object.entries(selected?.reviewPack?.checks || {}).map(([id, state]) => [id, state.detail || ""])));
@@ -589,6 +616,13 @@ window.__ModuleLoader__.load({
 					});
 					setItems(data.items);
 					setPending(data.pending);
+					if (focus) {
+						const removedIndex = filtered.findIndex((item) => item.id === selected.id);
+						const next = nextAfterRemoval(filtered.filter((item) => item.id !== selected.id), removedIndex);
+						setFilter("pending");
+						setSelectedId(next ? next.id : "");
+						return;
+					}
 					const nextFilter = {
 						approve: "approved",
 						return: "returned",
@@ -722,6 +756,21 @@ window.__ModuleLoader__.load({
 							}),
 							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { className: "ro-spacer" }),
 							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								className: `ro-button ${focus ? "primary" : ""}`,
+								onClick: () => {
+									setFocus((value) => {
+										const next = !value;
+										if (next) {
+											setFilter("pending");
+											setSelectedId("");
+										}
+										return next;
+									});
+								},
+								title: "一次只处理一项，决定后自动进入下一项",
+								children: focus ? "退出逐项" : "逐项审阅"
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 								className: "ro-button",
 								onClick: () => load(),
 								children: "刷新"
@@ -753,6 +802,37 @@ window.__ModuleLoader__.load({
 							]
 						}, id))
 					}),
+					focus ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "ro-focus-bar",
+						children: [
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: "ro-focus-progress",
+								children: progress ? `第 ${progress.position} / ${progress.total} 项待审` : "待审队列已清空"
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								className: "ro-button",
+								disabled: !progress || progress.index === 0,
+								onClick: () => {
+									const target = focusQueue[stepIndex(progress.index, focusQueue.length, "previous")];
+									if (target) setSelectedId(target.id);
+								},
+								children: "上一项"
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								className: "ro-button",
+								disabled: !progress || progress.total < 2,
+								onClick: () => {
+									const target = focusQueue[stepIndex(progress.index, focusQueue.length, "next")];
+									if (target) setSelectedId(target.id);
+								},
+								children: "下一项"
+							}),
+							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+								className: "ro-subtle",
+								children: "a 通过 · r 退回 · z 归档，决定后自动到下一项"
+							})
+						]
+					}) : null,
 					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("nav", {
 						className: "ro-kinds",
 						"aria-label": "成果类型筛选",
@@ -773,8 +853,8 @@ window.__ModuleLoader__.load({
 						}, id))
 					}),
 					/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
-						className: "ro-body",
-						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsxs)("aside", {
+						className: `ro-body ${focus ? "focused" : ""}`,
+						children: [focus ? null : /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("aside", {
 							className: "ro-list",
 							"aria-label": "成果列表",
 							children: [groups ? groups.map((group, index) => /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("details", {

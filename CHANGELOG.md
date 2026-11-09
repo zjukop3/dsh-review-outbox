@@ -2,6 +2,13 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [Unreleased] — 0.1.7
+
+- One-at-a-time review (逐项审阅): the list collapses into a progress strip (`第 3 / 40 项待审`) and each decision moves to the artifact that took that slot, so a 75-item backlog becomes a countable task instead of a wall. The status tabs stay put while the flow is on, and 退出逐项 brings the full list back with nothing hidden.
+- The strip shows 上一项 / 下一项 buttons alongside the same `a` / `r` / `z` keys, and reports 待审队列已清空 when the queue drains.
+- `scripts/seed-fixture-state.mjs` writes a synthetic state matching one real daily profile (75 artifacts, 10 sessions, 8 extensions) so the panel can be driven in an isolated Profile without a real backlog.
+- Held back from npm on purpose: 0.1.6 is the published version, and this entry is promoted to `0.1.7` together with the publish, inside the 12:00-12:40 window documented in the operations handbook. Publishing now would leave the catalog card and the resolvable version disagreeing for about a day.
+
 ## [0.1.6] - 2026-11-10
 
 - Filter the list by artifact kind (文档 / 表格 / 图片 / 数据 / 代码 / 其他) with live counts, so a backlog of 75 mixed deliverables can be narrowed to the ~40 that actually need reading. Filtering only narrows the view; nothing is hidden permanently and the counts always add up.

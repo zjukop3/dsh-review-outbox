@@ -1,7 +1,7 @@
 import React from 'react'
 import { watchBetterSidebar } from './better-sidebar.js'
 import { openNativeArtifact } from './native-open.js'
-import { KINDS, OTHER_KIND, artifactKind, filterByKind, kindCounts, kindLabel, shortcutAction, stepIndex } from './logic.js'
+import { KINDS, OTHER_KIND, artifactKind, filterByKind, focusProgress, kindCounts, kindLabel, nextAfterRemoval, shortcutAction, stepIndex } from './logic.js'
 import css from './styles.js'
 
 const API = '/review-outbox/api'
@@ -76,6 +76,7 @@ function Outbox({ openSession, openNative, active = true }) {
   const [pending, setPending] = React.useState(0)
   const [filter, setFilter] = React.useState('pending')
   const [kind, setKind] = React.useState('all')
+  const [focus, setFocus] = React.useState(false)
   const [selectedId, setSelectedId] = React.useState('')
   const [preview, setPreview] = React.useState(null)
   const [previewLoading, setPreviewLoading] = React.useState(false)
@@ -173,6 +174,13 @@ function Outbox({ openSession, openNative, active = true }) {
       {item.description ? <span className="ro-card-desc">{item.description}</span> : null}
     </button>
   )
+  // Focus mode walks the pending queue of the current kind filter, so a reviewer
+  // can finish the documents without ever seeing the images and data files.
+  const focusQueue = React.useMemo(
+    () => filtered.filter(item => item.status === 'pending'),
+    [filtered],
+  )
+  const progress = focus ? focusProgress(focusQueue, selected?.id) : null
   const selectedPack = packs.find(pack => pack.id === selected?.reviewPack?.id) || null
 
   React.useEffect(() => {
@@ -255,6 +263,17 @@ function Outbox({ openSession, openNative, active = true }) {
       })
       setItems(data.items)
       setPending(data.pending)
+      if (focus) {
+        // One-at-a-time review must not jump to another status tab: keep the
+        // reviewer on the pending queue and move to the artifact that took the
+        // place of the one they just decided on.
+        const removedIndex = filtered.findIndex(item => item.id === selected.id)
+        const remaining = filtered.filter(item => item.id !== selected.id)
+        const next = nextAfterRemoval(remaining, removedIndex)
+        setFilter('pending')
+        setSelectedId(next ? next.id : '')
+        return
+      }
       const nextFilter = { approve: 'approved', return: 'returned', archive: 'archived', reopen: 'pending' }[action]
       if (nextFilter) setFilter(nextFilter)
     } catch (cause) {
@@ -369,6 +388,22 @@ function Outbox({ openSession, openNative, active = true }) {
         <span className="ro-count">{pending}</span>
         <span className="ro-subtle">Deliverables review outbox</span>
         <span className="ro-spacer" />
+        <button
+          className={`ro-button ${focus ? 'primary' : ''}`}
+          onClick={() => {
+            setFocus(value => {
+              const next = !value
+              if (next) {
+                setFilter('pending')
+                setSelectedId('')
+              }
+              return next
+            })
+          }}
+          title="一次只处理一项，决定后自动进入下一项"
+        >
+          {focus ? '退出逐项' : '逐项审阅'}
+        </button>
         <button className="ro-button" onClick={() => load()}>刷新</button>
       </header>
       {isDemo ? <div className="ro-demo">当前包含合成示例，仅用于验证安装、预览和审阅流程。</div> : null}
@@ -381,6 +416,22 @@ function Outbox({ openSession, openNative, active = true }) {
           </button>
         ))}
       </nav>
+      {focus ? (
+        <div className="ro-focus-bar">
+          <span className="ro-focus-progress">
+            {progress ? `第 ${progress.position} / ${progress.total} 项待审` : '待审队列已清空'}
+          </span>
+          <button className="ro-button" disabled={!progress || progress.index === 0} onClick={() => {
+            const target = focusQueue[stepIndex(progress.index, focusQueue.length, 'previous')]
+            if (target) setSelectedId(target.id)
+          }}>上一项</button>
+          <button className="ro-button" disabled={!progress || progress.total < 2} onClick={() => {
+            const target = focusQueue[stepIndex(progress.index, focusQueue.length, 'next')]
+            if (target) setSelectedId(target.id)
+          }}>下一项</button>
+          <span className="ro-subtle">a 通过 · r 退回 · z 归档，决定后自动到下一项</span>
+        </div>
+      ) : null}
       <nav className="ro-kinds" aria-label="成果类型筛选">
         {[['all', '全部'], ...KINDS.map(([id, label]) => [id, label]), OTHER_KIND].map(([id, label]) => (
           <button
@@ -394,8 +445,8 @@ function Outbox({ openSession, openNative, active = true }) {
           </button>
         ))}
       </nav>
-      <div className="ro-body">
-        <aside className="ro-list" aria-label="成果列表">
+      <div className={`ro-body ${focus ? 'focused' : ''}`}>
+        {focus ? null : <aside className="ro-list" aria-label="成果列表">
           {groups
             ? groups.map((group, index) => (
               <details className="ro-group" key={group.sessionId || `group-${index}`} open={index === 0 || group.items.some(item => item.id === selected?.id)}>
@@ -419,7 +470,7 @@ function Outbox({ openSession, openNative, active = true }) {
             ))
             : filtered.map(renderCard)}
           {filtered.length === 0 ? <div className="ro-empty"><strong>这里还没有成果</strong><span>当 Agent 交付文件，或你切换其他状态筛选时，成果会出现在这里。</span></div> : null}
-        </aside>
+        </aside>}
         <main className="ro-detail">
           {selected ? (
             <>

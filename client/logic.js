@@ -84,3 +84,26 @@ export function stepIndex(current, length, direction) {
   const next = base + (direction === 'previous' ? -1 : 1)
   return ((next % length) + length) % length
 }
+
+/**
+ * Position of one artifact inside a review queue, for the one-at-a-time view.
+ * Returns null when the queue is empty so callers render nothing rather than
+ * "1 / 0".
+ */
+export function focusProgress(items, currentId) {
+  if (!items || items.length === 0) return null
+  const index = items.findIndex(item => item.id === currentId)
+  return { index: index < 0 ? 0 : index, total: items.length, position: (index < 0 ? 0 : index) + 1 }
+}
+
+/**
+ * Which artifact to show after the current one leaves the queue.
+ * Keeps the reviewer in place — the item that slid into the old index becomes
+ * the next one they look at — and falls back to the last item when they were
+ * at the end. Returns null when the queue is exhausted.
+ */
+export function nextAfterRemoval(remaining, removedIndex) {
+  if (!remaining || remaining.length === 0) return null
+  const index = Math.min(Math.max(Number.isInteger(removedIndex) ? removedIndex : 0, 0), remaining.length - 1)
+  return remaining[index]
+}

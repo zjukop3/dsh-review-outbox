@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T16:48:40.127732Z",
+  "feature": "one-at-a-time review flow (0.1.7)",
+  "environment": "isolated DSH_HOME, local workspace install, dsh web on 127.0.0.1, Chrome headless",
+  "fixture": "scripts/seed-fixture-state.mjs, 12 items across 3 sessions (12 .md)",
+  "observed": {
+    "listBefore": 12,
+    "focusStart": "第 1 / 12 项待审",
+    "cardsInFocus": 0,
+    "approveShortcut": {
+      "progress": "第 1 / 11 项待审",
+      "nextTitle": "report-1.md",
+      "activeTab": "待审 11"
+    },
+    "archiveShortcut": {
+      "progress": "第 1 / 10 项待审",
+      "tabs": "待审 10 | 通过 1 | 退回 0 | 归档 1 | 全部 12"
+    },
+    "nextButton": {
+      "before": "report-2.md (implied)",
+      "after": "report-3.md"
+    },
+    "previousButton": {
+      "after": "report-2.md"
+    },
+    "exitFocus": {
+      "cards": 10
+    },
+    "drainedQueue": {
+      "progress": "待审队列已清空",
+      "tabs": "待审 0 | 通过 11 | 退回 0 | 归档 1 | 全部 12",
+      "detailPane": "选择一项成果开始审阅"
+    }
+  },
+  "designDecision": {
+    "why": "a 75-item backlog with zero decisions suggests the wall itself is the problem, not the individual artifacts",
+    "behaviour": "in focus mode a decision keeps the reviewer on the pending queue and moves to the artifact that took that slot; the status tabs are not switched",
+    "escape": "the list stays one click away (退出逐项) and nothing is hidden from the other tabs"
+  },
+  "consoleErrors": "404s from the preview endpoint for fixture paths that do not exist on disk; real artifacts resolve normally"
+}
