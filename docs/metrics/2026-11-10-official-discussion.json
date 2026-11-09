@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:15:23.825331Z",
+  "kind": "public technical post in the official repository",
+  "target": {
+    "repo": "deepseek-ai/deepseek-harness",
+    "stars": 277335,
+    "channel": "Discussions → Show Your Plugins!",
+    "discussion": 12788,
+    "url": "https://github.com/deepseek-ai/deepseek-harness/discussions/12788",
+    "whyThisChannel": "the repository has issues disabled but Discussions open, and Show Your Plugins! exists precisely for plugin authors; a measurement-first post there reaches the largest legitimate audience without any social promotion"
+  },
+  "content": {
+    "lead": "ten releases and repeated misdiagnosis of 'why is the installed version old'",
+    "sections": [
+      "the four clocks with a table and one repro each",
+      "the 42-minute window where the tarball is served but the metadata is not",
+      "market install delivers the newest release while the card shows the catalog version",
+      "spec form decides whether a profile ever updates"
+    ],
+    "productMention": "one short section after the measurements, with the install command and the no-install checklist link",
+    "invitationsToCorrect": "explicit, and a closing list of three things we did not verify"
+  },
+  "lengthChars": 2011,
+  "verified": {
+    "state": "open",
+    "category": "Show Your Plugins!",
+    "rendersBody": true
+  },
+  "notYet": "no replies at the time of recording; the post is the action, the response is not ours to schedule",
+  "whyNotSocialPromotion": "the post is a measurement write-up that would be useful if our plugin did not exist; the product appears once, at the end, as the reason the numbers were collected"
+}
