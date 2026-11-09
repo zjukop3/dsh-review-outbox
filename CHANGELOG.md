@@ -2,6 +2,12 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [Unreleased]
+
+- Reliability tests for the state file: concurrent decisions on different artifacts all persist, a rejected action does not block the queue behind it, and two instances on one file are last-write-wins (pinned rather than assumed away).
+- A real DOCX deliverable was walked through the panel: it counts under 文档, the preview correctly refuses to render it inline and points at the host Viewer, approval is a one-click decision, and the exported receipt carries the file's digest without leaking a path.
+- The public surface was audited: eleven internal links across four pages, none broken; the handbook's sections were renumbered 1-11 after rounds of appends left 2b/6b/7b.
+
 ## [0.1.10] - 2026-11-10
 
 - The package now ships `assets/icon-180.png` (the market-card tile) and `docs/REVIEWABLE-ARTIFACTS.md` (the convention for handing an artifact to a reviewer), both of which were written after 0.1.9.

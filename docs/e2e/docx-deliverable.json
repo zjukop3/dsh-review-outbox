@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:39:20.373618Z",
+  "focus": "a real DOCX deliverable through the panel, because the product claims DOCX/PDF support",
+  "fixture": {
+    "file": "区域渠道分析.docx",
+    "bytes": 36824,
+    "madeWith": "python-docx from the bundled office runtime",
+    "sha256Independently": "9da3ec1637afbb5e…"
+  },
+  "observed": {
+    "kindFilter": "counted under 文档",
+    "preview": "此格式不在本面板内嵌预览。可使用宿主 Viewer，或记录审阅意见与处理状态。",
+    "nativeViewerButton": true,
+    "approveWithoutPack": "allowed — a docx carries no acceptance pack, so it is a one-click decision",
+    "tabsAfterApprove": "待审 0 | 通过 1 | 退回 0 | 归档 0 | 全部 1",
+    "receipt": {
+      "status": "已通过",
+      "carriesTheRealDigest": true,
+      "mentionsTheFile": true,
+      "leaksAbsolutePath": false
+    },
+    "pageErrors": []
+  },
+  "behaviourWorthStating": {
+    "digestMissingWhilePending": "the first run exported a receipt while the artifact was still 待审阅 and it carried no reviewed digest; that is deliberate — a receipt must not imply a review that has not happened",
+    "soTheOrderMatters": "approve first, then export, if the receipt is meant to prove something"
+  },
+  "notVerified": "the native Viewer itself: the button is present, but opening it requires the host's viewer service, which this isolated web profile does not expose"
+}
