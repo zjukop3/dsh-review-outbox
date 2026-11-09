@@ -2,7 +2,7 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
-## [Unreleased]
+## [0.1.10] - 2026-11-10
 
 - The package now ships `assets/icon-180.png` (the market-card tile) and `docs/REVIEWABLE-ARTIFACTS.md` (the convention for handing an artifact to a reviewer), both of which were written after 0.1.9.
 - The landing page offers the checklist as a fillable Word template and a PDF built from the same `docs/checklist.txt`, so "the checklist works without the plugin" is true in the form people actually use.

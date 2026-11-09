@@ -6,9 +6,9 @@
 - https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html: Real browser-generated standalone receipt; no installation required.
 - https://zjukop3.github.io/dsh-review-outbox/operations/: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
 - https://github.com/zjukop3/dsh-review-outbox: Public source code, installation guide, and validation evidence.
-- https://zjukop3.github.io/dsh-review-outbox/plugins.json: Officially validated DSH format-1 application market index for Review Outbox 0.1.9, pinned installation, and activation.
+- https://zjukop3.github.io/dsh-review-outbox/plugins.json: Officially validated DSH format-1 application market index for Review Outbox 0.1.10, pinned installation, and activation.
 - https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/e2e/application-first-value.json: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.
-- https://github.com/zjukop3/dsh-review-outbox/blob/adc055b4045bd1941865846629243ecfb9d9c6ca: Immutable public source for the current 0.1.9 application-index installation.
+- https://github.com/zjukop3/dsh-review-outbox/blob/adc055b4045bd1941865846629243ecfb9d9c6ca: Immutable public source for the current 0.1.10 application-index installation.
 - https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.
 - https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.
 
