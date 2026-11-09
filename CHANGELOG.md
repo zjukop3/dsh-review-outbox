@@ -6,6 +6,7 @@ All notable changes to Review Outbox are documented here. The format follows [Ke
 
 - Reliability tests for the state file: concurrent decisions on different artifacts all persist, a rejected action does not block the queue behind it, and two instances on one file are last-write-wins (pinned rather than assumed away).
 - A real DOCX deliverable was walked through the panel: it counts under 文档, the preview correctly refuses to render it inline and points at the host Viewer, approval is a one-click decision, and the exported receipt carries the file's digest without leaking a path.
+- The repository now declares `screenshots.json`, so the market's detail view shows the evidence gate, one-at-a-time review and an approved artifact instead of whatever the storefront scrapes from the README. The images were regenerated from the current UI, not the older captures.
 - The public surface was audited: eleven internal links across four pages, none broken; the handbook's sections were renumbered 1-11 after rounds of appends left 2b/6b/7b.
 
 ## [0.1.10] - 2026-11-10

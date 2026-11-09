@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:43:35.484574Z",
+  "kind": "self-service storefront improvement, no pull request needed",
+  "mechanism": "the catalog reads screenshots.json from the plugin's own repository on its nightly build; declaring it controls which images the market's detail view shows and in what order",
+  "whyItMatters": "the market detail view is AppStore-style with screenshots; without a declaration the storefront falls back to scraping the README, which we do not control",
+  "whatWasMade": {
+    "files": [
+      "assets/storefront/market-gate.png (1200×833)",
+      "assets/storefront/market-focus.png (1200×833)",
+      "assets/storefront/market-approved.png (1200×833)"
+    ],
+    "source": "regenerated from last night's walkthrough screenshots rather than the older storefront captures, so the images show the evidence gate, one-at-a-time review and the approved state as they are today",
+    "declaration": "screenshots.json at the repository root, three relative paths"
+  },
+  "rulesChecked": [
+    "1-8 images",
+    "relative paths only",
+    "no .. traversal",
+    "raster formats",
+    "files exist and are non-trivial"
+  ],
+  "tests": {
+    "total": 76,
+    "pass": 76,
+    "new": [
+      "screenshots.json satisfies the catalog's rules",
+      "the declared shots are the freshly generated ones"
+    ]
+  },
+  "whenItTakesEffect": "the next nightly catalog build; today's build (04:46Z) may already have run, so the earliest visible effect is the following one",
+  "notVerified": "how the three images actually look inside the market's detail view — that needs the next build plus the UI"
+}
