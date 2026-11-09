@@ -193,6 +193,8 @@ node scripts/check-milestones.mjs --json     # 可入库
 
 它一次打印：npm latest 与本地版本、目录条目版本与描述开头、默认安装解析到的版本（`--with-install`，会真的装一次）、本机漏斗（成果/待审/人工动作/最久停留）、以及上游 PR/issue 的状态与评论数。慢的步骤出声提示，避免"看起来卡住"。
 
+按症状查的版本在[排障页](../troubleshooting/)：`ERR_PNPM_NO_MATCHING_VERSION`、装到旧版、从此不更新、市场版本不一致、目录不收录、以及被连带拦住。
+
 ## 8. 发布后检查清单
 
 八条，按顺序做，每条都有可观测的产出：

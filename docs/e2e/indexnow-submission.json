@@ -1,37 +1,19 @@
 {
-  "ok": true,
-  "submittedAt": "2026-11-09T18:49:39.931Z",
+  "ok": false,
+  "submittedAt": "2026-11-09T22:29:32.063Z",
   "endpoint": "https://www.bing.com/indexnow",
   "keyLocation": "https://zjukop3.github.io/dsh-review-outbox/08986ba4f300c03bb388875263d41845.txt",
   "urlList": [
     "https://zjukop3.github.io/dsh-review-outbox/",
     "https://zjukop3.github.io/dsh-review-outbox/research-report/",
     "https://zjukop3.github.io/dsh-review-outbox/operations/",
+    "https://zjukop3.github.io/dsh-review-outbox/troubleshooting/",
     "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html"
   ],
-  "preflight": {
-    "keyFileVerified": true,
-    "urls": [
-      {
-        "url": "https://zjukop3.github.io/dsh-review-outbox/",
-        "status": 200
-      },
-      {
-        "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/",
-        "status": 200
-      },
-      {
-        "url": "https://zjukop3.github.io/dsh-review-outbox/operations/",
-        "status": 200
-      },
-      {
-        "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html",
-        "status": 200
-      }
-    ]
-  },
-  "responseStatus": 200,
+  "preflight": null,
+  "responseStatus": null,
   "responseBody": null,
   "indexingStatus": "unknown",
-  "externalActivationClaim": false
+  "externalActivationClaim": false,
+  "error": "Sitemap URL preflight failed: https://zjukop3.github.io/dsh-review-outbox/troubleshooting/ returned 404"
 }

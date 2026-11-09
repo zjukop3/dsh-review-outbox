@@ -233,5 +233,6 @@ pnpm run check
 
 MIT
 
+- [装不上 / 更新不了：按症状查](https://zjukop3.github.io/dsh-review-outbox/troubleshooting/)：六种症状各自的原因、诊断命令与处理动作。
 - [十分钟清掉一次积压](docs/FIRST-10-MINUTES.md)：已有几十条待审成果时的具体点击顺序。
 - [可审阅产物约定](docs/REVIEWABLE-ARTIFACTS.md)：第三方插件怎样把产物交给审阅方而不耦合实现。

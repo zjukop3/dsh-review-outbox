@@ -83,6 +83,7 @@ node scripts/report-usage.mjs --json ~/.dsh     # 可入库</code></pre>
 <pre><code class="language-bash">node scripts/check-milestones.mjs            # 人读
 node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <p>它一次打印：npm latest 与本地版本、目录条目版本与描述开头、默认安装解析到的版本（<code>--with-install</code>，会真的装一次）、本机漏斗（成果/待审/人工动作/最久停留）、以及上游 PR/issue 的状态与评论数。慢的步骤出声提示，避免&quot;看起来卡住&quot;。</p>
+<p>按症状查的版本在<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/../troubleshooting/">排障页</a>：<code>ERR_PNPM_NO_MATCHING_VERSION</code>、装到旧版、从此不更新、市场版本不一致、目录不收录、以及被连带拦住。</p>
 <h2 id="8-发布后检查清单">8. 发布后检查清单</h2>
 <p>八条，按顺序做，每条都有可观测的产出：</p>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>

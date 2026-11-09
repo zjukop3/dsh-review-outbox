@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:29:34.587211Z",
+  "artifact": "docs/TROUBLESHOOTING.md → site/troubleshooting/",
+  "why": "the handbook is a linear explanation; someone with a broken install needs a symptom index. These were six separate facts in prose; now each is a lookup: symptom → cause → command → action",
+  "sections": [
+    "ERR_PNPM_NO_MATCHING_VERSION",
+    "installed an older version",
+    "never updates again",
+    "market card differs from the installed version",
+    "absent or stale in the catalog",
+    "one install blocking others"
+  ],
+  "honestyRules": [
+    "every conclusion was measured by us",
+    "the one branch we did not measure (lockfile verification blocking other installs) is labelled as such and links the upstream issue instead of restating it",
+    "the page ends by saying our measurements do not bind other environments"
+  ],
+  "wiring": {
+    "home": "link added",
+    "handbook": "§8 points at it",
+    "readme": "listed",
+    "llms": "listed",
+    "sitemap": "included",
+    "indexNow": "submitted"
+  },
+  "tests": {
+    "total": 71,
+    "pass": 71,
+    "newAssertions": [
+      "page names the error string people search for",
+      "page says plainly when a mismatch is not a fault",
+      "sitemap contains the troubleshooting URL"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSH 插件装不上 / 更新不了：按症状查 · Review Outbox</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E"><meta name="description" content="DSH 插件装不上、装到旧版、不再自动更新、市场版本不一致：按症状查原因与命令。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://zjukop3.github.io/dsh-review-outbox/troubleshooting/"><style>body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(30px,5.5vw,52px);font-weight:250;line-height:1.1;margin-bottom:20px}h2{font-size:23px;font-weight:500;line-height:1.3;margin-top:40px}h3{font-size:18px;font-weight:600;margin-top:28px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit;padding:0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4d4d2;padding:9px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee;color:#0a0a0a;font-weight:600}blockquote{margin:20px 0;padding:12px 18px;border-left:4px solid #002fa7;background:#f0f0ee}hr{border:none;border-top:1px solid #d4d4d2;margin:36px 0}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:28px 0 0;font-size:14px}.nav a{margin-right:16px}small{display:block;margin-top:36px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}table{font-size:13px}}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · PLUGIN TROUBLESHOOTING</p>
+<h1>DSH 插件装不上 / 更新不了：按症状查</h1>
+<nav class="nav"><a href="../">首页</a><a href="../operations/">发布与收录手册</a><a href="../research-report/">验收清单</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
+<p>六种症状，每条给一句原因、一条诊断命令、一个处理动作。<strong>只有我们亲手量过的才写成结论</strong>；没量过的分支会明确标注。</p>
+<h2 id="1-命令报-errpnpmnomatchingversion">1. 命令报 <code>ERR_PNPM_NO_MATCHING_VERSION</code></h2>
+<p><strong>原因</strong>：你请求的那个版本不在 registry 的<strong>元数据</strong>里。注意 tarball 与元数据是两件事：文件可能已经在服务，元数据还没更新。</p>
+<p><strong>诊断</strong>：</p>
+<pre><code class="language-bash">curl -s https://registry.npmmirror.com/&lt;name&gt; | grep -o &#39;&quot;latest&quot;:&quot;[^&quot;]*&quot;&#39;
+curl -s -o /dev/null -w &#39;%{http_code}\n&#39; https://registry.npmmirror.com/&lt;name&gt;/-/&lt;name&gt;-&lt;version&gt;.tgz</code></pre>
+<p>第二个命令返回 <code>302</code> 而第一个里没有这个版本 —— 就是这种情况。</p>
+<p><strong>处理</strong>：等镜像追平；或换上游 registry 再装：</p>
+<pre><code class="language-bash">mkdir -p /tmp/npmjs &amp;&amp; printf &#39;registry=https://registry.npmjs.org\n&#39; &gt; /tmp/npmjs/.npmrc
+node &quot;$PNPM&quot; add &lt;name&gt;@&lt;version&gt; --config.userconfig=/tmp/npmjs/.npmrc</code></pre>
+<h2 id="2-装上了-但装到的是旧版本">2. 装上了，但装到的是旧版本</h2>
+<p><strong>原因</strong>：宿主的发布等待期（<code>minimumReleaseAge</code>，默认 1440 分钟）。浮动范围只解析<strong>最高成熟版本</strong>，装到旧版不报错。</p>
+<p><strong>诊断</strong>：</p>
+<pre><code class="language-bash">npm view &lt;name&gt; time --registry=https://registry.npmjs.org | tail -3
+# 把某版本的发布时间 + 24 小时，与当前时间比较</code></pre>
+<p><strong>处理</strong>：等它成熟；或者用精确版本装（前提是元数据里已有，见第 1 条）。</p>
+<h2 id="3-从此再也不自动更新了">3. 从此再也不自动更新了</h2>
+<p><strong>原因</strong>：装的时候写成了精确版本。精确 spec 是上限，<code>pnpm update</code> 也不会越过它。</p>
+<p><strong>诊断</strong>：</p>
+<pre><code class="language-bash">node -e &quot;console.log(require(&#39;&lt;DSH_HOME&gt;/profiles/web/package.json&#39;).dependencies[&#39;&lt;name&gt;&#39;])&quot;
+# 输出 ^1.2.3 → 会更新；输出 1.2.3 → 冻住</code></pre>
+<p><strong>处理</strong>：把 spec 改成 <code>^&lt;当前版本&gt;</code> 再 <code>pnpm install</code>；或重跑一遍不带版本的安装命令。</p>
+<h2 id="4-市场卡片上的版本和装下去的不一样">4. 市场卡片上的版本和装下去的不一样</h2>
+<p><strong>原因</strong>：两者来源不同。卡片来自目录（每天重建一次），安装按精确版本取最新发布版。<strong>这不是故障。</strong></p>
+<p><strong>诊断</strong>：装完看 profile 里实际版本，而不是看卡片：</p>
+<pre><code class="language-bash">node -e &quot;console.log(require(&#39;&lt;DSH_HOME&gt;/profiles/web/node_modules/&lt;name&gt;/package.json&#39;).version)&quot;</code></pre>
+<p><strong>处理</strong>：不需要处理。要判断&quot;是否落后&quot;看这个命令的输出。</p>
+<h2 id="5-目录里根本没有-或版本停在几天前">5. 目录里根本没有，或版本停在几天前</h2>
+<p><strong>原因</strong>：目录每天构建一次（约 <code>04:46Z</code>），且只收录<strong>已发布到 npm 且 <code>repository</code> 字段指回被收录仓库</strong>的包。</p>
+<p><strong>诊断</strong>：</p>
+<pre><code class="language-bash">npm view dsh-plugin-catalog time --registry=https://registry.npmjs.org | tail -5</code></pre>
+<p><strong>处理</strong>：等下一次构建；若包已发布但一直不出现，先检查 <code>repository</code> 字段。</p>
+<h2 id="6-其它插件被我这次安装-更新连带拦住">6. 其它插件被我这次安装/更新连带拦住</h2>
+<p><strong>这条我们没有实测</strong>，只在上游 issue 里读到：pnpm 在改动前会校验整个 lockfile，某个仍在等待期内的版本可能让<strong>所有</strong>插件的安装被拒。对应处理是在该 profile 的 <code>pnpm-workspace.yaml</code> 里给那个包追加豁免行。</p>
+<p><strong>处理前请先读上游讨论</strong>，不要照抄我们的转述：<a href="https://github.com/dsh-market/dsh-market/issues/944">dsh-market#944</a>。</p>
+<hr>
+<h2 id="这套判断的依据">这套判断的依据</h2>
+<p>每条结论都来自可复现的实测，完整时间常数、命令与自我修正记录在<a href="https://zjukop3.github.io/dsh-review-outbox/operations/">发布与收录手册</a>里。若你测到的与这里不同，<strong>以你的复现结果为准</strong> —— 我们只保证&quot;我们量到的是这样&quot;，不保证别的环境一定相同。</p>
+<small>每条结论都可复现：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/TROUBLESHOOTING.md">docs/TROUBLESHOOTING.md</a></small>
+</main></body></html>
