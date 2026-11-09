@@ -341,8 +341,18 @@ test('an empty profile can create one sample artifact to walk the flow', async (
     const preview = await invoke(ctx.handler, { url: `/review-outbox/api/preview?id=${encodeURIComponent(sample.id)}` })
     assert.equal(preview.status, 200)
     assert.equal(preview.data.preview.kind, 'text')
-    assert.match(preview.data.preview.content, /示例成果/)
-    assert.match(preview.data.preview.content, /区域销售周报/)
+    assert.match(preview.data.preview.content, /示例研究报告/)
+    assert.match(preview.data.preview.content, /数据口径/)
+    // the sample must open on the evidence gate, not on a generic file
+    assert.equal(sample.reviewPack.id, 'research-report')
+    assert.equal(sample.reviewProgress.requiredTotal, 4)
+    assert.equal(sample.reviewProgress.requiredCompleted, 0)
+    assert.equal(sample.reviewProgress.complete, false)
+
+    // and a bare approve must be refused until every required check carries evidence
+    const blocked = await invoke(ctx.handler, { method: 'POST', url: '/review-outbox/api/action', body: { id: sample.id, action: 'approve', note: '' } })
+    assert.equal(blocked.status, 400)
+    assert.match(blocked.data.error, /evidence|检查|证据/i)
 
     // a second click produces a second artifact rather than silently replacing the first
     const again = await invoke(ctx.handler, { method: 'POST', url: '/review-outbox/api/sample', body: {} })

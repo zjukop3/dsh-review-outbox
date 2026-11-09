@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T17:41:28.788082Z",
+  "focus": "the first-run sample now demonstrates the evidence gate, not a generic file",
+  "why": "the catalog scan showed receipts are contested; the defensible part is the required-evidence gate, so the first screen a new user sees should be that gate",
+  "environment": "clean isolated DSH_HOME, local workspace install, dsh web, Chrome headless",
+  "observed": {
+    "sampleTitle": "sample-review-*.md",
+    "packAutoSelected": "research-report",
+    "progressBefore": "必填证据 0/4",
+    "approveDisabledBefore": true,
+    "approveTitle": "完成所有必填检查并填写证据后可通过",
+    "checks": [
+      "核心结论有对应证据",
+      "引用来源可复核",
+      "数据时间与统计口径明确",
+      "方法与限制已披露",
+      "复现材料可定位"
+    ],
+    "progressAfterEvidence": "必填证据 4/4",
+    "approveDisabledAfter": false,
+    "tabsAfterApprove": "待审 0 | 通过 1 | 退回 0 | 归档 0 | 全部 1",
+    "receipt": {
+      "status": "已通过",
+      "listsAllFourRequiredChecks": true,
+      "listsTheWrittenEvidence": true,
+      "carriesSha256": true,
+      "leaksAbsolutePath": false
+    },
+    "consolePageErrors": []
+  },
+  "serverSideTest": "test/host.test.js now asserts the sample carries reviewPack research-report with requiredTotal 4 and that a bare approve is refused with 400 before the checks carry evidence",
+  "notVerified": [
+    "the same gate on a real dsh-research-report sealed report in this round (verified in earlier rounds through backfill)"
+  ]
+}

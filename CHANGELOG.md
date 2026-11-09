@@ -2,6 +2,12 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [Unreleased] — 0.1.8
+
+- The first-run sample is now a research report and arrives with the 研究报告验收 pack attached, so a new user's first screen is `必填证据 0/4` with 通过 disabled until each required check carries written evidence. The generic markdown sample taught nothing about what this plugin actually enforces.
+- A bare approve on that sample is refused by the host (400) as well as disabled in the panel, so the gate is not a client-side convention.
+- Held for the next publish rather than shipped minutes after 0.1.7: each release restarts the 24-hour release-age clock, so two publishes an hour apart only push the installable version later.
+
 ## [0.1.7] - 2026-11-10
 
 - One-at-a-time review (逐项审阅): the list collapses into a progress strip (`第 3 / 40 项待审`) and each decision moves to the artifact that took that slot, so a 75-item backlog becomes a countable task instead of a wall. The status tabs stay put while the flow is on, and 退出逐项 brings the full list back with nothing hidden.

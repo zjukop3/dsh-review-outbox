@@ -245,22 +245,38 @@ export function apply(ctx, config = {}) {
         const name = `sample-review-${Date.now().toString(36)}.md`
         const filePath = join(directory, name)
         await writeFile(filePath, [
-          '# 示例成果：区域销售周报',
+          '# 示例研究报告：华东区渠道回款变化',
           '',
-          '这是一条由「成果审阅」生成的示例，用来走一遍完整流程：预览、通过/退回、导出验收单。',
+          '这是一条由「成果审阅」生成的示例，用来看清这件产品到底要求什么：**四项必填证据都有勾选和书面证据，才能通过**。',
           '',
           '## 结论',
-          '- 本周华东区回款 312 万，较上周 +8%。',
-          '- 复购率下滑集中在单价 800 元以上的 SKU。',
+          '1. 华东区渠道回款周期从 45 天升至 62 天。',
+          '2. 复购率下滑集中在单价 800 元以上的 SKU。',
           '',
-          '## 待核对',
-          '1. 回款口径是否含预收款。',
-          '2. 复购率分母是否剔除了退货。',
+          '## 引用',
+          '- 渠道回款明细 2026Q3（内部系统导出，2026-10-31 截止）。',
+          '- 客户访谈记录第 4 场（2026-10-18，6 位渠道商）。',
+          '',
+          '## 数据口径',
+          '- 统计区间 2026-07-01 至 2026-09-30，UTC；金额为人民币含税。',
+          '- 复购率分母为本季度有成交客户数，已剔除退货订单。',
+          '',
+          '## 方法限制',
+          '- 访谈样本 6 人，集中在华东三省，不代表全国。',
+          '- 回款周期按合同约定日计算，未扣除节假日。',
           '',
         ].join('\n'), 'utf8')
         const now = new Date().toISOString()
-        const record = demoRecord({ path: filePath, cwd: directory, now, description: '示例成果：区域销售周报（可随时归档）' })
-        await store.upsert([{ ...record, id: `sample:${name}`, callId: `sample:${name}` }])
+        const record = demoRecord({ path: filePath, cwd: directory, now, description: '示例研究报告：华东区渠道回款变化（可随时归档）' })
+        // The sample carries the research pack on purpose: the first thing a new
+        // user sees should be the evidence gate this product exists for, not a
+        // generic file with two buttons.
+        await store.upsert([{
+          ...record,
+          id: `sample:${name}`,
+          callId: `sample:${name}`,
+          reviewPack: initialReviewPack(getPack('research-report')),
+        }])
         const data = summary(store, backfill)
         return json(res, 201, { created: name, ...data })
       }
