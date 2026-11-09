@@ -55,6 +55,8 @@ dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#6000c13c2b0ebd347
 dsh web
 ```
 
+How you install decides whether it ever updates: `dsh plugin --profile web add dsh-review-outbox` records a `^` range, which moves on its own once a release leaves the release-age window; `dsh-review-outbox@0.1.10` records an exact version, and **that pin never updates by itself** — re-run the command without a version, or widen the range. A market one-click install also pins an exact version; updates there come from the market's own update entry.
+
 Or install directly from the published npm package — the same path dsh-market's one-click install uses. Verified: the pinned GitHub source resolves `0.1.5` in an isolated Profile (6m52s, bundle selected automatically), and `dsh-review-outbox@0.1.5` installs from `registry.npmjs.org` with pnpm in 9.4s.
 
 Two things decide which version resolution returns, and both are easy to misread. ① **`minimumReleaseAge` cooldown**: DSH's plugin installs hide versions published less than 24 hours ago (policy value `1440` minutes), so on release night the default command installs `0.1.3`, not `0.1.5`. That is neither the mirror nor the catalog; pinning the version (`dsh-review-outbox@0.1.5`) bypasses the cooldown and installed in 2 seconds here. ② **Mirror outage**: around 2026-11-09 23:30 `registry.npmmirror.com` returned 500 for every package we probed, `react` included — mirror-side, not package-side — and during that window even an explicit version failed with `ERR_PNPM_NO_MATCHING_VERSION`. Details and the commands that reproduce both are in the [plugin operations handbook](https://zjukop3.github.io/dsh-review-outbox/operations/).

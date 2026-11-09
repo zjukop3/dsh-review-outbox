@@ -64,6 +64,8 @@ dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#6000c13c2b0ebd347
 dsh web
 ```
 
+装的时候写的版本形态决定了它以后会不会自己更新：`dsh plugin --profile web add dsh-review-outbox` 写入的是 `^` 范围，冷却过了会自动升级；写成 `dsh-review-outbox@0.1.10` 则是精确版本，**此后不会再自动更新**（需要更新时重新用不带版本的命令装一次，或改成 `^` 范围）。市场一键安装同样是精确版本，更新由市场自己的更新入口负责。
+
 ### 从 npm 直接安装
 
 npm 包已发布，安装即用（dsh-market 一键安装走同一通道）：
