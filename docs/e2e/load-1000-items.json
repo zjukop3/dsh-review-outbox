@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:58:25.271109Z",
+  "focus": "does the panel still work when the backlog is 13 times the one on this machine",
+  "method": "synthetic states seeded through scripts/seed-fixture-state.mjs, published build 0.1.9, Chrome headless, timings from the browser",
+  "results": {
+    "300items": {
+      "openMs": 107,
+      "cards": 300,
+      "groups": 20,
+      "kindFilterMs": 134,
+      "focusEnterMs": 50,
+      "stepMs": 150,
+      "pageErrors": 0
+    },
+    "1000items": {
+      "openMs": 189,
+      "cards": 1000,
+      "groups": 40,
+      "domNodes": 10355,
+      "jsHeapMb": 45,
+      "approveRoundTripMs": 90,
+      "bulkArchiveRoundTripMs": 202,
+      "groupArchiveButtons": 40,
+      "pageErrors": 0
+    }
+  },
+  "reading": "rendering all items without virtualisation is fine at this size: a thousand cards cost 189 ms to open and under 200 ms per action round-trip, because the host returns the whole state and the client re-renders once",
+  "whenThisWouldChange": "a state file an order of magnitude larger, or a per-item fetch on render, which the panel does not do today",
+  "probeBugWorthRecording": "the first bulk-archive attempt failed because approving switches the panel to the 通过 tab, where group archive buttons do not exist by design; the probe was wrong, not the product"
+}
