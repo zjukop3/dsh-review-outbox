@@ -5,24 +5,34 @@
 <nav class="nav"><a href="../">首页</a><a href="../research-report/">验收清单</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
 <p>这份文档记录的是<strong>可复现的实测结果</strong>，不是设计意图或文档转述。每一条都附了验证命令，谁都能在本机重跑。写它的原因是：DSH 插件从「写完」到「别人真的能装上」，中间有三段独立管线，任何一段断掉，作者看到的都是「明明发布了却没人装」。</p>
 <p>结论先行：<strong>发布成功 ≠ 可安装 ≠ 可被发现</strong>，三者各有各的时间常数。</p>
-<h2 id="1-发布链路的三段时间常数">1. 发布链路的三段时间常数</h2>
-<div class="table-wrap"><table><thead><tr><th>阶段</th><th>谁负责</th><th>实测节奏</th><th>卡住时的表现</th></tr></thead><tbody><tr><td><code>npm publish</code></td><td>作者</td><td>自己的动作</td><td>立刻可见（约 2 分钟处理窗口）</td></tr><tr><td>镜像同步</td><td><code>registry.npmmirror.com</code> 等国内镜像</td><td>外部，通常分钟级</td><td>安装解析到<strong>旧版本</strong>，或 <code>ERR_PNPM_NO_MATCHING_VERSION</code></td></tr><tr><td>目录重建</td><td><code>dsh-plugin-catalog</code></td><td><strong>每天一次</strong>，约 <code>04:46Z</code> 构建、<code>04:49Z</code> 发布</td><td>市场里看到的版本比 npm 落后最多一天</td></tr></tbody></table></div>
+<h2 id="1-发布到-别人真能装上-有四段时间常数">1. 发布到「别人真能装上」有四段时间常数</h2>
+<div class="table-wrap"><table><thead><tr><th>阶段</th><th>谁负责</th><th>实测节奏</th><th>卡住时的表现</th></tr></thead><tbody><tr><td><code>npm publish</code></td><td>作者</td><td>自己的动作</td><td>约 2 分钟处理窗口后可见</td></tr><tr><td><strong><code>minimumReleaseAge</code> 冷却</strong></td><td>DSH 插件安装</td><td><strong>1440 分钟（24 小时）</strong></td><td>默认安装解析到<strong>旧版本</strong>，不报错</td></tr><tr><td>镜像同步</td><td><code>registry.npmmirror.com</code> 等国内镜像</td><td>外部，分钟级到小时级</td><td>解析到旧版本，或 <code>ERR_PNPM_NO_MATCHING_VERSION</code></td></tr><tr><td>目录重建</td><td><code>dsh-plugin-catalog</code></td><td><strong>每天一次</strong>，约 <code>04:46Z</code> 构建</td><td>市场卡片上的版本落后最多一天</td></tr></tbody></table></div>
+<p><strong>最容易误判的是第二行。</strong> 我们实测到：<code>0.1.4</code> 发布于 <code>2026-11-09T14:42Z</code>、<code>0.1.5</code> 发布于 <code>15:05Z</code>，当晚在健康 registry 上执行默认安装，解析结果仍是 <code>0.1.3</code>；把冷却改成 0 后立刻变成 <code>0.1.5</code>。</p>
+<pre><code class="language-bash"># 默认：解析到 0.1.3（新版本太新，被冷却挡住）
+node &quot;$PNPM&quot; add dsh-review-outbox --dir &quot;$X&quot;
+
+# 关掉冷却：解析到 0.1.5
+node &quot;$PNPM&quot; add dsh-review-outbox --dir &quot;$Y&quot; --config.minimum-release-age=0</code></pre>
+<p>这不是镜像故障，也不是目录问题——DSH 自己的代码注释里写明了这件事：</p>
+<blockquote>The installed bundle&#39;s manifest version, when declared; pnpm&#39;s <code>minimumReleaseAge</code> can make it older than the newest release.</blockquote>
+<p>冷却值记录在 pnpm 的 <code>lockfile-verified.jsonl</code> 策略里（<code>&quot;minimumReleaseAge&quot;:1440</code>）。同一份策略还带 <code>tarballUrlBinding</code>、<code>resolutionShapeCheck</code>，是供应链防护的一部分，默认按设计工作。</p>
+<p>对作者的实际含义：</p>
+<ul><li><strong>发布后的 24 小时内，不要用「用户装不到新版」去推断哪里坏了</strong>，那是设计。</li><li>想让某个用户立刻拿到新版，就<strong>显式钉版本</strong>（<code>pkg@0.1.5</code>）；显式版本不受冷却限制，我们实测 2 秒安装成功。</li><li>市场卡片上的版本来自目录（每天构建），安装解析到的版本来自冷却与 registry，两者最多可以差一天。<strong>看到「卡片是 X、装上是 X-1」不算矛盾。</strong></li></ul>
 <p>实测的目录构建时刻（连续六次）：</p>
 <pre><code>2026-11-09T04:49:06Z  2026-11-08T04:46:05Z  2026-11-07T21:13:53Z
 2026-11-07T04:59:33Z  2026-11-06T04:47:52Z  2026-11-05T04:41:31Z</code></pre>
-<p>于是有一个容易被误判的现象：<strong>下午发布的新版，当天在市场里看不到，要到次日构建后才会出现。</strong> 这不是缺陷，是节奏。判断方法：</p>
+<p>判断方法：</p>
 <pre><code class="language-bash">npm view dsh-plugin-catalog time --json --registry=https://registry.npmjs.org | tail -8
 npm view dsh-plugin-catalog dist-tags --registry=https://registry.npmjs.org</code></pre>
-<p>把自己包的发布时间和最近一次目录构建时间对比，落在构建之后的，就什么都不用做，等下一版。</p>
+<p>把自己包的发布时间和最近一次目录构建时间对比：落在构建之后的，等下一版；落在 24 小时以内的，等冷却。</p>
 <h2 id="2-安装走的是谁的-registry">2. 安装走的是谁的 registry</h2>
-<p>DSH 的插件安装用的是<strong>应用内置的 pnpm</strong>，它的 registry 来自用户的 npm 配置，不是代码里写死的地址。在作者机器上，<code>~/.npmrc</code> 的 <code>registry=</code> 就是插件安装真正会请求的地址。</p>
-<p>验证：</p>
+<p>DSH 的插件安装用的是<strong>应用内置的 pnpm</strong>，registry 来自用户的 npm 配置，不是写死的地址。在作者机器上，<code>~/.npmrc</code> 的 <code>registry=</code> 就是插件安装真正会请求的地址。</p>
 <pre><code class="language-bash">PNPM=&#39;/Applications/DeepSeek Harness.app/Contents/Resources/runtime/primary-runtime/dependencies/pnpm/bin/pnpm.mjs&#39;
 node &quot;$PNPM&quot; config get registry                       # 继承用户配置
 node &quot;$PNPM&quot; config get registry --config.userconfig=/tmp/x/.npmrc   # 可被覆盖</code></pre>
-<p>这条约束有个直接后果：<strong><code>npm publish</code> 成功，不代表国内用户能装到新版。</strong> 我们实测到镜像故障时的完整表现：</p>
-<ul><li>默认安装命令解析到镜像缓存的旧版本（<code>0.1.3</code>），而不是报错；</li><li>显式指定新版本（<code>dsh-review-outbox@0.1.5</code>）才报 <code>ERR_PNPM_NO_MATCHING_VERSION</code>，并在错误里写明抓取源是 <code>registry.npmmirror.com</code>；</li><li>同一时刻 <code>registry.npmjs.org</code> 的 latest 已经是 <code>0.1.5</code>。</li></ul>
-<p>静默退回旧版本比报错更难发现，所以发布后应该主动核对「安装路径实际解析到的版本」，而不是只看 npm 页面。</p>
+<p>这条约束解释的是「镜像故障时的失败形态」，而不是版本选择：</p>
+<ul><li>镜像整体故障那晚，它对这个包返回 <code>500 ER_NO_SUCH_TABLE</code>，抽查 <code>react</code> 等无关包同样 500，属于镜像自身故障；</li><li>那一刻默认安装仍然<strong>成功</strong>，只是装到旧版；显式指定新版本才报 <code>ERR_PNPM_NO_MATCHING_VERSION</code>，错误里写明抓取源是 <code>registry.npmmirror.com</code>；</li><li>镜像恢复后，同样的默认命令装到的还是旧版——原因不在镜像，而在上一节的冷却。</li></ul>
+<p>结论：<strong>版本落后先查冷却，装不动才查镜像。</strong> 顺序搞反会浪费一整晚。</p>
 <h2 id="3-三条安装回退路径-都实测过">3. 三条安装回退路径（都实测过）</h2>
 <div class="table-wrap"><table><thead><tr><th>路径</th><th>命令形态</th><th>实测结果</th><th>代价</th></tr></thead><tbody><tr><td>应用内目录一键安装</td><td>市场里点安装</td><td>依赖镜像健康</td><td>—</td></tr><tr><td>固定提交的 GitHub 源</td><td><code>dsh plugin --profile web add &#39;github:OWNER/REPO#COMMIT&#39;</code></td><td>解析到 <code>0.1.5</code></td><td>6 分 52 秒（走 git）</td></tr><tr><td>显式 npmjs registry</td><td><code>pnpm add PKG@VER --registry=https://registry.npmjs.org</code></td><td>解析到 <code>0.1.5</code>，9.4 秒</td><td>需改配置</td></tr></tbody></table></div>
 <p>固定提交路径绕过 registry，是镜像故障期间唯一「不改用户配置」也能装到新版的路径。它的代价是慢，且要求包<strong>零运行时依赖、无安装脚本</strong>——否则依赖解析照样会撞上 registry。</p>
@@ -47,7 +57,7 @@ DSH_HOME=&quot;$H&quot; dsh plugin --profile web add PKG</code></pre>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
 <h2 id="已知不确定项">已知不确定项</h2>
 <p>写下来是为了以后不把它们当成结论：</p>
-<ul><li>覆盖 userconfig 指向 npmjs 后，按版本范围安装仍然解析到 <code>0.1.3</code>。最可能是 pnpm 元数据缓存复用，未验证。</li><li>目录重建是否也依赖镜像，未验证；能确定的只有每日一次的构建节奏。</li><li>应用内「一键安装」的点击链路在 headless 环境里验证不出来（确认对话框接受后 profile 未变、也无报错），底层的 <code>dsh plugin add</code> 是独立验证过的另一件事。</li></ul>
+<ul><li>目录重建是否也依赖镜像，未验证；能确定的只有每日一次的构建节奏。</li><li>冷却期间市场卡片与安装版本可以不一致（卡片按目录、安装按冷却）。这一点是从两条独立机制推出来的，未做界面级验证。</li><li>应用内「一键安装」的点击链路在 headless 环境里验证不出来（确认对话框接受后 profile 未变、也无报错），底层的 <code>dsh plugin add</code> 是独立验证过的另一件事。</li></ul>
 <hr>
 <p>本文的事实来源都在仓库里：发布记录见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/metrics/2026-11-09-release-0.1.5.json"><code>docs/metrics/2026-11-09-release-0.1.5.json</code></a>，收录与搜索分析见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/metrics/2026-11-09-market-listing.json"><code>docs/metrics/2026-11-09-market-listing.json</code></a>，分发策略见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/DISTRIBUTION.md"><code>docs/DISTRIBUTION.md</code></a>。</p>
 <small>本文事实可在仓库中重跑验证：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/OPERATIONS.md">docs/OPERATIONS.md</a> · Review Outbox 0.1.5</small>

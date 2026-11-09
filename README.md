@@ -75,7 +75,7 @@ dsh web
 
 已在隔离 Profile 验证：固定提交的 GitHub 源安装可解析到 `0.1.5`（6 分 52 秒，bundle 自动选中）；`registry.npmjs.org` 上的 `dsh-review-outbox@0.1.5` 用 pnpm 直装 9.4 秒成功。
 
-注意：DSH 内置 pnpm 固定走 `registry.npmmirror.com`，并忽略 `npm_config_registry`。该镜像在 2026-11-09 23:30 前后整体返回 500（`ER_NO_SUCH_TABLE`，连 `react` 也返回 500，属镜像自身故障而非本包问题），此时 `dsh plugin ... add dsh-review-outbox` 会解析到镜像缓存的 `0.1.3` 或以 `ERR_PNPM_NO_MATCHING_VERSION` 失败。镜像恢复前，用上面的固定提交回退路径安装。
+注意版本解析顺序，这两条都能让人误判：① **`minimumReleaseAge` 冷却**——DSH 的插件安装对发布不满 24 小时的新版默认不可见（策略值 `1440` 分钟），所以发布当晚用默认命令装到的是 `0.1.3` 而不是 `0.1.5`，这不是镜像或目录的问题；显式钉版本 `dsh-review-outbox@0.1.5` 不受冷却限制，实测 2 秒装好。② **镜像故障**——2026-11-09 23:30 前后 `registry.npmmirror.com` 整体返回 500（连 `react` 也 500，属镜像自身故障），那段时间连显式版本也会报 `ERR_PNPM_NO_MATCHING_VERSION`。细节与复现命令见[插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/)。
 
 ### 从 Awesome 目录安装
 

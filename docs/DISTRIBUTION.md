@@ -45,9 +45,17 @@
 
 **2026-11-09 已收录**：`dsh-plugin-catalog@2026.1109.17642`（4985 条目）中本插件条目为 `dsh-review-outbox` v`0.1.3`，`source: npm`。真实市场界面（dshmarket 1.73.16）实测：卡片正确渲染（名称、作者、v0.1.3、工作流与自动化分类），搜索 `研究报告`、`成果人工审阅`、`验收单`、`outbox`、`zjukop3` 均能命中；点击安装会弹出含版本、能力扫描与安装命令的确认对话框。
 
-## 安装通道的真实约束：镜像决定安装版本
+## 安装通道的真实约束：冷却与镜像各管一段
 
-2026-11-09 发布 `0.1.5` 时实测到一条比元数据更硬的约束：**DSH 内置 pnpm 的 registry 是写死的**。
+2026-11-09 发布 `0.1.5` 时，先误判成镜像故障，最后定位到两条独立机制。**先说结论：版本落后查 `minimumReleaseAge` 冷却，装不动才查镜像。**
+
+### 冷却：发布不满 24 小时，默认安装看不见
+
+`pnpm add dsh-review-outbox` 在健康 registry 上解析到 `0.1.3`，加 `--config.minimum-release-age=0` 立刻变成 `0.1.5`；策略值 `1440`（分钟）记录在 pnpm 的 `lockfile-verified.jsonl` 里，DSH 自己的 schema 注释也写明「pnpm's `minimumReleaseAge` can make it older than the newest release」。这是供应链防护，按设计工作，不是缺陷。对作者的含义：发布后 24 小时内别把「用户装不到新版」当成坏了；要让某个用户立刻拿到，钉版本即可，显式版本不受冷却限制（实测 2 秒）。
+
+### 镜像：只解释装不动，不解释版本落后
+
+写死的不是 registry 地址，而是「继承用户 npm 配置」这一层——`node pnpm.mjs config get registry` 返回的就是 `~/.npmrc` 里的值，且可被 `--config.userconfig` 覆盖。
 
 - `dsh plugin --profile web add dsh-review-outbox` 使用 `runtime/primary-runtime/dependencies/pnpm/bin/pnpm.mjs`，实际请求 `https://registry.npmmirror.com`；设置 `npm_config_registry=https://registry.npmjs.org` 后请求仍打向镜像，未被采纳。
 - 当晚镜像返回 `500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist`。抽查 `react`、`dsh-plugin-catalog`、`dsh-bili-scroll` 同样 500，说明是**镜像自身故障，不是本包问题**。后果仍然一样：默认安装命令解析到镜像缓存的 `0.1.3`；显式指定 `dsh-review-outbox@0.1.5` 则报 `ERR_PNPM_NO_MATCHING_VERSION`。

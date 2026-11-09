@@ -4,13 +4,36 @@
 
 结论先行：**发布成功 ≠ 可安装 ≠ 可被发现**，三者各有各的时间常数。
 
-## 1. 发布链路的三段时间常数
+## 1. 发布到「别人真能装上」有四段时间常数
 
 | 阶段 | 谁负责 | 实测节奏 | 卡住时的表现 |
 | --- | --- | --- | --- |
-| `npm publish` | 作者 | 自己的动作 | 立刻可见（约 2 分钟处理窗口） |
-| 镜像同步 | `registry.npmmirror.com` 等国内镜像 | 外部，通常分钟级 | 安装解析到**旧版本**，或 `ERR_PNPM_NO_MATCHING_VERSION` |
-| 目录重建 | `dsh-plugin-catalog` | **每天一次**，约 `04:46Z` 构建、`04:49Z` 发布 | 市场里看到的版本比 npm 落后最多一天 |
+| `npm publish` | 作者 | 自己的动作 | 约 2 分钟处理窗口后可见 |
+| **`minimumReleaseAge` 冷却** | DSH 插件安装 | **1440 分钟（24 小时）** | 默认安装解析到**旧版本**，不报错 |
+| 镜像同步 | `registry.npmmirror.com` 等国内镜像 | 外部，分钟级到小时级 | 解析到旧版本，或 `ERR_PNPM_NO_MATCHING_VERSION` |
+| 目录重建 | `dsh-plugin-catalog` | **每天一次**，约 `04:46Z` 构建 | 市场卡片上的版本落后最多一天 |
+
+**最容易误判的是第二行。** 我们实测到：`0.1.4` 发布于 `2026-11-09T14:42Z`、`0.1.5` 发布于 `15:05Z`，当晚在健康 registry 上执行默认安装，解析结果仍是 `0.1.3`；把冷却改成 0 后立刻变成 `0.1.5`。
+
+```bash
+# 默认：解析到 0.1.3（新版本太新，被冷却挡住）
+node "$PNPM" add dsh-review-outbox --dir "$X"
+
+# 关掉冷却：解析到 0.1.5
+node "$PNPM" add dsh-review-outbox --dir "$Y" --config.minimum-release-age=0
+```
+
+这不是镜像故障，也不是目录问题——DSH 自己的代码注释里写明了这件事：
+
+> The installed bundle's manifest version, when declared; pnpm's `minimumReleaseAge` can make it older than the newest release.
+
+冷却值记录在 pnpm 的 `lockfile-verified.jsonl` 策略里（`"minimumReleaseAge":1440`）。同一份策略还带 `tarballUrlBinding`、`resolutionShapeCheck`，是供应链防护的一部分，默认按设计工作。
+
+对作者的实际含义：
+
+- **发布后的 24 小时内，不要用「用户装不到新版」去推断哪里坏了**，那是设计。
+- 想让某个用户立刻拿到新版，就**显式钉版本**（`pkg@0.1.5`）；显式版本不受冷却限制，我们实测 2 秒安装成功。
+- 市场卡片上的版本来自目录（每天构建），安装解析到的版本来自冷却与 registry，两者最多可以差一天。**看到「卡片是 X、装上是 X-1」不算矛盾。**
 
 实测的目录构建时刻（连续六次）：
 
@@ -19,20 +42,18 @@
 2026-11-07T04:59:33Z  2026-11-06T04:47:52Z  2026-11-05T04:41:31Z
 ```
 
-于是有一个容易被误判的现象：**下午发布的新版，当天在市场里看不到，要到次日构建后才会出现。** 这不是缺陷，是节奏。判断方法：
+判断方法：
 
 ```bash
 npm view dsh-plugin-catalog time --json --registry=https://registry.npmjs.org | tail -8
 npm view dsh-plugin-catalog dist-tags --registry=https://registry.npmjs.org
 ```
 
-把自己包的发布时间和最近一次目录构建时间对比，落在构建之后的，就什么都不用做，等下一版。
+把自己包的发布时间和最近一次目录构建时间对比：落在构建之后的，等下一版；落在 24 小时以内的，等冷却。
 
 ## 2. 安装走的是谁的 registry
 
-DSH 的插件安装用的是**应用内置的 pnpm**，它的 registry 来自用户的 npm 配置，不是代码里写死的地址。在作者机器上，`~/.npmrc` 的 `registry=` 就是插件安装真正会请求的地址。
-
-验证：
+DSH 的插件安装用的是**应用内置的 pnpm**，registry 来自用户的 npm 配置，不是写死的地址。在作者机器上，`~/.npmrc` 的 `registry=` 就是插件安装真正会请求的地址。
 
 ```bash
 PNPM='/Applications/DeepSeek Harness.app/Contents/Resources/runtime/primary-runtime/dependencies/pnpm/bin/pnpm.mjs'
@@ -40,13 +61,13 @@ node "$PNPM" config get registry                       # 继承用户配置
 node "$PNPM" config get registry --config.userconfig=/tmp/x/.npmrc   # 可被覆盖
 ```
 
-这条约束有个直接后果：**`npm publish` 成功，不代表国内用户能装到新版。** 我们实测到镜像故障时的完整表现：
+这条约束解释的是「镜像故障时的失败形态」，而不是版本选择：
 
-- 默认安装命令解析到镜像缓存的旧版本（`0.1.3`），而不是报错；
-- 显式指定新版本（`dsh-review-outbox@0.1.5`）才报 `ERR_PNPM_NO_MATCHING_VERSION`，并在错误里写明抓取源是 `registry.npmmirror.com`；
-- 同一时刻 `registry.npmjs.org` 的 latest 已经是 `0.1.5`。
+- 镜像整体故障那晚，它对这个包返回 `500 ER_NO_SUCH_TABLE`，抽查 `react` 等无关包同样 500，属于镜像自身故障；
+- 那一刻默认安装仍然**成功**，只是装到旧版；显式指定新版本才报 `ERR_PNPM_NO_MATCHING_VERSION`，错误里写明抓取源是 `registry.npmmirror.com`；
+- 镜像恢复后，同样的默认命令装到的还是旧版——原因不在镜像，而在上一节的冷却。
 
-静默退回旧版本比报错更难发现，所以发布后应该主动核对「安装路径实际解析到的版本」，而不是只看 npm 页面。
+结论：**版本落后先查冷却，装不动才查镜像。** 顺序搞反会浪费一整晚。
 
 ## 3. 三条安装回退路径（都实测过）
 
@@ -113,8 +134,8 @@ DSH_HOME="$H" dsh plugin --profile web add PKG
 
 写下来是为了以后不把它们当成结论：
 
-- 覆盖 userconfig 指向 npmjs 后，按版本范围安装仍然解析到 `0.1.3`。最可能是 pnpm 元数据缓存复用，未验证。
 - 目录重建是否也依赖镜像，未验证；能确定的只有每日一次的构建节奏。
+- 冷却期间市场卡片与安装版本可以不一致（卡片按目录、安装按冷却）。这一点是从两条独立机制推出来的，未做界面级验证。
 - 应用内「一键安装」的点击链路在 headless 环境里验证不出来（确认对话框接受后 profile 未变、也无报错），底层的 `dsh plugin add` 是独立验证过的另一件事。
 
 ---
