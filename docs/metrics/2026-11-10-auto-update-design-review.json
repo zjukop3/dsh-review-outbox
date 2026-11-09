@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:20:37.654285Z",
+  "kind": "design review of someone else's feature request, from measurement",
+  "target": {
+    "repo": "liguobao/ds-harness-remote",
+    "issue": 373,
+    "title": "[Feature]: npm 安装的 Remote 插件支持自动更新",
+    "comment": "https://github.com/liguobao/ds-harness-remote/issues/373#issuecomment-6753005357",
+    "state": "open with zero comments before ours"
+  },
+  "whatTheRequestProposed": "when the 24-hour check sees npm latest above the installed version, call pluginManager.updateBundle automatically for registry installs",
+  "twoTrapsIdentified": [
+    {
+      "trap": "latest is not the installable version",
+      "evidence": "42 minutes after publishing, the mirror served the tarball (302) while its metadata had no such version; an exact pin failed with ERR_PNPM_NO_MATCHING_VERSION and the bare name resolved an older mature release",
+      "consequence": "the 'behind latest' condition stays true during the window while the update either installs the same version or fails"
+    },
+    {
+      "trap": "an exact spec is a ceiling",
+      "evidence": "measured across three spec forms; with the cooldown disabled an exact pin still would not move, a caret moved to the highest mature version",
+      "consequence": "market installs write exact versions, so the proposed auto-update would do nothing for exactly the installs it targets"
+    }
+  ],
+  "suggestions": [
+    "compare against the mature version, not latest",
+    "skip or rewrite exact specs before updating",
+    "align with dshmarket's existing readMinimumReleaseAgeMs / selectMatureUpdate / latestMaturityAt helpers",
+    "state the 24-hour expectation in the settings copy"
+  ],
+  "notVerified": [
+    "whether pluginManager.updateBundle already bypasses the window",
+    "whether updateBundle treats an exact spec the way pnpm update does — worth one test against a market-installed plugin"
+  ],
+  "whyThisKindOfContributionMatters": "it changes a design before it ships, and it costs the maintainer nothing to accept because every claim comes with a command"
+}
