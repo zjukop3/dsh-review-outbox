@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:07:08.719501Z",
+  "focus": "status × kind × focus-mode combinations, with a mixed-type fixture",
+  "fixture": {
+    "items": 15,
+    "sessions": 3,
+    "kinds": [
+      "document 12",
+      "sheet 1",
+      "data 1",
+      "image 1"
+    ]
+  },
+  "results": [
+    {
+      "step": "focus + 类型：数据",
+      "progress": "第 1 / 1 项待审",
+      "note": "the queue narrows to the kind, as intended"
+    },
+    {
+      "step": "focus + 类型：其他",
+      "note": "button disabled: no items of that kind, so no empty queue is reachable by clicking"
+    },
+    {
+      "step": "focus + 类型：全部",
+      "progress": "第 1 / 15 项待审"
+    },
+    {
+      "step": "focus + 状态：待审 / 全部",
+      "progress": "第 1 / 15 项待审",
+      "note": "switching status tabs does not desynchronise the position"
+    },
+    {
+      "step": "focus + 状态：归档",
+      "progress": "待审队列已清空",
+      "emptyDetail": true,
+      "note": "an empty pending queue in the archived tab degrades honestly"
+    },
+    {
+      "step": "退出逐项",
+      "groupArchiveButtons": 3
+    },
+    {
+      "step": "批量归档一组",
+      "tabs": "待审 8 | 通过 0 | 退回 0 | 归档 7 | 全部 15"
+    }
+  ],
+  "errors": {
+    "pageErrors": 0,
+    "consoleErrors": 0
+  },
+  "noDefectsFound": "this pass found no defect across the combinations; stated as a result rather than a reassurance, because the same pass did find one earlier in the project (the render-order crash)",
+  "incidentalFinding": {
+    "symptom": "the first attempt produced a profile with no plugin at all",
+    "cause": "the install used dsh-review-outbox@0.1.10 while the mirror's metadata still listed only up to 0.1.9, so it failed with ERR_PNPM_NO_MATCHING_VERSION — the exact window documented in docs/metrics/2026-11-10-post-publish-install-window.json",
+    "note": "the output was suppressed with >/dev/null in the setup command, which is why it looked like a silent failure; the script under test was never broken"
+  }
+}
