@@ -316,3 +316,40 @@ test('bulk archive is offered per session and bulk approval is refused', async (
   assert.equal(archived.data.archived, 2)
   assert.equal(archived.data.pending, 0)
 })
+
+test('an empty profile can create one sample artifact to walk the flow', async () => {
+  const cwd = await mkdtemp(join(tmpdir(), 'review-outbox-sample-'))
+  const ctx = mockContext()
+  ctx.cwd = cwd
+  const previousHome = process.env.DSH_HOME
+  process.env.DSH_HOME = join(cwd, 'dsh-home')
+  try {
+    apply(ctx, { statePath: join(cwd, 'state.json') })
+    const empty = await invoke(ctx.handler, { url: '/review-outbox/api/items' })
+    assert.equal(empty.data.items.length, 0, 'a fresh install starts empty')
+
+    const created = await invoke(ctx.handler, { method: 'POST', url: '/review-outbox/api/sample', body: {} })
+    assert.equal(created.status, 201)
+    assert.equal(created.data.items.length, 1)
+    assert.equal(created.data.pending, 1)
+    const sample = created.data.items[0]
+    assert.equal(sample.sourceType, 'demo')
+    assert.equal(sample.status, 'pending')
+    assert.match(sample.path, /sample-review-[a-z0-9]+\.md$/)
+
+    // the file has to exist on disk, otherwise the preview and the receipt are dead ends
+    const preview = await invoke(ctx.handler, { url: `/review-outbox/api/preview?id=${encodeURIComponent(sample.id)}` })
+    assert.equal(preview.status, 200)
+    assert.equal(preview.data.preview.kind, 'text')
+    assert.match(preview.data.preview.content, /示例成果/)
+    assert.match(preview.data.preview.content, /区域销售周报/)
+
+    // a second click produces a second artifact rather than silently replacing the first
+    const again = await invoke(ctx.handler, { method: 'POST', url: '/review-outbox/api/sample', body: {} })
+    assert.equal(again.status, 201)
+    assert.equal(again.data.items.length, 2)
+  } finally {
+    if (previousHome === undefined) delete process.env.DSH_HOME
+    else process.env.DSH_HOME = previousHome
+  }
+})

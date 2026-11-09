@@ -333,6 +333,22 @@ function Outbox({ openSession, openNative, active = true }) {
     }
   }
 
+  const createSample = async () => {
+    setBusy(true)
+    setError('')
+    try {
+      const data = await request('sample', { method: 'POST', body: '{}' })
+      setItems(data.items)
+      setPending(data.pending)
+      setFilter('pending')
+      setKind('all')
+    } catch (cause) {
+      setError(cause.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
   const openSource = async () => {
     if (!selected?.sessionId) return
     if (note.trim()) await navigator.clipboard?.writeText(note.trim()).catch(() => {})
@@ -429,7 +445,9 @@ function Outbox({ openSession, openNative, active = true }) {
             const target = focusQueue[stepIndex(progress.index, focusQueue.length, 'next')]
             if (target) setSelectedId(target.id)
           }}>下一项</button>
-          <span className="ro-subtle">a 通过 · r 退回 · z 归档，决定后自动到下一项</span>
+          {progress
+            ? <span className="ro-subtle">a 通过 · r 退回 · z 归档，决定后自动到下一项</span>
+            : <button className="ro-button primary" onClick={() => { setFocus(false); setFilter('all') }}>这一轮审完了，查看全部成果</button>}
         </div>
       ) : null}
       <nav className="ro-kinds" aria-label="成果类型筛选">
@@ -469,7 +487,13 @@ function Outbox({ openSession, openNative, active = true }) {
               </details>
             ))
             : filtered.map(renderCard)}
-          {filtered.length === 0 ? <div className="ro-empty"><strong>这里还没有成果</strong><span>当 Agent 交付文件，或你切换其他状态筛选时，成果会出现在这里。</span></div> : null}
+          {filtered.length === 0 ? (
+            <div className="ro-empty">
+              <strong>{items.length === 0 ? '这里还没有成果' : '这个筛选下没有成果'}</strong>
+              <span>{items.length === 0 ? '当 Agent 交付文件后，成果会出现在这里。也可以先生成一条示例，把流程走一遍。' : '切换上面的状态或类型筛选可以看到其他成果。'}</span>
+              {items.length === 0 ? <button className="ro-button" disabled={busy} onClick={createSample}>生成一条示例成果</button> : null}
+            </div>
+          ) : null}
         </aside>}
         <main className="ro-detail">
           {selected ? (

@@ -6,6 +6,8 @@ All notable changes to Review Outbox are documented here. The format follows [Ke
 
 - One-at-a-time review (逐项审阅): the list collapses into a progress strip (`第 3 / 40 项待审`) and each decision moves to the artifact that took that slot, so a 75-item backlog becomes a countable task instead of a wall. The status tabs stay put while the flow is on, and 退出逐项 brings the full list back with nothing hidden.
 - The strip shows 上一项 / 下一项 buttons alongside the same `a` / `r` / `z` keys, and reports 待审队列已清空 when the queue drains.
+- First-run affordance: an empty profile now offers 生成一条示例成果, which writes a real markdown file and queues it, so preview → 逐项审阅 → 通过 → 验收单 can be walked before any agent delivers anything. The sample keeps `sourceType: demo`, so the 合成示例 banner stays truthful.
+- When the focus queue drains, the strip offers 这一轮审完了，查看全部成果 instead of leaving an empty detail pane.
 - `scripts/seed-fixture-state.mjs` writes a synthetic state matching one real daily profile (75 artifacts, 10 sessions, 8 extensions) so the panel can be driven in an isolated Profile without a real backlog.
 - Held back from npm on purpose: 0.1.6 is the published version, and this entry is promoted to `0.1.7` together with the publish, inside the 12:00-12:40 window documented in the operations handbook. Publishing now would leave the catalog card and the resolvable version disagreeing for about a day.
 

@@ -691,6 +691,24 @@ window.__ModuleLoader__.load({
 					setBusy(false);
 				}
 			};
+			const createSample = async () => {
+				setBusy(true);
+				setError("");
+				try {
+					const data = await request("sample", {
+						method: "POST",
+						body: "{}"
+					});
+					setItems(data.items);
+					setPending(data.pending);
+					setFilter("pending");
+					setKind("all");
+				} catch (cause) {
+					setError(cause.message);
+				} finally {
+					setBusy(false);
+				}
+			};
 			const openSource = async () => {
 				if (!selected?.sessionId) return;
 				if (note.trim()) await navigator.clipboard?.writeText(note.trim()).catch(() => {});
@@ -827,9 +845,16 @@ window.__ModuleLoader__.load({
 								},
 								children: "下一项"
 							}),
-							/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
+							progress ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", {
 								className: "ro-subtle",
 								children: "a 通过 · r 退回 · z 归档，决定后自动到下一项"
+							}) : /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+								className: "ro-button primary",
+								onClick: () => {
+									setFocus(false);
+									setFilter("all");
+								},
+								children: "这一轮审完了，查看全部成果"
 							})
 						]
 					}) : null,
@@ -887,7 +912,16 @@ window.__ModuleLoader__.load({
 								}), group.items.map(renderCard)]
 							}, group.sessionId || `group-${index}`)) : filtered.map(renderCard), filtered.length === 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 								className: "ro-empty",
-								children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("strong", { children: "这里还没有成果" }), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: "当 Agent 交付文件，或你切换其他状态筛选时，成果会出现在这里。" })]
+								children: [
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("strong", { children: items.length === 0 ? "这里还没有成果" : "这个筛选下没有成果" }),
+									/* @__PURE__ */ (0, react_jsx_runtime.jsx)("span", { children: items.length === 0 ? "当 Agent 交付文件后，成果会出现在这里。也可以先生成一条示例，把流程走一遍。" : "切换上面的状态或类型筛选可以看到其他成果。" }),
+									items.length === 0 ? /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
+										className: "ro-button",
+										disabled: busy,
+										onClick: createSample,
+										children: "生成一条示例成果"
+									}) : null
+								]
 							}) : null]
 						}), /* @__PURE__ */ (0, react_jsx_runtime.jsx)("main", {
 							className: "ro-detail",

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T17:03:24.584550Z",
+  "focus": "first-run experience on a profile that has never received a deliverable",
+  "problem": "a fresh install showed an empty panel with nothing to click, so the product's whole loop was invisible until an agent happened to deliver something",
+  "environment": "brand-new isolated DSH_HOME, local workspace install, dsh web, Chrome headless",
+  "observed": {
+    "emptyState": [
+      "这里还没有成果",
+      "当 Agent 交付文件后，成果会出现在这里。也可以先生成一条示例，把流程走一遍。",
+      "生成一条示例成果"
+    ],
+    "afterCreate": {
+      "cards": 1,
+      "title": "sample-review-*.md",
+      "previewShowsSample": true,
+      "tabs": "待审 1 | 通过 0 | 退回 0 | 归档 0 | 全部 1",
+      "kinds": "全部 1 | 文档 1"
+    },
+    "focus": "第 1 / 1 项待审",
+    "afterApprove": {
+      "strip": "待审队列已清空",
+      "tabs": "待审 0 | 通过 1 | 退回 0 | 归档 0 | 全部 1"
+    },
+    "detailVisibleWhileDrained": false,
+    "drainedStripOffersNextStep": [
+      "待审队列已清空",
+      "上一项",
+      "下一项",
+      "这一轮审完了，查看全部成果"
+    ],
+    "afterDrainExit": {
+      "focusBarGone": true,
+      "activeTab": "全部 1",
+      "cards": 1
+    },
+    "receipt": {
+      "filename": "sample-review-*.md.review-r1.html",
+      "status": "已通过",
+      "carriesSha256": true,
+      "leaksAbsolutePath": false
+    },
+    "consolePageErrors": []
+  },
+  "designNotes": [
+    "the sample is a real file on disk, so preview and the SHA-256 receipt are the real code paths rather than a mocked view",
+    "the sample carries sourceType demo, so the panel keeps its 合成示例 banner honest",
+    "clicking twice creates a second artifact instead of overwriting the first",
+    "when the queue drains, the strip offers 这一轮审完了，查看全部成果 instead of leaving an empty detail pane"
+  ]
+}

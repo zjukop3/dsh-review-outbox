@@ -1,4 +1,4 @@
-import { readdir } from 'node:fs/promises'
+import { mkdir, readdir, writeFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { backfillPresented } from './backfill.js'
@@ -233,6 +233,36 @@ export function apply(ctx, config = {}) {
         if (typeof changes?.diff !== 'function') return json(res, 200, { preview: { kind: 'unavailable' } })
         const preview = await changes.diff(item.sessionId, item.eventSeq, item.sourceIndex, AbortSignal.timeout(5000))
         return json(res, 200, { preview: preview || { kind: 'unavailable' } })
+      }
+      if (req.method === 'POST' && method === 'sample') {
+        // A fresh install with no deliverables shows an empty panel, which is a
+        // dead end: nothing to click, nothing to learn. One click writes a small
+        // real file and queues it, so the whole flow (preview, decide, receipt)
+        // can be walked before the first real artifact exists.
+        await store.ready
+        const directory = join(home(), 'review-outbox', 'sample')
+        await mkdir(directory, { recursive: true })
+        const name = `sample-review-${Date.now().toString(36)}.md`
+        const filePath = join(directory, name)
+        await writeFile(filePath, [
+          '# 示例成果：区域销售周报',
+          '',
+          '这是一条由「成果审阅」生成的示例，用来走一遍完整流程：预览、通过/退回、导出验收单。',
+          '',
+          '## 结论',
+          '- 本周华东区回款 312 万，较上周 +8%。',
+          '- 复购率下滑集中在单价 800 元以上的 SKU。',
+          '',
+          '## 待核对',
+          '1. 回款口径是否含预收款。',
+          '2. 复购率分母是否剔除了退货。',
+          '',
+        ].join('\n'), 'utf8')
+        const now = new Date().toISOString()
+        const record = demoRecord({ path: filePath, cwd: directory, now, description: '示例成果：区域销售周报（可随时归档）' })
+        await store.upsert([{ ...record, id: `sample:${name}`, callId: `sample:${name}` }])
+        const data = summary(store, backfill)
+        return json(res, 201, { created: name, ...data })
       }
       if (req.method === 'POST' && method === 'pack') {
         await store.ready
