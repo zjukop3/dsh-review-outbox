@@ -152,3 +152,71 @@ test('bulk archive clears one session and leaves other sessions alone', async ()
   await assert.rejects(() => store.archiveSession('session-a'), /No pending items/)
   await assert.rejects(() => store.archiveSession(''), /session id is required/)
 })
+
+test('concurrent decisions on different artifacts all persist', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'review-outbox-concurrent-'))
+  const file = join(dir, 'state.json')
+  const store = new OutboxStore(file)
+  store.initialize()
+  await store.ready
+  await store.upsert(['a', 'b', 'c', 'd'].map(id => ({
+    id, path: `/work/${id}.md`, sessionId: 's1', sourceType: 'presented',
+    status: 'pending', revision: 1, updatedAt: new Date().toISOString(), history: [],
+  })))
+
+  // one reviewer clicking quickly is one instance; the queue must not drop events
+  await Promise.all([
+    store.action('a', 'approve', 'ok'),
+    store.action('b', 'archive', ''),
+    store.action('c', 'return', 'needs work'),
+  ])
+
+  const reloaded = new OutboxStore(file)
+  await reloaded.load()
+  const statuses = Object.fromEntries(reloaded.list().map(item => [item.id, item.status]))
+  assert.deepEqual(statuses, { a: 'approved', b: 'archived', c: 'returned', d: 'pending' })
+})
+
+test('a rejected action does not block the queue behind it', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'review-outbox-queue-'))
+  const file = join(dir, 'state.json')
+  const store = new OutboxStore(file)
+  store.initialize()
+  await store.ready
+  await store.upsert([{
+    id: 'only', path: '/work/only.md', sessionId: 's1', sourceType: 'presented',
+    status: 'pending', revision: 1, updatedAt: new Date().toISOString(), history: [],
+  }])
+
+  const failing = store.action('missing', 'approve', '').catch(error => error.message)
+  const succeeding = store.action('only', 'archive', '')
+  const [failure, success] = await Promise.all([failing, succeeding])
+  assert.match(String(failure), /not found/i, 'the missing id is rejected with a clear message')
+  assert.equal(success.status, 'archived', 'the queued action still ran after the failed one')
+})
+
+test('two instances on one state file are last-write-wins, and this is pinned on purpose', async () => {
+  // The host loads one store per profile, so this cannot happen in normal use.
+  // It is recorded as a test so a future change that makes it *look* safe is caught.
+  const dir = await mkdtemp(join(tmpdir(), 'review-outbox-two-writers-'))
+  const file = join(dir, 'state.json')
+  const first = new OutboxStore(file)
+  first.initialize()
+  await first.ready
+  await first.upsert([{
+    id: 'shared', path: '/work/shared.md', sessionId: 's1', sourceType: 'presented',
+    status: 'pending', revision: 1, updatedAt: new Date().toISOString(), history: [],
+  }])
+
+  const second = new OutboxStore(file)
+  await second.load()
+
+  await first.action('shared', 'archive', 'from first')
+  await second.action('shared', 'archive', 'from second')
+
+  const reloaded = new OutboxStore(file)
+  await reloaded.load()
+  const item = reloaded.get('shared')
+  assert.equal(item.status, 'archived')
+  assert.equal(item.reviewNote, 'from second', 'the later write wins; no locking is claimed')
+})

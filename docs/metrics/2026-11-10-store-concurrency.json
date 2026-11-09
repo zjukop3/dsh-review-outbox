@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:37:01.691449Z",
+  "kind": "reliability tests for the state file",
+  "why": "the panel polls and a reviewer can click quickly; the store serialises through a promise chain and writes temp+rename, and that claim had no test",
+  "tests": {
+    "concurrentActions": "approve, archive and return issued together on three different artifacts; all three statuses survive a reload",
+    "failedActionDoesNotBlock": "an action on a missing id rejects, and the action queued behind it still runs and persists",
+    "twoInstancesAreLastWriteWins": "two Store instances on one file: the later write wins and no locking is claimed — pinned as a test so a future change that appears to make it safe is caught"
+  },
+  "note": "the host loads one store per profile, so the two-instance case cannot occur in normal use; the test exists to keep the limitation explicit rather than to endorse it",
+  "assertionAdjusted": "the first run expected /Unknown artifact/ while the store says 'Item not found'; the test now matches the real message instead of the message I assumed",
+  "suite": {
+    "total": 74,
+    "pass": 74
+  }
+}
