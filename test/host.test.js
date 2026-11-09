@@ -363,3 +363,36 @@ test('an empty profile can create one sample artifact to walk the flow', async (
     else process.env.DSH_HOME = previousHome
   }
 })
+
+test('a delivered spreadsheet opens on the data pack, while a markdown report does not', async () => {
+  const cwd = await mkdtemp(join(tmpdir(), 'review-outbox-data-pack-'))
+  await writeFile(join(cwd, '回款明细.csv'), 'channel,days\nA,62\n', 'utf8')
+  await writeFile(join(cwd, 'report.md'), '# Report\n', 'utf8')
+  const ctx = mockContext()
+  ctx.cwd = cwd
+  apply(ctx, { statePath: join(cwd, 'state.json'), backfill: false })
+
+  const session = { id: 'session-data', header: { cwd } }
+  ctx.listener(session, {
+    type: 'deliverables/presented', seq: 11, time: Date.now(),
+    data: { turn: 1, callId: 'present-data', files: [
+      { path: '回款明细.csv', description: '渠道回款' },
+      { path: 'report.md', description: '分析结论' },
+    ] },
+  })
+  await new Promise(resolve => setTimeout(resolve, 150))
+
+  const items = await invoke(ctx.handler, { url: '/review-outbox/api/items' })
+  const sheet = items.data.items.find(item => item.path.endsWith('.csv'))
+  const doc = items.data.items.find(item => item.path.endsWith('.md'))
+  assert.equal(sheet.reviewPack.id, 'data-delivery')
+  assert.equal(sheet.reviewProgress.requiredTotal, 3)
+  assert.equal(doc.reviewPack, undefined, 'a plain report is not forced through a data checklist')
+
+  const blocked = await invoke(ctx.handler, { method: 'POST', url: '/review-outbox/api/action', body: { id: sheet.id, action: 'approve', note: '' } })
+  assert.equal(blocked.status, 400)
+  assert.match(blocked.data.error, /检查|证据/)
+
+  const archived = await invoke(ctx.handler, { method: 'POST', url: '/review-outbox/api/action', body: { id: sheet.id, action: 'archive', note: '' } })
+  assert.equal(archived.status, 200, 'archiving is still one click')
+})

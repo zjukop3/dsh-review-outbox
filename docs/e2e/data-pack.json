@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T17:43:56.992976Z",
+  "feature": "a second acceptance pack for spreadsheets, attached by extension (0.1.8, unreleased)",
+  "why": "the real daily profile holds 5 spreadsheets among 75 deliverables, and a research-only gate makes the product a single-scenario tool",
+  "serverVerification": {
+    "deliveredCsv": {
+      "pack": "data-delivery",
+      "requiredTotal": 3
+    },
+    "deliveredMarkdown": {
+      "pack": null,
+      "note": "plain reports are not forced through a checklist"
+    },
+    "approveBeforeEvidence": {
+      "status": 400,
+      "error": "完成必填检查并填写证据后才能通过：…"
+    },
+    "archiveBeforeEvidence": {
+      "status": 200,
+      "note": "archiving stays one click"
+    }
+  },
+  "unitTests": {
+    "total": 66,
+    "packSelection": [
+      "/work/回款明细.csv -> data-delivery",
+      "/work/sheet.TSV -> data-delivery",
+      "/work/report.md -> none",
+      "/work/data.json -> none",
+      "Makefile -> none"
+    ],
+    "gate": "assertReviewReady refuses approve and allows archive until the three required checks carry evidence"
+  },
+  "uiVerification": "not run for this pack: the panel renders whichever pack the item carries, and that path was verified end to end for the research pack in docs/e2e/first-run-gate.json",
+  "releaseTiming": "held in Unreleased rather than published within the hour after 0.1.7, because each publish restarts that version's 24-hour release-age clock"
+}

@@ -7,6 +7,8 @@ All notable changes to Review Outbox are documented here. The format follows [Ke
 - The first-run sample is now a research report and arrives with the 研究报告验收 pack attached, so a new user's first screen is `必填证据 0/4` with 通过 disabled until each required check carries written evidence. The generic markdown sample taught nothing about what this plugin actually enforces.
 - A bare approve on that sample is refused by the host (400) as well as disabled in the panel, so the gate is not a client-side convention.
 - Receipts now state how the recipient can check the digest themselves (`shasum -a 256 '<name>'` / `sha256sum`), using the file name only so the receipt still carries no absolute path.
+- Second acceptance pack: 数据交付验收, attached automatically when the delivered path is a spreadsheet (`.csv` / `.tsv` / `.xlsx` / `.xls`). It asks for 来源与口径, 字段与单位, 抽样核对, with 复现路径 optional. Markdown reports and JSON intermediates are left on the generic review — forcing a checklist that does not fit is worse than no checklist.
+- Archiving still needs no gate: the checklist gates approval, not triage.
 - Held for the next publish rather than shipped minutes after 0.1.7: each release restarts the 24-hour release-age clock, so two publishes an hour apart only push the installable version later.
 
 ## [0.1.7] - 2026-11-10

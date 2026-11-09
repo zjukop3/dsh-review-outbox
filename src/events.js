@@ -1,4 +1,4 @@
-import { getPack, initialReviewPack } from './packs.js'
+import { getPack, initialReviewPack, suggestedPackId } from './packs.js'
 
 function isoTime(value, fallback = new Date()) {
   const date = typeof value === 'number' ? new Date(value) : value ? new Date(String(value)) : fallback
@@ -46,6 +46,9 @@ export function presentedRecords(session, event, fallbackNow) {
       callId,
       sourceIndex: index,
       occurrence,
+      // A delivered spreadsheet gets the data pack automatically; other kinds keep
+      // the generic review so nobody is forced through a checklist that does not fit.
+      ...(suggestedPackId(file.path) ? { reviewPack: initialReviewPack(getPack(suggestedPackId(file.path))) } : {}),
     }]
   })
 }

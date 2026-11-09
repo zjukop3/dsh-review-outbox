@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { mkdtemp } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { assertReviewReady, getPack, initialReviewPack, listPacks, reviewProgress } from '../src/packs.js'
+import { assertReviewReady, getPack, initialReviewPack, listPacks, reviewProgress, suggestedPackId } from '../src/packs.js'
 import { OutboxStore } from '../src/store.js'
 
 function record(seq = 1) {
@@ -71,4 +71,34 @@ test('review pack persists, optional checks remain optional, and a new revision 
   assert.equal(Object.values(revised.reviewPack.checks).every(state => !state.checked && state.detail === ''), true)
   await reloaded.setReviewPack(record().id, null)
   assert.equal(reloaded.get(record().id).reviewPack, null)
+})
+
+test('a delivered spreadsheet gets the data pack automatically, other kinds do not', () => {
+  assert.equal(suggestedPackId('/work/回款明细.csv'), 'data-delivery')
+  assert.equal(suggestedPackId('/work/sheet.TSV'), 'data-delivery')
+  assert.equal(suggestedPackId('/work/sheet.xlsx'), 'data-delivery')
+  assert.equal(suggestedPackId('/work/report.md'), null)
+  assert.equal(suggestedPackId('/work/data.json'), null)
+  assert.equal(suggestedPackId('Makefile'), null)
+  assert.equal(suggestedPackId(''), null)
+
+  const dataPack = getPack('data-delivery')
+  assert.equal(dataPack.checks.filter(check => check.required).length, 3)
+  const progress = reviewProgress({ reviewPack: initialReviewPack(dataPack) }, dataPack)
+  assert.equal(progress.requiredTotal, 3)
+  assert.equal(progress.complete, false)
+})
+
+test('the data pack refuses approval until each required check carries evidence', () => {
+  const pack = getPack('data-delivery')
+  const state = initialReviewPack(pack)
+  const item = { reviewPack: state }
+  assert.throws(() => assertReviewReady(item, 'approve'), /检查|证据|evidence/i)
+  assert.doesNotThrow(() => assertReviewReady(item, 'archive'), 'archiving never needs the gate')
+
+  for (const check of pack.checks.filter(candidate => candidate.required)) {
+    state.checks[check.id] = { checked: true, detail: `核对过：${check.id}` }
+  }
+  assert.doesNotThrow(() => assertReviewReady(item, 'approve'))
+  assert.equal(reviewProgress(item).complete, true)
 })

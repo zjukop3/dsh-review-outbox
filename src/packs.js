@@ -32,7 +32,36 @@ const RESEARCH_REPORT = {
   ],
 }
 
-const PACKS = [RESEARCH_REPORT]
+const DATA_DELIVERY = {
+  id: 'data-delivery',
+  version: 1,
+  label: '数据交付验收',
+  summary: '核验数据来源与统计口径、字段与单位说明、抽样核对结果；检查由审阅者完成，不代表自动校验。',
+  checks: [
+    {
+      id: 'source-and-scope', label: '来源与口径写清', required: true,
+      requirement: '记录数据来源（系统、接口或导出人）、统计区间、时区与过滤条件。',
+      placeholder: '例：来源为订单库导出，区间 2026-07-01 至 09-30 UTC，已剔除退款单。',
+    },
+    {
+      id: 'fields-and-units', label: '字段与单位可解释', required: true,
+      requirement: '关键字段的含义、单位与空值处理方式能对上，金额与比率的分母写清。',
+      placeholder: '例：金额为含税人民币；复购率分母为本季有成交客户数。',
+    },
+    {
+      id: 'sample-spotcheck', label: '抽样核对过', required: true,
+      requirement: '抽取若干行回到源系统或原始记录核对，记录抽了哪几行、结论如何。',
+      placeholder: '例：抽第 3、57、102 行回源一致；第 57 行差额 0.02 为四舍五入。',
+    },
+    {
+      id: 'reproduction', label: '复现或更新路径可定位', required: false,
+      requirement: '给出重跑脚本、导出查询或更新频率；不适用时写清原因。',
+      placeholder: '例：导出 SQL 见附录 A，每日 06:00 自动更新。',
+    },
+  ],
+}
+
+const PACKS = [RESEARCH_REPORT, DATA_DELIVERY]
 
 export function listPacks() {
   return PACKS.map(pack => ({ ...pack, checks: pack.checks.map(check => ({ ...check })) }))
@@ -76,4 +105,14 @@ export function assertReviewReady(item, action) {
     const missing = pack.checks.filter(check => progress.incomplete.includes(check.id)).map(check => check.label).join('、')
     throw new Error(`完成必填检查并填写证据后才能通过：${missing}`)
   }
+}
+
+const SHEET_EXTENSIONS = new Set(['csv', 'tsv', 'xlsx', 'xls'])
+
+/** Pack id suggested by a delivered path, or null when no scenario applies. */
+export function suggestedPackId(path) {
+  const name = String(path || '').split(/[\\/]/).filter(Boolean).pop() || ''
+  const dot = name.lastIndexOf('.')
+  if (dot <= 0 || dot === name.length - 1) return null
+  return SHEET_EXTENSIONS.has(name.slice(dot + 1).toLowerCase()) ? 'data-delivery' : null
 }
