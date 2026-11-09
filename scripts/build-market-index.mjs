@@ -40,8 +40,8 @@ const index = {
         zh: 'Review Outbox · 成果审阅与研究报告验收',
       },
       description: {
-        en: 'Research-report evidence checklists, revision history, native DOCX/PDF viewing, approval/return/archive workflows, and standalone SHA-256 HTML receipts.',
-        zh: '研究报告证据清单、成果 revision 历史、宿主 DOCX/PDF Viewer、通过/退回/归档流程，以及带 SHA-256 的独立 HTML 验收单。',
+        en: 'Evidence-gated acceptance for research reports: claims, citations, data scope and method limits each need a tick plus written evidence before a deliverable can pass, with same-artifact revision history and a SHA-256 receipt that says when the bytes moved.',
+        zh: '研究报告的证据门：结论、引用、数据口径、方法限制四项必填检查，勾选之外还要写清证据才能通过；同一成果保留 revision 历史，通过后生成带 SHA-256 的独立验收单，文件被改动后会明确提示重新审阅。',
       },
       icon: `data:image/svg+xml;base64,${Buffer.from(iconSvg).toString('base64')}`,
       author: 'zjukop3',
