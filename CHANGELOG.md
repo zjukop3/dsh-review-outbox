@@ -2,7 +2,7 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
-## [Unreleased] — 0.1.8
+## [0.1.8] - 2026-11-10
 
 - The first-run sample is now a research report and arrives with the 研究报告验收 pack attached, so a new user's first screen is `必填证据 0/4` with 通过 disabled until each required check carries written evidence. The generic markdown sample taught nothing about what this plugin actually enforces.
 - A bare approve on that sample is refused by the host (400) as well as disabled in the panel, so the gate is not a client-side convention.
@@ -12,7 +12,7 @@ All notable changes to Review Outbox are documented here. The format follows [Ke
 - 退回/通过 now copies a structured message instead of the raw note: what was decided, which required checks still fail, the note, and which revision the decision belongs to — and shows the exact text in the panel before you paste it.
 - If the originating session no longer exists, the panel says so and keeps the copied text instead of failing with `sessions.retain: unknown session`.
 - Artifacts presented before automatic attachment existed get a quiet suggestion instead of being silently left on a generic review: a spreadsheet shows 套用「数据交付验收」 next to the pack selector.
-- Held for the next publish rather than shipped minutes after 0.1.7: each release restarts the 24-hour release-age clock, so two publishes an hour apart only push the installable version later.
+- Published as one batch three hours after 0.1.7 rather than as five separate publishes: each release restarts its own 24-hour release-age clock, so shipping every change immediately only pushes the installable version later for no gain.
 
 ## [0.1.7] - 2026-11-10
 
