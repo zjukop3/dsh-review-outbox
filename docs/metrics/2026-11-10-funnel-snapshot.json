@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T19:30:44.734992Z",
+  "statePath": "/Users/zjukop/.dsh/review-outbox/items.json",
+  "artifacts": {
+    "total": 75,
+    "byStatus": {
+      "pending": 75
+    }
+  },
+  "humanDecisions": {
+    "total": 0
+  },
+  "pending": {
+    "medianAgeHours": 84.3,
+    "oldestAgeHours": 1134.6
+  },
+  "reading": "47 days of deliveries, 75 items, zero decisions. The oldest has been sitting for 47 days, which is longer than any plausible review queue implies.",
+  "pullsRequests": {
+    "13722": "OPEN, 0 comments",
+    "13729": "OPEN, 0 comments"
+  },
+  "releases": [
+    "0.1.2",
+    "0.1.3",
+    "0.1.4",
+    "0.1.5",
+    "0.1.6",
+    "0.1.7",
+    "0.1.8",
+    "0.1.9"
+  ]
+}
