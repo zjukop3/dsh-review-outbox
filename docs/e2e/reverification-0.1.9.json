@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T19:30:05.633885Z",
+  "kind": "re-verification of what is already shipped, no new features",
+  "browserE2E": {
+    "script": "scripts/e2e-browser.mjs",
+    "build": "dsh-review-outbox@0.1.9 installed from npm into an isolated DSH_HOME, demo items seeded through DSH_REVIEW_OUTBOX_DEMO_DIR",
+    "result": {
+      "ok": true,
+      "pendingAfterApproval": 0,
+      "approvedItem": "demo:release-notes.md",
+      "pageErrors": [],
+      "consoleErrors": []
+    },
+    "screenshots": [
+      "docs/e2e/01-application.png",
+      "docs/e2e/02-review-outbox.png",
+      "docs/e2e/03-approved.png"
+    ],
+    "defectFoundAndFixed": {
+      "symptom": "the script timed out clicking 成果审阅 because a modal mask intercepted pointer events",
+      "cause": "the dismissal code assumed either a 继续 button or a 开始使用 dialog, and today's build shows a bare mask",
+      "fix": "retry loop that checks whether a mask is actually capturing pointer events, clicks 继续 when present, presses Escape otherwise, up to 12 attempts",
+      "note": "the recorded e2e evidence was not reproducible before this fix, which makes the fix the point of the round rather than a side effect"
+    }
+  },
+  "liveLinkCheck": {
+    "pages": [
+      "/",
+      "/research-report/",
+      "/operations/"
+    ],
+    "internalLinksChecked": 8,
+    "statuses": {
+      "/": 200,
+      "/operations/": 200,
+      "/plugins.json": 200,
+      "/research-report/": 200,
+      "/research-report/checklist.txt": 200,
+      "/research-report/receipt-example.html": 200,
+      "/downloads/dsh-review-outbox-0.1.0.tgz": 200,
+      "/downloads/dsh-review-outbox-0.1.0.tgz.sha256": 200
+    },
+    "broken": []
+  },
+  "unchangedFunnel": "the real profile still shows 75 pending and 0 human decisions; nothing in this round touches that number"
+}

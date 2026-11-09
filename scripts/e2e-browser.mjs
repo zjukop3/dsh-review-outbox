@@ -16,11 +16,28 @@ page.on('console', message => {
 
 try {
   await page.goto(url, { waitUntil: 'networkidle', timeout: 120_000 })
-  const continueButton = page.getByRole('button', { name: '继续', exact: true })
-  if (await continueButton.isVisible().catch(() => false)) await continueButton.click()
-  if (await page.getByText('开始使用', { exact: true }).isVisible().catch(() => false)) {
-    await page.keyboard.press('Escape')
-    await page.locator('[role=dialog]').waitFor({ state: 'hidden', timeout: 10_000 })
+  // Overlays differ per build: a 继续 button, a 开始使用 dialog, a 预览版说明
+  // notice, or a bare mask. Retry the cheap exits until the pointer is free
+  // instead of assuming one of them is the one on screen today.
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const blocked = await page.evaluate(() => {
+      const mask = document.querySelector('[aria-hidden="true"]._mask_, div[role="presentation"] > [class*="mask"]')
+      if (!mask) return false
+      const style = window.getComputedStyle(mask)
+      return style.pointerEvents !== 'none' && style.display !== 'none' && mask.getBoundingClientRect().width > 0
+    }).catch(() => false)
+    const continueButton = page.getByRole('button', { name: '继续', exact: true })
+    if (await continueButton.isVisible().catch(() => false)) {
+      await continueButton.click().catch(() => {})
+      await page.waitForTimeout(400)
+      continue
+    }
+    if (blocked) {
+      await page.keyboard.press('Escape')
+      await page.waitForTimeout(400)
+      continue
+    }
+    break
   }
   await page.screenshot({ path: 'docs/e2e/01-application.png', fullPage: true })
   const entry = page.getByText('成果审阅', { exact: true }).first()
