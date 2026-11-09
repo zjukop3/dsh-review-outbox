@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T18:28:46.726601Z",
+  "kind": "ecosystem contribution",
+  "target": "https://github.com/dsh-market/dsh-market/issues/1093",
+  "commentUrl": "https://github.com/dsh-market/dsh-market/issues/1093#issuecomment-6748072819",
+  "whatWasAdded": [
+    "an independent reproduction through the CLI instead of the market UI: dsh plugin add dsh-review-outbox@0.1.8 writes minimumReleaseAgeExclude, and remove leaves the line behind while package.json and pnpm-lock.yaml are clean",
+    "a cleanup suggestion wider than matching installed packages: drop exclusion entries whose published version is already older than the release-age window, since they are no-ops from then on",
+    "the author-facing confusion this creates: add <name> resolves the highest matured version while add <name>@<version> bypasses the window through that same exclusion entry"
+  ],
+  "whyThisBelongsThere": "the repository's open issues are where DSH plugin operators read; the finding is reproducible in three commands and names no product of ours",
+  "evidenceSource": "docs/OPERATIONS.md sections 1-2, measured the same night"
+}
