@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:19:14.489916Z",
+  "kind": "product proposal to the platform, derived from measurement",
+  "target": {
+    "repo": "deepseek-ai/deepseek-harness",
+    "channel": "Discussions → Ideas",
+    "discussion": 12789,
+    "url": "https://github.com/deepseek-ai/deepseek-harness/discussions/12789"
+  },
+  "observedProblem": "the market card shows the catalog version (v0.1.3) while confirming the install lands the newest published version (0.1.9) in five seconds; nothing explains the difference, and the same window that holds updates is bypassed by installs",
+  "proposal": "show 目录版本 / 最新发布 / 现在可装 as three separate lines in the detail and confirm views, and show the maturity time when an update is held",
+  "grounding": "dshmarket's lib/updates.js already computes latestMaturityAt and nextMaturityAt for the update-check path, so the data exists; the ask is to surface it on the install path",
+  "selfLimits": [
+    "did not drive the market's update-check UI",
+    "no data on whether the mismatch makes anyone reinstall"
+  ],
+  "exitOffered": "if the split is deliberate and clear enough, treat the proposal as withdrawn — the post says so explicitly",
+  "previousPost": {
+    "number": 12788,
+    "comments": 0,
+    "reactions": 0,
+    "note": "the measurement write-up in Show Your Plugins! had no response after about an hour; that is expected for a niche post in a large repository"
+  }
+}
