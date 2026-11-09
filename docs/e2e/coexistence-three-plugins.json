@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T20:43:37.599369Z",
+  "focus": "coexistence with other installed plugins",
+  "environment": "isolated DSH_HOME with three bundles installed from npm, dsh web, Chrome headless",
+  "profile": {
+    "dependencies": {
+      "dsh-review-outbox": "0.1.9",
+      "dshmarket": "^1.73.16",
+      "dsh-bili-scroll": "^2.5.0"
+    },
+    "bundles": [
+      "@deepseek-ai/dsh-base",
+      "@deepseek-ai/dsh-web-app",
+      "dsh-review-outbox",
+      "dshmarket",
+      "dsh-bili-scroll"
+    ]
+  },
+  "observed": {
+    "panelOpened": true,
+    "sampleCreated": true,
+    "gateChip": "必填证据 0/4",
+    "pageErrors": [],
+    "consoleErrors": [],
+    "biliScrollPanelTextPresent": false,
+    "biliScrollNote": "its UI is its own panel; absence from the chat surface text is not an error"
+  },
+  "dismissalLesson": {
+    "whatBlocked": "the build shows a 预览版说明 modal whose only button is 继续; Escape does nothing, so a probe that only presses Escape clicks into the mask forever",
+    "whatWorks": "click 继续 while that dialog is present, then press Escape if a 开始使用 login dialog takes its place; check the dialog titles rather than guessing",
+    "appliedTo": "scripts/e2e-browser.mjs already clicks 继续 first; the probe written in this round did not, which is why it hung"
+  },
+  "whyItMatters": "cordis.patch.yml from three bundles could collide; this run shows the review panel still mounts and its first-run path works with a market and a sidebar plugin installed"
+}
