@@ -1675,9 +1675,29 @@
   @media print { .section-header .section-number { display: inline-block !important; margin: 0 4mm 0 0 !important; } .section-header h2 { display: inline !important; } .section-header { margin-bottom: 3mm !important; } .figure-card { margin-top: 2mm !important; } }
   @media print { h3 + .figure-card img { max-height: 38mm !important; } .hc-group { padding: 2mm 0 !important; } .hc-group .hc-bar { height: 10px !important; } .hc-bars { gap: 3px !important; } .hc-legend { margin-bottom: 3mm !important; } .hc-title { margin-bottom: 3mm !important; } .hc-row { padding: 1mm 0 !important; } .hc-bar { height: 13px !important; } }
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" data-gz-fonts="inter noto-sans-sc jetbrains-mono" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap">
+
+<!-- review-outbox:metadata:start -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<meta name="description" content="免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。">
+<meta name="author" content="Review Outbox">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="keywords" content="DeepSeek Harness,研究报告验收,AI报告检查清单,引用复核,Research report review,Review Outbox">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Review Outbox">
+<meta property="og:title" content="研究报告验收清单：AI 报告事实、引用与数据复核">
+<meta property="og:description" content="免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:url" content="https://zjukop3.github.io/dsh-review-outbox/research-report/">
+<link rel="canonical" href="https://zjukop3.github.io/dsh-review-outbox/research-report/">
+<meta property="og:image" content="https://zjukop3.github.io/dsh-review-outbox/research-report/first-value.png">
+<meta property="og:image:alt" content="密封研究报告自动回填后默认显示四项必填证据">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="研究报告验收清单：AI 报告事实、引用与数据复核">
+<meta name="twitter:description" content="免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。">
+<meta name="twitter:image" content="https://zjukop3.github.io/dsh-review-outbox/research-report/first-value.png">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"研究报告验收清单：AI 报告事实、引用与数据复核","description":"免费、无需安装的研究报告验收清单：核对核心结论、引用来源、数据口径、方法限制和复现材料，并查看独立 SHA-256 成果验收单。","datePublished":"2026-11-06","dateModified":"2026-11-08","inLanguage":["zh-CN","en-US"],"isAccessibleForFree":true,"author":{"@type":"Organization","name":"Review Outbox"},"about":["DeepSeek Harness","研究报告","引用复核","Research report acceptance"],"mainEntityOfPage":"https://zjukop3.github.io/dsh-review-outbox/research-report/"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"为什么只勾选检查项还不够？","acceptedAnswer":{"@type":"Answer","text":"勾选只表示认为完成了，证据说明才能定位到具体章节、数据、引用或复现材料。Review Outbox 要求四项必填检查同时具有勾选和证据文本。"}},{"@type":"Question","name":"验收单会自动上传报告吗？","acceptedAnswer":{"@type":"Answer","text":"不会。验收单在本地生成，不自动上传，也不自动包含成果正文、绝对路径或会话内容。检查证据和审阅意见按填写内容导出。"}},{"@type":"Question","name":"审阅后报告又发生变化怎么办？","acceptedAnswer":{"@type":"Answer","text":"通过或退回时记录文件 SHA-256。导出时重新计算并比较；不一致时验收单会提示重新审阅当前版本。"}},{"@type":"Question","name":"没有 DeepSeek Harness 能使用这份清单吗？","acceptedAnswer":{"@type":"Answer","text":"可以。清单可直接复制使用，独立验收单也无需安装即可阅读。自动记录状态、revision、文件摘要和验收单导出需要插件。"}}]},{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Review Outbox","applicationCategory":"DeveloperApplication","operatingSystem":"DeepSeek Harness >=0.2.2-rc.1 \u003c0.3.0-0, Node.js >=22.19","description":"Human deliverable review, research-report evidence checklists, revision history, native document viewing, and standalone SHA-256 review receipts.","softwareVersion":"0.1.5","url":"https://github.com/zjukop3/dsh-review-outbox","installUrl":"https://zjukop3.github.io/dsh-review-outbox/plugins.json","sameAs":["https://github.com/zjukop3/dsh-review-outbox","https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/","https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/e2e/application-first-value.json"],"isAccessibleForFree":true,"featureList":"Historical research-report backfill, default evidence checklist, evidence-required approval, revision history, native DOCX/PDF viewer, standalone review receipt"}]</script>
+<!-- review-outbox:metadata:end -->
 </head>
 <body>
 
@@ -1723,7 +1743,7 @@
 </div>
 
 <header class="hero hero-cover">
-  <img class="hero-bg" src="first-value.png" alt="" />
+  <div class="hero-bg" role="presentation"></div>
   <div class="hero-overlay">
     <div class="hero-kicker">GUIDE — 2026.11.08</div>
     <h1>研究报告验收清单：AI 报告事实、引用与数据复核</h1>
@@ -1746,7 +1766,7 @@
 <figure class="figure-card"><img src="demo.gif" alt="安装后即可使用的完整审阅流程：历史成果回填、逐项填写证据、通过并导出验收单" loading="lazy" style="border-radius:0" /><figcaption><span class="cap-lead">安装后即可使用的完整审阅流程</span>历史成果回填、逐项填写证据、通过并导出验收单</figcaption></figure>
 <h3>使用固定提交 CLI 安装</h3>
 <p>应用内安装网络不可用时，可对同一个公开提交执行：</p>
-<pre><code class="language-bash">dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#f61ad3972c24cf54dfc08a0f35ef2d82abc49bbf'
+<pre><code class="language-bash">dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#bdcd446863e3c79d359871cb159d4fc120586a6f'
 dsh web</code></pre>
 <h3>旧版 tarball</h3>
 <p>Pages 仍保留 <a href="https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz">0.1.0 tarball</a> 和 SHA-256 校验文件，用于复现旧版安装；它不包含 <code>0.1.1</code> 的密封报告默认验收包行为。新生成的验收单默认链接到 GitHub 仓库。</p></section><section class="section" id="s-08"><div class="section-header"><div class="section-number">08</div><h2>常见问题</h2></div><h3>为什么只勾选检查项还不够？</h3>
@@ -1810,7 +1830,7 @@ dsh web</code></pre>
     <div class="hf-swatches"><button type="button" class="hf-swatch active" data-theme-id="ikb" data-scheme="light" style="background:linear-gradient(135deg,#fafaf8 0 50%,#002FA7 50% 100%)" title="克莱因蓝 IKB" aria-label="克莱因蓝"></button><button type="button" class="hf-swatch" data-theme-id="lemon" data-scheme="light" style="background:linear-gradient(135deg,#fafaf8 0 50%,#FFD500 50% 100%)" title="柠檬黄 Lemon" aria-label="柠檬黄"></button><button type="button" class="hf-swatch" data-theme-id="lemon-green" data-scheme="light" style="background:linear-gradient(135deg,#fafaf8 0 50%,#C5E803 50% 100%)" title="柠檬绿 Lemon Green" aria-label="柠檬绿"></button><button type="button" class="hf-swatch" data-theme-id="safety-orange" data-scheme="light" style="background:linear-gradient(135deg,#fafaf8 0 50%,#FF6B35 50% 100%)" title="安全橙 Safety Orange" aria-label="安全橙"></button></div>
     <div class="hf-dropdown-divider"></div>
     <div class="hf-dropdown-label">字体</div>
-    <div class="hf-font-options"><button type="button" class="hf-font-option active" data-vars="--font-sans --font-display" data-family="'Inter','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif" data-href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap"><span class="font-preview" style="font-family:'Inter','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif">黑体 Aa</span><span class="font-name">Inter</span></button><button type="button" class="hf-font-option" data-vars="--font-sans --font-display" data-family="'DM Sans','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif" data-href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100..1000&amp;display=swap"><span class="font-preview" style="font-family:'DM Sans','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif">黑体 Aa</span><span class="font-name">DM Sans</span></button><button type="button" class="hf-font-option" data-vars="--font-sans --font-display" data-family="'Space Grotesk','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif" data-href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap"><span class="font-preview" style="font-family:'Space Grotesk','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif">黑体 Aa</span><span class="font-name">Space Grotesk</span></button></div>
+    <div class="hf-font-options"><button type="button" class="hf-font-option active" data-vars="--font-sans --font-display" data-family="'Inter','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif"><span class="font-preview" style="font-family:'Inter','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif">黑体 Aa</span><span class="font-name">Inter</span></button><button type="button" class="hf-font-option" data-vars="--font-sans --font-display" data-family="'DM Sans','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif"><span class="font-preview" style="font-family:'DM Sans','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif">黑体 Aa</span><span class="font-name">DM Sans</span></button><button type="button" class="hf-font-option" data-vars="--font-sans --font-display" data-family="'Space Grotesk','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif"><span class="font-preview" style="font-family:'Space Grotesk','Noto Sans SC','PingFang SC','Hiragino Sans GB','Microsoft YaHei',system-ui,sans-serif">黑体 Aa</span><span class="font-name">Space Grotesk</span></button></div>
   </div>
 </div>
 <script>(function () {
@@ -1928,5 +1948,6 @@ dsh web</code></pre>
   });
 })();
 </script>
+<script>document.querySelectorAll("a[href]").forEach(link => { const parent = link.closest("[contenteditable]"); if (parent) parent.setAttribute("contenteditable", "false"); });</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
 {
-  "commit": "f61ad3972c24cf54dfc08a0f35ef2d82abc49bbf",
-  "notes": "Version 0.1.4: the review list groups by session instead of one flat list, after the first real daily-profile install backfilled 75 deliverables across 10 sessions (63 within one week). Items sort newest-first and the newest pending artifact is selected by default. No artifact is hidden. Documentation-only commits do not move this pin."
+  "commit": "bdcd446863e3c79d359871cb159d4fc120586a6f",
+  "notes": "Version 0.1.5: session groups can be archived in one step (host-side guard refuses anything but archive, so bulk cannot skip review). The 0.1.4 session grouping shipped after the first real daily-profile install backfilled 75 deliverables across 10 sessions. Documentation-only commits do not move this pin."
 }
