@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T22:53:46.091225Z",
+  "question": "will the next nightly build actually pick up our screenshots, or are we waiting for something that never happens",
+  "answer": "it will — verified in the catalog's own code rather than from the contributing guide alone",
+  "evidence": {
+    "script": "scripts/probe-screenshots.mjs in awesome-dsh-plugin/awesome-dsh-plugin",
+    "howItResolves": "fetchText(`${base}screenshots.json`) against the plugin's own repository, so the declaration must live beside package.json — ours is at the repository root, which is that directory",
+    "shapeAccepted": "an array of paths, {screenshots: [...]}, or a single-key map; ours is a plain array",
+    "cap": "MAX_SHOTS = 8 — we declare 3",
+    "hostRule": "absolute URLs must come from GitHub hosting; our paths are relative, so the rule does not apply",
+    "liveness": "only 404/410 count as dead, and a dead image is dropped from published data instead of failing the build",
+    "legacyKey": "data/screenshots.json holds 290 legacy keys and none for our entry, so nothing supersedes or conflicts with ours"
+  },
+  "notYetObservable": "data/screenshots-declared.json and data/screenshots-live.json are produced by the build and do not exist for our entry until it runs",
+  "conclusion": "the declaration is well-formed by the consumer's own rules; the only thing left is the build"
+}
