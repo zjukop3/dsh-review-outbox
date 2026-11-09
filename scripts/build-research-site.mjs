@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { readIndexNowConfig } from './indexnow-config.mjs'
+import { extractTitle, renderMarkdown } from './lib/markdown.mjs'
 
 const root = process.cwd()
 const indexNow = await readIndexNowConfig(root)
@@ -17,7 +18,7 @@ const catalogUrl = 'https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/'
 const marketIndexUrl = 'https://zjukop3.github.io/dsh-review-outbox/plugins.json'
 const firstValueEvidenceUrl = `${repositoryUrl}/blob/main/docs/e2e/application-first-value.json`
 const firstValueImageUrl = origin ? `${origin}/research-report/first-value.png` : ''
-const modifiedDate = '2026-11-08'
+const modifiedDate = '2026-11-09'
 const packageName = 'dsh-review-outbox-0.1.0.tgz'
 const downloadUrl = origin ? `${origin}/downloads/${packageName}` : ''
 const downloadHref = origin ? downloadUrl : `./downloads/${packageName}`
@@ -103,6 +104,31 @@ await writeFile(resolve(directory, 'index.html'), html)
 const receipt = await readFile(resolve(root, 'docs/e2e/application-first-value.review.html'), 'utf8')
 await writeFile(resolve(directory, 'receipt-example.html'), receipt.replace(/https:\/\/www\.npmjs\.com\/package\/dsh-review-outbox/g, repositoryUrl).replace(/<link rel="icon" href="data:image\/svg\+xml,[^"]+">/g, '').replace(/img-src 'none'/g, 'img-src data:').replace('</head>', `${favicon}</head>`))
 
+const pageStyles = `body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(30px,5.5vw,52px);font-weight:250;line-height:1.1;margin-bottom:20px}h2{font-size:23px;font-weight:500;line-height:1.3;margin-top:40px}h3{font-size:18px;font-weight:600;margin-top:28px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit;padding:0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4d4d2;padding:9px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee;color:#0a0a0a;font-weight:600}blockquote{margin:20px 0;padding:12px 18px;border-left:4px solid #002fa7;background:#f0f0ee}hr{border:none;border-top:1px solid #d4d4d2;margin:36px 0}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:28px 0 0;font-size:14px}.nav a{margin-right:16px}small{display:block;margin-top:36px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}table{font-size:13px}}`
+
+const handbookSource = await readFile(resolve(root, 'docs/OPERATIONS.md'), 'utf8')
+const handbookTitle = extractTitle(handbookSource)
+// The handbook lives in docs/ but is published at /operations/, so repository-relative
+// markdown links have to become absolute before rendering or they would 404.
+const handbookBody = renderMarkdown(
+  handbookSource
+    .replace(/^#\s+.*\n/, '')
+    .replace(/\]\((?!https?:)([^)]+)\)/g, (_, target) =>
+      `](${repositoryUrl}/blob/main/docs/${target.replace(/^\.\//, '')})`),
+)
+const handbookUrl = origin ? `${origin}/operations/` : ''
+const handbookDescription = 'DeepSeek Harness 插件的发布、收录与安装链路实测约束：镜像决定安装版本、目录每日构建、索引 pin 语义、隔离 Profile 验证与发布后检查清单。'
+const handbook = `<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(handbookTitle)} · Review Outbox</title>${favicon}<meta name="description" content="${escapeHtml(handbookDescription)}"><meta name="robots" content="index,follow">${handbookUrl ? `<link rel="canonical" href="${escapeHtml(handbookUrl)}">` : ''}<style>${pageStyles}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · PLUGIN OPERATIONS · ${pluginVersion}</p>
+<h1>${escapeHtml(handbookTitle)}</h1>
+<nav class="nav"><a href="../">首页</a><a href="../research-report/">验收清单</a><a href="${repositoryUrl}">GitHub 源码</a></nav>
+${handbookBody}
+<small>本文事实可在仓库中重跑验证：<a href="${repositoryUrl}/blob/main/docs/OPERATIONS.md">docs/OPERATIONS.md</a> · Review Outbox ${pluginVersion}</small>
+</main></body></html>`
+await mkdir(resolve(root, 'site/operations'), { recursive: true })
+await writeFile(resolve(root, 'site/operations/index.html'), handbook)
+
 const home = `<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Review Outbox · 研究报告验收</title>${favicon}<meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="index,follow">${pageUrl ? `<link rel="canonical" href="${escapeHtml(`${origin}/`)}">` : ''}<style>
 body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(36px,7vw,72px);font-weight:250;line-height:1.08;margin-bottom:24px}h2{font-size:24px;font-weight:500;line-height:1.3}p,li{color:#525252}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.install,.proof{padding:24px;margin:32px 0;background:#fff;border:1px solid #d4d4d2}.install code{display:block;padding:12px;overflow-wrap:anywhere;background:#f0f0ee;color:#0a0a0a}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit}details{margin-top:20px}summary{cursor:pointer;color:#002fa7}a{display:inline-block;margin-top:16px;padding:12px 18px;background:#002fa7;color:#fff;text-decoration:none}a.dark{background:#0a0a0a}img{display:block;max-width:100%;height:auto;margin-top:20px;border:1px solid #d4d4d2}.links a{margin-right:8px}small{display:block;margin-top:28px;color:#737373}small a{padding:0;background:none;color:inherit}@media(max-width:600px){body{margin:2vh auto;padding:18px}.install,.proof{padding:18px}a{margin-top:12px}}
@@ -111,17 +137,19 @@ body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a
 <section class="install" id="install"><h2>在 DSH 中安装 ${pluginVersion}</h2><ol><li>打开「插件」，启用实验性「自定义插件索引」。</li><li>进入「发现 → 添加索引源」，添加以下地址：</li></ol><code>${marketIndexUrl}</code><ol start="3"><li>搜索 <strong>Review Outbox</strong> 或 <strong>研究报告</strong>，确认 ${pluginVersion} 和完整提交后安装。</li><li>回到「已安装」启用插件，打开左侧「成果审阅」。</li></ol><a href="./research-report/">打开完整清单</a><details><summary>应用内网络不可用时：固定提交 CLI 回退</summary><pre><code>dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#${currentCommit}'
 dsh web</code></pre></details></section>
 <section class="proof"><h2>第一次打开就有明确下一步</h2><p>真实 Web GUI 已验证：安装前密封报告自动回填，默认显示必填证据 0/4；完成四项证据后通过并下载验收单。</p><img src="./research-report/first-value.png" alt="Review Outbox 自动回填密封报告并显示必填证据 0/4" loading="lazy"><p><a class="dark" href="${firstValueEvidenceUrl}">查看首次价值验证证据</a> <a href="./research-report/receipt-example.html">直接查看验收单</a></p></section>
-<p class="links"><a href="${catalogUrl}">Awesome 目录条目</a><a class="dark" href="${repositoryUrl}">GitHub 源码</a><a href="${marketIndexUrl}">format 1 索引</a></p><p><a class="dark" href="${downloadHref}" download>旧版 0.1.0 tarball</a></p>
+<p class="links"><a href="./operations/">插件发布与收录实测手册</a><a href="${catalogUrl}">Awesome 目录条目</a><a class="dark" href="${repositoryUrl}">GitHub 源码</a><a href="${marketIndexUrl}">format 1 索引</a></p><p><a class="dark" href="${downloadHref}" download>旧版 0.1.0 tarball</a></p>
 <small>Review Outbox · DeepSeek Harness 成果审阅 · 0.1.0 旧包 <a href="./downloads/${packageName}.sha256">SHA-256 校验文件</a></small></main></body></html>`
 await writeFile(resolve(root, 'site/index.html'), home)
 await writeFile(resolve(root, 'site/robots.txt'), `User-agent: *\nAllow: /\n${origin ? `Sitemap: ${origin}/sitemap.xml\n` : ''}`)
 const urls = origin ? [
   `${origin}/`,
   pageUrl,
+  handbookUrl,
   receiptUrl,
 ] : []
 await writeFile(resolve(root, 'site/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((loc, index) => `  <url><loc>${escapeHtml(loc)}</loc><lastmod>${modifiedDate}</lastmod><priority>${index === 1 ? '1.0' : '0.7'}</priority></url>`).join('\n')}\n</urlset>\n`)
-await writeFile(resolve(root, 'site/llms.txt'), `# Review Outbox\n\n> Research report acceptance checklist and standalone SHA-256 review receipts for DeepSeek Harness.\n\n- ${pageUrl || '/research-report/'}: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.\n- ${receiptUrl || '/research-report/receipt-example.html'}: Real browser-generated standalone receipt; no installation required.\n- ${repositoryUrl}: Public source code, installation guide, and validation evidence.\n- ${marketIndexUrl}: Officially validated DSH format-1 application market index for Review Outbox ${pluginVersion}, pinned installation, and activation.\n- ${firstValueEvidenceUrl}: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.\n- ${repositoryUrl}/blob/${currentCommit}: Immutable public source for the current ${pluginVersion} application-index installation.\n- ${catalogUrl}: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.\n- ${downloadUrl || `./downloads/${packageName}`}: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.\n\nReview Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.\n`)
+await writeFile(resolve(root, 'site/llms.txt'), `# Review Outbox\n\n> Research report acceptance checklist and standalone SHA-256 review receipts for DeepSeek Harness.\n\n- ${pageUrl || '/research-report/'}: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.\n- ${receiptUrl || '/research-report/receipt-example.html'}: Real browser-generated standalone receipt; no installation required.\n- ${handbookUrl || '/operations/'}: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
+- ${repositoryUrl}: Public source code, installation guide, and validation evidence.\n- ${marketIndexUrl}: Officially validated DSH format-1 application market index for Review Outbox ${pluginVersion}, pinned installation, and activation.\n- ${firstValueEvidenceUrl}: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.\n- ${repositoryUrl}/blob/${currentCommit}: Immutable public source for the current ${pluginVersion} application-index installation.\n- ${catalogUrl}: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.\n- ${downloadUrl || `./downloads/${packageName}`}: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.\n\nReview Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.\n`)
 await mkdir(directory, { recursive: true })
 if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${indexNow.key}\n`)
 console.log(JSON.stringify({ ok: true, page: 'site/research-report/index.html', receipt: 'site/research-report/receipt-example.html', canonical: pageUrl || null, indexNowKeyFile: indexNow ? `site/${indexNow.key}.txt` : null, bytes: Buffer.byteLength(html) }))

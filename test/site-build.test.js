@@ -23,6 +23,8 @@ test('research site builds are idempotent across local and public origins', asyn
   const pluginVersion = publishedRelease.version
   const pinnedCommit = publishedRelease.source.commit
   await writeFile(resolve(pageDirectory, 'index.html'), '<!doctype html><html><head><title>Fixture</title></head><body><p contenteditable="true"><a href="receipt-example.html">Receipt</a></p></body></html>')
+  const handbookSource = await readFile(resolve(root, 'docs/OPERATIONS.md'), 'utf8')
+  await writeFile(resolve(directory, 'docs/OPERATIONS.md'), handbookSource)
   const receipt = await readFile(resolve(root, 'docs/e2e/application-first-value.review.html'), 'utf8')
   await writeFile(resolve(directory, 'docs/e2e/application-first-value.review.html'), receipt)
 
@@ -59,7 +61,7 @@ test('research site builds are idempotent across local and public origins', asyn
 
   const schemas = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])
   assert.deepEqual(schemas.map(schema => schema['@type']), ['TechArticle', 'FAQPage', 'SoftwareApplication'])
-  assert.equal(schemas[0].dateModified, '2026-11-08')
+  assert.equal(schemas[0].dateModified, '2026-11-09')
   assert.equal(schemas[2].softwareVersion, pluginVersion)
   assert.equal(schemas[2].installUrl, 'https://zjukop3.github.io/dsh-review-outbox/plugins.json')
   const catalogUrl = 'https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/'
@@ -88,4 +90,14 @@ test('research site builds are idempotent across local and public origins', asyn
   assert.equal(headingVersion, pluginVersion, 'landing install heading must match the published index version')
   assert.match(renderedPage, /src="first-value.png"/)
   assert.match(renderedPage, /旧版 tarball/)
+
+  const handbook = await readFile(resolve(root, 'site/operations/index.html'), 'utf8')
+  assert.match(handbook, /<h1>DSH 插件发布与收录：实测约束清单<\/h1>/)
+  assert.match(handbook, /<table>/, 'the handbook keeps its measured-constraint tables')
+  assert.match(handbook, /04:49:06Z/, 'the catalog build cadence stays quoted')
+  assert.match(handbook, new RegExp(`href="${publicOrigin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/operations/"`), 'sitemap and page agree on the canonical handbook URL')
+  assert.doesNotMatch(handbook, /\u0000/, 'inline placeholders must all be restored')
+  assert.doesNotMatch(handbook, /\]\(metrics\//, 'relative doc links must not leak into the published page')
+  assert.match(await readFile(resolve(directory, 'site/sitemap.xml'), 'utf8'), new RegExp(`<loc>${publicOrigin}/operations/</loc>`))
+  assert.match(await readFile(resolve(directory, 'site/llms.txt'), 'utf8'), /Measured constraints on publishing, catalog ingestion/)
 })

@@ -68,10 +68,16 @@
       "command": "dsh plugin --profile web add dsh-review-outbox",
       "resolvedVersion": "0.1.3",
       "verified": false,
-      "failure": "The pnpm bundled with DSH is pinned to registry.npmmirror.com and ignores npm_config_registry. That mirror answered 500 ER_NO_SUCH_TABLE for every package probed (react, dsh-plugin-catalog, dsh-bili-scroll, this one), so it is a mirror-side outage rather than a package problem. Resolution still fell back to the mirror's cached 0.1.3, and requesting 0.1.5 explicitly failed with ERR_PNPM_NO_MATCHING_VERSION.",
+      "failure": "The pnpm bundled with DSH inherits its registry from the user's npm configuration; on this machine that is registry.npmmirror.com. While the mirror answered 500 for this package, that path resolved the cached 0.1.3, and asking for 0.1.5 explicitly failed with ERR_PNPM_NO_MATCHING_VERSION citing the mirror as the fetch source. Direct evidence comes from dsh's own pnpm log, not from inference.",
       "mirrorSyncTriggered": "PUT https://registry.npmmirror.com/-/package/dsh-review-outbox/syncs -> 201 {state: waiting}",
       "mirrorStateAtCollection": "500 ER_NO_SUCH_TABLE Table 'npmmirrordb.team_packages' doesn't exist",
-      "mirrorScope": "mirror-wide: react=500, dsh-plugin-catalog=500, dsh-bili-scroll=500, dsh-review-outbox=500"
+      "mirrorScope": "mirror-wide: react=500, dsh-plugin-catalog=500, dsh-bili-scroll=500, dsh-review-outbox=500",
+      "registryControl": {
+        "bundledPnpmEffectiveRegistry": "https://registry.npmmirror.com/",
+        "overriddenByUserconfig": "https://registry.npmjs.org/",
+        "overrideFlagVerified": "--registry=https://registry.npmjs.org resolved 0.1.5 in 7.9s with a fresh store",
+        "notClaimed": "why an npmrc-override range run still resolved 0.1.3; most likely pnpm metadata-cache reuse, unverified"
+      }
     }
   },
   "catalogState": {
@@ -80,7 +86,7 @@
     "indexEntries": 4985,
     "listed": true,
     "listedVersion": "0.1.3",
-    "note": "The catalog still records 0.1.3 even though 0.1.4 was published hours earlier. The rebuild pipeline most likely reads the same mirror; that is inference, not a verified claim."
+    "note": "CORRECTED: the lag is the catalog's daily build cadence, not a mirror dependency. Recent builds: 2026-11-09T04:49Z, 2026-11-08T04:46Z, 2026-11-07T21:13Z, 2026-11-07T04:59Z, 2026-11-06T04:47Z, 2026-11-05T04:41Z. Version 0.1.4 was published 14:42Z and 0.1.5 at 15:05Z, both after that day's build, so the entry correctly reflects npm as of the build."
   },
   "searchDiscovery": {
     "indexNowSubmitted": true,

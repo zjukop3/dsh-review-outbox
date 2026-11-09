@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSH 插件发布与收录：实测约束清单 · Review Outbox</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E"><meta name="description" content="DeepSeek Harness 插件的发布、收录与安装链路实测约束：镜像决定安装版本、目录每日构建、索引 pin 语义、隔离 Profile 验证与发布后检查清单。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://zjukop3.github.io/dsh-review-outbox/operations/"><style>body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(30px,5.5vw,52px);font-weight:250;line-height:1.1;margin-bottom:20px}h2{font-size:23px;font-weight:500;line-height:1.3;margin-top:40px}h3{font-size:18px;font-weight:600;margin-top:28px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit;padding:0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4d4d2;padding:9px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee;color:#0a0a0a;font-weight:600}blockquote{margin:20px 0;padding:12px 18px;border-left:4px solid #002fa7;background:#f0f0ee}hr{border:none;border-top:1px solid #d4d4d2;margin:36px 0}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:28px 0 0;font-size:14px}.nav a{margin-right:16px}small{display:block;margin-top:36px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}table{font-size:13px}}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · PLUGIN OPERATIONS · 0.1.5</p>
+<h1>DSH 插件发布与收录：实测约束清单</h1>
+<nav class="nav"><a href="../">首页</a><a href="../research-report/">验收清单</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
+<p>这份文档记录的是<strong>可复现的实测结果</strong>，不是设计意图或文档转述。每一条都附了验证命令，谁都能在本机重跑。写它的原因是：DSH 插件从「写完」到「别人真的能装上」，中间有三段独立管线，任何一段断掉，作者看到的都是「明明发布了却没人装」。</p>
+<p>结论先行：<strong>发布成功 ≠ 可安装 ≠ 可被发现</strong>，三者各有各的时间常数。</p>
+<h2 id="1-发布链路的三段时间常数">1. 发布链路的三段时间常数</h2>
+<div class="table-wrap"><table><thead><tr><th>阶段</th><th>谁负责</th><th>实测节奏</th><th>卡住时的表现</th></tr></thead><tbody><tr><td><code>npm publish</code></td><td>作者</td><td>自己的动作</td><td>立刻可见（约 2 分钟处理窗口）</td></tr><tr><td>镜像同步</td><td><code>registry.npmmirror.com</code> 等国内镜像</td><td>外部，通常分钟级</td><td>安装解析到<strong>旧版本</strong>，或 <code>ERR_PNPM_NO_MATCHING_VERSION</code></td></tr><tr><td>目录重建</td><td><code>dsh-plugin-catalog</code></td><td><strong>每天一次</strong>，约 <code>04:46Z</code> 构建、<code>04:49Z</code> 发布</td><td>市场里看到的版本比 npm 落后最多一天</td></tr></tbody></table></div>
+<p>实测的目录构建时刻（连续六次）：</p>
+<pre><code>2026-11-09T04:49:06Z  2026-11-08T04:46:05Z  2026-11-07T21:13:53Z
+2026-11-07T04:59:33Z  2026-11-06T04:47:52Z  2026-11-05T04:41:31Z</code></pre>
+<p>于是有一个容易被误判的现象：<strong>下午发布的新版，当天在市场里看不到，要到次日构建后才会出现。</strong> 这不是缺陷，是节奏。判断方法：</p>
+<pre><code class="language-bash">npm view dsh-plugin-catalog time --json --registry=https://registry.npmjs.org | tail -8
+npm view dsh-plugin-catalog dist-tags --registry=https://registry.npmjs.org</code></pre>
+<p>把自己包的发布时间和最近一次目录构建时间对比，落在构建之后的，就什么都不用做，等下一版。</p>
+<h2 id="2-安装走的是谁的-registry">2. 安装走的是谁的 registry</h2>
+<p>DSH 的插件安装用的是<strong>应用内置的 pnpm</strong>，它的 registry 来自用户的 npm 配置，不是代码里写死的地址。在作者机器上，<code>~/.npmrc</code> 的 <code>registry=</code> 就是插件安装真正会请求的地址。</p>
+<p>验证：</p>
+<pre><code class="language-bash">PNPM=&#39;/Applications/DeepSeek Harness.app/Contents/Resources/runtime/primary-runtime/dependencies/pnpm/bin/pnpm.mjs&#39;
+node &quot;$PNPM&quot; config get registry                       # 继承用户配置
+node &quot;$PNPM&quot; config get registry --config.userconfig=/tmp/x/.npmrc   # 可被覆盖</code></pre>
+<p>这条约束有个直接后果：<strong><code>npm publish</code> 成功，不代表国内用户能装到新版。</strong> 我们实测到镜像故障时的完整表现：</p>
+<ul><li>默认安装命令解析到镜像缓存的旧版本（<code>0.1.3</code>），而不是报错；</li><li>显式指定新版本（<code>dsh-review-outbox@0.1.5</code>）才报 <code>ERR_PNPM_NO_MATCHING_VERSION</code>，并在错误里写明抓取源是 <code>registry.npmmirror.com</code>；</li><li>同一时刻 <code>registry.npmjs.org</code> 的 latest 已经是 <code>0.1.5</code>。</li></ul>
+<p>静默退回旧版本比报错更难发现，所以发布后应该主动核对「安装路径实际解析到的版本」，而不是只看 npm 页面。</p>
+<h2 id="3-三条安装回退路径-都实测过">3. 三条安装回退路径（都实测过）</h2>
+<div class="table-wrap"><table><thead><tr><th>路径</th><th>命令形态</th><th>实测结果</th><th>代价</th></tr></thead><tbody><tr><td>应用内目录一键安装</td><td>市场里点安装</td><td>依赖镜像健康</td><td>—</td></tr><tr><td>固定提交的 GitHub 源</td><td><code>dsh plugin --profile web add &#39;github:OWNER/REPO#COMMIT&#39;</code></td><td>解析到 <code>0.1.5</code></td><td>6 分 52 秒（走 git）</td></tr><tr><td>显式 npmjs registry</td><td><code>pnpm add PKG@VER --registry=https://registry.npmjs.org</code></td><td>解析到 <code>0.1.5</code>，9.4 秒</td><td>需改配置</td></tr></tbody></table></div>
+<p>固定提交路径绕过 registry，是镜像故障期间唯一「不改用户配置」也能装到新版的路径。它的代价是慢，且要求包<strong>零运行时依赖、无安装脚本</strong>——否则依赖解析照样会撞上 registry。</p>
+<h2 id="4-应用内索引的-pin-语义">4. 应用内索引的 pin 语义</h2>
+<p>应用内市场索引（<code>format: 1</code>）用「固定提交」表达版本，不是用分支头。我们用 <code>market-release.json</code> 显式持有被 pin 的提交：</p>
+<ul><li>索引里的 <code>version</code> 取自<strong>工作区</strong> <code>package.json</code>；</li><li><code>publishTimestamp</code> 取自<strong>被 pin 提交</strong>的提交时间（<code>git show -s --format=%ct</code>）；</li><li>因此「改代码」和「改索引」是两次提交：先运行时提交，再 pin 提交；</li><li>纯文档提交<strong>不动 pin</strong>，否则每次改错别字都会把用户钉到不相关的提交上。</li></ul>
+<p>这条语义直接决定了发布顺序：运行时提交 → 更新 pin → 重建索引 → 重建页面 → 校验 → 推送。</p>
+<h2 id="5-验证只能在隔离-profile-里做">5. 验证只能在隔离 Profile 里做</h2>
+<p>桌面端 profile 由 Electron 应用独占管理，CLI 拒绝修改它。想验证安装、回填、审阅这类动作，必须另起 <code>DSH_HOME</code>：</p>
+<pre><code class="language-bash">H=$(mktemp -d /tmp/dsh-verify.XXXXXX)
+DSH_HOME=&quot;$H&quot; dsh plugin --profile web add PKG</code></pre>
+<p>好处是可以把<strong>真实状态</strong>拷进去跑：我们就是把日常 profile 里 75 条真实待审项复制到隔离环境，才验证出分组归档在生产数据上的行为（点 4 条那组 → <code>{&quot;archived&quot;:4}</code> → pending 75→71、分组 10→9、零报错）。用自己的真实数据验证，和用造出来的 3 条假数据验证，发现的问题不是一个量级。</p>
+<h2 id="6-消费兄弟插件的产物的正确接缝">6. 消费兄弟插件的产物的正确接缝</h2>
+<p>上游插件如果把结果写成「冻结契约」（frozen contract），契约表面往往比实际可用的东西窄。以 <code>dsh-research-report</code> 为例，冻结的 <code>AssembleReportResult</code> 只暴露 <code>reportDir</code>、<code>sealHash</code>、<code>verdicts</code>，而实际拿到文件路径的稳定接缝是工具结果里的 <code>tool/result.data.meta.reportFile</code>。</p>
+<p>判断哪个接缝是契约的、哪个是实现细节，问上游比猜便宜。我们把这个问题作为<a href="https://github.com/PerryLink/dsh-research-report/issues/27">上游 issue</a>提出，同时在自己的集成代码里按 <code>reportFile</code> 优先、<code>reportDir</code> 兜底的顺序处理，两边都不假设。</p>
+<h2 id="7-度量-什么不算激活">7. 度量：什么不算激活</h2>
+<p>插件生态里最容易自欺的三个数字：</p>
+<ul><li><strong>页面访问</strong>——可能是自己刷新；</li><li><strong>npm 下载</strong>——包含 CI、镜像抓取、<code>npm view</code> 之外的自动化；</li><li><strong>目录收录</strong>——只说明能被搜到，不说明有人装。</li></ul>
+<p>我们采用的激活定义是「<strong>一次真实的人工审阅动作</strong>」：通过、退回或归档任意一条真实成果。到 <code>0.1.5</code> 为止，日常 profile 里这条计数是 <strong>0</strong>（75 条待审项，0 次人工动作）。这个 0 比任何发布里程碑都更能说明产品处在什么位置。</p>
+<h2 id="8-发布后检查清单">8. 发布后检查清单</h2>
+<p>八条，按顺序做，每条都有可观测的产出：</p>
+<ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
+<h2 id="已知不确定项">已知不确定项</h2>
+<p>写下来是为了以后不把它们当成结论：</p>
+<ul><li>覆盖 userconfig 指向 npmjs 后，按版本范围安装仍然解析到 <code>0.1.3</code>。最可能是 pnpm 元数据缓存复用，未验证。</li><li>目录重建是否也依赖镜像，未验证；能确定的只有每日一次的构建节奏。</li><li>应用内「一键安装」的点击链路在 headless 环境里验证不出来（确认对话框接受后 profile 未变、也无报错），底层的 <code>dsh plugin add</code> 是独立验证过的另一件事。</li></ul>
+<hr>
+<p>本文的事实来源都在仓库里：发布记录见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/metrics/2026-11-09-release-0.1.5.json"><code>docs/metrics/2026-11-09-release-0.1.5.json</code></a>，收录与搜索分析见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/metrics/2026-11-09-market-listing.json"><code>docs/metrics/2026-11-09-market-listing.json</code></a>，分发策略见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/DISTRIBUTION.md"><code>docs/DISTRIBUTION.md</code></a>。</p>
+<small>本文事实可在仓库中重跑验证：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/OPERATIONS.md">docs/OPERATIONS.md</a> · Review Outbox 0.1.5</small>
+</main></body></html>
