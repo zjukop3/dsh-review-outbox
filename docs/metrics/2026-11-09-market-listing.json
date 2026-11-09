@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T12:52:22Z",
+  "milestone": "dsh-market official index listing",
+  "repository": "https://github.com/zjukop3/dsh-review-outbox",
+  "catalog": {
+    "package": "dsh-plugin-catalog",
+    "version": "2026.1109.17642",
+    "indexEntries": 4985,
+    "verifiedWith": "scripts/check-catalog-presence.mjs",
+    "listed": true
+  },
+  "entry": {
+    "name": "dsh-review-outbox",
+    "title": "zjukop3/dsh-review-outbox",
+    "version": "0.1.3",
+    "source": { "type": "npm" },
+    "engines": { "dsh": ">=0.2.2-rc.1 <0.3.0-0" },
+    "category": "workflow",
+    "keywords": [],
+    "homepage": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/"
+  },
+  "whyItMatters": [
+    "The official dsh-market index (11430-star marketplace, DSH built-in Discover tab, plugin_market agent tool) gates entries on npm publication.",
+    "Before 2026-11-09 the plugin was absent from all 4872 index entries because npm was unpublished; the Awesome catalog PR merge did not cover this pipeline.",
+    "Listing makes the plugin searchable and one-click installable inside DSH itself, without requiring users to add a custom index source."
+  ],
+  "knownGap": "metadata.keywords is empty, so market search can only match name, title, category and description; 4985 of 4985 index entries have empty keywords, so this is an upstream pipeline-wide limitation rather than an entry defect.",
+  "marketUiVerification": {
+    "marketVersion": "1.73.16",
+    "cardRendered": true,
+    "cardShows": "dsh-review-outbox · zjukop3 · v0.1.3 · 工作流与自动化",
+    "searchQueriesThatFindIt": ["研究报告", "成果人工审阅", "验收单", "outbox", "zjukop3"],
+    "searchQueriesThatMiss": ["验收", "审阅"],
+    "searchNote": "Short two-character CJK queries resolve against whole tokens and category labels, so partial substrings inside the description do not match. This affects all entries, not only this one.",
+    "confirmationDialog": "confirmed: title '安装 dsh-review-outbox?', version v0.1.3, capability scan (4 items), install command shown",
+    "oneClickInstallCompleted": false,
+    "oneClickInstallNote": "After accepting the confirmation dialog the profile still listed only dshmarket and no review-outbox directory existed after ~3 minutes; no error surfaced in the UI or console. The underlying `dsh plugin --profile web add dsh-review-outbox` path is independently verified (1.6s, version 0.1.3, bundle selected).",
+    "pageErrors": []
+  },
+  "activation": {
+    "marketReferredInstalls": null,
+    "externalWeekTwoRetention": null,
+    "note": "Listing is a distribution milestone. No external install, review, or retention is measured by this snapshot."
+  }
+}

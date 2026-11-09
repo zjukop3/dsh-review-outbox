@@ -41,9 +41,11 @@
 
 ## 官方 dsh-market 索引：npm 发布打通的最后缺口
 
-2026-11-08 发现：官方 [dsh-market](https://github.com/dsh-market/dsh-market)（11430★，DSH 内置 Discover tab）的插件索引来自 `dsh-plugin-catalog` npm 包（当日 4872 个条目），**收录门槛是 npm 发布**——目录 9463 条中恰好 4872 条有版本，且全部来自 npm registry；本插件目录条目因此 `version=null` 被排除在市场搜索外。awesome 目录 PR 合并与市场索引是两条独立管线，此前误将前者当成完整收录。
+2026-11-08 发现：官方 [dsh-market](https://github.com/dsh-market/dsh-market)（DSH 内置插件市场，11k+ 星标）的插件索引来自 `dsh-plugin-catalog` npm 包，**收录门槛是 npm 发布**——当时目录里的条目因此 `version=null` 被排除在市场搜索外。awesome 目录 PR 合并与市场索引是两条独立管线，此前误将前者当成完整收录。
 
-npm 发布打通后，目录每日构建会自动带上版本并进入市场索引（上游流程"通常一天内生效"）；届时 DSH 内置 Discover、`dshmarket` 市场插件与 `plugin_market` agent 工具均可直接搜到本插件。收录生效时间以下一轮索引快照为准，不提前声明。
+**2026-11-09 已收录**：`dsh-plugin-catalog@2026.1109.17642`（4985 条目）中本插件条目为 `dsh-review-outbox` v`0.1.3`，`source: npm`。真实市场界面（dshmarket 1.73.16）实测：卡片正确渲染（名称、作者、v0.1.3、工作流与自动化分类），搜索 `研究报告`、`成果人工审阅`、`验收单`、`outbox`、`zjukop3` 均能命中；点击安装会弹出含版本、能力扫描与安装命令的确认对话框。
+
+已知边界（如实记录）：① 短查询 `验收`/`审阅` 不命中——市场搜索按完整词元匹配，全部 4985 条目的 `metadata.keywords` 均为空，属上游管线共性而非本条目缺陷；② 确认对话框接受后，headless 自动化环境中 profile 未实际安装且无错误浮出，因此**一键安装的点击链路未验证**，底层的 `dsh plugin --profile web add dsh-review-outbox` 已独立验证（1.6 秒、0.1.3、bundle 自动选中）。证据见 [市场收录快照](metrics/2026-11-09-market-listing.json)。
 
 ## 首次聚合基线
 
