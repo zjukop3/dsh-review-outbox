@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T18:13:58.164018Z",
+  "milestone": "0.1.8 released as a batch of five changes",
+  "release": {
+    "version": "0.1.8",
+    "runtimeCommit": "a4ba0d5989ef9743dcadb4f476e3989e8c0c5e5f",
+    "pinCommit": "d1522d4",
+    "publishedAtLocal": "2026-11-10T02:11+08:00",
+    "tests": {
+      "total": 70,
+      "pass": 70
+    },
+    "batchInsteadOfFivePublishes": "0.1.8 accumulates the first-run gate, the receipt self-check hint, the data-delivery pack, the pack suggestion for older items and the structured return message"
+  },
+  "registry": {
+    "npmjsLatest": "0.1.8",
+    "mirrorLatest": "0.1.8",
+    "mirrorSyncTriggered": "PUT syncs -> 201"
+  },
+  "installVerification": {
+    "command": "dsh plugin --profile web add dsh-review-outbox@0.1.8",
+    "resolved": "0.1.8",
+    "duration": "1.3s",
+    "bundleContains": {
+      "focusMode": true,
+      "dataPackHint": true,
+      "structuredReturnMessage": true
+    }
+  },
+  "cooldownTimeline": {
+    "0.1.4": "2026-11-10T22:42+08:00",
+    "0.1.5": "2026-11-10T23:05+08:00",
+    "0.1.6": "2026-11-11T00:25+08:00",
+    "0.1.7": "2026-11-11T01:05+08:00",
+    "0.1.8": "2026-11-11T02:11+08:00",
+    "reading": "the daily profile resolves a caret range, so it will move 0.1.4 tonight and reach 0.1.8 the following night without any manual step"
+  },
+  "stillUnproven": "no person outside this machine has recorded a decision; the funnel report reads 75 pending and 0 human actions"
+}
