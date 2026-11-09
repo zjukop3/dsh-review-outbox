@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-11-09T17:28:28.116537Z",
+  "purpose": "size the niche Review Outbox lives in, and check whether its positioning is still distinctive",
+  "catalogSizing": {
+    "catalogVersion": "2026.1109.17642",
+    "entries": 4985,
+    "workflowCategory": 321,
+    "reviewishMatches": 68,
+    "method": "description text matched against 审阅/验收/审核/review/acceptance/receipt/deliverable/成果/报告, requiring at least two hits"
+  },
+  "directAdjacent": [
+    {
+      "name": "@oxmumu3/dsh-delivery-receipts",
+      "version": "0.1.3-preview.3",
+      "description": "Session-scoped artifact receipts with file evidence and version-bound user decisions",
+      "overlap": "high — receipts bound to a version, which is the property we treated as our differentiator"
+    },
+    {
+      "name": "dsh-delivery-kit",
+      "version": "0.3.5",
+      "description": "交付工坊：从代码仓库与运行中的系统生成验收材料（数据库设计/概要设计/详细设计/使用说明书/测试报告/上线报告/验收报告）",
+      "overlap": "adjacent — generates acceptance documents, does not gate a human decision"
+    },
+    {
+      "name": "dsh-verify",
+      "version": "0.9.6",
+      "description": "Witness — browser acceptance checks for agent-built web apps",
+      "overlap": "adjacent — automated checks for web apps, not content review"
+    },
+    {
+      "name": "dsh-outcomes / @cckyros/goal-acceptance / dsh-review-squad",
+      "version": "—",
+      "overlap": "others in the same broad band; not read in detail"
+    }
+  ],
+  "downloads": {
+    "ourPlugin": {
+      "lastMonthTotal": 497,
+      "daily": {
+        "2026-11-06": 0,
+        "2026-11-07": 0,
+        "2026-11-08": 497,
+        "2026-11-09": 0,
+        "2026-11-10": 0
+      }
+    },
+    "benchmarkDeliveryKit": {
+      "daily": {
+        "2026-11-03": 148,
+        "2026-11-04": 55,
+        "2026-11-05": 38,
+        "2026-11-06": 61,
+        "2026-11-07": 56,
+        "2026-11-08": 36,
+        "2026-11-09": 0,
+        "2026-11-10": 0
+      }
+    },
+    "reading": "The 497 lands entirely on the publish day and the neighbouring days read zero for a well-established plugin as well, so the recent zeros are the API's reporting lag, not absence of traffic. The publish-day spike itself cannot be attributed to humans or crawlers from this data.",
+    "notConcluded": "no claim is made that 497 people installed it",
+    "benchmarkMonthly": {
+      "dsh-session-insights": 3033,
+      "dsh-delivery-kit": 2996,
+      "dsh-outcomes": 1487,
+      "@oxmumu3/dsh-delivery-receipts": 1056,
+      "dsh-oracle-gate": 866,
+      "dsh-review-squad": 769,
+      "dsh-review-outbox": 497
+    },
+    "benchmarkReading": "Neighbouring plugins in this band pull 700-3000 downloads a month, so demand for review/outcome tooling is real and the ceiling is not tiny. Ours sits at the bottom of the band, and its whole figure lands on one publish day, which is at least as consistent with crawlers and mirror pulls as with people."
+  },
+  "positioningImplication": {
+    "contested": "session-scoped receipts with version-bound decisions already exist in the catalog",
+    "defensible": "evidence-gated approval for research reports — required checks with written evidence for claims, citations, data scope and reproduction, plus same-artifact revision history and an export that states when the bytes moved",
+    "action": "lead with the evidence gate in the title, description and first screen; treat the receipt as the artifact that proves the gate was passed, not as the product"
+  }
+}
