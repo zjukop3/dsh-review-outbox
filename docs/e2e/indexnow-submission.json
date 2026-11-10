@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "submittedAt": "2026-11-09T22:40:58.014Z",
+  "submittedAt": "2026-11-10T01:40:59.061Z",
   "endpoint": "https://www.bing.com/indexnow",
   "keyLocation": "https://zjukop3.github.io/dsh-review-outbox/08986ba4f300c03bb388875263d41845.txt",
   "urlList": [
@@ -8,6 +8,7 @@
     "https://zjukop3.github.io/dsh-review-outbox/research-report/",
     "https://zjukop3.github.io/dsh-review-outbox/operations/",
     "https://zjukop3.github.io/dsh-review-outbox/troubleshooting/",
+    "https://zjukop3.github.io/dsh-review-outbox/baseline/",
     "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html"
   ],
   "preflight": {
@@ -27,6 +28,10 @@
       },
       {
         "url": "https://zjukop3.github.io/dsh-review-outbox/troubleshooting/",
+        "status": 200
+      },
+      {
+        "url": "https://zjukop3.github.io/dsh-review-outbox/baseline/",
         "status": 200
       },
       {
