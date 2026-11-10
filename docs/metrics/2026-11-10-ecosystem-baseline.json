@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-10",
+  "catalog": {
+    "entries": 4985,
+    "package": "dsh-plugin-catalog",
+    "version": "2026.1109.17642",
+    "buildTime": "2026-11-09T04:49:06Z"
+  },
+  "weeklyWindow": {
+    "start": "2026-11-02",
+    "end": "2026-11-08",
+    "measured": 4978
+  },
+  "weekly": {
+    "measured": 4978,
+    "totalDownloads": 7347785,
+    "mean": 1476.1,
+    "median": 381,
+    "p25": 241,
+    "p75": 752,
+    "p90": 1568,
+    "p95": 2752,
+    "p99": 14236,
+    "max": 847921,
+    "zero": 0,
+    "under10": 0,
+    "under100": 18,
+    "shareZero": 0,
+    "shareUnder100": 0.4,
+    "mine": {
+      "name": "dsh-review-outbox",
+      "downloads": 497,
+      "position": 1971,
+      "of": 4978,
+      "topPercent": 39.6
+    }
+  },
+  "top": [
+    {
+      "name": "billion-context",
+      "downloads": 847921
+    },
+    {
+      "name": "dsh-windows-mcp",
+      "downloads": 740659
+    },
+    {
+      "name": "dshmarket",
+      "downloads": 332179
+    },
+    {
+      "name": "dsh-context",
+      "downloads": 146938
+    },
+    {
+      "name": "dsh-pet",
+      "downloads": 144048
+    },
+    {
+      "name": "dsh-session-superagent",
+      "downloads": 95295
+    },
+    {
+      "name": "dsh-whale-widget",
+      "downloads": 86887
+    },
+    {
+      "name": "dsh-better-sidebar",
+      "downloads": 86305
+    },
+    {
+      "name": "@liustack/modlens",
+      "downloads": 76330
+    },
+    {
+      "name": "dsh-ops",
+      "downloads": 57889
+    },
+    {
+      "name": "@michengai/dsh-skills-manager",
+      "downloads": 50752
+    },
+    {
+      "name": "cc-safety-net",
+      "downloads": 49623
+    },
+    {
+      "name": "@vectorize-io/hindsight-coding-agents",
+      "downloads": 47989
+    },
+    {
+      "name": "dsh-remote",
+      "downloads": 44965
+    },
+    {
+      "name": "dsh-cost-meter",
+      "downloads": 39653
+    }
+  ],
+  "shapes": {
+    "window": {
+      "from": "2026-10-10",
+      "to": "2026-11-08"
+    },
+    "seed": 20261110,
+    "summary": {
+      "measured": 198,
+      "medianDaily": 35,
+      "p25Daily": 23,
+      "p75Daily": 62,
+      "p90Daily": 108,
+      "shareFloor": 58.6,
+      "shareVisible": 35.4,
+      "shareAdopted": 6.1,
+      "shareSilent": 23.7,
+      "shareBurst": 19.7,
+      "shareQuiet": 36.9
+    },
+    "note": "stratified random sample of catalog names, seed 20261110, daily series"
+  }
+}

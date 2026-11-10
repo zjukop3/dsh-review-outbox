@@ -222,6 +222,18 @@ node scripts/check-milestones.mjs --json     # 可入库
 7. `IndexNow` 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。
 8. 隔天核对目录条目版本，确认日构建已带上新版。
 
+
+## 13. 先用基线读数字，再谈采用
+
+看到任何插件（包括自己）的下载数，先对照 `docs/ECOSYSTEM-BASELINE.md`：目录里 58.6% 的条目停在每天 20–40 次的底部带，这一层与有没有人安装无关。周下载在低三位数时，它和「发布当天被镜像拉了一次」是同一个形状，不能作为采用证据。
+
+```bash
+node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox   # 全量周分布，约 10 分钟
+node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110  # 抽样 30 天形状
+```
+
+度量采用仍然只看两件能验的事：人工决策漏斗（`scripts/report-usage.mjs`）与验收单摘要可核对（`scripts/verify-receipt.mjs`）。
+
 ## 已知不确定项
 
 写下来是为了以后不把它们当成结论：

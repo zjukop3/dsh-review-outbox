@@ -95,6 +95,11 @@ node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <h2 id="12-发布后检查清单">12. 发布后检查清单</h2>
 <p>八条，按顺序做，每条都有可观测的产出：</p>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
+<h2 id="13-先用基线读数字-再谈采用">13. 先用基线读数字，再谈采用</h2>
+<p>看到任何插件（包括自己）的下载数，先对照 <code>docs/ECOSYSTEM-BASELINE.md</code>：目录里 58.6% 的条目停在每天 20–40 次的底部带，这一层与有没有人安装无关。周下载在低三位数时，它和「发布当天被镜像拉了一次」是同一个形状，不能作为采用证据。</p>
+<pre><code class="language-bash">node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox   # 全量周分布，约 10 分钟
+node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110  # 抽样 30 天形状</code></pre>
+<p>度量采用仍然只看两件能验的事：人工决策漏斗（<code>scripts/report-usage.mjs</code>）与验收单摘要可核对（<code>scripts/verify-receipt.mjs</code>）。</p>
 <h2 id="已知不确定项">已知不确定项</h2>
 <p>写下来是为了以后不把它们当成结论：</p>
 <ul><li>目录重建是否也依赖镜像，未验证；能确定的只有每日一次的构建节奏。</li><li>冷却期间市场卡片与安装版本可以不一致（卡片按目录、安装按冷却）。这一点是从两条独立机制推出来的，未做界面级验证。</li><li>应用内「一键安装」的点击链路在 headless 环境里验证不出来（确认对话框接受后 profile 未变、也无报错），底层的 <code>dsh plugin add</code> 是独立验证过的另一件事。</li></ul>

@@ -5,6 +5,10 @@ All notable changes to Review Outbox are documented here. The format follows [Ke
 ## [Unreleased]
 
 - `scripts/verify-receipt.mjs` checks a receipt against a file without a browser: exit 0 on a match, 1 on a mismatch with both digests, 2 when the receipt carries no reviewed digest because it was exported before any decision. A claim that cannot gate a CI job is a formality.
+- `scripts/ecosystem-snapshot.mjs` measures the download distribution of the whole catalog, and with `--shapes N` the daily shape of a sample. The finding is in `docs/ECOSYSTEM-BASELINE.md`: 58.6% of catalog entries sit in a 20–40 downloads/day floor that exists whether or not anyone installs them, so a weekly number in the low hundreds carries no signal. This package's own 497 was one publish-day burst, indistinguishable from unused.
+
+
+- `scripts/verify-receipt.mjs` checks a receipt against a file without a browser: exit 0 on a match, 1 on a mismatch with both digests, 2 when the receipt carries no reviewed digest because it was exported before any decision. A claim that cannot gate a CI job is a formality.
 
 
 - Reliability tests for the state file: concurrent decisions on different artifacts all persist, a rejected action does not block the queue behind it, and two instances on one file are last-write-wins (pinned rather than assumed away).

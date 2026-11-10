@@ -40,8 +40,8 @@
     "evidence-gate",
     "research-report-acceptance",
     "deliverable-review",
-    "\u7814\u7a76\u62a5\u544a",
-    "\u9a8c\u6536"
+    "研究报告",
+    "验收"
   ],
   "license": "MIT",
   "author": "zjukop3",
@@ -70,7 +70,8 @@
     "test:browser:recovery": "node scripts/e2e-cleanpack-recovery.mjs",
     "test:interop:research": "node --experimental-transform-types scripts/e2e-research-report-interop.mjs",
     "seed:official": "node scripts/seed-official-backfill.mjs",
-    "check": "node scripts/build-market-index.mjs && npm test && npm run build"
+    "check": "node scripts/build-market-index.mjs && npm test && npm run build",
+    "report:ecosystem": "node scripts/ecosystem-snapshot.mjs --cache docs/metrics/ecosystem-downloads.json"
   },
   "files": [
     "src",
