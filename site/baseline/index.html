@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>生态基线：下载数在什么区间才有信息量 · Review Outbox</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E"><meta name="description" content="实测 DSH 插件生态的下载分布：目录里 58.6% 的条目停在每天 20–40 次的底部带，低三位数的周下载不代表有人在用。附复现命令。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://zjukop3.github.io/dsh-review-outbox/baseline/"><style>body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(30px,5.5vw,52px);font-weight:250;line-height:1.1;margin-bottom:20px}h2{font-size:23px;font-weight:500;line-height:1.3;margin-top:40px}h3{font-size:18px;font-weight:600;margin-top:28px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit;padding:0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4d4d2;padding:9px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee;color:#0a0a0a;font-weight:600}blockquote{margin:20px 0;padding:12px 18px;border-left:4px solid #002fa7;background:#f0f0ee}hr{border:none;border-top:1px solid #d4d4d2;margin:36px 0}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:28px 0 0;font-size:14px}.nav a{margin-right:16px}small{display:block;margin-top:36px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}table{font-size:13px}}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · ECOSYSTEM BASELINE · 0.1.10</p>
+<h1>生态基线：下载数在什么区间才有信息量</h1>
+<nav class="nav"><a href="../">首页</a><a href="../operations/">发布与收录手册</a><a href="../troubleshooting/">装不上怎么办</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
+<p>2026-11-10 实测。目的只有一个：在自己身上或者其他插件身上看到一个下载数时，能判断它到底说明了什么。</p>
+<p>结论先写：<strong>这个生态里，「周下载 200–400」不代表有人在用。</strong> 一个没人安装的插件也会稳定出现每天二三十次下载。目录里 58.6% 的条目就停在这一层。</p>
+<h2 id="数据">数据</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>目录条目</td><td>4,985（<code>dsh-plugin-catalog@2026.1109.17642</code>，2026-11-09T04:49Z 构建）</td></tr><tr><td>取到周下载的包</td><td>4,978</td></tr><tr><td>抽样取到 30 天日序列的包</td><td>198</td></tr><tr><td>周窗口</td><td>2026-11-02 – 2026-11-08</td></tr><tr><td>日序列窗口</td><td>2026-10-10 – 2026-11-08</td></tr></tbody></table></div>
+<p>全量周下载：</p>
+<div class="table-wrap"><table><thead><tr><th></th><th>上周下载</th></tr></thead><tbody><tr><td>中位数</td><td>381</td></tr><tr><td>p25 / p75</td><td>241 / 752</td></tr><tr><td>p90 / p95 / p99</td><td>1,568 / 2,752 / 14,236</td></tr><tr><td>最大值</td><td>847,921（<code>billion-context</code>）</td></tr><tr><td>低于 100</td><td>18 个（0.4%）</td></tr></tbody></table></div>
+<p>周总数把「一次发布爆发」和「一年每天在用」压成同一个数，所以第二组数据才有意义：198 个抽样包的日序列。</p>
+<div class="table-wrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>日下载中位数（样本内）</td><td>35</td></tr><tr><td>p25 / p75 / p90</td><td>23 / 62 / 108</td></tr><tr><td>停在底部带（≤40/天）</td><td>58.6%</td></tr><tr><td>静默（≤10/天）</td><td>23.7%</td></tr><tr><td>高于底部带（40–150/天）</td><td>35.4%</td></tr><tr><td>真实日用（&gt;150/天）</td><td>6.1%</td></tr><tr><td>发布爆发型（单日 ≥ 5× 中位数）</td><td>19.7%</td></tr><tr><td>三分之一以上天数为零</td><td>36.9%</td></tr></tbody></table></div>
+<h2 id="三个带">三个带</h2>
+<ul><li><strong>底部带 ≤40/天</strong>：与是否有人安装无关。抽样里 <code>dsh-feedback-bridge</code> 是 7 天 23/29/30/20/30/21/29 这种平坦曲线，没有任何推广痕迹；<code>dsh-notch-focus</code> 是 21/204/30/26/32/42/26，中间那天是发布。两者周总数都不低，用法完全不同。</li><li><strong>可见带 40–150/天</strong>：说明有稳定的、非发布驱动的取用。</li><li><strong>真实日用 &gt;150/天</strong>：只有 6.1% 的条目到这里，绝对值上约 300 个包。</li></ul>
+<p>底部带的成因没有定论：镜像同步、爬虫、还是少数装着就忘了的静默安装，这三者从下载数据里分不开。<strong>能确定的只是它与采用无关</strong>，所以任何拿它当成绩的说法都不成立。</p>
+<h2 id="我自己在这一层的位置">我自己在这一层的位置</h2>
+<p><code>dsh-review-outbox</code> 上周 497 次，全在 2026-11-08 发布当天，其余每天 0。按全量排序是 1,971 / 4,978，即前 39.6%。</p>
+<p>这个前 39.6% 不该被当成成绩：497 与中位数 381 的差落在底部带的波动里，形状上它和一个发布了没人用的包无法区分。同一时期，真实日用的邻接插件是 <code>dsh-better-sidebar</code> 10–15k/天、<code>dsh-pet</code> 15–25k/天、目录包本身 12–17k/天。</p>
+<p>因此本项目的采用度量从这一轮起改用两个能验的东西：人工决策漏斗（<code>scripts/report-usage.mjs</code>）和验收单摘要可核对（<code>scripts/verify-receipt.mjs</code>）。下载数只作为「镜子有没有坏」的检查，不作结论。</p>
+<h2 id="复现">复现</h2>
+<pre><code class="language-bash"># 全量周分布（约 10 分钟，含 scoped 包逐个查询）
+node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox
+
+# 200 个包的 30 天形状（抽样确定，seed 固定；结果缓存在 docs/metrics/ecosystem-downloads.json）
+node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110</code></pre>
+<p>原始数字：<code>docs/metrics/2026-11-10-ecosystem-baseline.json</code>。</p>
+<h2 id="已知不确定项">已知不确定项</h2>
+<ul><li>npm 下载接口有约两天延迟，最近两天的日值一律是 0，不能读成「没人下载」。</li><li>抽样是名字空间的均匀随机，没有按类别或发布时间分层；新发布的包天然更容易落在「爆发型」。</li><li>周下载与日序列取自不同窗口（相差一天），两者不能逐包相减。</li></ul>
+<small>原始数字与复现命令：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/ECOSYSTEM-BASELINE.md">docs/ECOSYSTEM-BASELINE.md</a> · <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/metrics/2026-11-10-ecosystem-baseline.json">docs/metrics/2026-11-10-ecosystem-baseline.json</a></small>
+</main></body></html>
