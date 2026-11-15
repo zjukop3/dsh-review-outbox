@@ -1,0 +1,18 @@
+{
+ "date": "2026-11-15",
+ "milestone": "Catalog listing submission for the eight check packages",
+ "pr": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/15594",
+ "branch": "zjukop3:add-kit-entries",
+ "entries": [
+  "data/plugins/zjukop3__dsh-verify-kit.yml",
+  "data/plugins/zjukop3__dsh-vertical-kit.yml"
+ ],
+ "format": "per-repo entry, category tools, bilingual description, icon at assets/icon-180.png",
+ "discovery_gap": "The eight check packages were npm-published on 2026-11-10 but absent from data/plugins — npm publication does not create a catalog entry. review-outbox was listed on 2026-11-09, which is why it was the only one discoverable outside the combined index.",
+ "ci": {
+  "run": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/actions/runs/43725367917",
+  "validation_steps_passed": ["stale-fork guard", "entry file extension", "entry path", "READMEs match data/plugins", "awesome-lint", "added-date regression", "capability-disclosure", "discussion-adoption", "entry-path"],
+  "build_step": "in_progress at submission time (full-site locale-parity build is heavy)"
+ },
+ "expected": "After merge, the next daily catalog build (04:49Z cadence) lists the eight packages on the Awesome site and in the in-app Discover search."
+}
