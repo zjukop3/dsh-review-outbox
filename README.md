@@ -57,6 +57,8 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 确认版本和完整提交后安装，再回到「已安装」启用插件。该 `format: 1` 索引由宿主官方解析器验证，详见[应用内市场指南](docs/MARKET.md)。
 
+**同一索引源还收录 8 个检查作品**（全部从 npm registry 解析，装完即用）：`hashcheck` 交付文件校验 · `citelint` 引用检查 · `outline-lint` 文档结构 · `tablelint` 表格检查 · `numberlint` 数字写法 · `agreement-check` 合同结构 · `invoice-check` 发票字段 · `listing-check` 电商商品信息。详情见[清单检查套件](https://zjukop3.github.io/dsh-verify-kit/)与[行业检查套件](https://zjukop3.github.io/dsh-vertical-kit/)的在线说明。
+
 本插件运行时零依赖、无安装脚本，不会触发 pnpm 的 `allowBuilds` 构建放行提示；从 GitHub 源安装时也不会运行第三方构建脚本。
 
 应用内网络不可用时，可对同一个 `0.1.10` 公开提交使用 CLI 回退：
