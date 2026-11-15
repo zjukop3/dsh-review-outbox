@@ -2,6 +2,12 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [0.1.11] - 2026-11-15
+
+- Documentation release: the npm README now carries the combined-index collection block (nine works, one source) and the reconciled 90-test claim.
+- Measurement infrastructure: `report:monthly` one-command flow (shapes sample to a dated metrics file, then the page build), `weekly:meta` assembler, floor-band stability table across measurement points, and the ordered runbooks (`MONTHLY-RUNBOOK.md`, `RELEASE-RUNBOOK.md`).
+- Site: proposal-demo page (the release-day marker mockup on real daily decomposition), sitemap.xml + robots.txt regenerated per build, link audit wired into `check`.
+
 ## [Unreleased]
 
 - `scripts/verify-receipt.mjs` checks a receipt against a file without a browser: exit 0 on a match, 1 on a mismatch with both digests, 2 when the receipt carries no reviewed digest because it was exported before any decision. A claim that cannot gate a CI job is a formality.
