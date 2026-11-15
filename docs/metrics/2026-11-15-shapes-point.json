@@ -1,0 +1,20 @@
+{
+  "window": {
+    "from": "2026-10-15",
+    "to": "2026-11-13"
+  },
+  "seed": 20261110,
+  "summary": {
+    "measured": 199,
+    "medianDaily": 34,
+    "p25Daily": 10,
+    "p75Daily": 54,
+    "p90Daily": 119,
+    "shareFloor": 60.3,
+    "shareVisible": 31.7,
+    "shareAdopted": 8,
+    "shareSilent": 25.1,
+    "shareBurst": 28.1,
+    "shareQuiet": 33.7
+  }
+}

@@ -71,7 +71,8 @@
     "test:interop:research": "node --experimental-transform-types scripts/e2e-research-report-interop.mjs",
     "seed:official": "node scripts/seed-official-backfill.mjs",
     "check": "node scripts/build-market-index.mjs && npm test && npm run build",
-    "report:ecosystem": "node scripts/ecosystem-snapshot.mjs --cache docs/metrics/ecosystem-downloads.json"
+    "report:ecosystem": "node scripts/ecosystem-snapshot.mjs --cache docs/metrics/ecosystem-downloads.json",
+    "report:monthly": "node scripts/report-monthly.mjs"
   },
   "files": [
     "src",

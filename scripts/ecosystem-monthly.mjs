@@ -71,10 +71,10 @@ function render({ date, catalog, distribution, leaderboard, selfRank, growth, ca
 <p>读法：中位数高 = 需求已被验证；条目多而中位数低 = 拥挤；条目少而中位数高 = 空位。中位数仍含底噪（每类都如此），只做相对比较。</p>` : ''
   const floorSection = shapesHistory.length >= 2 ? (() => {
     const rows = shapesHistory
-      .map(point => `<tr><td>${esc(point.to)}</td><td style="text-align:right">${num(point.measured)}</td><td style="text-align:right">${num(point.medianDaily)}</td><td style="text-align:right">${num(point.shareFloor)}%</td><td style="text-align:right">${num(point.shareAdopted)}%</td><td style="text-align:right">${num(point.shareBurst)}%</td></tr>`)
+      .map(point => `<tr><td>${esc(point.measuredOn)}（窗口止 ${esc(point.to)}）</td><td style="text-align:right">${num(point.measured)}</td><td style="text-align:right">${num(point.medianDaily)}</td><td style="text-align:right">${num(point.shareFloor)}%</td><td style="text-align:right">${num(point.shareAdopted)}%</td><td style="text-align:right">${num(point.shareBurst)}%</td></tr>`)
       .join('')
     return `<h2>底噪带稳定性（跨时间点）</h2>
-<table><tr><th>窗口止</th><th style="text-align:right">样本</th><th style="text-align:right">日中位数</th><th style="text-align:right">底噪带</th><th style="text-align:right">真实日用</th><th style="text-align:right">爆发形</th></tr>${rows}</table>
+<table><tr><th>测量日</th><th style="text-align:right">样本</th><th style="text-align:right">日中位数</th><th style="text-align:right">底噪带</th><th style="text-align:right">真实日用</th><th style="text-align:right">爆发形</th></tr>${rows}</table>
 <p>窗口滑动但结构不动：约六成条目停在底噪带，发版爆发形常驻约两成。这就是「下载列需要一个不误读的口径」的结构性依据，也是 <a href="${esc(REPO)}/blob/main/docs/SIGNAL-PROPOSAL.md">信号提案</a> 的趋势底座。</p>`
   })() : ''
   const weeklyStrip = weekly ? (() => {
@@ -149,11 +149,11 @@ async function main() {
         const summary = shapes?.summary
         const window = shapes?.window
         if (summary && window?.from && window?.to && Number.isFinite(summary.shareFloor)) {
-          points.push({ file: name, from: window.from, to: window.to, ...summary })
+          points.push({ file: name, measuredOn: name.slice(0, 10), from: window.from, to: window.to, ...summary })
         }
       } catch { /* a malformed metrics file is not a report blocker */ }
     }
-    return points.sort((a, b) => a.to.localeCompare(b.to))
+    return points.sort((a, b) => a.measuredOn.localeCompare(b.measuredOn) || a.to.localeCompare(b.to))
   })()
 
   const weekly = weeklyPath ? await (async () => {
