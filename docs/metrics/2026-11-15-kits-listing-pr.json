@@ -46,5 +46,12 @@
     "peer_followup": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/discussions/11870#discussioncomment-19634972"
   },
   "p0_1_evidence_issue": "https://github.com/dsh-market/dsh-market/issues/1208",
-  "p0_1_note": "our combined-index git+https finding (npm pack of a monorepo root) is a real-world case for the IMPROVEMENT-PLAN P0-1 gap; filed as its own issue with the npm-source disposition and a validation suggestion"
+  "p0_1_note": "our combined-index git+https finding (npm pack of a monorepo root) is a real-world case for the IMPROVEMENT-PLAN P0-1 gap; filed as its own issue with the npm-source disposition and a validation suggestion",
+  "signal_proposal_outcome": {
+    "status": "withdrawn",
+    "maintainer_response": "fkysly: badge fatigue (20-28% hit rate teaches users to ignore it) + the number already includes mirror/automated traffic and is positioned as relative size; reopening condition was ranking-error data",
+    "rank_stratified_measurement": "TOP-200 burst share 10.8% vs overall 28.0% \u2014 the leaderboard is NOT distorted; our own package is the exception, not the norm",
+    "withdrawal_comment": "https://github.com/dsh-market/dsh-market/issues/1207#issuecomment-6898230730",
+    "reading": "the honest outcome: we ran the measurement the maintainer asked for, it argued against our own proposal, and we reported it faithfully"
+  }
 }
