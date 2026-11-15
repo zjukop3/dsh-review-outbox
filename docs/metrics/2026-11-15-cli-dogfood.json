@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-15",
+  "kind": "first CLI dogfood of the check packages on this repository's own files",
+  "runs": [
+    {
+      "tool": "dsh-citelint",
+      "file": "README.md",
+      "result": "ok: 0 errors, 0 warnings"
+    },
+    {
+      "tool": "dsh-outline-lint",
+      "file": "README.md",
+      "result": "1 error: no-conclusion",
+      "reading": "domain mismatch \u2014 the conclusion rule targets deliverable reports; a README is a reference doc, not an agent deliverable"
+    },
+    {
+      "tool": "dsh-numberlint",
+      "file": "README.md",
+      "result": "ok: 0 errors, 0 warnings"
+    },
+    {
+      "tool": "dsh-outline-lint",
+      "file": "docs/OPERATIONS.md",
+      "result": "1 error: no-conclusion",
+      "reading": "same domain mismatch"
+    },
+    {
+      "tool": "dsh-numberlint",
+      "file": "docs/ECOSYSTEM-BASELINE.md",
+      "result": "ok: 0 errors, 0 warnings"
+    },
+    {
+      "tool": "dsh-tablelint",
+      "file": "CHANGELOG.md",
+      "result": "ok: 0 errors, 0 warnings"
+    }
+  ],
+  "reading": "The checks run on real files and produce actionable output. The two outline findings are scope, not defects: the conclusion rule is for report-like deliverables. The first real-document dogfood is clean on every check whose domain matches."
+}
