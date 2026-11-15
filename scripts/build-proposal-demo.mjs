@@ -19,7 +19,10 @@ const weeklyTotal = Object.values(daily).reduce((sum, value) => sum + value, 0)
 // The proposal's condition is single-day >= 50% of the weekly total (within
 // the window, excluding the reporting-lag days). The top-2-day share is a
 // separate, preexisting claim (82%) computed from the two largest days.
-const releaseDays = new Set(days.filter(([, value]) => value >= 0.5 * weeklyTotal).map(([day]) => day))
+// The stated condition: a single day >= 50% of the weekly total, evaluated
+// within the recent-5-days window (excluding the two reporting-lag days).
+const candidateDays = days.slice(0, Math.max(0, days.length - 2))
+const releaseDays = new Set(candidateDays.filter(([, value]) => value >= 0.5 * weeklyTotal).map(([day]) => day))
 const topTwoShare = days.length >= 2
   ? Math.round((days.map(([, value]) => value).sort((a, b) => b - a).slice(0, 2).reduce((sum, value) => sum + value, 0) / weeklyTotal) * 100)
   : undefined
