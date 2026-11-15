@@ -1,0 +1,35 @@
+{
+ "window": {
+  "from": "2026-10-15",
+  "to": "2026-11-13"
+ },
+ "seed": 20261116,
+ "summary": {
+  "measured": 199,
+  "medianDaily": 32,
+  "p25Daily": 4,
+  "p75Daily": 58,
+  "p90Daily": 115,
+  "shareFloor": 63.8,
+  "shareVisible": 29.6,
+  "shareAdopted": 6.5,
+  "shareSilent": 26.1,
+  "shareBurst": 20.6,
+  "shareQuiet": 30.2
+ },
+ "comparison": {
+  "previous": {
+   "date": "2026-11-15",
+   "file": "2026-11-15-shapes-second-point.json",
+   "seed": 20261110,
+   "window": "2026-10-15..2026-11-13",
+   "shareFloor": 60.1,
+   "shareBurst": 28.3,
+   "shareAdopted": 8.1,
+   "medianDaily": 34
+  },
+  "read": "same window (10-15..11-13), different sample seed (20261116 vs 20261110), so this is a same-population re-draw, not a new time point: floor 63.8% vs 60.1%, burst 20.6% vs 28.3%, median 32 vs 34. The band ordering replicates; the seed-to-seed spread on burst (28.3 -> 20.6) is sampling noise at n=200 and is the honest error bar for any single point.",
+  "provenance": "first names-mode point after fixing the 0149766 regression (Object.keys on the names array made --shapes measure npm packages literally named '0'..'199'); the two discarded runs behind it measured 66 and 63 numeric-named packages and were not saved"
+ },
+ "regression_note": "fixed in commit 1194680 with a sample-in-catalog assertion; published numbers (11-10 baseline, 11-15 second point, #1207 rank-stratified) all predate the regression and used the correct path"
+}
