@@ -58,3 +58,19 @@ node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox    # 展品全�
 ```
 
 完整论证：[SIGNAL-PROPOSAL.md](https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/SIGNAL-PROPOSAL.md) · 方法论：[底噪基线](https://zjukop3.github.io/dsh-review-outbox/baseline/) · 每期刷新：[生态月报](https://zjukop3.github.io/dsh-review-outbox/ecosystem/)
+
+
+---
+
+## 2026-11-16 后续：按承诺跑了排名分层测量，数据不支持本提案，撤回
+
+按上一条评论的承诺跑了 `--shapes-rank 200`（按周下载排名分层，cutoff 2,527/周）：
+
+| 层 | 爆发形 | 底噪带 |
+|---|---|---|
+| TOP-200（排名分层） | **10.8%** | 25.8% |
+| 全目录（同窗口，随机 200） | 28.0% | ~60% |
+
+**排名没有被发版日扭曲——方向恰好相反**：头部包的爆发形占比（10.8%）远低于全目录（28%），榜单主要由稳定高下载的包构成。我们自己的包（前 6.2%、82% 集中在两天）是那 10.8% 的例外，而不是榜单的常态。
+
+结论：维护者的两条理由 + 这个数据都指向同一处——徽标不该做，排名也不需要修。提案撤回，感谢认真对待。测量脚本与原始数据保留在仓库（`--shapes-rank` 模式），若未来要复测，一条命令。

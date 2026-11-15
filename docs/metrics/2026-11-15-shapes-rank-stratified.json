@@ -1,0 +1,24 @@
+{
+  "window": {
+    "from": "2026-10-15",
+    "to": "2026-11-13"
+  },
+  "seed": 20261110,
+  "mode": "rank-stratified",
+  "topN": 200,
+  "cutoff": 2527,
+  "overallShareBurst": 28,
+  "summary": {
+    "measured": 194,
+    "medianDaily": 379,
+    "p25Daily": 0,
+    "p75Daily": 1071,
+    "p90Daily": 2182,
+    "shareFloor": 25.8,
+    "shareVisible": 4.6,
+    "shareAdopted": 69.6,
+    "shareSilent": 25.3,
+    "shareBurst": 10.8,
+    "shareQuiet": 35.6
+  }
+}
