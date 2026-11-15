@@ -9,6 +9,7 @@
 
 import { parseMarketIndex } from '@deepseek-ai/dsh-plugin-market-index'
 import { execFileSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
@@ -33,11 +34,20 @@ const kitRepos = {
   'dsh-vertical-kit': resolve(root, '..', 'dsh-vertical-kit'),
 }
 
-function kitHead(repoKey) {
+// Local kit checkouts give the fast path; CI only has this repository, so the
+// HEAD commit comes from the GitHub API there. Both yield the same pin.
+async function kitHead(repoKey) {
+  const url = `https://github.com/zjukop3/${repoKey}`
   const cwd = kitRepos[repoKey]
-  const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd, encoding: 'utf8' }).trim()
-  const time = Number(execFileSync('git', ['show', '-s', '--format=%ct', head], { cwd, encoding: 'utf8' }).trim())
-  return { commit: head, time, url: `https://github.com/zjukop3/${repoKey}` }
+  if (existsSync(cwd)) {
+    const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd, encoding: 'utf8' }).trim()
+    const time = Number(execFileSync('git', ['show', '-s', '--format=%ct', head], { cwd, encoding: 'utf8' }).trim())
+    return { commit: head, time, url }
+  }
+  const response = await fetch(`https://api.github.com/repos/zjukop3/${repoKey}/commits/main`)
+  if (!response.ok) throw new Error(`Cannot resolve ${repoKey} HEAD: HTTP ${response.status}`)
+  const payload = await response.json()
+  return { commit: payload.sha, time: Math.floor(Date.parse(payload.commit.committer.date) / 1000), url }
 }
 
 // One row per kit package. Versions and engines must match the published
@@ -126,8 +136,8 @@ const KITS = [
   },
 ]
 
-function kitEntry(kit) {
-  const { commit: head, time, url } = kitHead(kit.repo)
+async function kitEntry(kit) {
+  const { commit: head, time, url } = await kitHead(kit.repo)
   return {
     name: kit.name,
     title: kit.title,
@@ -204,7 +214,7 @@ const index = {
       added: { title: { en: 'Recently added', zh: '最近发布' }, order: 'desc' },
     },
   },
-  plugins: [reviewEntry, ...KITS.map(kitEntry)],
+  plugins: [reviewEntry, ...(await Promise.all(KITS.map(kitEntry)))],
 }
 
 const validated = parseMarketIndex(index, indexUrl)
