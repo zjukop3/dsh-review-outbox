@@ -25,7 +25,7 @@ npm run report:monthly -- --date YYYY-MM-DD
 ## 4. 信号提案 issue（仅当月报支持提案时）
 
 - 刷新 `docs/SIGNAL-PROPOSAL-ISSUE.md` 的趋势表占位行（新测量点的三个数字）；
-- 粘贴到新 issue；标题：目录/市场「下载」列的发布日标记（带可复现测量与 mockup）；
+- 粘贴到新 issue（**目标仓库 dsh-market/dsh-market**，feature_request 模板；先搜 roadmap issues 确认无人提过下载列语义，相邻为 #934/#1008）；标题：市场「下载」列的发布日标记（带可复现测量与 mockup）；
 - 链接：[mockup](https://zjukop3.github.io/dsh-review-outbox/proposal-demo/) · [月报](https://zjukop3.github.io/dsh-review-outbox/ecosystem/) · [完整提案](https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/SIGNAL-PROPOSAL.md)。
 
 ## 5. 提交与部署
