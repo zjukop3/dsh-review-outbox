@@ -86,7 +86,7 @@ function render({ date, catalog, distribution, leaderboard, selfRank, growth, ca
       : '人工决策至今为零：回填在增长，但采用未发生。待办深度不是采用。'
     return `<h2>采用漏斗（自用 App 状态）</h2>
 <table><tr><th>测量日</th><th style="text-align:right">工件</th><th style="text-align:right">Session</th><th style="text-align:right">人工决策</th><th>最近决策</th></tr>${rows}</table>
-<p>${esc(verdict)}</p>`
+<p>${esc(verdict)} 三个数为什么只有一个是采用信号，见 <a href="${BASELINE}">采用漏斗的方法论</a>。</p>`
   })() : ''
   const weeklyStrip = weekly ? (() => {
     const mine = weekly['review-outbox'] || {}
