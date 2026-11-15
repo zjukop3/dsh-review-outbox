@@ -1,6 +1,7 @@
 {
   "statePath": "/Users/zjukop/.dsh/review-outbox/items.json",
-  "generatedAt": "2026-11-15T14:12:58.347Z",
+  "generatedAt": "2026-11-15T16:07:17.903Z",
+  "installedPluginVersion": "0.1.3",
   "appStateUpdatedAt": "2026-11-15T13:24:52.161Z",
   "artifacts": {
     "total": 86,
@@ -20,8 +21,8 @@
   },
   "pending": {
     "count": 86,
-    "medianAgeHours": 222.5,
-    "oldestAgeHours": 1273.3,
+    "medianAgeHours": 224.4,
+    "oldestAgeHours": 1275.2,
     "sessionsWithPending": 14,
     "largestSession": [
       "session-1af1eb38-d786-4e47-a6bb-29b99a34cd42",

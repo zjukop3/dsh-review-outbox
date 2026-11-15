@@ -72,9 +72,21 @@ const largestSession = Object.entries(items.reduce((acc, item) => {
   return acc
 }, {})).sort((a, b) => b[1] - a[1])[0] || [null, 0]
 
+// The installed plugin version, so a funnel measurement self-documents which
+// release's state it read — the 11-17 comparison may span 0.1.3 -> 0.1.11.
+const installedVersion = await (async () => {
+  try {
+    // the state lives at ~/.dsh/review-outbox/, the daily profile at ~/.dsh/profiles/desktop/
+    const dshHome = dirname(dirname(statePath))
+    const pkg = JSON.parse(await readFile(resolve(dshHome, 'profiles', 'desktop', 'node_modules', 'dsh-review-outbox', 'package.json'), 'utf8'))
+    return pkg.version
+  } catch { return null }
+})()
+
 const funnel = {
   statePath,
   generatedAt: new Date().toISOString(),
+  installedPluginVersion: installedVersion,
   appStateUpdatedAt: state.updatedAt,
   artifacts: {
     total: items.length,
