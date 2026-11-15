@@ -231,6 +231,14 @@ pnpm run check
 
 详见 [长期路线](docs/STRATEGY.md) 与 [目录收录准备](docs/CATALOG.md)。
 
+## 生态测量（附带产出）
+
+做这个插件的过程中测了整个目录的下载分布，沉淀成三份可复现的资产：
+
+- [生态月报](https://zjukop3.github.io/dsh-review-outbox/ecosystem/)：目录 5,643 条的分布、分类市场地图、头部榜单，每月更新。
+- [底噪基线](https://zjukop3.github.io/dsh-review-outbox/baseline/)：58.6% 的条目停在每天 20–40 次的底噪带——低三位数的周下载不代表有人装。
+- [发布与收录手册](https://zjukop3.github.io/dsh-review-outbox/operations/)：四段+一段时钟（发布→registry→冷却→目录→重启才加载），每条可重跑。
+
 ## License
 
 MIT
