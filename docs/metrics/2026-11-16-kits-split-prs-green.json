@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-16",
+  "milestone": "Split catalog submission green on all three PRs (per-subpackage entries, per-PR limit respected)",
+  "trigger": "PR #15594 failed two gates on the 8-entry shape: (1) generate-readme filename derivation — slugFor(url) yields zjukop3__{repo}--packages-{pkg}.yml, not zjukop3__{repo}--{pkg}.yml; (2) Submission gate MAX_ENTRIES_PER_PR=3 — 'pick as well as split: send the ones you would keep if you could only keep a few'",
+  "resolution": {
+    "pr_1": {
+      "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/15594",
+      "branch": "add-kit-entries",
+      "entries": [
+        "zjukop3/dsh-verify-kit#dsh-hashcheck",
+        "zjukop3/dsh-verify-kit#dsh-citelint",
+        "zjukop3/dsh-vertical-kit#dsh-agreement-check"
+      ],
+      "selection_rationale": "the three we would keep first (hashcheck most universal, citelint closest to the review-outbox lineage, agreement-check proves the vertical kit)"
+    },
+    "pr_2": {
+      "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/15655",
+      "branch": "add-kit-entries-2",
+      "entries": [
+        "zjukop3/dsh-verify-kit#dsh-outline-lint",
+        "zjukop3/dsh-verify-kit#dsh-tablelint",
+        "zjukop3/dsh-vertical-kit#dsh-invoice-check"
+      ]
+    },
+    "pr_3": {
+      "url": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/15656",
+      "branch": "add-kit-entries-3",
+      "entries": [
+        "zjukop3/dsh-verify-kit#dsh-numberlint",
+        "zjukop3/dsh-vertical-kit#dsh-listing-check"
+      ]
+    }
+  },
+  "entry_format": "per-subpackage per the monorepo rule: url tree/main/packages/{pkg}, name zjukop3/{repo}#{pkg}, filename zjukop3__{repo}--packages-{pkg}.yml (slugFor-derived), category tools, bilingual description, icon raw.githubusercontent assets/icon-180.png",
+  "ci": {
+    "note": "GitHub Actions on the repo was slow this window: a same-hour successful run took 24 minutes with the Build step alone 23 minutes (18:43:24Z-19:06:40Z), so IN_PROGRESS polls under 30 minutes are not evidence of a hang",
+    "pr_1": {"run": "43747401306", "check": "success", "submission_gate": "success"},
+    "pr_2": {"check": "success", "submission_gate": "success"},
+    "pr_3": {"check": "success", "submission_gate": "success", "first_green": "2026-11-15T19:06Z window"}
+  },
+  "repo_age_bar": "MIN_AGE_DAYS=1; both kit repos created 2026-11-10, submissions on 2026-11-15/16 clear it",
+  "expected": "After each merge, the next daily catalog build (04:49Z cadence) lists the subpackages on the Awesome site and in the in-app Discover search",
+  "reusable_lessons": [
+    "entry filename is not free-form: it is slugFor(url) — read scripts/lib/entries.mjs before writing entries",
+    "entry batching is capped at 3 per PR by the Submission gate, enforced with a pick-as-well-as-split instruction",
+    "the gate comment '8 entries in one pull request (limit 3)' came from check-runs output, not the workflow log — fetch the check-run JSON for gate messages"
+  ]
+}
