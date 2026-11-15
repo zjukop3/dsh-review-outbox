@@ -5,6 +5,7 @@
 - https://zjukop3.github.io/dsh-review-outbox/research-report/: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.
 - https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html: Real browser-generated standalone receipt; no installation required.
 - https://zjukop3.github.io/dsh-review-outbox/troubleshooting/: Symptom-first guide for installs that fail, resolve an older version, or stop updating, each with the command that confirms it.
+- https://zjukop3.github.io/dsh-review-outbox/proposal-demo/: The release-day marker mockup for the downloads-column signal proposal, side by side on the package's real daily decomposition.
 - https://zjukop3.github.io/dsh-review-outbox/operations/: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
 - https://zjukop3.github.io/dsh-review-outbox/baseline/: Measured download distribution for all 4,985 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
 - https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html: The latest monthly ecosystem report (2026-11-15): full-catalog distribution, top packages, and this package's own position with the burst caveat.

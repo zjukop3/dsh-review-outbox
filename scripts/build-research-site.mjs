@@ -197,11 +197,13 @@ const urls = origin ? [
   handbookUrl,
   troubleshootingUrl,
   baselineUrl,
+  origin ? `${origin}/proposal-demo/` : '',
   ...ecosystemUrls,
   receiptUrl,
 ] : []
 await writeFile(resolve(root, 'site/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((loc, index) => `  <url><loc>${escapeHtml(loc)}</loc><lastmod>${modifiedDate}</lastmod><priority>${index === 1 ? '1.0' : '0.7'}</priority></url>`).join('\n')}\n</urlset>\n`)
 await writeFile(resolve(root, 'site/llms.txt'), `# Review Outbox\n\n> Research report acceptance checklist and standalone SHA-256 review receipts for DeepSeek Harness.\n\n- ${pageUrl || '/research-report/'}: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.\n- ${receiptUrl || '/research-report/receipt-example.html'}: Real browser-generated standalone receipt; no installation required.\n- ${troubleshootingUrl || '/troubleshooting/'}: Symptom-first guide for installs that fail, resolve an older version, or stop updating, each with the command that confirms it.
+- ${origin}/proposal-demo/: The release-day marker mockup for the downloads-column signal proposal, side by side on the package's real daily decomposition.
 - ${handbookUrl || '/operations/'}: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
 - ${baselineUrl || '/baseline/'}: Measured download distribution for all 4,985 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
 ${ecosystemUrls.length ? `- ${latestEcosystemUrl}: The latest monthly ecosystem report (${ecosystemEditions.at(-1)?.replace('.html', '')}): full-catalog distribution, top packages, and this package's own position with the burst caveat.` : ''}
