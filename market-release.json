@@ -1,4 +1,4 @@
 {
-  "commit": "6000c13c2b0ebd34701d8c66b8123e06beee8530",
-  "notes": "Version 0.1.10. Documentation-only commits do not move this pin."
+  "commit": "9fd160dc0bff2bc014a17f0e02d56ebad2198ff9",
+  "notes": "Version 0.1.11. Documentation release: the npm README now carries the collection block and the 90-test claim."
 }
