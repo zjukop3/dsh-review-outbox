@@ -34,6 +34,10 @@ awesome-dsh-plugin 的 list-problem 模板明确把市场 UI 反馈路由到 dsh
 并排 mockup（真实日值分解，非编造样例）：
 https://zjukop3.github.io/dsh-review-outbox/proposal-demo/
 
+## 实现意愿
+
+测量数据与 mockup 都已就绪；若方向被认可，愿意提交 PR——展示层的条件样式，改动范围小，判定逻辑以本文的复现脚本为准。
+
 ## 与相邻 roadmap 的关系
 
 #934（最后更新时间显示）与 #1008（体积/兼容矩阵/权限）都是 listing 展示增强，但都不覆盖**下载列的语义**——本提案是第三件独立的展示改进；若维护者更愿意合并处理，本提案的数据与 mockup 可直接并入任一条。
