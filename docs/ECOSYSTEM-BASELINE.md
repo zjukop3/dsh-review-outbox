@@ -63,6 +63,9 @@ node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox
 
 # 200 个包的 30 天形状（抽样确定，seed 固定；结果缓存在 docs/metrics/ecosystem-downloads.json）
 node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110
+
+# 按周下载排名分层：TOP-200 的爆发形占比 vs 全目录基线（2026-11-16 实测：10.8% vs 28.0%——排名没有被发版日扭曲）
+node scripts/ecosystem-snapshot.mjs --shapes-rank 200 --seed 20261110
 ```
 
 原始数字：`docs/metrics/2026-11-10-ecosystem-baseline.json`。
