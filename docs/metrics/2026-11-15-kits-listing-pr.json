@@ -44,5 +44,7 @@
     "repo": "dsh-market/dsh-market (feature_request template, label: roadmap)",
     "note": "filed ahead of the 12-01 plan: the evidence was complete (three measurement points, mockup, peer confirmation, explicit maintainer invitation from awesome-dsh-plugin #13819), and momentum beats a stale moment. The 12-01 monthly can follow up as a comment.",
     "peer_followup": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/discussions/11870#discussioncomment-19634972"
-  }
+  },
+  "p0_1_evidence_issue": "https://github.com/dsh-market/dsh-market/issues/1208",
+  "p0_1_note": "our combined-index git+https finding (npm pack of a monorepo root) is a real-world case for the IMPROVEMENT-PLAN P0-1 gap; filed as its own issue with the npm-source disposition and a validation suggestion"
 }
