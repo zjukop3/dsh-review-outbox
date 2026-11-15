@@ -71,6 +71,7 @@ test('the report names the median before it names the winner', () => {
   assert.match(report, /`b`: \*\*3\*\* downloads/)
   assert.ok(report.indexOf('median plugin') < report.indexOf('## Top 1'))
   assert.match(report, /dsh-plugin-catalog@1\.2\.3/)
+  assert.doesNotMatch(report, /mean/, 'the report must not headline a mean: winners skew it and the median carries the meaning')
 })
 
 test('a floor-level package and a burst package are not the same shape', () => {

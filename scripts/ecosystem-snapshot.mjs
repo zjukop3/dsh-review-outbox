@@ -178,7 +178,6 @@ export function formatReport({ summary, top, mine, catalog, measuredAt }) {
     `| p95 | ${summary.p95.toLocaleString('en-US')} |`,
     `| p99 | ${summary.p99.toLocaleString('en-US')} |`,
     `| max | ${summary.max.toLocaleString('en-US')} |`,
-    `| mean | ${summary.mean.toLocaleString('en-US')} |`,
     '',
     `${summary.zero.toLocaleString('en-US')} packages (${summary.shareZero}%) recorded zero downloads; ` +
       `${summary.under100.toLocaleString('en-US')} (${summary.shareUnder100}%) recorded fewer than 100.`,

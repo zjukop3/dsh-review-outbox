@@ -119,6 +119,13 @@ node "$PNPM" update dsh-review-outbox --config.minimum-release-age=0   # 精确 
 
 **作者最容易踩的坑**：为了立刻验证新版本，用 `@<version>` 装了一次，于是这个 profile 从此不再自动更新，之后每发一版都"看不到效果"。这不是管线坏了，是那行 spec 被钉死了。
 
+
+## 3b. 第五段时钟：解析到新版本 ≠ 运行中的进程加载了它
+
+安装侧把版本解析成功（四段时钟走完）只是文件落盘。运行中的进程是否加载新代码，由 loader 决定：`cordis-plugin-loader` 的 `Entry._init()` 把 `moduleNamespace` 只捕获一次，`Entry.update()` 的 config 重载重建 fiber 时复用同一个命名空间（442 行的 HMR 注释在当前构建没有实现代码）。pnpm 原地升级只翻 symlink，没有 watcher 触发重载。
+
+**结论：升级生效需要重启 DSH。** 重启后 `import()` 解析到新 symlink 目标，新代码自然进入。验证升级成功，看的是重启后的运行时，不是升级动作本身。
+
 ## 4. 三条安装回退路径（都实测过）
 
 | 路径 | 命令形态 | 实测结果 | 代价 |
