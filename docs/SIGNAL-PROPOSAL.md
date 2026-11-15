@@ -1,6 +1,6 @@
 # 给目录/市场的信号提案：发布日形状的周数字应带「发布日」标记
 
-**状态**：草案，计划随 2026-12-01 月报正式开 issue。issue 正文紧凑版已预写：[SIGNAL-PROPOSAL-ISSUE.md](SIGNAL-PROPOSAL-ISSUE.md)（当天刷新趋势表与数字后粘贴）。fkysly 在 #13819 的结论里明确邀请「具体的替代信号提案（带可复现的测量）」——本文件就是按这个邀请准备的。开 issue 前先刷新数字。
+**状态**：草案，计划随 2026-12-01 月报正式开 issue。issue 正文紧凑版已预写：[SIGNAL-PROPOSAL-ISSUE.md](SIGNAL-PROPOSAL-ISSUE.md)（当天刷新趋势表与数字后粘贴）。fkysly 在 #13819 的结论里明确邀请「具体的替代信号提案（带可复现的测量）」——本文件就是按这个邀请准备的。开 issue 前先刷新数字——操作顺序见 [MONTHLY-RUNBOOK.md](MONTHLY-RUNBOOK.md)（先 weekly:meta 与账本编辑，再 report:monthly，页面才会读到新元数据）。
 
 ## 提案内容（一句话）
 
