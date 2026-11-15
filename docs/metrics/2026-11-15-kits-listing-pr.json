@@ -31,5 +31,11 @@
     "spec": "github:zjukop3/dsh-review-outbox#9fd160dc0bff2bc014a17f0e02d56ebad2198ff9",
     "result": "installed 0.1.11 in 3m26s via the profile CLI, composed and then removed",
     "meaning": "the research page CLI fallback pin is verified for the current release"
+  },
+  "verification_chain": {
+    "npm_install": "verified (all 8 specs compose)",
+    "composition": "verified (dump-config shows all entries)",
+    "pure_functions": "verified (29 kit tests)",
+    "host_route_live": "not tested \u2014 the desktop app holds the DSH singleton, and the web subcommand rejects a second profile while it runs; the route layer is the same wrapper pattern review-outbox e2e-tested"
   }
 }
