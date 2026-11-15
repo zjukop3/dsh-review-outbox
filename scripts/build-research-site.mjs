@@ -208,4 +208,16 @@ ${ecosystemUrls.length ? `- ${latestEcosystemUrl}: The latest monthly ecosystem 
 - ${repositoryUrl}: Public source code, installation guide, and validation evidence.\n- ${marketIndexUrl}: Officially validated DSH format-1 application market index for Review Outbox ${pluginVersion}, pinned installation, and activation.\n- ${firstValueEvidenceUrl}: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.\n- ${repositoryUrl}/blob/${currentCommit}: Immutable public source for the current ${pluginVersion} application-index installation.\n- ${catalogUrl}: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.\n- ${downloadUrl || `./downloads/${packageName}`}: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.\n\nReview Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.\n`)
 await mkdir(directory, { recursive: true })
 if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${indexNow.key}\n`)
+
+// Crawlability: sitemap from the real file tree (static pages + every
+// ecosystem edition), robots pointing at it. Regenerated on each build so it
+// never drifts from what is actually deployed.
+const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html']
+const editionPages = ecosystemUrls ? ecosystemUrls.filter(url => /\.html$/.test(url)) : []
+const pageUrls = [...staticPages.map(page => `${origin}/${page.replace(/index\.html$/, '')}`), ...editionPages]
+const lastmod = new Date().toISOString().slice(0, 10)
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pageUrls.map(url => `  <url><loc>${escapeHtml(url)}</loc><lastmod>${lastmod}</lastmod></url>`).join('\n')}\n</urlset>\n`
+await writeFile(resolve(root, 'site/sitemap.xml'), sitemap)
+await writeFile(resolve(root, 'site/robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`)
+
 console.log(JSON.stringify({ ok: true, page: 'site/research-report/index.html', receipt: 'site/research-report/receipt-example.html', canonical: pageUrl || null, indexNowKeyFile: indexNow ? `site/${indexNow.key}.txt` : null, bytes: Buffer.byteLength(html) }))
