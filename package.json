@@ -74,7 +74,8 @@
     "report:ecosystem": "node scripts/ecosystem-snapshot.mjs --cache docs/metrics/ecosystem-downloads.json",
     "report:monthly": "node scripts/report-monthly.mjs",
     "weekly:meta": "node scripts/weekly-meta.mjs",
-    "funnel:usage": "node scripts/usage-funnel.mjs"
+    "funnel:usage": "node scripts/usage-funnel.mjs",
+    "funnel:compare": "node scripts/funnel-compare.mjs"
   },
   "files": [
     "src",
