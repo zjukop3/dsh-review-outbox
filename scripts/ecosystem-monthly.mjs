@@ -48,7 +48,7 @@ const num = value => Number(value).toLocaleString('en-US')
 
 const styles = 'body{max-width:860px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(28px,5vw,44px);font-weight:250;line-height:1.15;margin-bottom:14px}h2{font-size:21px;font-weight:500;margin-top:34px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}table{border-collapse:collapse;width:100%;font-size:14px;margin:14px 0}th,td{border:1px solid #d4d4d2;padding:8px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:22px 0;font-size:14px}.nav a{margin-right:14px}.caveat{margin:24px 0;padding:14px 18px;background:#f0f0ee;border-left:4px solid #002fa7}small{display:block;margin-top:30px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}}'
 
-function render({ date, catalog, distribution, leaderboard, selfRank, growth, categories, weekly, shapesHistory }) {
+function render({ date, catalog, distribution, leaderboard, selfRank, growth, categories, weekly, shapesHistory, funnelHistory }) {
   const distributionRows = [
     ['median', distribution.median], ['p25', distribution.p25], ['p75', distribution.p75],
     ['p90', distribution.p90], ['p95', distribution.p95], ['p99', distribution.p99],
@@ -77,6 +77,17 @@ function render({ date, catalog, distribution, leaderboard, selfRank, growth, ca
 <table><tr><th>测量日</th><th style="text-align:right">样本</th><th style="text-align:right">日中位数</th><th style="text-align:right">底噪带</th><th style="text-align:right">真实日用</th><th style="text-align:right">爆发形</th></tr>${rows}</table>
 <p>窗口滑动但结构不动：约六成条目停在底噪带，发版爆发形常驻约两成。这就是「下载列需要一个不误读的口径」的结构性依据，也是 <a href="${esc(REPO)}/blob/main/docs/SIGNAL-PROPOSAL.md">信号提案</a> 的趋势底座。</p>`
   })() : ''
+  const funnelSection = funnelHistory.length ? (() => {
+    const rows = funnelHistory
+      .map(point => `<tr><td>${esc(point.measured)}</td><td style="text-align:right">${num(point.artifacts)}</td><td style="text-align:right">${num(point.sessions)}</td><td style="text-align:right">${num(point.decisions)}</td><td>${point.last ? esc(point.last.slice(0, 16)) : '从未'}</td></tr>`)
+      .join('')
+    const verdict = funnelHistory.some(point => point.decisions > 0)
+      ? '出现人工决策后，这一列才第一次承载采用信号。'
+      : '人工决策至今为零：回填在增长，但采用未发生。待办深度不是采用。'
+    return `<h2>采用漏斗（自用 App 状态）</h2>
+<table><tr><th>测量日</th><th style="text-align:right">工件</th><th style="text-align:right">Session</th><th style="text-align:right">人工决策</th><th>最近决策</th></tr>${rows}</table>
+<p>${esc(verdict)}</p>`
+  })() : ''
   const weeklyStrip = weekly ? (() => {
     const mine = weekly['review-outbox'] || {}
     const rows = [
@@ -100,6 +111,7 @@ function render({ date, catalog, distribution, leaderboard, selfRank, growth, ca
 <nav class="nav"><a href="${esc(`${ORIGIN}/`)}">首页</a><a href="${BASELINE}">底噪基线（方法论）</a><a href="${esc(REPO)}">GitHub 源码</a><a href="${KIT_SITES.verify}">清单检查套件</a><a href="${KIT_SITES.vertical}">行业检查套件</a></nav>
 ${growthLine}
 ${floorSection}
+${funnelSection}
 ${weeklyStrip}
 <h2>分布（周下载，全体目录）</h2>
 <table><tr><th>分位</th><th style="text-align:right">下载</th></tr>${distributionRows}</table>
@@ -137,6 +149,24 @@ async function main() {
   // Floor-band stability: any metrics file that carries a shapes summary
   // (window + shareFloor) is a time point. Two or more make a trend table,
   // which is what the 12-01 signal proposal stands on.
+  // Adoption funnel history: every *-usage-funnel.json is a measurement of
+  // the running app's own state. The only number that says anything about
+  // adoption is the human-decision count; artifact growth alone is backfill.
+  const funnelHistory = await (async () => {
+    const dir = resolve(process.cwd(), 'docs/metrics')
+    const points = []
+    for (const name of await readdir(dir)) {
+      if (!/-usage-funnel\.json$/.test(name)) continue
+      try {
+        const data = JSON.parse(await readFile(resolve(dir, name), 'utf8'))
+        if (data?.artifacts && data?.humanDecisions) {
+          points.push({ measured: name.slice(0, 10), artifacts: data.artifacts.total, sessions: data.artifacts.sessions, decisions: data.humanDecisions.total, last: data.humanDecisions.last, medianAgeHours: data.pending?.medianAgeHours })
+        }
+      } catch { /* malformed metrics file is not a report blocker */ }
+    }
+    return points.sort((a, b) => a.measured.localeCompare(b.measured))
+  })()
+
   const shapesHistory = await (async () => {
     const dir = resolve(process.cwd(), 'docs/metrics')
     const points = []
@@ -194,7 +224,7 @@ async function main() {
       median: summary.median, p25: summary.p25, p75: summary.p75, p90: summary.p90,
       p95: summary.p95, p99: summary.p99, max: summary.max, shareUnder100: summary.shareUnder100,
     },
-    leaderboard, selfRank, growth, weekly, shapesHistory,
+    leaderboard, selfRank, growth, weekly, shapesHistory, funnelHistory,
   })
 
   const root = resolve(process.cwd(), 'site/ecosystem')
