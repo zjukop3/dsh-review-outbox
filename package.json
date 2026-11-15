@@ -1,6 +1,6 @@
 {
   "name": "dsh-review-outbox",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Evidence-gated acceptance for DeepSeek Harness deliverables: research reports need claims, citations, data scope and method limits checked with written evidence before approval, spreadsheets need source, units and a spot check; approvals produce a standalone SHA-256 receipt that says when the reviewed bytes moved.",
   "type": "module",
   "main": "./src/host.js",
