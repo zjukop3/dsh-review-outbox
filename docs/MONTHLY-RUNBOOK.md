@@ -22,7 +22,9 @@ npm run report:monthly -- --date YYYY-MM-DD
 
 自动：shapes 采样（200 包、固定 seed，写第三/四…个时间点）→ 采用漏斗（读本地 App 状态，免费）→ 构建页面，拾取最新 weekly 与**全部** shapes/funnel 点（底噪稳定性表与采用漏斗表自动加行）。
 
-## 4. 信号提案 issue（仅当月报支持提案时）
+## 4. 信号提案（已撤回，2026-11-16）
+
+提案以 [dsh-market #1207](https://github.com/dsh-market/dsh-market/issues/1207) 提交并按维护者的重开条件跑了排名分层测量——数据不支持（TOP-200 爆发形 10.8% vs 全目录 28%），已如实撤回。月度测量照常；若未来数据变化（如排名分层结果反转），重启对话时引用 #1207 与本仓库的 `--shapes-rank` 模式。
 
 - 刷新 `docs/SIGNAL-PROPOSAL-ISSUE.md` 的趋势表占位行（新测量点的三个数字）；
 - 粘贴到新 issue（**目标仓库 dsh-market/dsh-market**，feature_request 模板；先搜 roadmap issues 确认无人提过下载列语义，相邻为 #934/#1008）；标题：市场「下载」列的发布日标记（带可复现测量与 mockup）；
