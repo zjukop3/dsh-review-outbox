@@ -79,13 +79,13 @@ function render({ date, catalog, distribution, leaderboard, selfRank, growth, ca
   })() : ''
   const funnelSection = funnelHistory.length ? (() => {
     const rows = funnelHistory
-      .map(point => `<tr><td>${esc(point.measured)}</td><td style="text-align:right">${num(point.artifacts)}</td><td style="text-align:right">${num(point.sessions)}</td><td style="text-align:right">${num(point.decisions)}</td><td>${point.last ? esc(point.last.slice(0, 16)) : '从未'}</td></tr>`)
+      .map(point => `<tr><td>${esc(point.measured)}</td><td>${esc(point.version)}</td><td style="text-align:right">${num(point.artifacts)}</td><td style="text-align:right">${num(point.sessions)}</td><td style="text-align:right">${num(point.decisions)}</td><td>${point.last ? esc(point.last.slice(0, 16)) : '从未'}</td></tr>`)
       .join('')
     const verdict = funnelHistory.some(point => point.decisions > 0)
       ? '出现人工决策后，这一列才第一次承载采用信号。'
       : '人工决策至今为零：回填在增长，但采用未发生。待办深度不是采用。'
     return `<h2>采用漏斗（自用 App 状态）</h2>
-<table><tr><th>测量日</th><th style="text-align:right">工件</th><th style="text-align:right">Session</th><th style="text-align:right">人工决策</th><th>最近决策</th></tr>${rows}</table>
+<table><tr><th>测量日</th><th>插件版本</th><th style="text-align:right">工件</th><th style="text-align:right">Session</th><th style="text-align:right">人工决策</th><th>最近决策</th></tr>${rows}</table>
 <p>${esc(verdict)} 三个数为什么只有一个是采用信号，见 <a href="${BASELINE}">采用漏斗的方法论</a>。</p>`
   })() : ''
   const weeklyStrip = weekly ? (() => {
@@ -160,7 +160,7 @@ async function main() {
       try {
         const data = JSON.parse(await readFile(resolve(dir, name), 'utf8'))
         if (data?.artifacts && data?.humanDecisions) {
-          points.push({ measured: name.slice(0, 10), artifacts: data.artifacts.total, sessions: data.artifacts.sessions, decisions: data.humanDecisions.total, last: data.humanDecisions.last, medianAgeHours: data.pending?.medianAgeHours })
+          points.push({ measured: name.slice(0, 10), version: data.installedPluginVersion || 'unknown', artifacts: data.artifacts.total, sessions: data.artifacts.sessions, decisions: data.humanDecisions.total, last: data.humanDecisions.last, medianAgeHours: data.pending?.medianAgeHours })
         }
       } catch { /* malformed metrics file is not a report blocker */ }
     }
