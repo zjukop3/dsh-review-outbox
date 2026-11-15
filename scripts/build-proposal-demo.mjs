@@ -5,13 +5,17 @@
 // demonstrates the disambiguation with honest numbers rather than invented
 // ones. Linked from docs/SIGNAL-PROPOSAL.md; rebuilt with the site.
 
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const root = resolve(import.meta.dirname, '..')
 const origin = process.env.PUBLIC_ORIGIN || 'https://zjukop3.github.io/dsh-review-outbox'
 
-const weekly = JSON.parse(await readFile(resolve(root, 'docs/metrics/2026-11-15-ecosystem-weekly.json'), 'utf8'))
+// The weekly meta moves with each measurement; pick the newest so a rebuild
+// never renders a stale window by accident.
+const metricsDir = resolve(root, 'docs/metrics')
+const weeklyName = (await readdir(metricsDir)).filter(name => /-ecosystem-weekly\.json$/.test(name)).sort().at(-1)
+const weekly = JSON.parse(await readFile(resolve(metricsDir, weeklyName), 'utf8'))
 const mine = weekly['review-outbox']
 const daily = mine?.decomposition?.daily || {}
 const days = Object.entries(daily).sort(([a], [b]) => a.localeCompare(b))
