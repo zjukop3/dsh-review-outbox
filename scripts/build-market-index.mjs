@@ -93,7 +93,7 @@ const KITS = [
     keywords: ['numbers', 'consistency', 'lint', '数字', '一致性'],
   },
   {
-    repo: 'dsh-vertical-kit', name: 'dsh-agreement-check', version: '0.1.2', slug: 'agreement-check', icon: icon('#8c4632', glyph('<path d="M32 10l16 6v14c0 12-7 20-16 24-9-4-16-12-16-24V16z" fill="none" stroke="#fff" stroke-width="4"/><path d="M26 32l4 4 8-9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>')),
+    repo: 'dsh-vertical-kit', name: 'dsh-agreement-check', version: '0.1.3', slug: 'agreement-check', icon: icon('#8c4632', glyph('<path d="M32 10l16 6v14c0 12-7 20-16 24-9-4-16-12-16-24V16z" fill="none" stroke="#fff" stroke-width="4"/><path d="M26 32l4 4 8-9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>')),
     title: { en: 'Agreement check — contract structure', zh: 'Agreement check · 合同结构检查' },
     description: {
       en: 'Contract structure checks for Chinese agreements: parties, date, amount consistency (uppercase vs digits), signature blocks, dispute resolution, breach clauses.',
