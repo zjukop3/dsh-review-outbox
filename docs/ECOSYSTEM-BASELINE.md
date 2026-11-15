@@ -83,7 +83,7 @@ node scripts/ecosystem-snapshot.mjs --shapes-rank 200 --seed 20261110
 | 待办深度 | 多少工件在等人处置 | 更不是采用——堆着不管恰好说明没人用 |
 | **人工决策数** | 历史里出现 `approve` / `return` 的次数 | **唯一需要人参与的记录**；第一次非零就是采用的开始 |
 
-测量工具：`npm run funnel:usage`（同 schema 落盘 `docs/metrics/<日期>-usage-funnel.json`，两期直接可比）。月报的「采用漏斗」区块自动汇总全部测量点。
+测量工具：`npm run funnel:usage`（同 schema 落盘 `docs/metrics/<日期>-usage-funnel.json`，两期直接可比；`funnel:compare` 出 delta）。每期记录同时写入被测 Profile 里实际安装的插件版本（`installedPluginVersion`）——版本跨越（如 0.1.3 → 0.1.11）与决策数的变化在对比时自明。月报的「采用漏斗」区块自动汇总全部测量点。
 
 判定纪律：**待办深度不是采用**。回填在增长只说明 App 在运行；人工决策从零变非零的那一刻，才是采用漏斗的第一个真信号。
 
