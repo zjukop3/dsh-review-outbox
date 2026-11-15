@@ -56,6 +56,24 @@ git add -A && git commit && git push     # Pages 部署，sitemap 自动带上�
 node scripts/submit-indexnow.mjs          # 可选：加速重抓
 ```
 
+## 版本声明清单（发布前逐项 grep 核对）
+
+版本号散落在多份文本里，每次发布全量对齐。逐项替换 `0.1.10` → 新版本，`grep -rn '0\.1\.10' README.md README.en.md site/` 计数为 0（`0.1.0` 旧包链接是刻意保留的历史产物，不计）：
+
+| 位置 | 内容 |
+|---|---|
+| `README.md` 头部导航 | 「应用内安装 0.1.x」 |
+| `README.md` 验证段 | 「当前源码与应用内索引为 0.1.x」+ npm 版本引用 |
+| `README.md` CLI 回退段 | 「同一个 0.1.x 公开提交」 |
+| `README.md` pin 语义示例 | `@0.1.x` |
+| `README.en.md` 头部导航 | "Install 0.1.x in DSH" |
+| `README.en.md` 验证段 | "Current source and the application index are 0.1.x" + npm 版本引用 |
+| `README.en.md` CLI 回退段 | "the same public 0.1.x commit" |
+| `README.en.md` pin 语义示例 | `@0.1.x` |
+| `site/research-report/index.html`（自举源） | CLI 回退 commit、安装标题、确认版本 |
+| `market-release.json` | commit + notes |
+| `CHANGELOG.md` | 新版本条目 |
+
 ## 已知口径
 
 - **市场可见性冷却**：`minimumReleaseAge` 1440 分钟——发布当晚应用内默认命令装到的是旧版，显式钉版本不受限；
