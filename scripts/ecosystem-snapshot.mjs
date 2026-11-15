@@ -326,15 +326,36 @@ async function main() {
   }
 
   const shapes = Number(flag('--shapes') || 0)
-  if (shapes > 0) {
+  const shapesRank = Number(flag('--shapes-rank') || 0)
+  if (shapes > 0 || shapesRank > 0) {
     const seed = Number(flag('--seed') || 20261110)
     const to = flag('--until') || new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)
     const from = flag('--since') || new Date(Date.parse(`${to}T00:00:00Z`) - 29 * 86400000).toISOString().slice(0, 10)
-    const sample = sampleNames(names, shapes, seed)
-    const series = await collectSeries(sample, { from, to, cache })
+    // --shapes-rank stratifies by weekly downloads instead of namespace: the
+    // top-N packages are sampled so the burst share among them answers the
+    // ranking question (how much of the leaderboard is release-day overhead).
+    let sample
+    let rankMeta
+    if (shapesRank > 0) {
+      const totals = await collectDownloads(names, { cache })
+      const ranked = Object.entries(totals).filter(([, value]) => Number.isFinite(value)).sort((a, b) => b[1] - a[1])
+      sample = Object.fromEntries(ranked.slice(0, shapesRank))
+      rankMeta = { mode: 'rank-stratified', topN: shapesRank, cutoff: ranked[shapesRank - 1]?.[1] ?? null, overallShareBurst: null }
+    } else {
+      sample = sampleNames(names, shapes, seed)
+    }
+    const series = await collectSeries(Object.keys(sample), { from, to, cache })
     if (cachePath) await writeFile(cachePath, JSON.stringify(cache, null, 2))
     const summary = summarizeShapes(series)
-    if (asJson) process.stdout.write(`${JSON.stringify({ window: { from, to }, seed, summary }, null, 2)}\n`)
+    if (rankMeta) {
+      // the overall burst share from the same window, for the comparison the
+      // dsh-market #1207 reopening condition asks for
+      const overallSample = sampleNames(names, 200, seed)
+      const overallSeries = await collectSeries(overallSample, { from, to, cache })
+      const overall = summarizeShapes(overallSeries)
+      rankMeta.overallShareBurst = overall.shareBurst
+    }
+    if (asJson) process.stdout.write(`${JSON.stringify({ window: { from, to }, seed, ...rankMeta, summary }, null, 2)}\n`)
     else process.stdout.write(formatShapes({ summary, window: { from, to }, seed }))
     return
   }
