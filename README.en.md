@@ -30,7 +30,7 @@ It handles **deliverable disposition**, not generic notifications, questions, or
 
 ## Status
 
-The project is in `0.1.x` validation. Current source and the application index are `0.1.10`; the Pages tarball remains `0.1.0`. Source code, npm (`dsh-review-outbox@0.1.10`), the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
+The project is in `0.1.x` validation. Current source and the application index are `0.1.11`; the Pages tarball remains `0.1.0`. Source code, npm (`dsh-review-outbox@0.1.11`), the research-checklist site, and the [Awesome catalog listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) are public. GitHub Releases remain unpublished. Listing is a discovery milestone, not evidence of organic activation or retention. New receipts link to the public install guide.
 
 Target runtime: DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`, Node.js `>=22.19`.
 
@@ -45,6 +45,8 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 ```
 
 Search for `Review Outbox` or `研究报告`, verify the version and full commit, install, then enable the plugin under **Installed**. The `format: 1` index is validated with the official DSH parser; see the [application market guide](docs/MARKET.md).
+
+The same index source also carries **eight check packages** (all resolved from the npm registry, usable right after install): `hashcheck` file-hash manifests · `citelint` citation numbering · `outline-lint` document shape · `tablelint` table integrity · `numberlint` number consistency · `agreement-check` contract structure · `invoice-check` invoice fields · `listing-check` e-commerce listing hygiene. Details: [verify-kit](https://zjukop3.github.io/dsh-verify-kit/) and [vertical-kit](https://zjukop3.github.io/dsh-vertical-kit/).
 
 The plugin ships with zero runtime dependencies and no install scripts, so it never triggers pnpm's `allowBuilds` build-approval prompt; installing from GitHub source runs no third-party build scripts either.
 
