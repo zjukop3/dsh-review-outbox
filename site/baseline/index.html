@@ -24,13 +24,16 @@
 node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox
 
 # 200 个包的 30 天形状（抽样确定，seed 固定；结果缓存在 docs/metrics/ecosystem-downloads.json）
-node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110</code></pre>
+node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110
+
+# 按周下载排名分层：TOP-200 的爆发形占比 vs 全目录基线（2026-11-16 实测：10.8% vs 28.0%——排名没有被发版日扭曲）
+node scripts/ecosystem-snapshot.mjs --shapes-rank 200 --seed 20261110</code></pre>
 <p>原始数字：<code>docs/metrics/2026-11-10-ecosystem-baseline.json</code>。</p>
 <h2 id="采用漏斗的方法论">采用漏斗的方法论</h2>
 <p>底噪带回答「下载数在生态里算什么水平」；采用漏斗回答另一个问题——<strong>这个插件有没有被真正用起来</strong>。两者的数据源不同：前者是 npm 的公开下载计数，后者是本机 App 状态文件（<code>~/.dsh/review-outbox/items.json</code>）。</p>
 <p>三个数，只有一个承载采用信号：</p>
 <div class="table-wrap"><table><thead><tr><th>数</th><th>含义</th><th>不是什么</th></tr></thead><tbody><tr><td>工件总数</td><td>回填从真实 Session 里发现了多少交付物</td><td>不等于使用——密封报告的自动回填不需要人在场</td></tr><tr><td>待办深度</td><td>多少工件在等人处置</td><td>更不是采用——堆着不管恰好说明没人用</td></tr><tr><td><strong>人工决策数</strong></td><td>历史里出现 <code>approve</code> / <code>return</code> 的次数</td><td><strong>唯一需要人参与的记录</strong>；第一次非零就是采用的开始</td></tr></tbody></table></div>
-<p>测量工具：<code>npm run funnel:usage</code>（同 schema 落盘 <code>docs/metrics/&lt;日期&gt;-usage-funnel.json</code>，两期直接可比）。月报的「采用漏斗」区块自动汇总全部测量点。</p>
+<p>测量工具：<code>npm run funnel:usage</code>（同 schema 落盘 <code>docs/metrics/&lt;日期&gt;-usage-funnel.json</code>，两期直接可比；<code>funnel:compare</code> 出 delta）。每期记录同时写入被测 Profile 里实际安装的插件版本（<code>installedPluginVersion</code>）——版本跨越（如 0.1.3 → 0.1.11）与决策数的变化在对比时自明。月报的「采用漏斗」区块自动汇总全部测量点。</p>
 <p>判定纪律：<strong>待办深度不是采用</strong>。回填在增长只说明 App 在运行；人工决策从零变非零的那一刻，才是采用漏斗的第一个真信号。</p>
 <h2 id="已知不确定项">已知不确定项</h2>
 <ul><li>npm 下载接口有约两天延迟，最近两天的日值一律是 0，不能读成「没人下载」。</li><li>抽样是名字空间的均匀随机，没有按类别或发布时间分层；新发布的包天然更容易落在「爆发型」。</li><li>周下载与日序列取自不同窗口（相差一天），两者不能逐包相减。</li></ul>
