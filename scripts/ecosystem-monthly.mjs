@@ -12,7 +12,28 @@
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { collectDownloads, rank, summarize } from './ecosystem-snapshot.mjs'
+import { collectDownloads, percentile, rank, summarize } from './ecosystem-snapshot.mjs'
+
+// Categories answer the question the raw distribution cannot: which trades
+// already have proven demand (high median) and which are crowded (many
+// entries, low median). Both come from the same cache, no extra network.
+function categoryTable(plugins, downloads) {
+  const groups = new Map()
+  for (const plugin of plugins) {
+    const category = String(plugin?.metadata?.category || '').trim() || '未分类'
+    if (!groups.has(category)) groups.set(category, [])
+    const value = downloads[plugin.name]
+    if (Number.isFinite(value)) groups.get(category).push({ name: plugin.name, downloads: value })
+  }
+  const rows = []
+  for (const [category, entries] of groups) {
+    if (entries.length < 5) continue
+    const sorted = entries.map(entry => entry.downloads).sort((a, b) => a - b)
+    const top = [...entries].sort((a, b) => b.downloads - a.downloads)[0]
+    rows.push({ category, count: groups.get(category).length, median: percentile(sorted, 0.5), p75: percentile(sorted, 0.75), top: top.name, topDownloads: top.downloads })
+  }
+  return rows.sort((a, b) => b.median - a.median)
+}
 
 const ORIGIN = process.env.PUBLIC_ORIGIN || 'https://zjukop3.github.io/dsh-review-outbox'
 const REPO = 'https://github.com/zjukop3/dsh-review-outbox'
@@ -27,7 +48,7 @@ const num = value => Number(value).toLocaleString('en-US')
 
 const styles = 'body{max-width:860px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(28px,5vw,44px);font-weight:250;line-height:1.15;margin-bottom:14px}h2{font-size:21px;font-weight:500;margin-top:34px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}table{border-collapse:collapse;width:100%;font-size:14px;margin:14px 0}th,td{border:1px solid #d4d4d2;padding:8px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:22px 0;font-size:14px}.nav a{margin-right:14px}.caveat{margin:24px 0;padding:14px 18px;background:#f0f0ee;border-left:4px solid #002fa7}small{display:block;margin-top:30px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}}'
 
-function render({ date, catalog, distribution, leaderboard, selfRank, growth }) {
+function render({ date, catalog, distribution, leaderboard, selfRank, growth, categories }) {
   const distributionRows = [
     ['median', distribution.median], ['p25', distribution.p25], ['p75', distribution.p75],
     ['p90', distribution.p90], ['p95', distribution.p95], ['p99', distribution.p99],
@@ -42,6 +63,12 @@ function render({ date, catalog, distribution, leaderboard, selfRank, growth }) 
   const growthLine = growth
     ? `<p>目录规模 <strong>${num(catalog.count)}</strong> 条，较 <a href="${BASELINE}">基线测量</a>（${esc(growth.onDate)}，${num(growth.fromCount)} 条）净增 <strong>+${num(growth.delta)}</strong>（${growth.pct}%）。生态在加速膨胀。</p>`
     : `<p>目录规模 <strong>${num(catalog.count)}</strong> 条。</p>`
+  const categoryRows = categories
+    .map(row => `<tr><td><code>${esc(row.category)}</code></td><td style="text-align:right">${num(row.count)}</td><td style="text-align:right">${num(row.median)}</td><td style="text-align:right">${num(row.p75)}</td><td><code>${esc(row.top)}</code>（${num(row.topDownloads)}）</td></tr>`)
+    .join('')
+  const categorySection = categories.length ? `<h2>分类分布（按中位数排序，条目数 ≥5）</h2>
+<table><tr><th>类别</th><th style="text-align:right">条目</th><th style="text-align:right">中位数</th><th style="text-align:right">p75</th><th>头部包</th></tr>${categoryRows}</table>
+<p>读法：中位数高 = 需求已被验证；条目多而中位数低 = 拥挤；条目少而中位数高 = 空位。中位数仍含底噪（每类都如此），只做相对比较。</p>` : ''
   const selfLine = selfRank
     ? `<p>本项目 <code>${esc(selfRank.name)}</code> 周下载 <strong>${num(selfRank.downloads)}</strong>，排序 #${num(selfRank.position)} / ${num(selfRank.of)}（前 ${selfRank.topPercent}%）。<strong>这个排名是发版突刺的形状</strong>：本周前两天的下载占 82%，安静日 36–81 落在底噪带。排名数字不作采用证据。</p>`
     : ''
@@ -57,6 +84,7 @@ ${growthLine}
 <p><strong>中位数 ${num(distribution.median)}</strong> 是「正常水平」。实测里 ${num(distribution.shareUnder100)}% 的条目周下载不足 100，但其中大部分仍能稳定录得每天几十次——<a href="${BASELINE}">底噪带</a>与是否有人安装无关。</p>
 <h2>头部榜单（Top ${leaderboard.length}）</h2>
 <table><tr><th>#</th><th>包</th><th style="text-align:right">周下载</th></tr>${leaderRows}</table>
+${categorySection}
 <h2>本项目坐标</h2>
 ${selfLine}
 <div class="caveat"><strong>给目录/市场的信号提案（带可复现测量）</strong>：单日下载占周总量 ≥50% 的包，其周数字应显示为「发布日」标记而非裸数字——实测 19.7% 的抽样条目是这种形状，头部榜单里也常驻（见基线文档）。这不是要求改排序，是给读者一个不误读的口径。</div>
@@ -81,7 +109,8 @@ async function main() {
     const { loadCatalog } = await import('./ecosystem-snapshot.mjs')
     return loadCatalog({ indexPath: flag('--index') })
   })()
-  const names = (catalog.index.plugins || []).map(plugin => plugin.name).filter(Boolean)
+  const plugins = (catalog.index.plugins || []).filter(plugin => plugin.name)
+  const names = plugins.map(plugin => plugin.name)
   let downloads = {}
   try {
     downloads = JSON.parse(await readFile(resolve(process.cwd(), cachePath), 'utf8'))
@@ -100,9 +129,11 @@ async function main() {
   const growth = catalogMeta && catalogMeta.growth
     ? { onDate: catalogMeta.growth.on, fromCount: catalogMeta.growth.from, delta: catalogMeta.growth.delta5d, pct: catalogMeta.growth.pct }
     : null
+  const categories = categoryTable(plugins, downloads)
   const html = render({
     date,
     catalog: { count: names.length },
+    categories,
     distribution: {
       window: `${catalogMeta?.weekly?.window || 'this week'}`,
       median: summary.median, p25: summary.p25, p75: summary.p75, p90: summary.p90,
