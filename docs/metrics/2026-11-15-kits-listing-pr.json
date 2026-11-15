@@ -37,5 +37,11 @@
     "composition": "verified (dump-config shows all entries)",
     "pure_functions": "verified (29 kit tests)",
     "host_route_live": "not tested \u2014 the desktop app holds the DSH singleton, and the web subcommand rejects a second profile while it runs; the route layer is the same wrapper pattern review-outbox e2e-tested"
+  },
+  "signal_proposal_filed": {
+    "date": "2026-11-15",
+    "issue": "https://github.com/dsh-market/dsh-market/issues/1207",
+    "repo": "dsh-market/dsh-market (feature_request template, label: roadmap)",
+    "note": "filed ahead of the 12-01 plan: the evidence was complete (three measurement points, mockup, peer confirmation, explicit maintainer invitation from awesome-dsh-plugin #13819), and momentum beats a stale moment. The 12-01 monthly can follow up as a comment."
   }
 }
