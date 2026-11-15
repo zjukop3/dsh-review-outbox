@@ -1,16 +1,17 @@
 {
   "ok": true,
-  "submittedAt": "2026-11-15T07:40:58.378Z",
+  "submittedAt": "2026-11-15T12:10:07.340Z",
   "endpoint": "https://www.bing.com/indexnow",
   "keyLocation": "https://zjukop3.github.io/dsh-review-outbox/08986ba4f300c03bb388875263d41845.txt",
   "urlList": [
     "https://zjukop3.github.io/dsh-review-outbox/",
     "https://zjukop3.github.io/dsh-review-outbox/research-report/",
+    "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html",
     "https://zjukop3.github.io/dsh-review-outbox/operations/",
     "https://zjukop3.github.io/dsh-review-outbox/troubleshooting/",
     "https://zjukop3.github.io/dsh-review-outbox/baseline/",
-    "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html",
-    "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html"
+    "https://zjukop3.github.io/dsh-review-outbox/proposal-demo/",
+    "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html"
   ],
   "preflight": {
     "keyFileVerified": true,
@@ -21,6 +22,10 @@
       },
       {
         "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/",
+        "status": 200
+      },
+      {
+        "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html",
         "status": 200
       },
       {
@@ -36,11 +41,11 @@
         "status": 200
       },
       {
-        "url": "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html",
+        "url": "https://zjukop3.github.io/dsh-review-outbox/proposal-demo/",
         "status": 200
       },
       {
-        "url": "https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html",
+        "url": "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html",
         "status": 200
       }
     ]
