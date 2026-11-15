@@ -5,16 +5,16 @@
   },
   "seed": 20261110,
   "summary": {
-    "measured": 199,
+    "measured": 198,
     "medianDaily": 34,
-    "p25Daily": 10,
+    "p25Daily": 11,
     "p75Daily": 54,
     "p90Daily": 119,
-    "shareFloor": 60.3,
-    "shareVisible": 31.7,
-    "shareAdopted": 8,
-    "shareSilent": 25.1,
-    "shareBurst": 28.1,
-    "shareQuiet": 33.7
+    "shareFloor": 60.1,
+    "shareVisible": 31.8,
+    "shareAdopted": 8.1,
+    "shareSilent": 24.7,
+    "shareBurst": 28.3,
+    "shareQuiet": 33.3
   }
 }

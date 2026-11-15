@@ -35,6 +35,15 @@ await mkdir(resolve('docs/metrics'), { recursive: true })
 await writeFile(shapesFile, `${JSON.stringify({ window: shapes.window, seed: shapes.seed, summary: shapes.summary }, null, 2)}\n`)
 process.stdout.write(`shapes point: ${shapesFile} (floor ${shapes.summary.shareFloor}%)\n`)
 
+// The funnel reads the local app state — free, and the page's funnel section
+// should always be as current as the download numbers.
+const funnelRun = spawnSync(process.execPath, ['scripts/usage-funnel.mjs', '--date', date], { encoding: 'utf8' })
+if (funnelRun.status !== 0) {
+  process.stderr.write(`${funnelRun.stderr || 'usage funnel failed'}\n`)
+  process.exit(funnelRun.status || 1)
+}
+process.stdout.write(funnelRun.stdout)
+
 const pageRun = spawnSync(process.execPath, ['scripts/ecosystem-monthly.mjs', '--date', date], { encoding: 'utf8' })
 if (pageRun.status !== 0) {
   process.stderr.write(`${pageRun.stderr || 'monthly page failed'}\n`)

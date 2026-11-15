@@ -20,7 +20,7 @@ npm run weekly:meta -- --date YYYY-MM-DD
 npm run report:monthly -- --date YYYY-MM-DD
 ```
 
-自动：shapes 采样（200 包、固定 seed，写第三/四…个时间点）→ 构建页面，拾取最新 weekly 与**全部** shapes 点（底噪稳定性表自动加行）。
+自动：shapes 采样（200 包、固定 seed，写第三/四…个时间点）→ 采用漏斗（读本地 App 状态，免费）→ 构建页面，拾取最新 weekly 与**全部** shapes/funnel 点（底噪稳定性表与采用漏斗表自动加行）。
 
 ## 4. 信号提案 issue（仅当月报支持提案时）
 
