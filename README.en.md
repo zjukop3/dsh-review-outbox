@@ -1,6 +1,6 @@
 # Review Outbox — deliverable review for DeepSeek Harness
 
-[Install 0.1.10 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Plugin operations handbook](https://zjukop3.github.io/dsh-review-outbox/operations/) · [Install troubleshooting](https://zjukop3.github.io/dsh-review-outbox/troubleshooting/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
+[Install 0.1.11 in DSH](#install) · [Awesome listing](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) · [Research checklist](https://zjukop3.github.io/dsh-review-outbox/research-report/) · [Plugin operations handbook](https://zjukop3.github.io/dsh-review-outbox/operations/) · [Install troubleshooting](https://zjukop3.github.io/dsh-review-outbox/troubleshooting/) · [Legacy 0.1.0 tarball](https://zjukop3.github.io/dsh-review-outbox/downloads/dsh-review-outbox-0.1.0.tgz) · [安装说明 / Chinese guide](README.md)
 
 Review Outbox is a local-first review workbench for files produced by DeepSeek Harness agents. It collects real deliverables, supports evidence-based research-report acceptance, records revisions and SHA-256 evidence, and exports standalone HTML review receipts that recipients can open without installing anything.
 
@@ -50,14 +50,14 @@ The same index source also carries **eight check packages** (all resolved from t
 
 The plugin ships with zero runtime dependencies and no install scripts, so it never triggers pnpm's `allowBuilds` build-approval prompt; installing from GitHub source runs no third-party build scripts either.
 
-If application-native installation cannot reach GitHub, use the same public 0.1.10 commit through the CLI:
+If application-native installation cannot reach GitHub, use the same public 0.1.11 commit through the CLI:
 
 ```bash
 dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#6000c13c2b0ebd34701d8c66b8123e06beee8530'
 dsh web
 ```
 
-How you install decides whether it ever updates: `dsh plugin --profile web add dsh-review-outbox` records a `^` range, which moves on its own once a release leaves the release-age window; `dsh-review-outbox@0.1.10` records an exact version, and **that pin never updates by itself** — re-run the command without a version, or widen the range. A market one-click install also pins an exact version; updates there come from the market's own update entry.
+How you install decides whether it ever updates: `dsh plugin --profile web add dsh-review-outbox` records a `^` range, which moves on its own once a release leaves the release-age window; `dsh-review-outbox@0.1.11` records an exact version, and **that pin never updates by itself** — re-run the command without a version, or widen the range. A market one-click install also pins an exact version; updates there come from the market's own update entry.
 
 Or install directly from the published npm package — the same path dsh-market's one-click install uses. Verified: the pinned GitHub source resolves `0.1.5` in an isolated Profile (6m52s, bundle selected automatically), and `dsh-review-outbox@0.1.5` installs from `registry.npmjs.org` with pnpm in 9.4s.
 

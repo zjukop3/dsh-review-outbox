@@ -1,6 +1,6 @@
 # Review Outbox · 成果审阅与研究报告验收
 
-中文 | [English](README.en.md) | [应用内安装 0.1.10](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/) | [旧版 0.1.0 tarball](#下载-tarball)
+中文 | [English](README.en.md) | [应用内安装 0.1.11](#从应用内发现安装) | [Awesome 目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/) | [在线验收清单](https://zjukop3.github.io/dsh-review-outbox/research-report/) | [插件发布与收录实测手册](https://zjukop3.github.io/dsh-review-outbox/operations/) | [旧版 0.1.0 tarball](#下载-tarball)
 
 一个本地优先的 DeepSeek Harness 成果审阅插件。核心是一道**证据门**：研究报告要核四项（结论证据、引用可复核、数据口径、方法限制），表格要核三项（来源口径、字段单位、抽样核对），**勾选之外必须写清证据才能通过**。
 
@@ -41,7 +41,7 @@
 - 研究报告包记录人工检查证据，不自动访问引用，也不冒充自动事实核查。
 - 界面文案为中文优先：英文宿主 locale 下面板、按钮与验收包标签仍显示中文（侧栏入口为中英双语「成果审阅 / Review Outbox」）；完整 i18n 等待英文 locale 用户的真实需求信号。
 - 验收单默认在本地导出，不自动上传；不包含绝对路径或会话内容，检查证据和审阅意见按用户填写内容导出。
-- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.10，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.10`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
+- 项目处于 0.1.x 验证阶段；当前源码与应用内索引为 0.1.11，Pages tarball 仍为 0.1.0。GitHub 源码、npm（`dsh-review-outbox@0.1.11`）、Pages 清单和 [Awesome 目录条目](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已公开，GitHub Release 尚未发布。目录收录不等于自然流量或真实采用。新生成的验收单默认链接到公开安装指南。
 
 ## 安装
 
@@ -61,14 +61,14 @@ https://zjukop3.github.io/dsh-review-outbox/plugins.json
 
 本插件运行时零依赖、无安装脚本，不会触发 pnpm 的 `allowBuilds` 构建放行提示；从 GitHub 源安装时也不会运行第三方构建脚本。
 
-应用内网络不可用时，可对同一个 `0.1.10` 公开提交使用 CLI 回退：
+应用内网络不可用时，可对同一个 `0.1.11` 公开提交使用 CLI 回退：
 
 ```bash
 dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#6000c13c2b0ebd34701d8c66b8123e06beee8530'
 dsh web
 ```
 
-装的时候写的版本形态决定了它以后会不会自己更新：`dsh plugin --profile web add dsh-review-outbox` 写入的是 `^` 范围，冷却过了会自动升级；写成 `dsh-review-outbox@0.1.10` 则是精确版本，**此后不会再自动更新**（需要更新时重新用不带版本的命令装一次，或改成 `^` 范围）。市场一键安装同样是精确版本，更新由市场自己的更新入口负责。
+装的时候写的版本形态决定了它以后会不会自己更新：`dsh plugin --profile web add dsh-review-outbox` 写入的是 `^` 范围，冷却过了会自动升级；写成 `dsh-review-outbox@0.1.11` 则是精确版本，**此后不会再自动更新**（需要更新时重新用不带版本的命令装一次，或改成 `^` 范围）。市场一键安装同样是精确版本，更新由市场自己的更新入口负责。
 
 ### 从 npm 直接安装
 
