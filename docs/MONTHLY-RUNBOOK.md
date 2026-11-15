@@ -37,6 +37,10 @@ git add docs/metrics site && git commit && git push
 
 Pages 部署后，月报新版自动进 sitemap。
 
+## 相关
+
+- 发布（非月度测量）走 [RELEASE-RUNBOOK.md](RELEASE-RUNBOOK.md)：版本号、发布 pin、自举页烙印、registry 验证顺序。
+
 ## 已知口径
 
 - 排名随目录膨胀浮动（11-15 当天 #318→#347），issue 里以当日运行为准；
