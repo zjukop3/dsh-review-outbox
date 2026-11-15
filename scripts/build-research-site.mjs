@@ -212,7 +212,7 @@ if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${inde
 // Crawlability: sitemap from the real file tree (static pages + every
 // ecosystem edition), robots pointing at it. Regenerated on each build so it
 // never drifts from what is actually deployed.
-const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html']
+const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'proposal-demo/index.html']
 const editionPages = ecosystemUrls ? ecosystemUrls.filter(url => /\.html$/.test(url)) : []
 const pageUrls = [...staticPages.map(page => `${origin}/${page.replace(/index\.html$/, '')}`), ...editionPages]
 const lastmod = new Date().toISOString().slice(0, 10)
