@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-15",
+  "catalog": {
+    "entries": 5643,
+    "version": "2026.1114.20961",
+    "growth": {
+      "from": 4985,
+      "on": "2026-11-10",
+      "delta5d": 658,
+      "pct": 13.2
+    }
+  },
+  "weekly": {
+    "window": "2026-11-08..11-14",
+    "measured": 4726,
+    "median": 352,
+    "p75": 682,
+    "p90": 1388,
+    "p95": 2240,
+    "p99": 10056,
+    "max": 848080
+  },
+  "review-outbox": {
+    "weekly": 1997,
+    "rank": 281,
+    "of": 4726,
+    "topPercent": 5.9,
+    "decomposition": {
+      "daily": {
+        "11-08": 497,
+        "11-09": 1131,
+        "11-10": 144,
+        "11-11": 62,
+        "11-12": 81,
+        "11-13": 36,
+        "11-14": 46
+      },
+      "maxShare": 0.57,
+      "top2Share": 0.82
+    },
+    "verdict": "top-5.9% is a burst artifact: 82% of the week on two days; quiet days 36-81 sit at the ecosystem floor band (<=40). The 11-09 spike (1131, 2.3x publish day) is unexplained; it aligns with the catalog listing 0.1.10 that morning and with the clone surge below.",
+    "github14d": {
+      "clones": 1640,
+      "uniqueCloners": 446,
+      "viewUniques": 10,
+      "notable": "8 uniques viewed the repo on 2026-11-13; clone count rose ~3.6x since the 11-10 reading (454/169)"
+    }
+  },
+  "kits": {
+    "published": "2026-11-10",
+    "shape": "publish-burst (300+/day) then 8-17/day — below the floor band; no adoption signal yet",
+    "githubClones": {
+      "dsh-verify-kit": {
+        "clones": 44,
+        "uniques": 29
+      },
+      "dsh-vertical-kit": {
+        "clones": 55,
+        "uniques": 34
+      }
+    },
+    "note": "npm installs do not clone; clone uniques are GitHub-source installs or browsers, identity unverifiable"
+  },
+  "upstream": {
+    "pr13722": "MERGED (first upstream merge)",
+    "pr13729": "OPEN, held:maintainer; reviewer fact-correction applied 11-11",
+    "issue13819": "CLOSED by maintainer: display/sort unchanged by decision; concrete alternative-signal proposals with reproducible measurement explicitly invited (new issue)",
+    "discussion11870": "peer author zuwenyin independently confirmed the floor; quantified release-day overhead at 8.3x; answered their version-change question 11-15",
+    "research-report#27": "CLOSED"
+  },
+  "indexnow": {
+    "dsh-verify-kit": 200,
+    "dsh-vertical-kit": 202
+  }
+}
