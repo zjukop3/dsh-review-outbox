@@ -344,7 +344,18 @@ async function main() {
     } else {
       sample = sampleNames(names, shapes, seed)
     }
-    const series = await collectSeries(Object.keys(sample), { from, to, cache })
+    // sample is an array in the namespace mode and a name-keyed object in the
+    // rank mode; Object.keys(array) yields "0".."N-1", which this then "measures"
+    // as literally-named npm packages — a bug that shipped 2026-11-16 00:44 and
+    // made every names-mode run after it fetch numeric-named packages instead of
+    // the sample. Normalize to names and assert they all come from the catalog.
+    const sampleList = Array.isArray(sample) ? sample : Object.keys(sample)
+    const catalogNames = new Set(names)
+    const foreign = sampleList.filter(name => !catalogNames.has(name))
+    if (foreign.length > 0) {
+      throw new Error(`sample left the catalog: ${foreign.slice(0, 5).join(', ')}${foreign.length > 5 ? ` (+${foreign.length - 5} more)` : ''}`)
+    }
+    const series = await collectSeries(sampleList, { from, to, cache })
     if (cachePath) await writeFile(cachePath, JSON.stringify(cache, null, 2))
     const summary = summarizeShapes(series)
     if (rankMeta) {
