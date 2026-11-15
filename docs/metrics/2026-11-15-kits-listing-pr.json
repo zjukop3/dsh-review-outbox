@@ -26,5 +26,10 @@
     "conclusion": "success",
     "completedAt": "2026-11-15T15:09:59Z"
   },
-  "expected": "After merge, the next daily catalog build (04:49Z cadence) lists the eight packages on the Awesome site and in the in-app Discover search."
+  "expected": "After merge, the next daily catalog build (04:49Z cadence) lists the eight packages on the Awesome site and in the in-app Discover search.",
+  "git_source_install_0_1_11": {
+    "spec": "github:zjukop3/dsh-review-outbox#9fd160dc0bff2bc014a17f0e02d56ebad2198ff9",
+    "result": "installed 0.1.11 in 3m26s via the profile CLI, composed and then removed",
+    "meaning": "the research page CLI fallback pin is verified for the current release"
+  }
 }
