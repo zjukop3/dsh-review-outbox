@@ -20,7 +20,17 @@ const statePath = flag('--state') || resolve(homedir(), '.dsh', 'review-outbox',
 const date = flag('--date') || new Date().toISOString().slice(0, 10)
 const now = Date.now()
 
-const state = JSON.parse(await readFile(statePath, 'utf8'))
+const state = await (async () => {
+  try {
+    return JSON.parse(await readFile(statePath, 'utf8'))
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      process.stderr.write(`no app state at ${statePath} — the plugin has not backfilled anything yet, so there is no funnel to measure\n`)
+      process.exit(2)
+    }
+    throw error
+  }
+})()
 const items = state.items || []
 
 const byStatus = {}
