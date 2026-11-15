@@ -232,6 +232,8 @@ node scripts/check-milestones.mjs --json     # 可入库
 
 ## 13. 先用基线读数字，再谈采用
 
+**信号提案草案**见 [docs/SIGNAL-PROPOSAL.md](SIGNAL-PROPOSAL.md)：发布日形状的周数字应带「发布日」标记——可判定、成本低、不动排序，12-01 随月报正式开 issue。
+
 看到任何插件（包括自己）的下载数，先对照 `docs/ECOSYSTEM-BASELINE.md`：目录里 58.6% 的条目停在每天 20–40 次的底部带，这一层与有没有人安装无关。周下载在低三位数时，它和「发布当天被镜像拉了一次」是同一个形状，不能作为采用证据。
 
 ```bash
