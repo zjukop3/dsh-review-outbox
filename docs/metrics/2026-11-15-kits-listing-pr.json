@@ -36,7 +36,7 @@
     "npm_install": "verified (all 8 specs compose)",
     "composition": "verified (dump-config shows all entries)",
     "pure_functions": "verified (29 kit tests)",
-    "host_route_live": "not tested \u2014 the desktop app holds the DSH singleton, and the web subcommand rejects a second profile while it runs; the route layer is the same wrapper pattern review-outbox e2e-tested"
+    "host_route_live": "not testable in this environment \u2014 two attempts (both flag orders) left the profile web boot stuck with entries pending on webServer and the port never responding; the desktop app singleton and the Electron shell are the likely causes. The route layer is the same wrapper pattern review-outbox e2e-tested."
   },
   "signal_proposal_filed": {
     "date": "2026-11-15",
