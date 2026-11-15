@@ -37,7 +37,22 @@
         "uniques": 36
       }
     },
-    "note": "npm installs do not clone; clone uniques are GitHub-source installs or browsers, identity unverifiable"
+    "note": "npm installs do not clone; clone uniques are GitHub-source installs or browsers, identity unverifiable",
+    "npmDownloads": {
+      "window": "11-10..11-14 (publish day + 4, npm lag makes 11-14 partial)",
+      "perPackage": {
+        "dsh-hashcheck": [302, 15, 10, 8, 0],
+        "dsh-citelint": [303, 17, 9, 8, 0],
+        "dsh-outline-lint": [293, 17, 9, 8, 0],
+        "dsh-tablelint": [299, 16, 10, 8, 0],
+        "dsh-numberlint": [295, 15, 9, 8, 0],
+        "dsh-agreement-check": [316, 17, 10, 9, 0],
+        "dsh-invoice-check": [315, 16, 10, 13, 1],
+        "dsh-listing-check": [316, 15, 10, 10, 2]
+      },
+      "shape": "publish-day burst ~300/package (all eight within a narrow band = automated indexers), decaying to 8-13/day (inside the silent band <=10/day), 11-14 near zero (partly reporting lag)",
+      "reading": "no distinct install-side signal yet; the 8-13/day steady tail is uniform across packages, which is the automation signature, not organic variance"
+    }
   },
   "upstream": {
     "pr13722": "MERGED (first upstream merge)",
