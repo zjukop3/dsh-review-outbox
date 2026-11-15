@@ -29,25 +29,13 @@ const icon = (fill, paths) => `data:image/svg+xml;base64,${Buffer.from(
 const check = '<path d="m24 40 6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'
 const glyph = paths => paths
 
+const kitSort = {
+  'dsh-verify-kit': Math.floor(Date.parse('2026-11-10T12:00:00Z') / 1000),
+  'dsh-vertical-kit': Math.floor(Date.parse('2026-11-10T12:00:00Z') / 1000),
+}
 const kitRepos = {
   'dsh-verify-kit': resolve(root, '..', 'dsh-verify-kit'),
   'dsh-vertical-kit': resolve(root, '..', 'dsh-vertical-kit'),
-}
-
-// Local kit checkouts give the fast path; CI only has this repository, so the
-// HEAD commit comes from the GitHub API there. Both yield the same pin.
-async function kitHead(repoKey) {
-  const url = `https://github.com/zjukop3/${repoKey}`
-  const cwd = kitRepos[repoKey]
-  if (existsSync(cwd)) {
-    const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd, encoding: 'utf8' }).trim()
-    const time = Number(execFileSync('git', ['show', '-s', '--format=%ct', head], { cwd, encoding: 'utf8' }).trim())
-    return { commit: head, time, url }
-  }
-  const response = await fetch(`https://api.github.com/repos/zjukop3/${repoKey}/commits/main`)
-  if (!response.ok) throw new Error(`Cannot resolve ${repoKey} HEAD: HTTP ${response.status}`)
-  const payload = await response.json()
-  return { commit: payload.sha, time: Math.floor(Date.parse(payload.commit.committer.date) / 1000), url }
 }
 
 // One row per kit package. Versions and engines must match the published
@@ -136,8 +124,10 @@ const KITS = [
   },
 ]
 
-async function kitEntry(kit) {
-  const { commit: head, time, url } = await kitHead(kit.repo)
+// The kit packages install from the npm registry: they are published there on
+// every release, and a registry target needs no git checkout to resolve. The
+// kit repositories remain the development source of truth.
+function kitEntry(kit) {
   return {
     name: kit.name,
     title: kit.title,
@@ -145,18 +135,18 @@ async function kitEntry(kit) {
     icon: kit.icon,
     author: 'zjukop3',
     homepage: `https://zjukop3.github.io/${kit.repo}/${kit.slug}/`,
-    repository: { url },
+    repository: { url: `https://github.com/zjukop3/${kit.repo}` },
     metadata: {
       category: kit.category,
       keywords: ['dsh', 'dsh-plugin', 'deepseek-harness', ...kit.keywords],
       labels: [],
-      sortKeys: { added: time },
+      sortKeys: { added: kitSort[kit.repo] },
     },
     versions: [
       {
         version: kit.version,
-        publishTimestamp: time,
-        source: { type: 'git', url, commit: head },
+        publishTimestamp: kitSort[kit.repo],
+        source: { type: 'npm' },
         engines: { dsh: '>=0.2.2-rc.1 <0.3.0-0' },
       },
     ],

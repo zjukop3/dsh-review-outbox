@@ -24,8 +24,10 @@ test('application market index passes the official validator and reproducibly pi
   for (const name of kitNames) {
     const kit = parsed.plugins.find(entry => entry.name === name)
     assert.ok(kit, `${name} is in the index`)
-    assert.equal(kit.versions[0].source.type, 'git')
-    assert.match(kit.versions[0].source.commit, /^[a-f0-9]{40}$/)
+    // kits install from the npm registry: a git target of a monorepo root
+    // would install the workspace, not the package
+    assert.equal(kit.versions[0].source.type, 'npm')
+    assert.deepEqual(marketInstallTarget(name, kit.versions[0]), { spec: `${name}@${kit.versions[0].version}` })
     assert.deepEqual(kit.versions[0].engines, { dsh: '>=0.2.2-rc.1 <0.3.0-0' })
   }
   assert.match(plugin.icon, /^data:image\/svg\+xml;base64,/)
