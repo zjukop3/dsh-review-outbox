@@ -1,0 +1,31 @@
+{
+  "window": {
+    "from": "2026-10-15",
+    "to": "2026-11-13"
+  },
+  "seed": 20261110,
+  "summary": {
+    "measured": 198,
+    "medianDaily": 34,
+    "p25Daily": 11,
+    "p75Daily": 54,
+    "p90Daily": 119,
+    "shareFloor": 60.1,
+    "shareVisible": 31.8,
+    "shareAdopted": 8.1,
+    "shareSilent": 24.7,
+    "shareBurst": 28.3,
+    "shareQuiet": 33.3
+  },
+  "comparison": {
+    "baseline": {
+      "date": "2026-11-10",
+      "window": "2026-10-10..11-08",
+      "shareFloor": 58.6,
+      "shareBurst": 19.7,
+      "shareAdopted": 6.1,
+      "medianDaily": 35
+    },
+    "read": "overlapping windows (26/30 days shared), so this is a trend indication, not an independent measurement. The floor band replicates: 58.6% -> 60.1%. Burst share rose with the publish wave (catalog +13% in 5 days). Shape of the distribution is structurally stable."
+  }
+}
