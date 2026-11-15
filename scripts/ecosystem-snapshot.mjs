@@ -191,7 +191,7 @@ export function formatReport({ summary, top, mine, catalog, measuredAt }) {
   ].join('\n')
 }
 
-async function loadCatalog({ indexPath }) {
+export async function loadCatalog({ indexPath }) {
   if (indexPath) {
     const index = JSON.parse(await readFile(indexPath, 'utf8'))
     return { index, version: 'local file', buildTime: 'local file' }
