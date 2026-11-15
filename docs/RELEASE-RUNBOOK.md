@@ -79,3 +79,5 @@ node scripts/submit-indexnow.mjs          # 可选：加速重抓
 - **市场可见性冷却**：`minimumReleaseAge` 1440 分钟——发布当晚应用内默认命令装到的是旧版，显式钉版本不受限；
 - **镜像故障**：registry.npmmirror.com 整体 500 时连显式版本也报 `ERR_PNPM_NO_MATCHING_VERSION`，等待即可；
 - npm 页 README 随发布流动，repo README 的改动在下次 release 才到 npm。
+- **发布前先查 dist-tags**：`npm view <pkg> dist-tags`——版本线不是从 0.1.0 线性生长的，填空降一个旧版本号会落库但 latest 不动（实测 dsh-outline-lint：0.1.1 落库后 latest 仍是 0.1.2，补发 0.1.3 才让修正进 latest）；
+- registry 元数据缓存与镜像同步各有延迟：版本端点先 200、dist-tags 后翻转、镜像再滞后——每一步都实测后再走下一步。
