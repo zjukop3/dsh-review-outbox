@@ -63,7 +63,7 @@ const KITS = [
     keywords: ['citation', 'markdown', 'report', 'lint', '引用', '报告'],
   },
   {
-    repo: 'dsh-verify-kit', name: 'dsh-outline-lint', version: '0.1.2', slug: 'outline-lint', icon: icon('#2c6e49', glyph('<path d="M18 16h28M18 26h20M18 36h24M18 46h16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>') + check),
+    repo: 'dsh-verify-kit', name: 'dsh-outline-lint', version: '0.1.3', slug: 'outline-lint', icon: icon('#2c6e49', glyph('<path d="M18 16h28M18 26h20M18 36h24M18 46h16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>') + check),
     title: { en: 'Outline lint — document shape', zh: 'Outline lint · 文档结构检查' },
     description: {
       en: 'Shape check for delivered documents: no title, more than one level-1 heading, a lost heading level, no conclusion up front, and nothing a reader can run to reproduce the result.',
