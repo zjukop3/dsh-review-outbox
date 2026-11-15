@@ -5,8 +5,8 @@
     "zh": "zjukop3 的 DSH 插件"
   },
   "description": {
-    "en": "Review and acceptance workflows for DeepSeek Harness deliverables.",
-    "zh": "面向 DeepSeek Harness 成果审阅与验收的插件索引。"
+    "en": "Deliverable review plus eight deterministic checks for agent output: hash manifests, citations, document shape, tables, number consistency, contracts, invoices, e-commerce listings.",
+    "zh": "成果审阅台 + 八个确定性交付检查：文件哈希、引用编号、文档结构、表格、数字一致性、合同、发票、电商商品信息。每个都可离线运行，出口码可接 CI。"
   },
   "metadata": {
     "categories": {
@@ -14,6 +14,18 @@
         "title": {
           "en": "Workflow & Automation",
           "zh": "工作流与自动化"
+        }
+      },
+      "verification": {
+        "title": {
+          "en": "Verification checks",
+          "zh": "验证检查"
+        }
+      },
+      "industry": {
+        "title": {
+          "en": "Industry scenarios",
+          "zh": "行业场景"
         }
       }
     },
@@ -70,6 +82,396 @@
             "type": "git",
             "url": "https://github.com/zjukop3/dsh-review-outbox",
             "commit": "6000c13c2b0ebd34701d8c66b8123e06beee8530"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-hashcheck",
+      "title": {
+        "en": "Hashcheck — delivery manifest",
+        "zh": "Hashcheck · 交付文件校验清单"
+      },
+      "description": {
+        "en": "SHA-256 manifests for delivered files: build once, verify anywhere, and see exactly which bytes moved instead of \"looks fine\".",
+        "zh": "交付前生成 SHA-256 清单，验收时逐文件比对：哪个文件改了、哪个丢了、哪个没进清单，出口码可接 CI。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxNzZiNDgiLz48cGF0aCBkPSJNMzIgMTJsMTQgNnYxMmMwIDEwLTYgMTctMTQgMjItOC01LTE0LTEyLTE0LTIyVjE4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-verify-kit/hashcheck/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-verify-kit"
+      },
+      "metadata": {
+        "category": "verification",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "hash",
+          "sha256",
+          "manifest",
+          "delivery",
+          "校验",
+          "哈希",
+          "交付"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794731016
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.3",
+          "publishTimestamp": 1794731016,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-verify-kit",
+            "commit": "ee8b29617e89b8ed652743569036d214b2f95a57"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-citelint",
+      "title": {
+        "en": "Citelint — citation check",
+        "zh": "Citelint · 报告引用检查"
+      },
+      "description": {
+        "en": "Citation lint for delivered reports: numbering gaps, duplicate sources, sources that are listed but never cited, and local links that do not exist.",
+        "zh": "编号断号、同一来源重复编号、列了却没被引用的来源、指向不存在本地文件的链接——全部从 Markdown 直接判定。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxZjRlOGMiLz48cGF0aCBkPSJNMjAgMTZoMjRNMjAgMjZoMjRNMjAgMzZoMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-verify-kit/citelint/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-verify-kit"
+      },
+      "metadata": {
+        "category": "verification",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "citation",
+          "markdown",
+          "report",
+          "lint",
+          "引用",
+          "报告"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794731016
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.3",
+          "publishTimestamp": 1794731016,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-verify-kit",
+            "commit": "ee8b29617e89b8ed652743569036d214b2f95a57"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-outline-lint",
+      "title": {
+        "en": "Outline lint — document shape",
+        "zh": "Outline lint · 文档结构检查"
+      },
+      "description": {
+        "en": "Shape check for delivered documents: no title, more than one level-1 heading, a lost heading level, no conclusion up front, and nothing a reader can run to reproduce the result.",
+        "zh": "缺标题、多个一级标题、标题跳级、开头没有结论、没有任何可复现命令——报告结构五项检查。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMyYzZlNDkiLz48cGF0aCBkPSJNMTggMTZoMjhNMTggMjZoMjBNMTggMzZoMjRNMTggNDZoMTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-verify-kit/outline-lint/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-verify-kit"
+      },
+      "metadata": {
+        "category": "verification",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "outline",
+          "structure",
+          "markdown",
+          "结构",
+          "文档"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794731016
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.2",
+          "publishTimestamp": 1794731016,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-verify-kit",
+            "commit": "ee8b29617e89b8ed652743569036d214b2f95a57"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-tablelint",
+      "title": {
+        "en": "Tablelint — markdown tables",
+        "zh": "Tablelint · 表格行列检查"
+      },
+      "description": {
+        "en": "Markdown table check for generated reports: rows with the wrong cell count, a delimiter row that disagrees with the header, duplicate or empty headers, and tables with no rows.",
+        "zh": "行内单元格数与表头不一致、分隔行数量不符、表头重名或为空、只有表头没有数据行——生成报告最常见的碎表。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM0YTVmYTUiLz48cGF0aCBkPSJNMTQgMThoMzZ2MjhIMTR6TTE0IDI4aDM2TTI2IDE4djI4TTM4IDE4djI4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Im0yNCA0MCA2IDYgMTItMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-verify-kit/tablelint/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-verify-kit"
+      },
+      "metadata": {
+        "category": "verification",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "table",
+          "markdown",
+          "lint",
+          "表格",
+          "检查"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794731016
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.2",
+          "publishTimestamp": 1794731016,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-verify-kit",
+            "commit": "ee8b29617e89b8ed652743569036d214b2f95a57"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-numberlint",
+      "title": {
+        "en": "Numberlint — number consistency",
+        "zh": "Numberlint · 数字写法一致性"
+      },
+      "description": {
+        "en": "Number consistency check for one document: the same quantity written 4,985 and 4985, the same percentage with and without a space, and ranges with mixed dashes.",
+        "zh": "同一文档内同一数量既写 4,985 又写 4985、同一百分比空格不一致、区间连接号混用——比较写法而非数值。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM1YjRhOGEiLz48cGF0aCBkPSJNMjAgMjJoMTB2MjBNNDAgMjBjLTYgMC04IDQtOCAxMnMyIDEyIDggMTIgOC00IDgtMTItMi0xMi04LTEyeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Im0yNCA0MCA2IDYgMTItMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-verify-kit/numberlint/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-verify-kit"
+      },
+      "metadata": {
+        "category": "verification",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "numbers",
+          "consistency",
+          "lint",
+          "数字",
+          "一致性"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794731016
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.2",
+          "publishTimestamp": 1794731016,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-verify-kit",
+            "commit": "ee8b29617e89b8ed652743569036d214b2f95a57"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-agreement-check",
+      "title": {
+        "en": "Agreement check — contract structure",
+        "zh": "Agreement check · 合同结构检查"
+      },
+      "description": {
+        "en": "Contract structure checks for Chinese agreements: parties, date, amount consistency (uppercase vs digits), signature blocks, dispute resolution, breach clauses.",
+        "zh": "甲乙方、签订日期、大写金额与数字一致、签署栏、争议解决、违约责任——合同交给法务前的结构清单。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM4YzQ2MzIiLz48cGF0aCBkPSJNMzIgMTBsMTYgNnYxNGMwIDEyLTcgMjAtMTYgMjQtOS00LTE2LTEyLTE2LTI0VjE2eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNMjYgMzJsNCA0IDgtOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/agreement-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "contract",
+          "legal",
+          "agreement",
+          "合同",
+          "法务",
+          "协议"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794730949
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.2",
+          "publishTimestamp": 1794730949,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-vertical-kit",
+            "commit": "10c407bd681297c55a16b70f83311d0918b04d70"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-invoice-check",
+      "title": {
+        "en": "Invoice check — e-invoice fields",
+        "zh": "Invoice check · 发票字段检查"
+      },
+      "description": {
+        "en": "Invoice field checks for Chinese e-invoices: credit-code format, amount relationships (net + tax = total), uppercase/digit amount agreement, invoice number shapes.",
+        "zh": "统一社会信用代码字符集、不含税+税额=价税合计的勾稽、大写金额一致、发票号码位数——不需要懂业务就能核对的部分。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNhMzYyMmMiLz48cGF0aCBkPSJNMTYgMTJoMzJ2NDBsLTgtNS04IDUtOC01LTggNXpNMjQgMjRoMTZNMjQgMzJoMTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/invoice-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "invoice",
+          "finance",
+          "tax",
+          "发票",
+          "财务",
+          "勾稽"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794730949
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.2",
+          "publishTimestamp": 1794730949,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-vertical-kit",
+            "commit": "10c407bd681297c55a16b70f83311d0918b04d70"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-listing-check",
+      "title": {
+        "en": "Listing check — product export hygiene",
+        "zh": "Listing check · 商品信息检查"
+      },
+      "description": {
+        "en": "E-commerce listing hygiene from CSV/JSON exports: title length bounds, keyword stuffing, price validity and bounds, SKU completeness and duplicates.",
+        "zh": "商品导出表的标题长度、关键词堆砌、价格有效性、SKU 完整性与重复——上架前的结构卫生，边界可配置。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM3YTUyMzAiLz48cGF0aCBkPSJNMTQgMjBoMzZNMTQgMzJoMzZNMTQgNDRoMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI0NiIgY3k9IjQ0IiByPSI1IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjwvc3ZnPg==",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/listing-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "ecommerce",
+          "listing",
+          "sku",
+          "电商",
+          "商品",
+          "上架"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794730949
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.2",
+          "publishTimestamp": 1794730949,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/zjukop3/dsh-vertical-kit",
+            "commit": "10c407bd681297c55a16b70f83311d0918b04d70"
           },
           "engines": {
             "dsh": ">=0.2.2-rc.1 <0.3.0-0"

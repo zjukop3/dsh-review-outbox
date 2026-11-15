@@ -15,10 +15,19 @@ test('application market index passes the official validator and reproducibly pi
   const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'))
   const parsed = parseMarketIndex(source, indexUrl)
   assert.equal(parsed.format, 1)
-  assert.equal(parsed.plugins.length, 1)
-  const plugin = parsed.plugins[0]
-  assert.equal(plugin.name, 'dsh-review-outbox')
+  // review-outbox plus the eight check packages from the two kit repos
+  assert.equal(parsed.plugins.length, 9)
+  const plugin = parsed.plugins.find(entry => entry.name === 'dsh-review-outbox')
+  assert.ok(plugin, 'the review-outbox entry stays first-class')
   assert.equal(plugin.metadata.category, 'workflow')
+  const kitNames = ['dsh-hashcheck', 'dsh-citelint', 'dsh-outline-lint', 'dsh-tablelint', 'dsh-numberlint', 'dsh-agreement-check', 'dsh-invoice-check', 'dsh-listing-check']
+  for (const name of kitNames) {
+    const kit = parsed.plugins.find(entry => entry.name === name)
+    assert.ok(kit, `${name} is in the index`)
+    assert.equal(kit.versions[0].source.type, 'git')
+    assert.match(kit.versions[0].source.commit, /^[a-f0-9]{40}$/)
+    assert.deepEqual(kit.versions[0].engines, { dsh: '>=0.2.2-rc.1 <0.3.0-0' })
+  }
   assert.match(plugin.icon, /^data:image\/svg\+xml;base64,/)
   assert.equal(plugin.versions.length, 1)
   const version = plugin.versions[0]
