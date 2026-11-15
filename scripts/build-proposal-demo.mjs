@@ -62,7 +62,7 @@ ${rows(true)}
   </div>
 </div>
 <div class="note"><strong>为什么值得做</strong>：全目录抽样（198 包，2026-11-15）里 19.7%–28.3% 的条目呈单日 ≥5× 中位数的爆发形（三点稳定）；本包前两天占 ${topTwoShare}%。裸数字会把「发布日固定开销」读成「采用」，徽标只改展示、不改排序，维护方无需新数据源。</div>
-<p class="small">mockup 数据来自 <code>docs/metrics/2026-11-15-ecosystem-weekly.json</code> 的日值分解；方法论与复现见 <a href="${origin}/baseline/">底噪基线</a> 与 <a href="${origin}/ecosystem/">生态月报</a>。提案正文：<code>docs/SIGNAL-PROPOSAL.md</code>。</p>
+<p class="small">mockup 数据来自 <code>docs/metrics/${weeklyName}</code> 的日值分解；方法论与复现见 <a href="${origin}/baseline/">底噪基线</a> 与 <a href="${origin}/ecosystem/">生态月报</a>。提案正文：<code>docs/SIGNAL-PROPOSAL.md</code>。</p>
 </body></html>`
 
 const directory = resolve(root, 'site/proposal-demo')
