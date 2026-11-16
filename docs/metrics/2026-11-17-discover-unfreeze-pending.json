@@ -1,0 +1,9 @@
+{
+  "date": "2026-11-17",
+  "milestone": "Discover unfreeze pending: the index de-dup fix merged (#15579 by fkysly, 2026-11-16T16:39:48Z), first fixed nightly expected ~02:23Z",
+  "context": "the catalog feed has been frozen at 2026.1114.20961 since 11-14 because one duplicate npm name (dsh-dot-mcp) made the whole format-1 build die; everything merged since — including our 8 entries from #15594/#15655/#15656 — never reached the in-app Discover",
+  "merged_fix": "a claimed-Map: first entry in list order keeps the npm name, later duplicates are refused per-row with 'is already listed by <owner>' — the row is spent, not the index. Our review comment on #15579 flagged which row survives; the merged code matches",
+  "expectation": "at the next nightly the catalog should publish a new version listing everything merged since 11-14; our 8 entries become visible in the in-app Discover for the first time, and the plan's market-stop condition clock arguably starts",
+  "verification_command": "curl -s https://registry.npmjs.org/dsh-plugin-catalog | jq '.dist-tags.latest'  # expect > 2026.1114.20961 after 02:23Z",
+  "our_queue": "PRs #15951 (2 entries), #16006, #16011 all double-green and OPEN — they merge into the feed whenever the maintainer batch-merges"
+}
