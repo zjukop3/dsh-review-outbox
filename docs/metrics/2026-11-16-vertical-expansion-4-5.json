@@ -29,7 +29,7 @@
   "distribution": {
     "npm": "0.1.1 live for both (verified via registry dist-tags after propagation)",
     "site": "6 pages, internal links all resolved, IndexNow submitted",
-    "catalog": "PR #15951 (2 entries, under the 3 cap; repo already listed so the age bar skips) — check + Submission gate both SUCCESS 11-16 22:35+08:00, awaiting merge",
+    "catalog": "PR #15951 MERGED 2026-11-16T17:19:01Z by fkysly — meeting-notes and resume entries live on catalog main; PRs #16006 (release-notes) and #16011 (weekly-report) double-green and queued in the maintainer's next batch",
     "download_index_lag": "brand-new packages return 'not found' from the npm downloads API until its index refreshes (registry has 0.1.1, downloads API said not found 22:50+08:00) — a different lag from the known 2-day reporting one; the funnel reads the profile's installedPluginVersion, so this does not affect F1"
   },
   "expansion_cap": "seed batch now 6; the 5-cap governs the post-opening wave, not the seed",
