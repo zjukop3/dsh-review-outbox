@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "submittedAt": "2026-11-15T17:17:11.530Z",
+  "submittedAt": "2026-11-16T15:31:17.380Z",
   "endpoint": "https://www.bing.com/indexnow",
   "keyLocation": "https://zjukop3.github.io/dsh-review-outbox/08986ba4f300c03bb388875263d41845.txt",
   "urlList": [
@@ -11,7 +11,8 @@
     "https://zjukop3.github.io/dsh-review-outbox/troubleshooting/",
     "https://zjukop3.github.io/dsh-review-outbox/baseline/",
     "https://zjukop3.github.io/dsh-review-outbox/proposal-demo/",
-    "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html"
+    "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html",
+    "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-16.html"
   ],
   "preflight": {
     "keyFileVerified": true,
@@ -46,6 +47,10 @@
       },
       {
         "url": "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html",
+        "status": 200
+      },
+      {
+        "url": "https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-16.html",
         "status": 200
       }
     ]

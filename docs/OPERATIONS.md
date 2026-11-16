@@ -234,6 +234,17 @@ node scripts/check-milestones.mjs --json     # 可入库
 8. 隔天核对目录条目版本，确认日构建已带上新版。
 
 
+## 12b. 目录收录的实测 gate（2026-11-16 补）
+
+awesome-dsh-plugin 的收录 PR 有两条会咬人的规则，都是从失败里读出来的：
+
+- **文件名不是自由格式**：必须等于 `slugFor(url)` 派生的 slug（`owner__repo--packages-pkg.yml`）。`scripts/lib/entries.mjs` 是唯一权威；写错文件名的 PR 会在 "READMEs match data/plugins" 一步被点名。给新包写条目前先跑一次 `slugFor`。
+- **每个 PR 最多 3 条**：Submission gate 的措辞是 "limit 3" 并要求解释理由。超量不拒收，但会要求拆分——一次 PR 带 1-2 条最顺。
+- **gate 的失败信息在 check-run JSON 里**，不在 workflow log：`gh api repos/OWNER/REPO/check-runs/ID` 的 `output.summary` 才有完整措辞（比如 8 条超限的完整理由）。
+- **CI 时长基线**：该仓库的 check 一步常跑 20-60 分钟（同窗口成功 run 实测 24 分钟）。轮询 30 分钟内不算卡死，别急着重推。
+
+这四条都来自 2026-11-15/16 的三轮收录实测（8 条拆成 3 PR、文件名打回一次、gate 信息挖错地方一次）。
+
 ## 13. 先用基线读数字，再谈采用
 
 **信号提案草案**见 [docs/SIGNAL-PROPOSAL.md](SIGNAL-PROPOSAL.md)：发布日形状的周数字应带「发布日」标记——可判定、成本低、不动排序，12-01 随月报正式开 issue。

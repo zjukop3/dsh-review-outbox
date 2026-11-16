@@ -100,6 +100,10 @@ node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <h2 id="12-发布后检查清单">12. 发布后检查清单</h2>
 <p>八条，按顺序做，每条都有可观测的产出：</p>
 <ol><li><code>pnpm run check</code> 全绿（测试 + 索引重建 + 构建）。</li><li><code>npm publish --registry=https://registry.npmjs.org</code>，记下 shasum。</li><li>等 registry 处理窗口，<code>npm view PKG version</code> 确认 latest 已是新版。</li><li>触发镜像同步：<code>curl -X PUT https://registry.npmmirror.com/-/package/PKG/syncs</code>，确认返回 <code>201</code>。</li><li>用<strong>隔离 Profile</strong> 装一次，确认解析到的版本就是新版，而不是缓存里的旧版。</li><li>更新 pin → 重建索引与页面 → 确认线上 <code>plugins.json</code> 与首页的版本、提交一致。</li><li><code>IndexNow</code> 提交变更 URL，记录响应码（提交不等于收录，别当成流量）。</li><li>隔天核对目录条目版本，确认日构建已带上新版。</li></ol>
+<h2 id="12b-目录收录的实测-gate-2026-11-16-补">12b. 目录收录的实测 gate（2026-11-16 补）</h2>
+<p>awesome-dsh-plugin 的收录 PR 有两条会咬人的规则，都是从失败里读出来的：</p>
+<ul><li><strong>文件名不是自由格式</strong>：必须等于 <code>slugFor(url)</code> 派生的 slug（<code>owner__repo--packages-pkg.yml</code>）。<code>scripts/lib/entries.mjs</code> 是唯一权威；写错文件名的 PR 会在 &quot;READMEs match data/plugins&quot; 一步被点名。给新包写条目前先跑一次 <code>slugFor</code>。</li><li><strong>每个 PR 最多 3 条</strong>：Submission gate 的措辞是 &quot;limit 3&quot; 并要求解释理由。超量不拒收，但会要求拆分——一次 PR 带 1-2 条最顺。</li><li><strong>gate 的失败信息在 check-run JSON 里</strong>，不在 workflow log：<code>gh api repos/OWNER/REPO/check-runs/ID</code> 的 <code>output.summary</code> 才有完整措辞（比如 8 条超限的完整理由）。</li><li><strong>CI 时长基线</strong>：该仓库的 check 一步常跑 20-60 分钟（同窗口成功 run 实测 24 分钟）。轮询 30 分钟内不算卡死，别急着重推。</li></ul>
+<p>这四条都来自 2026-11-15/16 的三轮收录实测（8 条拆成 3 PR、文件名打回一次、gate 信息挖错地方一次）。</p>
 <h2 id="13-先用基线读数字-再谈采用">13. 先用基线读数字，再谈采用</h2>
 <p><strong>信号提案草案</strong>见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/SIGNAL-PROPOSAL.md">docs/SIGNAL-PROPOSAL.md</a>：发布日形状的周数字应带「发布日」标记——可判定、成本低、不动排序，12-01 随月报正式开 issue。</p>
 <p>看到任何插件（包括自己）的下载数，先对照 <code>docs/ECOSYSTEM-BASELINE.md</code>：目录里 58.6% 的条目停在每天 20–40 次的底部带，这一层与有没有人安装无关。周下载在低三位数时，它和「发布当天被镜像拉了一次」是同一个形状，不能作为采用证据。</p>
