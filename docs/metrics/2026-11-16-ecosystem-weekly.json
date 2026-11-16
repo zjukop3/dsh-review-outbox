@@ -41,14 +41,62 @@
     "npmDownloads": {
       "window": "11-10..11-14 (publish day + 4, npm lag makes 11-14 partial)",
       "perPackage": {
-        "dsh-hashcheck": [302, 15, 10, 8, 0],
-        "dsh-citelint": [303, 17, 9, 8, 0],
-        "dsh-outline-lint": [293, 17, 9, 8, 0],
-        "dsh-tablelint": [299, 16, 10, 8, 0],
-        "dsh-numberlint": [295, 15, 9, 8, 0],
-        "dsh-agreement-check": [316, 17, 10, 9, 0],
-        "dsh-invoice-check": [315, 16, 10, 13, 1],
-        "dsh-listing-check": [316, 15, 10, 10, 2]
+        "dsh-hashcheck": [
+          302,
+          15,
+          10,
+          8,
+          0
+        ],
+        "dsh-citelint": [
+          303,
+          17,
+          9,
+          8,
+          0
+        ],
+        "dsh-outline-lint": [
+          293,
+          17,
+          9,
+          8,
+          0
+        ],
+        "dsh-tablelint": [
+          299,
+          16,
+          10,
+          8,
+          0
+        ],
+        "dsh-numberlint": [
+          295,
+          15,
+          9,
+          8,
+          0
+        ],
+        "dsh-agreement-check": [
+          316,
+          17,
+          10,
+          9,
+          0
+        ],
+        "dsh-invoice-check": [
+          315,
+          16,
+          10,
+          13,
+          1
+        ],
+        "dsh-listing-check": [
+          316,
+          15,
+          10,
+          10,
+          2
+        ]
       },
       "shape": "publish-day burst ~300/package (all eight within a narrow band = automated indexers), decaying to 8-13/day (inside the silent band <=10/day), 11-14 near zero (partly reporting lag)",
       "reading": "no distinct install-side signal yet; the 8-13/day steady tail is uniform across packages, which is the automation signature, not organic variance"
@@ -62,8 +110,9 @@
     "research-report#27": "CLOSED",
     "signal-proposal#1207": "dsh-market/dsh-market — filed 11-15, maintainer declined (badge fatigue 20-28% hit rate + number already positioned as relative size); reopening condition = ranking-error data; rank-stratified measurement ran same day (TOP-200 burst 10.8% vs catalog 28.0%, ranking NOT distorted), proposal withdrawn with data per the promised protocol",
     "p0-1-evidence#1208": "dsh-market/dsh-market — acted on within hours: PR #1212 (github-install-target.ts pre-install guard) shipped in harness v1.73.20; maintainer confirms our case is covered, three evidence-less edge cases deliberately not added; our catalog entries are npm-source so the guard layer does not apply to them",
-    "catalog-listing": "awesome-dsh-plugin PRs #15594/#15655/#15656 — ALL MERGED 11-15 20:19-20:21Z (8 subpackage entries live in data/plugins); site built 23:22Z and all 8 per-package pages return 200; reverse references added to both kit READMEs 11-16 within the 24h convention",
+    "catalog-listing": "awesome-dsh-plugin PRs #15594/#15655/#15656 MERGED (8 subpackage entries live, per-package pages 200); PR #15951 (packages 4-5: meeting-notes, resume) check + Submission gate both SUCCESS, awaiting merge; npm catalog feed frozen at 2026.1114.20961 pending the upstream dsh-dot-mcp duplicate fix (#15579 review names the root cause)",
     "nightly-blocker": "the scheduled build fails on a duplicate npm name: Tests4gptplay/dsh-dots root package.json declares name dsh-dot-mcp (dsh.bundle present, gate-legitimate) and its subpackage entry resolves to the same npm package, so format-1 whole-doc uniqueness throws and dsh-plugin-catalog has not published since 2026.1114.20961 (11-14 05:27Z) — the in-app Discover feed is frozen at the 11-14 snapshot; known upstream via #15569 (frozen versions) and #15579 (de-dup fix PR, our review comment 11-16 names the root-manifest slip and which row survives)",
-    "discover-impact": "our 8 entries are visible on the site and its pages but not yet in the in-app Discover until the nightly publishes again; npm-side installs are unaffected"
+    "discover-impact": "our 8 entries are visible on the site and its pages but not yet in the in-app Discover until the nightly publishes again; npm-side installs are unaffected",
+    "vertical-kit": "packages 4-5 shipped 11-16: dsh-meeting-notes-check + dsh-resume-check, 0.1.1 live, site 6 pages, kit at the 5-package cap for this wave"
   }
 }

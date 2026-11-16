@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-16",
+  "milestone": "Vertical kit expansion: packages 4 and 5 (meeting-notes, resume) shipped end to end in one session",
+  "packages": {
+    "dsh-meeting-notes-check": {
+      "version": "0.1.1",
+      "decides": "meeting-note bookkeeping: date, attendees, recorded decisions, every action item with an owner and a deadline",
+      "distinct_rule": "checkboxes and numbered lines under an action heading count as tasks; plain numbered discussion points do not (numbering is how a whole note is structured)"
+    },
+    "dsh-resume-check": {
+      "version": "0.1.1",
+      "decides": "resume bookkeeping: reachable contact, valid email/phone shapes, a timeline that never overlaps itself",
+      "distinct_rule": "timeline compared in months, not document order — education lines below the current job are not flagged; gaps informative by default"
+    }
+  },
+  "quality_bar": "same as the first three: pure functions, CLI and route share one implementation, npm READMEs carry the injected real-input/output example blocks (sync script, idempotent), site pages with verbatim CLI output, 32 tests across the kit all green",
+  "distribution": {
+    "npm": "0.1.1 live for both (verified via registry dist-tags after propagation)",
+    "site": "6 pages, internal links all resolved, IndexNow submitted",
+    "catalog": "PR #15951 (2 entries, under the 3 cap; repo already listed so the age bar skips) — check + Submission gate both SUCCESS 11-16 22:35+08:00, awaiting merge"
+  },
+  "expansion_cap": "the plan's vertical wave caps at 5 per market opening — the kit is now at 5; further expansion needs a new trigger, not momentum",
+  "bug_notes": "two source bugs caught by the honest tests before publication: the attendees regex required 与会 immediately before the colon (missed 与会人：), and the open-ended date range regex had a capture-group shift plus no space tolerance (2020-03 至今 did not parse); also the dates-order rule compared document order instead of months, flagging education lines below the current job",
+  "identity_trail": "npm maintainer zjukop1 ↔ package author zjukop3 ↔ GitHub zjukop3 ↔ commit email — three consistent public trails for any contributor program"
+}
