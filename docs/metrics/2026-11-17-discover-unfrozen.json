@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-17",
+  "time": "04:32+08:00",
+  "milestone": "DISCOVER UNFROZEN: the first post-fix nightly published catalog 2026.1116.22584 — our deliverables are in the in-app Discover for the first time",
+  "feed": {
+    "version": "2026.1116.22584",
+    "was": "2026.1114.20961 (frozen since 11-14 by the dsh-dot-mcp duplicate)",
+    "plugins": 5943,
+    "unfrozen_at": "2026-11-17T04:32:23+08:00 (the feed-waiter caught it)"
+  },
+  "our_entries_in_feed": {
+    "verify-kit": ["hashcheck", "citelint", "outline-lint", "tablelint", "numberlint"],
+    "vertical-kit": ["agreement-check", "invoice-check", "listing-check", "meeting-notes-check", "resume-check"],
+    "review-outbox": "listed (format-1 index + install URLs)",
+    "pending_prs": "release-notes (#16006) and weekly-report (#16011) merge into the next batch"
+  },
+  "count": "11 of 13 packages discoverable in-app (release-notes and weekly-report await their PR merges)",
+  "meaning": "the plan's market-stop condition clock (market + 2 weeks with no install-side signal) now genuinely starts; the funnel's F1 zero was measured BEFORE the market opened — the next funnel point measures the opened market",
+  "chain": "our #1208 finding -> guard in v1.73.20; our #15579 review -> the de-dup fix that unfroze the feed; both landed in the same 24h window"
+}
