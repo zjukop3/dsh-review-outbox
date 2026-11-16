@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-17",
+  "milestone": "F1: the first scheduled funnel measurement on the 11-17 plan line",
+  "compare": {
+    "before": "2026-11-15-usage-funnel.json",
+    "after": "2026-11-17-usage-funnel.json",
+    "installedPluginVersion": "0.1.3 -> 0.1.3 (the 22:42 auto-update window on 11-16 did not fire — recorded in 2026-11-16-auto-update-no-fire.json)",
+    "artifacts": "86 -> 88 (+2, session residue)",
+    "pending": "86 -> 88",
+    "humanDecisions": "0 -> 0"
+  },
+  "reading": "the funnel's honest zero: the operator (first user) has never walked a real review through the panel, so adoption is 0 regardless of pending depth. The update channel itself (auto-update cadence) is part of the funnel being measured — it did not deliver 0.1.11 on its first eligible window.",
+  "prerequisites_still_open": "the plan's §5 correction stands: the first adoption cell must be walked by the operator; the F1 line records the state, it does not manufacture it",
+  "next_scheduled": "12-01 monthly rebuild picks up all funnel points automatically"
+}
