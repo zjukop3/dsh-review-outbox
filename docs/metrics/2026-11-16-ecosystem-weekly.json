@@ -61,7 +61,9 @@
     "discussion11870": "peer author zuwenyin independently confirmed the floor; quantified release-day overhead at 8.3x; answered their version-change question 11-15",
     "research-report#27": "CLOSED",
     "signal-proposal#1207": "dsh-market/dsh-market — filed 11-15, maintainer declined (badge fatigue 20-28% hit rate + number already positioned as relative size); reopening condition = ranking-error data; rank-stratified measurement ran same day (TOP-200 burst 10.8% vs catalog 28.0%, ranking NOT distorted), proposal withdrawn with data per the promised protocol",
-    "p0-1-evidence#1208": "dsh-market/dsh-market — filed 11-15 (monorepo git+https installs workspace root, real case for IMPROVEMENT-PLAN P0-1); open, zero comments, awaiting triage",
-    "catalog-listing": "awesome-dsh-plugin PRs #15594/#15655/#15656 — 8 subpackage entries split per the 3-entry gate, all three green (check + Submission gate) 11-15/16, awaiting maintainer review; merge feeds the 04:49Z daily catalog build"
+    "p0-1-evidence#1208": "dsh-market/dsh-market — acted on within hours: PR #1212 (github-install-target.ts pre-install guard) shipped in harness v1.73.20; maintainer confirms our case is covered, three evidence-less edge cases deliberately not added; our catalog entries are npm-source so the guard layer does not apply to them",
+    "catalog-listing": "awesome-dsh-plugin PRs #15594/#15655/#15656 — ALL MERGED 11-15 20:19-20:21Z (8 subpackage entries live in data/plugins); site built 23:22Z and all 8 per-package pages return 200; reverse references added to both kit READMEs 11-16 within the 24h convention",
+    "nightly-blocker": "the scheduled build fails on a duplicate npm name: Tests4gptplay/dsh-dots root package.json declares name dsh-dot-mcp (dsh.bundle present, gate-legitimate) and its subpackage entry resolves to the same npm package, so format-1 whole-doc uniqueness throws and dsh-plugin-catalog has not published since 2026.1114.20961 (11-14 05:27Z) — the in-app Discover feed is frozen at the 11-14 snapshot; known upstream via #15569 (frozen versions) and #15579 (de-dup fix PR, our review comment 11-16 names the root-manifest slip and which row survives)",
+    "discover-impact": "our 8 entries are visible on the site and its pages but not yet in the in-app Discover until the nightly publishes again; npm-side installs are unaffected"
   }
 }
