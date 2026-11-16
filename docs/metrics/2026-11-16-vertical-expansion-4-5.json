@@ -17,6 +17,12 @@
       "decides": "release-note bookkeeping: version heading, date, breaking changes paired with an upgrade path, newest-first ordering",
       "distinct_rule": "the breaking/upgrade pairing is the one combination that strands a reader; ordering reads heading order, so a highlights-first page is out of domain",
       "note": "package 6 — the 5-cap reads the post-opening expansion batch; this is pre-opening seed production per the standing quantity directive, with the market-stop condition still not triggered (market not open)"
+    },
+    "dsh-weekly-report-check": {
+      "version": "0.1.0",
+      "decides": "weekly-report structure: done separated from planned, risks named, at least one quantified line",
+      "distinct_rule": "presence is decidable, substance is not — a vacuous promise reads as a plan statement; section markers and collected bullets never double-count",
+      "note": "package 7 — pre-opening seed production per the standing quantity directive"
     }
   },
   "quality_bar": "same as the first three: pure functions, CLI and route share one implementation, npm READMEs carry the injected real-input/output example blocks (sync script, idempotent), site pages with verbatim CLI output, 32 tests across the kit all green",
