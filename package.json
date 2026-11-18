@@ -76,7 +76,8 @@
     "weekly:meta": "node scripts/weekly-meta.mjs",
     "funnel:usage": "node scripts/usage-funnel.mjs",
     "funnel:compare": "node scripts/funnel-compare.mjs",
-    "funnel:triage": "node scripts/pending-triage.mjs"
+    "funnel:triage": "node scripts/pending-triage.mjs",
+    "catalog:coverage": "node scripts/catalog-coverage.mjs"
   },
   "files": [
     "src",

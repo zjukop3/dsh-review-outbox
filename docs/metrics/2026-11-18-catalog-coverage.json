@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Catalog coverage verified 26/26 — every published package has an entry either merged or in an open PR",
+  "the_gap_found": "onboarding-check was published at 0.1.0 and had no entry anywhere. With twenty-six packages across three repositories, 'did every package get an entry' is precisely the kind of thing that drifts silently: nothing anywhere reports it, and the package is simply invisible in Discover forever. Closed by PR #16509.",
+  "result": {
+    "packages": 26,
+    "merged_on_main": 13,
+    "in_open_pr_branches": 13,
+    "missing": 0
+  },
+  "tool": {
+    "path": "scripts/catalog-coverage.mjs",
+    "what": "derives each package's expected entry filename from the catalog's own slugFor rule, then checks upstream main and named PR branches for it",
+    "bugs_found_while_writing_it": [
+      "execFile's default 1 MB maxBuffer cannot hold the 11k-path upstream tree; the failure surfaced as 'Command failed', which points at the API rather than at the buffer",
+      "the bulk tree response does not survive this network resetting mid-transfer, so the design moved to per-file contents lookups (a few hundred bytes each)",
+      "PR branches live on the fork, not upstream — checking ref against the upstream repo answered 'does main have it' and reported every open entry as missing"
+    ],
+    "known_limit": "the all-branches mode is slow here (sequential calls on a resetting link); for a one-off audit the parallel shell loop over package→branch pairs is faster. The script earns its keep as a periodic check, not as a per-round tool."
+  },
+  "verification": "17 entries found in branches (13 unique pending plus 4 whose PR merged but whose branch still exists), 13 on main, no package without an entry"
+}
