@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-18",
+  "milestone": "The spread measurement went back to where the withdrawal happened — as evidence supporting the maintainer's decision, with no ask attached",
+  "where": "https://github.com/dsh-market/dsh-market/issues/1207#issuecomment-6974162515",
+  "thread_state": "open, 3 comments before this one — the thread where the badge proposal was withdrawn on 11-15 after the rank-stratified measurement argued against it",
+  "why_post_there": "the request was withdrawn, so the only honest reason to add anything is new evidence. The spread check is new: the rank-stratified burst share answered how many entries have a publish-day shape, but not whether the leaderboard's levels are one client's artefact. This answers the second question, and its answer supports the decision the maintainer already made.",
+  "what_was_said": {
+    "top_12_tail_cv": 1.617,
+    "my_nine_packages_tail_cv": 0.186,
+    "median_pair_correlation": 0.299,
+    "share_of_pairs_at_least_half": 0.121,
+    "conclusion_given": "twelve tools with a 30x spread and one tenth of pairs moving together are twelve audiences, not one client — the leaderboard's head cannot be dismissed as machine traffic, so de-weighting the column and not adding an explanatory badge was right",
+    "self_inclusion": "the comment says the instrument pointed at the ecosystem and disqualified my own numbers — the control group is the interesting part, not the result that flatters the story",
+    "limits_stated": "n=12, 14-day window, because a 25-package 30-day run kept dying on ECONNRESET; the direction (CV 1.617, not 0.3) is robust at this n, the individual correlations should be re-run on a stable link"
+  },
+  "discipline": {
+    "no_ask": "the comment states there is no request for a reply or an action",
+    "no_reopening": "it does not re-open the withdrawn proposal or ask for the badge again",
+    "test_it_applies": "if someone proposes a downloads annotation in future, this is usable evidence about whether the head is trustworthy — not an argument for the badge that was already declined"
+  },
+  "verification": "comment count 3 -> 4, author zjukop3, 1231 characters, 2026-11-18T09:14:06Z"
+}
