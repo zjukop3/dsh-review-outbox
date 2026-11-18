@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Spread check: the top of the catalog moves independently — my own portfolio is the anomaly",
+  "question": "the rank-stratified burst measurement answered whether the leaderboard is inflated by publish days (it is not). This asks something the burst share cannot: are the top packages' daily rates independent of each other, the way different tools with different audiences would be, or do they move in lockstep, the way one automated client fetching all of them would?",
+  "method": "top 12 by weekly downloads from the shared 5,641-entry cache, 14-day daily series, then (a) the coefficient of variation of each package's last-three-day tail, and (b) the Pearson correlation of day-over-day changes across all 66 pairs",
+  "top_12": {
+    "tail_mean_per_day": 27654,
+    "tail_coefficient_of_variation": 1.617,
+    "median_pair_correlation": 0.299,
+    "mean_pair_correlation": 0.263,
+    "p75_pair_correlation": 0.447,
+    "share_of_pairs_correlating_at_least_half": 0.121,
+    "spread_example": "billion-context 173,007/day at the top, cc-safety-net 5,755/day at the bottom of the same twelve"
+  },
+  "reading": "the top of the catalog is NOT one client. A coefficient of variation of 1.617 and only 12.1% of pairs moving together is what twelve different tools with twelve different audiences look like. Their levels are independent, so the leaderboard's top cannot be dismissed as automation — this contradicts the more comfortable pessimism.",
+  "the_sharper_finding": {
+    "my_portfolio": "9 packages older than a week, tail CV 0.186, values 117 119 121 122 122 164 171 178 180 per day",
+    "the_top_12": "tail CV 1.617",
+    "reading": "my own twenty-six packages are the anomalous set, not the catalog. Nine different tools of mine landing within 19% of each other while the catalog's top spans a 30x range means the uniformity is a property of how my packages are fetched — an author-scoped client or a mirror walking one owner's package list — not of the ecosystem. The instrument pointed at the ecosystem and found my own numbers suspect, which is the right direction for it to fail in."
+  },
+  "what_this_changes": [
+    "the catalog's head is worth competing for on merit: its numbers are not a machine artefact",
+    "my own downloads should not be cited as evidence of anything until the spread widens — the first thing I would have wanted to claim is the thing the measurement disqualifies",
+    "the spread rule in /reading-downloads/ is validated in both directions: it separated a lockstep set (mine) from an independent one (the top) using the same computation"
+  ],
+  "tool_notes": {
+    "path": "scripts/spread-check.mjs",
+    "bug_1": "hand-rolled bulk point requests for the whole catalog appended @scope names into the batch, and the endpoint rejected the batch with HTTP 400 — twenty empty batches and an empty set. Fixed by using the shared collectDownloads, which splits plain from scoped names first.",
+    "bug_2": "the weekly sweep ignored the existing 5,641-entry cache and re-fetched everything, which takes about twenty minutes on this link for numbers that had not changed",
+    "bug_3": "loadCatalog throws outside every inner try on a body timeout, taking the process down with an undici stack instead of a message naming the cause",
+    "limit": "n=12 and a 14-day window, chosen because a 25-package 30-day run kept dying on ECONNRESET. The direction of the result is robust to the smaller n — the CV is 1.617, not 0.3 — but the exact correlations should be re-run on a stable link before being quoted individually."
+  }
+}

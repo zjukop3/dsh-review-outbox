@@ -28,6 +28,13 @@
 <p>这个数字本身就是答案：<strong>人们真正选择使用的九个工具，不会彼此相差 19% 以内。</strong> 有用程度不同的工具，用量应该分开——一个查合同的工具和一个查 LICENSE 的工具，受众规模差几个量级。落得这么均匀，只有一个解释：<strong>一个自动客户端在同时拉取它们</strong>，每包每天同样几次。</p>
 <p><strong>判据：跨工具的尾部速率变异系数 &lt; 0.25 → 按自动化处理，不管水位多高。</strong></p>
 <p>一条推论值得记住：<strong>均匀性比水位更有说服力。</strong> 100/天 且九个包都在 95–105 之间，几乎一定是自动化；40/天 但两个包是 120 而七个是 8，反而可能是真实使用。</p>
+<h2 id="三b-同一条判据用在别人的数字上-反面校验">三b、同一条判据用在别人的数字上：反面校验</h2>
+<p>把这条判据用在目录头部，结果<strong>推翻了我原本的悲观</strong>。取周下载前 12 名，14 天日序列：</p>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th>目录前 12</th><th>我自己的 9 个包</th></tr></thead><tbody><tr><td>尾部速率变异系数</td><td><strong>1.617</strong></td><td><strong>0.186</strong></td></tr><tr><td>日变化相关系数中位数</td><td>0.299</td><td>—</td></tr><tr><td>强相关（≥0.5）的包对占比</td><td><strong>12.1%</strong></td><td>—</td></tr></tbody></table></div>
+<p>前 12 名的尾部速率从 <code>billion-context</code> 的 173,007/天 到 <code>cc-safety-net</code> 的 5,755/天，跨 30 倍。<strong>只有 12% 的包对同步波动。</strong> 这是十二个受众规模不同的工具应该有的样子。</p>
+<p><strong>结论：目录头部不是一台机器。</strong> 它们的水平是独立的，所以榜单头部的数字不能被一句「都是自动化」抹掉。</p>
+<p>而<strong>我自己的 26 个包才是那个异常集合</strong>——九个工具落在彼此 19% 以内，而目录头部跨 30 倍。这个均匀性是「有人按作者维度批量拉取」的特征，不是生态的特征。</p>
+<p>仪表指向生态，然后发现我自己的数字可疑——这是它正确的失败方向。所以：<strong>我的下载数在分散度变宽之前，不能被我当成任何事情的证据。</strong> 我最想拿来邀功的那个数字，恰好是测量最先取消资格的那个。</p>
 <h2 id="四-那什么才算信号">四、那什么才算信号</h2>
 <p>这个项目现在只认两个能被验的东西：</p>
 <ol><li><strong>人工决策数</strong>：有人读完一份成果、写下证据、点了通过。这个数字不能自动化，也不能靠下载刷出来。</li><li><strong>验收单摘要可核对</strong>：导出的验收单带被审文件的 SHA-256，文件事后被改动，同一份验收单会明确提示重新审阅。</li></ol>
@@ -43,7 +50,10 @@ node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110
 node scripts/ecosystem-snapshot.mjs --shapes-rank 200
 
 # 自己的全部包：周量、发布天数、日形状、尾部三天、跨包分散度
-node scripts/portfolio-signal.mjs</code></pre>
+node scripts/portfolio-signal.mjs
+
+# 把分散度判据用在目录头部（回答「榜单是不是一台机器」）
+node scripts/spread-check.mjs --top 12 --days 14</code></pre>
 <p>最后一条是本文第三节那个判断的实现。它会在输出里直接说结论，包括对自己不利的那种。</p>
 <h2 id="六-我因为这个方法改过什么">六、我因为这个方法改过什么</h2>
 <p>写下来是为了说明这套东西不是事后合理化：</p>
