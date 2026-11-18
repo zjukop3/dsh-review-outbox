@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 12: dockerfile-check shipped; kit at 12 packages, 85 tests",
+  "package": {
+    "name": "dsh-dockerfile-check",
+    "version": "0.1.0",
+    "decides": "Dockerfile text: pinned base image, non-root USER, no letter-value secrets in layers, COPY over ADD for plain copies, package-manager cleanup, WORKDIR",
+    "distinct_rule": "case-insensitive instructions with backslash continuations treated as one instruction reported at its first line — a multi-line apt-get install is one finding, not three",
+    "exemptions_that_matter": "a @sha256: digest counts as pinned; ${VAR} references are not literals; tarballs and URLs are legitimate ADD sources"
+  },
+  "quality_bar": "85 tests across the kit (12 new, all green on the first run), audit 12/12 clean, site 13 pages with verbatim output, npm 0.1.0 live",
+  "pr_queue": {
+    "16425": "bug-report + api-doc + test-report — check SUCCESS, Submission gate SUCCESS",
+    "16435": "commit-msg-check — CI queued",
+    "16450": "dockerfile-check — just opened"
+  },
+  "npm_total": "18 packages (review-outbox + verify-kit 5 + vertical-kit 12)",
+  "nouns_covered": "合同/发票/listing/会议纪要/简历/发布说明/周报/缺陷报告/接口文档/测试报告/提交信息/Dockerfile — 12 check nouns plus the 5 generic verify-kit surfaces"
+}
