@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-18",
+  "milestone": "dsh-vertical-kit publishes /checks.json — the twenty checks as data",
+  "why": "every other surface on the kit is for a person: the pages explain a check, the compare table helps a visitor pick one. An agent or a script that wants to know what exists has to parse HTML. A programming audience for a plugin ecosystem expects the set as data.",
+  "shape": {
+    "per_check": ["name", "cli", "slug", "noun", "title", "decides", "description", "rules[{rule, meaning}]", "usage[]", "page", "route", "scope"],
+    "top_level": ["name", "repository", "origin", "description", "license", "compare", "generic (dsh-verify-kit)", "checks[]"]
+  },
+  "generated_from": "scripts/checks-data.mjs — the same source as the pages, the compare table and llms.txt, so the four cannot disagree",
+  "validation": "a script checked that no field is empty across all twenty entries, that every route matches POST /<slug>/api, and that every page URL is absolute",
+  "discovery": ["in llms.txt alongside compare", "site build reports 22 pages plus the manifest", "returns 200 after the Pages deploy"],
+  "honest_note": "a manifest does not make an ecosystem. It makes the set legible to the tools that would otherwise have to scrape — which is the cheapest thing that was still missing."
+}
