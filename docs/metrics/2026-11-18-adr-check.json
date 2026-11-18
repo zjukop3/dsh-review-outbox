@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 19: adr-check shipped; kit at 19 packages, 151 tests",
+  "package": {
+    "name": "dsh-adr-check",
+    "version": "0.1.0",
+    "decides": "ADR structure: status, context, decision, consequences including a cost, alternatives considered",
+    "distinct_rule": "consequences-one-sided — an ADR whose consequences list only benefits did not weigh the trade. A record can satisfy every other rule and still be caught by this one, which makes it the rule worth the package.",
+    "second_rule": "consequences-unlabelled — consequences that mark neither benefit nor cost leave the reader unable to tell which line is the price"
+  },
+  "quality_bar": "151 tests across the kit (9 new), audit 19/19 clean, site 21 pages (the /compare/ table regenerates from CHECKS and now covers 19), npm 0.1.0 live",
+  "registry_note": "dist-tags lagged the version endpoint again for about two minutes (latest showed 0.0.0-stage while 0.1.0 was already recorded in times); re-checking after the propagation window confirmed 0.1.0. This is the known three-layer delay, not a failed publish.",
+  "pr_queue": {
+    "double_green": ["16425", "16435", "16450", "16453", "16457", "16464", "16467"],
+    "queued": ["16469", "16479", "16491"]
+  },
+  "npm_total": "25 packages (review-outbox + verify-kit 5 + vertical-kit 19)",
+  "nouns_covered": "19 check nouns"
+}
