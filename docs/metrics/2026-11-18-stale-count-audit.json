@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Stale-count sweep across all three surfaces: the copy said 8 checks, the kit had 25",
+  "why_now": "after shipping 13 packages in two days, several surfaces still told the reader an older number. A stale count is worse than a missing one: it tells the reader the project is not being maintained, right at the moment they are deciding whether to trust it.",
+  "found_and_fixed": [
+    {"surface": "dsh-review-outbox home", "was": "同一个源还收录 8 个检查作品 + 三个行业检查", "now": "25 个检查作品 + 五个通用 / 二十个场景 + compare 链接"},
+    {"surface": "dsh-vertical-kit home", "was": "这三个检查… / · 18 tests / 八件作品 / 本仓库三件", "now": "generated ${CHECKS.length} counts, a twenty-noun list, and the compare table"},
+    {"surface": "dsh-vertical-kit README", "was": "npm test # 18 tests / 行业三件 list", "now": "159 tests / compare table"},
+    {"surface": "dsh-verify-kit README", "was": "行业三件在 dsh-vertical-kit：agreement/invoice/listing", "now": "twenty scene checks by file type + compare link"}
+  ],
+  "root_cause": "hand-written counts in prose. The fix is not the new number — it is replacing hand-written counts with values generated from CHECKS wherever the surface is generated, and replacing hand-written lists with a link to the table that is generated.",
+  "verification": "dsh-vertical-kit has 20 packages and dsh-verify-kit has 5, so 'Five small' stays correct; audit ran clean afterwards (5/5 and 20/20)",
+  "pushes": {"dsh-review-outbox": "f868b9c", "dsh-verify-kit": "284a3f1", "dsh-vertical-kit": "bc57e70"}
+}
