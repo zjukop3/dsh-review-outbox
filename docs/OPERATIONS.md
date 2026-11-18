@@ -245,6 +245,27 @@ awesome-dsh-plugin 的收录 PR 有两条会咬人的规则，都是从失败里
 
 这四条都来自 2026-11-15/16 的三轮收录实测（8 条拆成 3 PR、文件名打回一次、gate 信息挖错地方一次）。
 
+## 12c. PR 绿了但不合并：先查标签
+
+`awesome-dsh-plugin` 的批量合并队列**按标签过滤**。有一个标签叫 `held: author`，含义是「等人再读一遍」，而它有两个性质叠在一起会出事：
+
+1. **它不会自清。** 你把 PR 改好了，标签还在。
+2. **队列扫描按标签跳过。** 于是这条已修好的 PR 从合并队列的视角里**消失了**——没有报错，没有通知，它就是不再存在。
+
+维护者为此加了一个 `held-rescan.yml`（每日 06:19Z）维护一份候选清单，但它**刻意不摘标签**：标签编码的是人的判断，只有重新审阅才能解除。那份 workflow 的注释里记着 2026-09-07 的一次扫描：11 条绿 + `held: author` 的 PR 已就绪多时，其中三条的作者 ping 进沉默。
+
+**所以判断顺序是**：
+
+```bash
+gh pr view <N> --repo awesome-dsh-plugin/awesome-dsh-plugin   --json labels,mergeStateStatus,reviewDecision
+```
+
+- `labels` 为空 + `mergeStateStatus: CLEAN` + 两个 check 绿 → **在队列里，等批次**。不要重推、不要 ping。
+- 带 `held: author` → 在等一次重读。这时候**值得留一句「已按什么改完」**，因为标签不会自己掉。
+- `mergeStateStatus: DIRTY` → 有冲突，需要 rebase。
+
+2026-11-18 实测：十二条绿 PR（含 26 个包里的十五条条目）在无标签状态下等了约 19 小时没合并。这是节奏，不是故障——`held-rescan` 当天 06:32Z 的最近一次运行是 success，说明机制在跑；队列清空靠维护者手动批次。
+
 ## 13. 先用基线读数字，再谈采用
 
 **信号提案草案**见 [docs/SIGNAL-PROPOSAL.md](SIGNAL-PROPOSAL.md)：发布日形状的周数字应带「发布日」标记——可判定、成本低、不动排序，12-01 随月报正式开 issue。

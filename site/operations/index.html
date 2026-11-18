@@ -104,6 +104,14 @@ node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <p>awesome-dsh-plugin 的收录 PR 有两条会咬人的规则，都是从失败里读出来的：</p>
 <ul><li><strong>文件名不是自由格式</strong>：必须等于 <code>slugFor(url)</code> 派生的 slug（<code>owner__repo--packages-pkg.yml</code>）。<code>scripts/lib/entries.mjs</code> 是唯一权威；写错文件名的 PR 会在 &quot;READMEs match data/plugins&quot; 一步被点名。给新包写条目前先跑一次 <code>slugFor</code>。</li><li><strong>每个 PR 最多 3 条</strong>：Submission gate 的措辞是 &quot;limit 3&quot; 并要求解释理由。超量不拒收，但会要求拆分——一次 PR 带 1-2 条最顺。</li><li><strong>gate 的失败信息在 check-run JSON 里</strong>，不在 workflow log：<code>gh api repos/OWNER/REPO/check-runs/ID</code> 的 <code>output.summary</code> 才有完整措辞（比如 8 条超限的完整理由）。</li><li><strong>CI 时长基线</strong>：该仓库的 check 一步常跑 20-60 分钟（同窗口成功 run 实测 24 分钟）。轮询 30 分钟内不算卡死，别急着重推。</li></ul>
 <p>这四条都来自 2026-11-15/16 的三轮收录实测（8 条拆成 3 PR、文件名打回一次、gate 信息挖错地方一次）。</p>
+<h2 id="12c-pr-绿了但不合并-先查标签">12c. PR 绿了但不合并：先查标签</h2>
+<p><code>awesome-dsh-plugin</code> 的批量合并队列<strong>按标签过滤</strong>。有一个标签叫 <code>held: author</code>，含义是「等人再读一遍」，而它有两个性质叠在一起会出事：</p>
+<ol><li><strong>它不会自清。</strong> 你把 PR 改好了，标签还在。</li><li><strong>队列扫描按标签跳过。</strong> 于是这条已修好的 PR 从合并队列的视角里<strong>消失了</strong>——没有报错，没有通知，它就是不再存在。</li></ol>
+<p>维护者为此加了一个 <code>held-rescan.yml</code>（每日 06:19Z）维护一份候选清单，但它<strong>刻意不摘标签</strong>：标签编码的是人的判断，只有重新审阅才能解除。那份 workflow 的注释里记着 2026-09-07 的一次扫描：11 条绿 + <code>held: author</code> 的 PR 已就绪多时，其中三条的作者 ping 进沉默。</p>
+<p><strong>所以判断顺序是</strong>：</p>
+<pre><code class="language-bash">gh pr view &lt;N&gt; --repo awesome-dsh-plugin/awesome-dsh-plugin   --json labels,mergeStateStatus,reviewDecision</code></pre>
+<ul><li><code>labels</code> 为空 + <code>mergeStateStatus: CLEAN</code> + 两个 check 绿 → <strong>在队列里，等批次</strong>。不要重推、不要 ping。</li><li>带 <code>held: author</code> → 在等一次重读。这时候<strong>值得留一句「已按什么改完」</strong>，因为标签不会自己掉。</li><li><code>mergeStateStatus: DIRTY</code> → 有冲突，需要 rebase。</li></ul>
+<p>2026-11-18 实测：十二条绿 PR（含 26 个包里的十五条条目）在无标签状态下等了约 19 小时没合并。这是节奏，不是故障——<code>held-rescan</code> 当天 06:32Z 的最近一次运行是 success，说明机制在跑；队列清空靠维护者手动批次。</p>
 <h2 id="13-先用基线读数字-再谈采用">13. 先用基线读数字，再谈采用</h2>
 <p><strong>信号提案草案</strong>见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/SIGNAL-PROPOSAL.md">docs/SIGNAL-PROPOSAL.md</a>：发布日形状的周数字应带「发布日」标记——可判定、成本低、不动排序，12-01 随月报正式开 issue。</p>
 <p>看到任何插件（包括自己）的下载数，先对照 <code>docs/ECOSYSTEM-BASELINE.md</code>：目录里 58.6% 的条目停在每天 20–40 次的底部带，这一层与有没有人安装无关。周下载在低三位数时，它和「发布当天被镜像拉了一次」是同一个形状，不能作为采用证据。</p>
