@@ -1,0 +1,33 @@
+{
+  "statePath": "/Users/zjukop/.dsh/review-outbox/items.json",
+  "generatedAt": "2026-11-18T04:55:09.085Z",
+  "installedPluginVersion": "0.1.3",
+  "appStateUpdatedAt": "2026-11-18T04:14:12.306Z",
+  "artifacts": {
+    "total": 99,
+    "byStatus": {
+      "pending": 99
+    },
+    "byKind": {
+      "presented": 99
+    },
+    "sessions": 16
+  },
+  "humanDecisions": {
+    "total": 0,
+    "byAction": {},
+    "first": null,
+    "last": null
+  },
+  "pending": {
+    "count": 99,
+    "medianAgeHours": 284.4,
+    "oldestAgeHours": 1336,
+    "sessionsWithPending": 16,
+    "largestSession": [
+      "session-1af1eb38-d786-4e47-a6bb-29b99a34cd42",
+      25
+    ]
+  },
+  "reading": "No human decision has ever been recorded in this state. Pending depth alone is not adoption."
+}
