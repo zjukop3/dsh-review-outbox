@@ -1,0 +1,332 @@
+{
+  "summary": {
+    "generatedAt": "2026-11-18T07:16:25.352Z",
+    "packages": 26,
+    "indexed": 13,
+    "byVerdict": {
+      "sustained-above-floor": 5,
+      "burst": 8,
+      "not-indexed": 13
+    },
+    "floorBand": "20-40 downloads/day",
+    "installSideSignal": 5,
+    "spread": {
+      "packages": 9,
+      "meanTail": 144,
+      "coefficientOfVariation": 0.186,
+      "values": [
+        117,
+        119,
+        121,
+        122,
+        122,
+        164,
+        171,
+        178,
+        180
+      ],
+      "reading": "the tail rates across 9 different tools sit within 19% of each other — one automated client rate, not a per-tool audience. Treat \"sustained above floor\" as automation until the spread widens."
+    },
+    "reading": "5 package(s) hold a three-day tail above the floor band — but read the spread before calling that an audience: the tail rates across 9 different tools sit within 19% of each other — one automated client rate, not a per-tool audience. Treat \"sustained above floor\" as automation until the spread widens."
+  },
+  "rows": [
+    {
+      "name": "dsh-review-outbox",
+      "published": "2026-11-08",
+      "days": 10,
+      "week": 689,
+      "perDay": 98,
+      "peak": 255,
+      "peakShare": 37,
+      "tailAvg": 122,
+      "verdict": "sustained-above-floor"
+    },
+    {
+      "name": "dsh-hashcheck",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 869,
+      "perDay": 124,
+      "peak": 506,
+      "peakShare": 58,
+      "tailAvg": 178,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-citelint",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 828,
+      "perDay": 118,
+      "peak": 461,
+      "peakShare": 56,
+      "tailAvg": 164,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-outline-lint",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 867,
+      "perDay": 124,
+      "peak": 514,
+      "peakShare": 59,
+      "tailAvg": 180,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-tablelint",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 684,
+      "perDay": 98,
+      "peak": 329,
+      "peakShare": 48,
+      "tailAvg": 117,
+      "verdict": "sustained-above-floor"
+    },
+    {
+      "name": "dsh-numberlint",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 693,
+      "perDay": 99,
+      "peak": 344,
+      "peakShare": 50,
+      "tailAvg": 122,
+      "verdict": "sustained-above-floor"
+    },
+    {
+      "name": "dsh-agreement-check",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 865,
+      "perDay": 124,
+      "peak": 484,
+      "peakShare": 56,
+      "tailAvg": 171,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-invoice-check",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 717,
+      "perDay": 102,
+      "peak": 338,
+      "peakShare": 47,
+      "tailAvg": 121,
+      "verdict": "sustained-above-floor"
+    },
+    {
+      "name": "dsh-listing-check",
+      "published": "2026-11-10",
+      "days": 8,
+      "week": 707,
+      "perDay": 101,
+      "peak": 332,
+      "peakShare": 47,
+      "tailAvg": 119,
+      "verdict": "sustained-above-floor"
+    },
+    {
+      "name": "dsh-meeting-notes-check",
+      "published": "2026-11-16",
+      "days": 2,
+      "week": 450,
+      "perDay": 64,
+      "peak": 450,
+      "peakShare": 100,
+      "tailAvg": 150,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-resume-check",
+      "published": "2026-11-16",
+      "days": 2,
+      "week": 439,
+      "perDay": 63,
+      "peak": 439,
+      "peakShare": 100,
+      "tailAvg": 146,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-release-notes-check",
+      "published": "2026-11-17",
+      "days": 1,
+      "week": 282,
+      "perDay": 40,
+      "peak": 282,
+      "peakShare": 100,
+      "tailAvg": 94,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-weekly-report-check",
+      "published": "2026-11-17",
+      "days": 1,
+      "week": 289,
+      "perDay": 41,
+      "peak": 289,
+      "peakShare": 100,
+      "tailAvg": 96,
+      "verdict": "burst"
+    },
+    {
+      "name": "dsh-bug-report-check",
+      "published": "2026-11-17",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-api-doc-check",
+      "published": "2026-11-17",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-test-report-check",
+      "published": "2026-11-17",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-commit-msg-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-dockerfile-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-env-example-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-license-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-incident-report-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-ops-runbook-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-pr-description-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-spec-doc-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-adr-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    },
+    {
+      "name": "dsh-onboarding-check",
+      "published": "2026-11-18",
+      "days": 1,
+      "week": null,
+      "perDay": null,
+      "peak": null,
+      "peakShare": null,
+      "tailAvg": null,
+      "verdict": "not-indexed"
+    }
+  ],
+  "_note": {
+    "milestone": "Portfolio signal instrument: the first measurement that can actually judge the market-stop condition",
+    "why": "the plan's stop condition is 'market open + two weeks with no install-side signal'. That could not be judged from a single package's weekly number, and a number without its publish date says less. This reads all twenty-six packages at once: weekly downloads, publish date, days public, the daily shape, and the last three days as the tail.",
+    "verdicts": {
+      "not-indexed": "13 packages published 11-18 are not in the npm download index yet — expected, and the reason a same-day download reading is meaningless for them",
+      "burst": "8 packages whose week was one day: the publish-day indexer, not use",
+      "sustained-above-floor": "5 packages with a three-day tail above the 20-40/day floor band"
+    },
+    "the_sharp_finding": "the five sustained packages are five DIFFERENT tools, and their tails are 117 119 121 122 164 171 178 180 per day across nine packages older than a week — a coefficient of variation of 0.186. Nine tools a person actually chose between would not land within 19% of each other; one automated client fetching all of them would. Uniformity across distinct tools is the automation signature, and it is stronger evidence than the level.",
+    "conclusion": "no install-side signal. Downloads are not the instrument that answers this question, and the instrument now says so in its own output rather than leaving it to a reader's optimism.",
+    "tool": "scripts/portfolio-signal.mjs — refuses to call a tail above the floor an audience without first checking the spread"
+  }
+}

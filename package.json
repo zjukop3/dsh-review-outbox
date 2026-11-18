@@ -77,7 +77,8 @@
     "funnel:usage": "node scripts/usage-funnel.mjs",
     "funnel:compare": "node scripts/funnel-compare.mjs",
     "funnel:triage": "node scripts/pending-triage.mjs",
-    "catalog:coverage": "node scripts/catalog-coverage.mjs"
+    "catalog:coverage": "node scripts/catalog-coverage.mjs",
+    "funnel:signal": "node scripts/portfolio-signal.mjs"
   },
   "files": [
     "src",
