@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-18",
+  "feed": {
+    "version": "2026.1118.23310",
+    "was": "2026.1117.22685",
+    "plugins": 6112,
+    "previous_plugins": 5956,
+    "growth_24h": 156,
+    "growth_pct_24h": 2.6
+  },
+  "why_this_matters": "156 new entries in one day is the rate a new author competes against. It is also the number that makes any single entry's discoverability a function of time: an entry added today is one of 6,112, and the same entry in a month is one of roughly 10,000 at this rate. That is the argument for the vertical noun strategy — a name that matches a search, not a slot in a list.",
+  "our_entries_in_feed": {
+    "count": 13,
+    "versions": {
+      "dsh-review-outbox": "0.1.11 (workflow)",
+      "dsh-hashcheck": "0.1.3", "dsh-citelint": "0.1.3", "dsh-outline-lint": "0.1.3", "dsh-tablelint": "0.1.2", "dsh-numberlint": "0.1.2",
+      "dsh-agreement-check": "0.1.3", "dsh-invoice-check": "0.1.2", "dsh-listing-check": "0.1.2",
+      "dsh-meeting-notes-check": "0.1.1", "dsh-resume-check": "0.1.1",
+      "dsh-release-notes-check": "0.1.0", "dsh-weekly-report-check": "0.1.0"
+    },
+    "note": "every version matches the npm dist-tag, so the feed is not lagging the registry for our packages — the 13 pending entries are pending on merge, not on a stale npm map"
+  },
+  "category_distribution": {
+    "ui": 1165,
+    "tools": 923,
+    "session": 470,
+    "workflow": 400,
+    "dev": 358,
+    "model": 321,
+    "usage": 307,
+    "memory": 266,
+    "note": "all twenty of our checks sit in tools, the second-largest category. Fifteen more packages in this category buy no visibility that a search noun does not already buy."
+  },
+  "reading": "the catalog's shape confirms the earlier decision: ui is the most crowded and tools is second, so the differentiator is not the category but the noun in the description — which is exactly what each check's name and 搜索名词 were chosen for"
+}
