@@ -75,7 +75,8 @@
     "report:monthly": "node scripts/report-monthly.mjs",
     "weekly:meta": "node scripts/weekly-meta.mjs",
     "funnel:usage": "node scripts/usage-funnel.mjs",
-    "funnel:compare": "node scripts/funnel-compare.mjs"
+    "funnel:compare": "node scripts/funnel-compare.mjs",
+    "funnel:triage": "node scripts/pending-triage.mjs"
   },
   "files": [
     "src",
