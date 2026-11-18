@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 13: env-example-check shipped; kit at 13 packages, 94 tests",
+  "package": {
+    "name": "dsh-env-example-check",
+    "version": "0.1.0",
+    "decides": "env-example shape: placeholder-only values, no committed credential, no duplicate key, purpose comments",
+    "distinct_rule": "the rule's own acceptance list is published in the README (empty, <angle>, ${VAR}, your-…, changeme, xxx, TODO, placeholder, example, dummy, test, none, null) — a heuristics-based check that hides its heuristics is a guessing game"
+  },
+  "quality_bar": "94 tests across the kit (9 new, all green on the first run), audit 13/13 clean, site 14 pages, npm 0.1.0 live",
+  "pr_queue": {
+    "16425": "bug-report + api-doc + test-report — double green",
+    "16435": "commit-msg-check — double green",
+    "16450": "dockerfile-check — CI in flight",
+    "16453": "env-example-check — just opened"
+  },
+  "npm_total": "19 packages (review-outbox + verify-kit 5 + vertical-kit 13)",
+  "session_tally": "this session shipped 6 new packages end to end (meeting-notes, resume, release-notes, weekly-report, bug-report, api-doc, test-report, commit-msg, dockerfile, env-example — 10 since the 11-17 boundary), each with tests, site page, npm publication and catalog PR"
+}
