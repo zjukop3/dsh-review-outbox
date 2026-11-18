@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 14: license-check shipped; kit at 14 packages, 105 tests",
+  "package": {
+    "name": "dsh-license-check",
+    "version": "0.1.0",
+    "decides": "LICENSE shape and identity: recognized body, title matches body, copyright holder and year, no leftover template placeholders",
+    "distinct_rule": "identification matches phrases from the license body rather than the title, so a file titled 'MIT License' whose text is the GPL is caught; BSD-3 is preferred over BSD-2 when both signatures match because BSD-3 contains BSD-2's opening"
+  },
+  "bug_notes": "the honest test caught its own year regex: \\b(1[89]\\d{2}|20\\d{2})\\b could not match 2999, so a future-year fixture reported as copyright-year-missing instead of copyright-year-future. Widened to any four-digit year, which is what the rule's name promises.",
+  "quality_bar": "105 tests across the kit (11 new), audit 14/14 clean, site 15 pages, npm 0.1.0 live, and the check passes against this kit's own LICENSE file",
+  "pr_queue": ["16425 (double green)", "16435 (double green)", "16450", "16453", "16457 (just opened)"],
+  "npm_total": "20 packages (review-outbox + verify-kit 5 + vertical-kit 14)"
+}
