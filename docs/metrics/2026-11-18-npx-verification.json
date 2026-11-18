@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-18",
+  "milestone": "All 26 published packages verified end to end through npx, and one mirror trap found and documented",
+  "method": "npx --yes --registry=https://registry.npmjs.org PKG@latest <sample>, per package, checking that the bin resolves and the tool runs. An exit code of 1 (findings) is success; 127/E-NOENT/'could not determine executable' is failure.",
+  "result": {
+    "total": 26,
+    "passed": 26,
+    "note": "dsh-hashcheck needs a subcommand (build/verify); invoked with a bare path it prints usage and exits 2, which is by design. Verified properly with build then verify: both exit 0."
+  },
+  "finding": {
+    "symptom": "npx dsh-dockerfile-check failed with 'could not determine executable to run' while the package was demonstrably on npm",
+    "root_cause": "the default registry in ~/.npmrc is npmmirror; for the two packages published that same hour the mirror had the tarball but a manifest whose bin field had not synced yet. npx reads bin from the manifest to decide what to execute, so it could not choose.",
+    "discrimination_test": "the same two packages run correctly against registry.npmjs.org — so this is a mirror sync window, not a package defect",
+    "why_it_matters": "the error reads like a broken package. A user in China with a default mirror would conclude the tool does not work and move on, which is the worst outcome for a package whose only job is to be run once to prove it works",
+    "documented": "docs/TROUBLESHOOTING.md section 7, published at /troubleshooting/, with the discriminating command and the hashcheck subcommand note"
+  },
+  "verification_chain_now": ["registry metadata", "npm-page README", "npx run of the published artifact", "site page with verbatim CLI output", "audit-packages field check"]
+}

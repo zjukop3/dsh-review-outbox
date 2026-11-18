@@ -102,6 +102,26 @@ npm view dsh-plugin-catalog time --registry=https://registry.npmjs.org | tail -5
 
 ---
 
+## 7. `npx 包名` 报 `could not determine executable to run`
+
+**症状**：包在 npm 上明明有，`npx dsh-dockerfile-check` 却直接失败：
+
+```
+npm error could not determine executable to run
+```
+
+**原因几乎总是镜像同步不完整，不是包坏了。** npm 的 `npx` 靠包清单里的 `bin` 字段决定跑哪个可执行文件；镜像站（npmmirror 等）在包刚发布后的同步窗口里，可能先有了包体、`bin` 字段还没跟上。用官方 registry 一验就能分辨：
+
+```bash
+npx --yes --registry=https://registry.npmjs.org dsh-dockerfile-check@latest Dockerfile
+```
+
+2026-11-18 实测：当天两个最新发布的包（dsh-dockerfile-check、dsh-pr-description-check）在默认镜像上就是这个错，切到官方 registry 后**两个都正常运行**；同一批更早发布的包在镜像上正常。也就是说这是一段时效性的同步延迟，不是包的缺陷。
+
+**如果确实要用镜像**：等同步（通常几小时内），或显式指定官方源跑一次，或 `npm i -g 包名 --registry=https://registry.npmjs.org` 后再用命令。
+
+**顺带一条**：`dsh-hashcheck` 有子命令，`npx dsh-hashcheck 某文件` 会以出口码 2 打印用法——那是设计内的用法错误，不是装坏了。正确用法是 `npx dsh-hashcheck build <目录>` / `npx dsh-hashcheck verify <清单>`。
+
 ## 这套判断的依据
 
 每条结论都来自可复现的实测，完整时间常数、命令与自我修正记录在[发布与收录手册](https://zjukop3.github.io/dsh-review-outbox/operations/)里。若你测到的与这里不同，**以你的复现结果为准** —— 我们只保证"我们量到的是这样"，不保证别的环境一定相同。

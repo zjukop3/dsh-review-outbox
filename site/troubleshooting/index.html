@@ -48,6 +48,14 @@ node &quot;$PNPM&quot; add &lt;name&gt;@&lt;version&gt; --config.userconfig=/tmp
 <p><strong>这条我们没有实测</strong>，只在上游 issue 里读到：pnpm 在改动前会校验整个 lockfile，某个仍在等待期内的版本可能让<strong>所有</strong>插件的安装被拒。对应处理是在该 profile 的 <code>pnpm-workspace.yaml</code> 里给那个包追加豁免行。</p>
 <p><strong>处理前请先读上游讨论</strong>，不要照抄我们的转述：<a href="https://github.com/dsh-market/dsh-market/issues/944">dsh-market#944</a>。</p>
 <hr>
+<h2 id="7-npx-包名-报-could-not-determine-executable-to-run">7. <code>npx 包名</code> 报 <code>could not determine executable to run</code></h2>
+<p><strong>症状</strong>：包在 npm 上明明有，<code>npx dsh-dockerfile-check</code> 却直接失败：</p>
+<pre><code>npm error could not determine executable to run</code></pre>
+<p><strong>原因几乎总是镜像同步不完整，不是包坏了。</strong> npm 的 <code>npx</code> 靠包清单里的 <code>bin</code> 字段决定跑哪个可执行文件；镜像站（npmmirror 等）在包刚发布后的同步窗口里，可能先有了包体、<code>bin</code> 字段还没跟上。用官方 registry 一验就能分辨：</p>
+<pre><code class="language-bash">npx --yes --registry=https://registry.npmjs.org dsh-dockerfile-check@latest Dockerfile</code></pre>
+<p>2026-11-18 实测：当天两个最新发布的包（dsh-dockerfile-check、dsh-pr-description-check）在默认镜像上就是这个错，切到官方 registry 后<strong>两个都正常运行</strong>；同一批更早发布的包在镜像上正常。也就是说这是一段时效性的同步延迟，不是包的缺陷。</p>
+<p><strong>如果确实要用镜像</strong>：等同步（通常几小时内），或显式指定官方源跑一次，或 <code>npm i -g 包名 --registry=https://registry.npmjs.org</code> 后再用命令。</p>
+<p><strong>顺带一条</strong>：<code>dsh-hashcheck</code> 有子命令，<code>npx dsh-hashcheck 某文件</code> 会以出口码 2 打印用法——那是设计内的用法错误，不是装坏了。正确用法是 <code>npx dsh-hashcheck build &lt;目录&gt;</code> / <code>npx dsh-hashcheck verify &lt;清单&gt;</code>。</p>
 <h2 id="这套判断的依据">这套判断的依据</h2>
 <p>每条结论都来自可复现的实测，完整时间常数、命令与自我修正记录在<a href="https://zjukop3.github.io/dsh-review-outbox/operations/">发布与收录手册</a>里。若你测到的与这里不同，<strong>以你的复现结果为准</strong> —— 我们只保证&quot;我们量到的是这样&quot;，不保证别的环境一定相同。</p>
 <small>每条结论都可复现：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/TROUBLESHOOTING.md">docs/TROUBLESHOOTING.md</a></small>
