@@ -33,6 +33,8 @@ test('research site builds are idempotent across local and public origins', asyn
   await writeFile(resolve(directory, 'docs/ECOSYSTEM-BASELINE.md'), baselineSource)
   const readingSource = await readFile(resolve(root, 'docs/READING-DOWNLOADS.md'), 'utf8')
   await writeFile(resolve(directory, 'docs/READING-DOWNLOADS.md'), readingSource)
+  const maintenanceSource = await readFile(resolve(root, 'docs/MAINTENANCE.md'), 'utf8')
+  await writeFile(resolve(directory, 'docs/MAINTENANCE.md'), maintenanceSource)
   const receipt = await readFile(resolve(root, 'docs/e2e/application-first-value.review.html'), 'utf8')
   await writeFile(resolve(directory, 'docs/e2e/application-first-value.review.html'), receipt)
 

@@ -172,6 +172,28 @@ ${baselineBody}
 await mkdir(resolve(root, 'site/baseline'), { recursive: true })
 await writeFile(resolve(root, 'site/baseline/index.html'), baseline)
 
+// The maintenance promise. What a stranger asks before installing is not "what
+// does it do" but "will it be here next year". This answers that, including the
+// part about there being one maintainer.
+const maintenanceSource = await readFile(resolve(root, 'docs/MAINTENANCE.md'), 'utf8')
+const maintenanceTitle = extractTitle(maintenanceSource)
+const maintenanceBody = renderMarkdown(
+  maintenanceSource
+    .replace(/^#\s+.*\n/, '')
+    .replace(/\]\((?!https?:)([^)]+)\)/g, (_, target) => `](${repositoryUrl}/blob/main/docs/${target.replace(/^\.\//, '')})`),
+)
+const maintenanceUrl = origin ? `${origin}/maintenance/` : ''
+const maintenance = `<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(maintenanceTitle)} · Review Outbox</title>${favicon}<meta name="description" content="${escapeHtml('这 26 个包的版本语义、破坏性变更界定、弃用流程、单维护者风险，以及哪些数字可以当作采用证据。')}"><meta name="robots" content="index,follow">${maintenanceUrl ? `<link rel="canonical" href="${escapeHtml(maintenanceUrl)}">` : ''}<style>${pageStyles}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · MAINTENANCE · ${pluginVersion}</p>
+<h1>${escapeHtml(maintenanceTitle)}</h1>
+<nav class="nav"><a href="../">首页</a><a href="../operations/">发布与收录手册</a><a href="../reading-downloads/">怎么看下载数</a><a href="../baseline/">生态基线</a><a href="${repositoryUrl}">GitHub 源码</a></nav>
+${maintenanceBody}
+<small>原文：<a href="${repositoryUrl}/blob/main/docs/MAINTENANCE.md">docs/MAINTENANCE.md</a></small>
+</main></body></html>`
+await mkdir(resolve(root, 'site/maintenance'), { recursive: true })
+await writeFile(resolve(root, 'site/maintenance/index.html'), maintenance)
+
 // The method page. The baseline page reports the ecosystem's numbers; this one
 // hands another author the instrument to read their own digits — the shapes, the
 // spread rule, and the two things this project actually counts as a signal. It
@@ -229,6 +251,7 @@ await writeFile(resolve(root, 'site/llms.txt'), `# Review Outbox\n\n> Research r
 - ${origin}/proposal-demo/: The release-day marker mockup for the downloads-column signal proposal, side by side on the package's real daily decomposition.
 - ${handbookUrl || '/operations/'}: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
 - ${readingUrl || '/reading-downloads/'}: How to read your own download numbers — three shapes and one signal, plus the spread rule that keeps a number from being mistaken for an audience.
+- ${maintenanceUrl || '/maintenance/'}: What these twenty-six packages promise about versions, breaking changes, deprecation and a single maintainer — and which numbers may be read as adoption.
 - ${baselineUrl || '/baseline/'}: Measured download distribution for all 6,112 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
 ${ecosystemUrls.length ? `- ${latestEcosystemUrl}: The latest monthly ecosystem report (${ecosystemEditions.at(-1)?.replace('.html', '')}): full-catalog distribution, top packages, and this package's own position with the burst caveat.` : ''}
 - ${repositoryUrl}: Public source code, installation guide, and validation evidence.\n- ${marketIndexUrl}: Officially validated DSH format-1 application market index for Review Outbox ${pluginVersion}, pinned installation, and activation.\n- ${firstValueEvidenceUrl}: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.\n- ${repositoryUrl}/blob/${currentCommit}: Immutable public source for the current ${pluginVersion} application-index installation.\n- ${catalogUrl}: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.\n- ${downloadUrl || `./downloads/${packageName}`}: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.\n\nReview Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.\n`)
@@ -238,7 +261,7 @@ if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${inde
 // Crawlability: sitemap from the real file tree (static pages + every
 // ecosystem edition), robots pointing at it. Regenerated on each build so it
 // never drifts from what is actually deployed.
-const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'reading-downloads/index.html', 'proposal-demo/index.html']
+const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'reading-downloads/index.html', 'maintenance/index.html', 'proposal-demo/index.html']
 const editionPages = ecosystemUrls ? ecosystemUrls.filter(url => /\.html$/.test(url)) : []
 const pageUrls = [...staticPages.map(page => `${origin}/${page.replace(/index\.html$/, '')}`), ...editionPages]
 const lastmod = new Date().toISOString().slice(0, 10)

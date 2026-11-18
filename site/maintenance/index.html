@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>维护承诺：这些包会被怎么对待 · Review Outbox</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E"><meta name="description" content="这 26 个包的版本语义、破坏性变更界定、弃用流程、单维护者风险，以及哪些数字可以当作采用证据。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://zjukop3.github.io/dsh-review-outbox/maintenance/"><style>body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(30px,5.5vw,52px);font-weight:250;line-height:1.1;margin-bottom:20px}h2{font-size:23px;font-weight:500;line-height:1.3;margin-top:40px}h3{font-size:18px;font-weight:600;margin-top:28px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit;padding:0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4d4d2;padding:9px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee;color:#0a0a0a;font-weight:600}blockquote{margin:20px 0;padding:12px 18px;border-left:4px solid #002fa7;background:#f0f0ee}hr{border:none;border-top:1px solid #d4d4d2;margin:36px 0}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:28px 0 0;font-size:14px}.nav a{margin-right:16px}small{display:block;margin-top:36px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}table{font-size:13px}}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · MAINTENANCE · 0.1.11</p>
+<h1>维护承诺：这些包会被怎么对待</h1>
+<nav class="nav"><a href="../">首页</a><a href="../operations/">发布与收录手册</a><a href="../reading-downloads/">怎么看下载数</a><a href="../baseline/">生态基线</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
+<p>一个陌生人决定用你的工具时，问的不是「它能做什么」，而是「它明年还在不在」。这份文档回答后者。写它的人只有一个，所以里面关于风险的部分是实话，不是免责声明。</p>
+<p>适用于 <code>dsh-vertical-kit</code>、<code>dsh-verify-kit</code> 和 <code>dsh-review-outbox</code> 下的全部 26 个包。</p>
+<hr>
+<h2 id="版本怎么走">版本怎么走</h2>
+<p><code>0.1.x</code> 阶段：<strong>次版本号表示可能破坏</strong>。在这个阶段我不会假装 semver 的稳定性——一个检查器的规则变严，输出就会变，那对下游是破坏性的，即使函数签名没动。</p>
+<p>进入 <code>1.0.0</code> 的条件是三条同时成立：</p>
+<ol><li>规则集合稳定：连续两个版本没有<strong>新增 error 级规则</strong>（新增 warn 不算破坏，因为 warn 不改变出口码）；</li><li>出口码语义冻结：<code>0</code> 干净 / <code>1</code> 有发现 / <code>2</code> 用法或读文件错误，这三个数字不再变；</li><li>至少有一个外部使用者报告过它接进了 CI。</li></ol>
+<p>在那之前，升级方式是看 CHANGELOG 的「规则变化」一节，不是看版本号大小。</p>
+<h2 id="什么算破坏性变更">什么算破坏性变更</h2>
+<p>按影响排序，从最痛到最轻：</p>
+<div class="table-wrap"><table><thead><tr><th>变更</th><th>破坏性</th><th>为什么</th></tr></thead><tbody><tr><td>出口码语义改变</td><td>是</td><td>CI 靠它判断</td></tr><tr><td>已有规则<strong>新增 error 级判定</strong></td><td>是</td><td>昨天通过的文档今天失败</td></tr><tr><td>规则改名</td><td>是</td><td>按 rule 名字过滤的用户会静默漏掉</td></tr><tr><td>新增 warn 级规则</td><td>否</td><td>不改出口码，只看人读的输出</td></tr><tr><td>新增可选参数</td><td>否</td><td>默认行为不变</td></tr><tr><td>报告措辞改变</td><td>否</td><td>但会影响按文本匹配的用户，所以 CHANGELOG 里逐条列</td></tr></tbody></table></div>
+<p><strong>规则变动一律写进 CHANGELOG 的「规则变化」表</strong>，包括哪条规则从 warn 升到 error、为什么。<code>dsh-outline-lint</code> 0.1.3 就是这么做的：结论规则收窄到报告类交付物，因为原来的域外误报让参考手册也失败。</p>
+<h2 id="规则改动的原则">规则改动的原则</h2>
+<p>一个检查器的价值在于<strong>它能被判定的部分可靠</strong>，不在于它抓得多。所以：</p>
+<ul><li><strong>宁可漏，不可误报。</strong> 一条误报会让人关掉整个工具；漏报只是让人少省一次事。</li><li><strong>域外误报必须发版修正，并且写清边界。</strong> <code>outline-lint</code> 的 README 现在写着「结论规则针对报告类交付物，参考文档不在域内」——这句话是修 bug 的产物，不是事后装饰。</li><li><strong>启发式必须公开。</strong> <code>env-example-check</code> 认的占位符形态、<code>spec-doc-check</code> 的愿望词表、<code>license-check</code> 的 12 种许可证指纹，全部写在 README 里。基于启发式的检查如果把启发式藏起来，就是让人猜。</li></ul>
+<h2 id="弃用怎么做">弃用怎么做</h2>
+<p>包被弃用（不再维护但不删）时：</p>
+<ol><li>npm 上发一个次版本，README 顶部加一段 <code>&gt; **Deprecated.** 原因 … 取代方案 …</code>；</li><li><code>package.json</code> 加 <code>&quot;deprecated&quot;</code> 字段（npm 会在安装时显示）；</li><li>目录条目保留，不主动删除——删掉会让已经装了的人找不到文档；</li><li>CHANGELOG 写清最后一个可用版本。</li></ol>
+<p>不删包、不改已发布版本的 tarball、不 unpublish。</p>
+<h2 id="如果我不再维护">如果我不再维护</h2>
+<p>只有一个维护者，这是真实风险，写清楚比藏着好。</p>
+<p><strong>已经成立的事实</strong>（不依赖我继续存在）：</p>
+<ul><li>26 个包全部 MIT，源码在 GitHub，已发布的 tarball 在 npm 上永久可取；</li><li>每个检查器<strong>不联网判定、不调模型、无运行时依赖</strong>，只要 Node 22.19+ 在，<code>npx</code> 就能跑；</li><li>规则全部在源码里，是纯函数，没有服务端、没有密钥、没有需要续期的证书；</li><li>站点是静态页，跑在 GitHub Pages 上；</li><li>测试是 <code>node --test</code>，不需要我的环境。</li></ul>
+<p><strong>也就是说：代码可以死，工具不会。</strong> 一个不再更新的检查器仍然是它发布那天的那个检查器。</p>
+<p><strong>如果我消失</strong>：欢迎 fork。三件事值得先做——把 <code>author</code>/<code>repository</code> 字段改成你的、把站点的 <code>ORIGIN</code> 改成你的域名、跑一遍 <code>npm test</code> 确认基線。不需要我的许可，MIT 已经给了。</p>
+<h2 id="响应预期">响应预期</h2>
+<p><strong>现实</strong>：这是一个人的项目，没有 SLA，没有值班。下面是我会做的事，不是承诺：</p>
+<div class="table-wrap"><table><thead><tr><th>情况</th><th>我的处理</th></tr></thead><tbody><tr><td>误报（你的文件没问题却报错）</td><td>最高优先。规则误报比漏报伤，会修</td></tr><tr><td>安装/构建失败</td><td>优先，通常是我漏了某个 Node 版本的差异</td></tr><tr><td>规则建议（想加一条判定）</td><td>看它是否<strong>可从文件本身判定</strong>；需要判断力的不做</td></tr><tr><td>「能不能支持格式 X」</td><td>看有没有真实样本；没有样本的格式支持是猜</td></tr></tbody></table></div>
+<p><strong>不做的</strong>：不做需要联网或调模型的判定；不做「建议怎么改」，只报「哪一行不符合哪条规则」；不为了抓得多而放宽误报。</p>
+<h2 id="怎么判断这些数字可信">怎么判断这些数字可信</h2>
+<p>这个项目自己的下载数<strong>不能</strong>当作采用证据——<code>/reading-downloads/</code> 那页记着原因：26 个包的尾部速率落在彼此的 19% 以内，而目录头部跨 30 倍；均匀性是按作者批量拉取的特征，不是受众的特征。</p>
+<p>唯一当作采用信号的是<strong>人工决策数</strong>（有人读完一份成果、写下证据、点了通过），以及<strong>验收单摘要可核对</strong>（导出的单子带 SHA-256，文件改动后同一份单子会提示重审）。</p>
+<p>两者都不能自动化，也都不能靠下载刷出来。</p>
+<hr>
+<p><strong>相关</strong>：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/OPERATIONS.md">发布与收录实测手册</a> · <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/READING-DOWNLOADS.md">怎么看自己的下载数</a> · <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/ECOSYSTEM-BASELINE.md">生态基线</a></p>
+<small>原文：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/MAINTENANCE.md">docs/MAINTENANCE.md</a></small>
+</main></body></html>
