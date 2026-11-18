@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Vertical kit grows to 10 packages: three engineering checks shipped end to end in one session",
+  "packages": {
+    "dsh-bug-report-check": {
+      "version": "0.1.0",
+      "decides": "bug-report bookkeeping: one-line title, environment, numbered repro steps, expected vs actual",
+      "distinct_rule": "a narrative description without numbered steps is reported as repro-missing — prose cannot be replayed; expected and actual are separate errors so the message names which half is missing"
+    },
+    "dsh-api-doc-check": {
+      "version": "0.1.0",
+      "decides": "API-doc bookkeeping: method+path endpoints, examples, auth model, error shape",
+      "distinct_rule": "a bare path without a verb is not an endpoint — it cannot be called; the error message says so explicitly"
+    },
+    "dsh-test-report-check": {
+      "version": "0.1.0",
+      "decides": "test-report bookkeeping: passed+failed+skipped=total with the arithmetic printed, environment, failure detail",
+      "distinct_rule": "the sum check prints the equation and both sides when it fails; a non-zero failure count with no failure section is an error, not a warning"
+    }
+  },
+  "quality_bar": "62 tests across the kit (17 new), audit 10/10 clean, site 11 pages with verbatim CLI output, npm READMEs carry the injected example blocks",
+  "distribution": {
+    "npm": "0.1.0 live for all three (registry dist-tags verified)",
+    "site": "11 pages, links audited, llms.txt regenerated from CHECKS",
+    "catalog": "PR #16425 — three entries, exactly at the per-PR cap, awaiting CI and review"
+  },
+  "bug_notes": "the honest tests caught one real source bug before publication: reproSteps rejected numbered steps with a space after the delimiter (1. 打开页面) because the pattern required a non-space character immediately after the dot",
+  "nouns_covered": "缺陷报告/bug, 接口文档/API, 测试报告 — joining 合同/发票/listing/会议纪要/简历/发布说明/周报"
+}
