@@ -7,7 +7,8 @@
 - https://zjukop3.github.io/dsh-review-outbox/troubleshooting/: Symptom-first guide for installs that fail, resolve an older version, or stop updating, each with the command that confirms it.
 - https://zjukop3.github.io/dsh-review-outbox/proposal-demo/: The release-day marker mockup for the downloads-column signal proposal, side by side on the package's real daily decomposition.
 - https://zjukop3.github.io/dsh-review-outbox/operations/: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
-- https://zjukop3.github.io/dsh-review-outbox/baseline/: Measured download distribution for all 4,985 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
+- https://zjukop3.github.io/dsh-review-outbox/reading-downloads/: How to read your own download numbers — three shapes and one signal, plus the spread rule that keeps a number from being mistaken for an audience.
+- https://zjukop3.github.io/dsh-review-outbox/baseline/: Measured download distribution for all 6,112 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
 - https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-16.html: The latest monthly ecosystem report (2026-11-16): full-catalog distribution, top packages, and this package's own position with the burst caveat.
 - https://github.com/zjukop3/dsh-review-outbox: Public source code, installation guide, and validation evidence.
 - https://zjukop3.github.io/dsh-review-outbox/plugins.json: Officially validated DSH format-1 application market index for Review Outbox 0.1.11, pinned installation, and activation.

@@ -172,6 +172,29 @@ ${baselineBody}
 await mkdir(resolve(root, 'site/baseline'), { recursive: true })
 await writeFile(resolve(root, 'site/baseline/index.html'), baseline)
 
+// The method page. The baseline page reports the ecosystem's numbers; this one
+// hands another author the instrument to read their own digits — the shapes, the
+// spread rule, and the two things this project actually counts as a signal. It
+// is deliberately useful to people who will never install anything of ours.
+const readingSource = await readFile(resolve(root, 'docs/READING-DOWNLOADS.md'), 'utf8')
+const readingTitle = extractTitle(readingSource)
+const readingBody = renderMarkdown(
+  readingSource
+    .replace(/^#\s+.*\n/, '')
+    .replace(/\]\((?!https?:)([^)]+)\)/g, (_, target) => `](${repositoryUrl}/blob/main/docs/${target.replace(/^\.\//, '')})`),
+)
+const readingUrl = origin ? `${origin}/reading-downloads/` : ''
+const reading = `<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(readingTitle)} · Review Outbox</title>${favicon}<meta name="description" content="${escapeHtml('下载数的三种形状与一个信号：底噪带、发布日爆发、持续高于底噪带，以及为什么跨工具均匀性比水位更有说服力。附复现命令。')}"><meta name="robots" content="index,follow">${readingUrl ? `<link rel="canonical" href="${escapeHtml(readingUrl)}">` : ''}<style>${pageStyles}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · DOWNLOAD NUMBERS · ${pluginVersion}</p>
+<h1>${escapeHtml(readingTitle)}</h1>
+<nav class="nav"><a href="../">首页</a><a href="../baseline/">生态基线</a><a href="../operations/">发布与收录手册</a><a href="${repositoryUrl}">GitHub 源码</a></nav>
+${readingBody}
+<small>方法与原始数据：<a href="${repositoryUrl}/blob/main/docs/READING-DOWNLOADS.md">docs/READING-DOWNLOADS.md</a> · 本文数字全部可用第五节命令在本机重跑</small>
+</main></body></html>`
+await mkdir(resolve(root, 'site/reading-downloads'), { recursive: true })
+await writeFile(resolve(root, 'site/reading-downloads/index.html'), reading)
+
 const ecosystemEditions = await readdir(resolve(root, 'site/ecosystem'), { recursive: false })
   .then(entries => entries.filter(entry => /^\d{4}-\d{2}-\d{2}\.html$/.test(entry)).sort())
   .catch(() => [])
@@ -205,7 +228,8 @@ await writeFile(resolve(root, 'site/sitemap.xml'), `<?xml version="1.0" encoding
 await writeFile(resolve(root, 'site/llms.txt'), `# Review Outbox\n\n> Research report acceptance checklist and standalone SHA-256 review receipts for DeepSeek Harness.\n\n- ${pageUrl || '/research-report/'}: Chinese and English checklist covering claims, citations, data scope, methods, and reproduction.\n- ${receiptUrl || '/research-report/receipt-example.html'}: Real browser-generated standalone receipt; no installation required.\n- ${troubleshootingUrl || '/troubleshooting/'}: Symptom-first guide for installs that fail, resolve an older version, or stop updating, each with the command that confirms it.
 - ${origin}/proposal-demo/: The release-day marker mockup for the downloads-column signal proposal, side by side on the package's real daily decomposition.
 - ${handbookUrl || '/operations/'}: Measured constraints on publishing, catalog ingestion, and the install path for DSH plugins, each with a reproducible command.
-- ${baselineUrl || '/baseline/'}: Measured download distribution for all 4,985 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
+- ${readingUrl || '/reading-downloads/'}: How to read your own download numbers — three shapes and one signal, plus the spread rule that keeps a number from being mistaken for an audience.
+- ${baselineUrl || '/baseline/'}: Measured download distribution for all 6,112 catalog entries and the daily shape of a fixed sample; 58.6% never leave a 20-40 downloads/day floor, so a weekly number in the low hundreds is not adoption evidence.
 ${ecosystemUrls.length ? `- ${latestEcosystemUrl}: The latest monthly ecosystem report (${ecosystemEditions.at(-1)?.replace('.html', '')}): full-catalog distribution, top packages, and this package's own position with the burst caveat.` : ''}
 - ${repositoryUrl}: Public source code, installation guide, and validation evidence.\n- ${marketIndexUrl}: Officially validated DSH format-1 application market index for Review Outbox ${pluginVersion}, pinned installation, and activation.\n- ${firstValueEvidenceUrl}: Real Web GUI evidence for historical sealed-report backfill, default 0/4 checklist, evidence completion, approval, and receipt download.\n- ${repositoryUrl}/blob/${currentCommit}: Immutable public source for the current ${pluginVersion} application-index installation.\n- ${catalogUrl}: Merged Awesome DSH Plugin listing with bilingual descriptions, install command, and marketplace screenshots.\n- ${downloadUrl || `./downloads/${packageName}`}: Legacy Review Outbox 0.1.0 plugin tarball without the current default research acceptance behavior.\n\nReview Outbox records human evidence and does not claim automatic fact-checking. The project is in 0.1.x validation; the Awesome listing is live, while npm and GitHub Release publication remain separate. The Pages tarball is an older 0.1.0 artifact.\n`)
 await mkdir(directory, { recursive: true })
@@ -214,7 +238,7 @@ if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${inde
 // Crawlability: sitemap from the real file tree (static pages + every
 // ecosystem edition), robots pointing at it. Regenerated on each build so it
 // never drifts from what is actually deployed.
-const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'proposal-demo/index.html']
+const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'reading-downloads/index.html', 'proposal-demo/index.html']
 const editionPages = ecosystemUrls ? ecosystemUrls.filter(url => /\.html$/.test(url)) : []
 const pageUrls = [...staticPages.map(page => `${origin}/${page.replace(/index\.html$/, '')}`), ...editionPages]
 const lastmod = new Date().toISOString().slice(0, 10)
