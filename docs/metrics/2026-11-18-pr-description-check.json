@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 17: pr-description-check shipped; kit at 17 packages, 132 tests",
+  "package": {
+    "name": "dsh-pr-description-check",
+    "version": "0.1.0",
+    "decides": "PR description: what / why / how-verified, linked issue, breaking change with migration, and whether the checklist was read",
+    "distinct_rule": "the all-unchecked checklist warning — the template was kept but the thinking was not done; a partially checked list is fine, which keeps the rule from punishing honest partial work",
+    "integration": "CLI reads - from stdin, so `gh pr view 42 --json body --jq .body | npx pr-description-check -` works without a temp file"
+  },
+  "bug_notes": "the issue-reference regex dropped its leading \\b for the bare #\\d+ alternative: # is a non-word character, so ' #101' has no word boundary in front of it and \\b# never matched. Same family as the CJK \\b finding from #16464 — both caught by their own tests, neither reachable by reading the pattern.",
+  "quality_bar": "132 tests across the kit (10 new), audit 17/17 clean, site 18 pages, npm 0.1.0 live",
+  "pr_queue": {
+    "double_green": ["16425", "16435", "16450", "16453"],
+    "queued": ["16457", "16464", "16467", "16469"]
+  },
+  "npm_total": "23 packages (review-outbox + verify-kit 5 + vertical-kit 17)",
+  "nouns_covered": "17 check nouns — 6 of them shipped in this session's piling phase (commit-msg, dockerfile, env-example, license, incident-report, ops-runbook, pr-description)"
+}
