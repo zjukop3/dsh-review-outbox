@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 11: commit-msg-check shipped; kit at 11 packages, 73 tests",
+  "package": {
+    "name": "dsh-commit-msg-check",
+    "version": "0.1.0",
+    "decides": "commit-message shape: type prefix from a known set, subject within the git-log wrap, no trailing period, blank line before the body, breaking changes in a trailer",
+    "distinct_rule": "parses a single message file — no git history needed, so the same function serves a commit-msg hook and the HTTP route; a bang without a BREAKING CHANGE: trailer is a warn because downstream tooling parses the trailer, not the bang"
+  },
+  "design_note": "started as a changelog-consistency package and dropped it: release-notes-check already covers version-heading ordering, so a second package on the same surface would be quantity without a new noun. Commit messages are a distinct surface (every commit, not every release) with a distinct audience (the commit-msg hook).",
+  "quality_bar": "73 tests across the kit (11 new, all green on the first run), audit 11/11 clean, site 12 pages with verbatim output, npm 0.1.0 live",
+  "distribution": {
+    "npm": "0.1.0 live (registry dist-tags verified)",
+    "catalog": "PR #16435 opened"
+  },
+  "pr_queue": {
+    "16425": "bug-report + api-doc + test-report — check SUCCESS, Submission gate SUCCESS",
+    "16435": "commit-msg-check — CI queued"
+  },
+  "feed_state": "the published feed 2026.1117.22685 carries 13/13 of the earlier packages; the four newest (bug-report, api-doc, test-report, commit-msg) join after their PRs merge"
+}
