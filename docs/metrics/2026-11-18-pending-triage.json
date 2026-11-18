@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-18",
+  "milestone": "funnel:triage — the pending queue becomes a set of batches",
+  "problem": "the only adoption signal this project recognises is a human decision, and there has never been one. The queue sat at 99 pending across months. '99 pending' is a single number with no handle on it: a person opening the panel sees a wall, closes it, and the number grows.",
+  "what_it_does": "groups pending artifacts by the project they came from, orders the groups by size, and shows the oldest few paths in each. One command: npm run funnel:triage (or --json).",
+  "first_run_finding": {
+    "pending": 99,
+    "projects": 8,
+    "sessions": 16,
+    "oldest_days": 56,
+    "median_days": 12,
+    "largest_batch": { "project": "/Users/zjukop/codex/sunprize/bisai", "items": 47, "sessions": 6 },
+    "reading": "47 of the 99 — nearly half — come from one unrelated project whose artifacts are 56 days old. Clearing that single batch halving the queue is the difference between starting and not starting."
+  },
+  "design_refusal": {
+    "no_bulk_mark": true,
+    "reason": "the script is read-only and has no --approve. A CLI that marked items in bulk would not optimise this metric, it would end it — the number would move while adoption stayed at zero, and the only honest signal this project has would be gone.",
+    "stated_in_output": "every run prints that it changes nothing and that a decision is recorded only when a person makes one in the panel"
+  },
+  "what_it_does_not_do": "it does not decide which artifact is acceptable, does not read the artifacts, and does not recommend approve or reject. The grouping only answers 'which batch first'.",
+  "next_step_for_operator": "run the triage, open the panel on batch 1, and read the artifacts. The first recorded decision is the first real adoption data point this project will have."
+}
