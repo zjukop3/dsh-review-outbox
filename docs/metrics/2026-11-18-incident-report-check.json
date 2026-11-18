@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 15: incident-report-check shipped; kit at 15 packages, 114 tests",
+  "package": {
+    "name": "dsh-incident-report-check",
+    "version": "0.1.0",
+    "decides": "postmortem structure: timestamped timeline, impact and duration, root cause not remedy, owned follow-ups",
+    "distinct_rule": "「重启后恢复」 is a remedy and the message says so — the rule requires a 根因 section, not a narrative of what was done"
+  },
+  "generalizable_finding": {
+    "title": "JavaScript \\b never matches after a CJK character",
+    "detail": "\\b needs a \\w neighbour and \\w is [A-Za-z0-9_], so a pattern ending in 分钟\\b can never match Chinese text. The first version of this package's duration rule had exactly that shape and its own test caught it: 持续 23 分钟 reported as duration-missing.",
+    "audit": "grepped every package's src for the same shape (CJK followed by \\b); the only other \\b occurrences are k\\b and s\\b, which follow ASCII letters and are correct",
+    "why_it_matters": "any linter pattern copied from English-only tooling silently never fires on Chinese input — a false-negative class that produces no error and no signal"
+  },
+  "quality_bar": "114 tests across the kit (9 new), audit 15/15 clean, site 16 pages, npm 0.1.0 live",
+  "pr_queue": ["16425 (double green)", "16435 (double green)", "16450", "16453", "16457", "16464 (just opened)"],
+  "npm_total": "21 packages (review-outbox + verify-kit 5 + vertical-kit 15)"
+}
