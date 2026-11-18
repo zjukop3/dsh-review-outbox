@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Vertical kit gains a /compare/ page: 17 checks are past what a reader can hold in their head",
+  "why": "at seventeen checks, guessing which one applies is how a tool gets ignored. One table generated from the same CHECKS data the individual pages use, so it cannot drift from them, plus a by-file-type chooser list.",
+  "generated_from": "scripts/checks-data.mjs via scripts/build-site.mjs — the same source the per-check pages and llms.txt read",
+  "wired_into": ["sitemap.xml", "llms.txt", "home page link"],
+  "deploy": "site build now reports 19 pages; /compare/ returns 200 after the Pages deploy",
+  "indexnow": {
+    "status": "not submitted this round",
+    "reason": "the configured endpoint https://www.bing.com/indexnow and the fallback https://api.indexnow.org/indexnow both returned 000 (connection failed) from this network across four attempts; the preflight also correctly refused before deploy, then the push succeeded",
+    "mitigation": "the page is in sitemap.xml (200) and llms.txt, and linked from the home page, so ordinary crawling finds it; IndexNow is an accelerator, not the only path",
+    "note": "the preflight that refused a 404 URL before submitting is good behaviour and is why the failure is unambiguous"
+  },
+  "site_pages": 19
+}
