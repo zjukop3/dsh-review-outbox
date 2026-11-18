@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 18: spec-doc-check shipped; kit at 18 packages, 142 tests",
+  "package": {
+    "name": "dsh-spec-doc-check",
+    "version": "0.1.0",
+    "decides": "spec structure: problem stated, checkable acceptance criteria, explicit out-of-scope, no wish-as-criterion",
+    "distinct_rule": "the vague-criterion rule is not a word blacklist — a criterion carrying a number, threshold, or named observable passes even when it also contains 良好; the rule fires only when the wish is all there is, which is what keeps it from punishing honest prose"
+  },
+  "design_note": "the out-of-scope requirement is the second rule worth naming: a spec without edges expands at review, and requiring the boundary explicitly is cheaper than discovering it during implementation",
+  "quality_bar": "142 tests across the kit (10 new), audit 18/18 clean, site 20 pages, npm 0.1.0 live",
+  "pr_queue": {
+    "double_green": ["16425", "16435", "16450", "16453", "16457"],
+    "queued": ["16464", "16467", "16469", "16479"]
+  },
+  "npm_total": "24 packages (review-outbox + verify-kit 5 + vertical-kit 18)",
+  "nouns_covered": "18 check nouns"
+}
