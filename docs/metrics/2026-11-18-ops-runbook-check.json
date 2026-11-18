@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-18",
+  "milestone": "Package 16: ops-runbook-check shipped; kit at 16 packages, 122 tests",
+  "package": {
+    "name": "dsh-ops-runbook-check",
+    "version": "0.1.0",
+    "decides": "runbook structure: prerequisites, numbered steps, rollback, verification, and a warning beside every destructive command",
+    "distinct_rule": "the destructive warning must be on the SAME line — a warning three paragraphs above is not present when someone pastes one line into a terminal. Nine destructive shapes recognized, each tested individually."
+  },
+  "quality_bar": "122 tests across the kit (8 new), audit 16/16 clean, site 17 pages, npm 0.1.0 live",
+  "pr_queue": {
+    "16425": "double green",
+    "16435": "double green",
+    "16450": "double green",
+    "16453": "queued",
+    "16457": "queued",
+    "16464": "queued",
+    "16467": "just opened"
+  },
+  "npm_total": "22 packages (review-outbox + verify-kit 5 + vertical-kit 16)",
+  "nouns_covered": "16 check nouns: 合同 发票 listing 会议纪要 简历 发布说明 周报 缺陷报告 接口文档 测试报告 提交信息 Dockerfile 环境变量 许可证 事故复盘 运维手册"
+}
