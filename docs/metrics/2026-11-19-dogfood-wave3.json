@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-19",
+  "scope": "dogfood wave 3 — pr-description-check against 19 merged catalog PRs",
+  "corpus": {
+    "prs": 19,
+    "repo": "awesome-dsh-plugin/awesome-dsh-plugin",
+    "author": "zjukop3",
+    "state": "merged"
+  },
+  "before": {
+    "prsWithErrors": 19,
+    "of": 19,
+    "everyOne": "what-missing + why-missing + test-missing",
+    "why": "rules matched section headings and Chinese phrases only; every body answered all three in English prose"
+  },
+  "falsePositivesFound": {
+    "breakingWithoutMigration": {
+      "prs": 2,
+      "mechanism": "BREAKING matched any mention, including a body describing the package (breaking changes announced in a BREAKING CHANGE: trailer)",
+      "fix": "anchor the declaration to line start; real trailers still match"
+    },
+    "whyPassedOnIrrelevantWord": {
+      "prs": 1,
+      "mechanism": "a body passed why-missing because it contained 'because `#` is a non-word character' — a regex note, not a motive",
+      "conclusion": "keyword matching for motive fails in both directions; narrowed the phrase list AND made the rule a warning"
+    }
+  },
+  "after": {
+    "prsWithErrors": 1,
+    "of": 19,
+    "remaining": "a genuinely thin old body naming no verification"
+  },
+  "changes": {
+    "what": "a bullet list, or the phrase 'This PR changes', counts as evidence — not only a 概述 heading",
+    "test": "naming a test count, an audit or a CI result counts",
+    "why": "level error -> warn; requireWhy 3-state (warn/error/off); --require-why / --no-require-why",
+    "evidence": "fenced blocks masked before evidence is read; a pasted stack trace cannot satisfy the check",
+    "breaking": "only a line-start declaration counts, judged on prose"
+  },
+  "release": {
+    "package": "dsh-pr-description-check",
+    "from": "0.1.0",
+    "to": "0.2.0",
+    "tests": "10 -> 17",
+    "npxVerified": [
+      "a real merged PR body -> 0 errors, 2 warns",
+      "a body whose only 'because' is a regex note -> 0 errors, 1 warn",
+      "the body 'fix typo' -> 2 errors, 2 warns"
+    ]
+  },
+  "pattern": "four of four checks dogfooded against their author were enforcing a spelling instead of the property: commit type, heading wording, changelog bracket format, section headings. The property survived every time; the spelling did not. The one rule that is genuinely not decidable from text — motive — is now the only one that warns."
+}
