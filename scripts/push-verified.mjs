@@ -31,14 +31,26 @@ function gh(cwd, ...args) {
 function remoteSlug(cwd) {
   const url = git(cwd, 'remote', 'get-url', 'origin')
   const match = /github\.com[:/]([^/]+)\/([^/.]+)/.exec(url)
-  if (!match) throw new Error(`${cwd}: origin is not a GitHub remote (${url})`)
-  return `${match[1]}/${match[2]}`
+  // Not a GitHub remote: there is no API to ask, so fall back to ls-remote. The
+  // rule is only that a push is confirmed by reading the remote, never by an exit
+  // code — the mechanism can vary, the standard cannot.
+  return match ? `${match[1]}/${match[2]}` : null
 }
 
 function remoteHead(cwd, slug) {
-  // git ls-remote needs the same flaky github.com:443 that the push needs, so the
-  // API is the confirmation channel. A failed API call is "unknown", never "done".
   const branch = git(cwd, 'rev-parse', '--abbrev-ref', 'HEAD')
+  if (!slug) {
+    try {
+      const out = execFileSync('git', ['ls-remote', 'origin', `refs/heads/${branch}`], { cwd, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 }).trim()
+      const sha = out.split(/\s+/)[0] ?? ''
+      return /^[0-9a-f]{40}$/.test(sha) ? { ok: true, sha, branch } : { ok: false, sha: null, branch }
+    } catch {
+      return { ok: false, sha: null, branch }
+    }
+  }
+  // git ls-remote needs the same flaky github.com:443 that the push needs, so the
+  // API is the confirmation channel here. A failed API call is "unknown", never
+  // "done".
   const sha = gh(cwd, 'api', `repos/${slug}/commits/${branch}`, '--jq', '.sha')
   if (sha.startsWith('GH_FAILED') || !/^[0-9a-f]{40}$/.test(sha)) return { ok: false, sha: null, branch }
   return { ok: true, sha, branch }
@@ -47,17 +59,18 @@ function remoteHead(cwd, slug) {
 let failures = 0
 for (const cwd of targets) {
   const slug = remoteSlug(cwd)
+  const label = slug ?? cwd
   const branch = git(cwd, 'rev-parse', '--abbrev-ref', 'HEAD')
   const local = git(cwd, 'rev-parse', 'HEAD')
   const dirty = git(cwd, 'status', '--porcelain')
 
   if (dirty) {
-    process.stdout.write(`${slug}: uncommitted changes present — they will not be pushed\n`)
+    process.stdout.write(`${label}: uncommitted changes present — they will not be pushed\n`)
   }
 
   const before = remoteHead(cwd, slug)
   if (before.ok && before.sha === local) {
-    process.stdout.write(`${slug}: already up to date at ${local.slice(0, 7)} (nothing to push, and that is verified, not assumed)\n`)
+    process.stdout.write(`${label}: already up to date at ${local.slice(0, 7)} (nothing to push, and that is verified, not assumed)\n`)
     continue
   }
 
@@ -69,9 +82,13 @@ for (const cwd of targets) {
       break
     } catch (error) {
       const first = String(error.stderr || error.message).split('\n').filter(Boolean)[0] ?? 'unknown'
-      process.stdout.write(`${slug}: push attempt ${attempt} failed — ${first.slice(0, 100)}\n`)
-      // A rejected commit-msg hook is not a network problem; retrying will not help.
-      if (/commit-msg|hook/i.test(first)) break
+      process.stdout.write(`${label}: push attempt ${attempt} failed — ${first.slice(0, 100)}\n`)
+      // Three kinds of failure, only one of them worth retrying:
+      //   network (443, HTTP2, timeout) — the network flaps here constantly, retry;
+      //   a rejected commit-msg hook — the commit never existed, retrying is pointless;
+      //   non-fast-forward — the remote moved, no amount of retrying will help.
+      const entire = String(error.stderr || error.message)
+      if (/commit-msg|hook/i.test(first) || /rejected|non-fast-forward|fetch first|failed to push some refs/i.test(entire)) break
       execFileSync('sleep', [String(attempt * 5)])
     }
   }
@@ -79,11 +96,11 @@ for (const cwd of targets) {
   const after = remoteHead(cwd, slug)
   const landed = after.ok && after.sha === local
   if (landed) {
-    process.stdout.write(`${slug}: confirmed ${branch} at ${local.slice(0, 7)}${pushed ? '' : ' (was already there)'}\n`)
+    process.stdout.write(`${label}: confirmed ${branch} at ${local.slice(0, 7)}${pushed ? '' : ' (was already there)'}\n`)
   } else {
     failures += 1
     const detail = after.ok ? `remote is ${after.sha.slice(0, 7)}, local is ${local.slice(0, 7)}` : 'remote could not be read'
-    process.stdout.write(`${slug}: NOT confirmed — ${detail}\n`)
+    process.stdout.write(`${label}: NOT confirmed — ${detail}\n`)
   }
 }
 
