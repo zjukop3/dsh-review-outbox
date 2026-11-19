@@ -288,6 +288,18 @@ node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110  # 抽样 30 �
 
 度量采用仍然只看两件能验的事：人工决策漏斗（`scripts/report-usage.mjs`）与验收单摘要可核对（`scripts/verify-receipt.mjs`）。
 
+## 推送怎么才算成功
+
+`npm run push:verified`（`scripts/push-verified.mjs`）：推完再读远端，只有远端默认分支指向本地 HEAD 才退 0。
+
+为什么不能看退出码——这个项目里连续三次把没推成功当成推成功：
+
+1. `git push | grep 'main -> main'` 取的是 `tail` 的退出码，推送失败也显示成功；
+2. `grep up-to-date` 把"提交被 commit-msg 钩子拒绝后无东西可推"算成成功；
+3. `git push >/dev/null; [ $? -eq 0 ]` 无法区分"推上去了"和"本来就没东西"。
+
+三次的共同点：拿命令的退出状态代替事实。脚本改成读远端比对，三类失败分开处理——网络故障重试（这台机器到 github.com:443 一直在抖），提交钩子拒绝不重试（提交根本不存在），非快进不重试（远端动了，重试无用，106 秒降到 0.8 秒就是这条）。`test/push-verified.test.js` 用本地裸仓库跑通三条路径，包括远端分叉时必须报 `NOT confirmed` 并退 1。
+
 ## 已知不确定项
 
 写下来是为了以后不把它们当成结论：

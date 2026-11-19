@@ -121,6 +121,11 @@ node scripts/check-milestones.mjs --json     # 可入库</code></pre>
 <pre><code class="language-bash">node scripts/ecosystem-snapshot.mjs --package dsh-review-outbox   # 全量周分布，约 10 分钟
 node scripts/ecosystem-snapshot.mjs --shapes 200 --seed 20261110  # 抽样 30 天形状</code></pre>
 <p>度量采用仍然只看两件能验的事：人工决策漏斗（<code>scripts/report-usage.mjs</code>）与验收单摘要可核对（<code>scripts/verify-receipt.mjs</code>）。</p>
+<h2 id="推送怎么才算成功">推送怎么才算成功</h2>
+<p><code>npm run push:verified</code>（<code>scripts/push-verified.mjs</code>）：推完再读远端，只有远端默认分支指向本地 HEAD 才退 0。</p>
+<p>为什么不能看退出码——这个项目里连续三次把没推成功当成推成功：</p>
+<ol><li><code>git push | grep &#39;main -&gt; main&#39;</code> 取的是 <code>tail</code> 的退出码，推送失败也显示成功；</li><li><code>grep up-to-date</code> 把&quot;提交被 commit-msg 钩子拒绝后无东西可推&quot;算成成功；</li><li><code>git push &gt;/dev/null; [ $? -eq 0 ]</code> 无法区分&quot;推上去了&quot;和&quot;本来就没东西&quot;。</li></ol>
+<p>三次的共同点：拿命令的退出状态代替事实。脚本改成读远端比对，三类失败分开处理——网络故障重试（这台机器到 github.com:443 一直在抖），提交钩子拒绝不重试（提交根本不存在），非快进不重试（远端动了，重试无用，106 秒降到 0.8 秒就是这条）。<code>test/push-verified.test.js</code> 用本地裸仓库跑通三条路径，包括远端分叉时必须报 <code>NOT confirmed</code> 并退 1。</p>
 <h2 id="已知不确定项">已知不确定项</h2>
 <p>写下来是为了以后不把它们当成结论：</p>
 <ul><li>目录重建是否也依赖镜像，未验证；能确定的只有每日一次的构建节奏。</li><li>冷却期间市场卡片与安装版本可以不一致（卡片按目录、安装按冷却）。这一点是从两条独立机制推出来的，未做界面级验证。</li><li>应用内「一键安装」的点击链路在 headless 环境里验证不出来（确认对话框接受后 profile 未变、也无报错），底层的 <code>dsh plugin add</code> 是独立验证过的另一件事。</li></ul>
