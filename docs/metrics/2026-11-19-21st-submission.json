@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-19",
+  "scope": "submit the 21st catalog entry, and correct two assumptions I had been carrying",
+  "corrections": [
+    {
+      "wrong": "a new package needs to be a day old before its catalog entry can be submitted",
+      "actual": "MIN_AGE_DAYS = 1 applies to the repository's created_at, not to the npm publish date; there is no commit floor either (dropped 2026-09-03 in #4196). The repository is 9 days old, so the entry was submitable the same day the package was published.",
+      "source": "awesome-dsh-plugin/scripts/check-submission.mjs line 21 and .github/workflows/pr-gate.yml",
+      "cost": "would have delayed this submission by a day for no reason"
+    },
+    {
+      "wrong": "my repositories satisfy the submission checklist",
+      "actual": "all three repositories had an empty topics array. The PR template explicitly asks for the dsh-plugin topic, and 26 entries had already been merged without it — the gate does not check topics, so nothing ever complained.",
+      "fix": "added dsh, dsh-plugin, deepseek-harness to all three repositories",
+      "whyItMatters": "topics are how GitHub search and topic pages find a plugin repository; the gate passing said nothing about discoverability"
+    }
+  ],
+  "submission": {
+    "pr": 16825,
+    "entry": "data/plugins/zjukop3__dsh-vertical-kit--packages-dsh-handover-check.yml",
+    "branch": "add-dsh-handover-check (fork zjukop3/awesome-dsh-plugin)",
+    "mergeable": "MERGEABLE",
+    "labels": []
+  },
+  "gate": {
+    "checks": [
+      "package.json declares dsh.bundle",
+      "repository at least 1 day old",
+      "entry fields and category"
+    ],
+    "categoryUsed": "tools",
+    "capPerPr": 3,
+    "entriesInThisPr": 1
+  },
+  "prBody": {
+    "says": "npm-published at 0.1.0; kit is now 259 tests across 21 packages, audit 21/21 clean, 148/148 rules covered in both directions",
+    "describesTheRule": "an error on a missing accounts section, satisfiable by writing 无账号需交接 — the exemption has to be written down, silence is what it refuses"
+  }
+}
