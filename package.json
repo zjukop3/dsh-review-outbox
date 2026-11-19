@@ -79,7 +79,8 @@
     "funnel:triage": "node scripts/pending-triage.mjs",
     "catalog:coverage": "node scripts/catalog-coverage.mjs",
     "funnel:signal": "node scripts/portfolio-signal.mjs",
-    "funnel:spread": "node scripts/spread-check.mjs"
+    "funnel:spread": "node scripts/spread-check.mjs",
+    "push:verified": "node scripts/push-verified.mjs"
   },
   "files": [
     "src",
