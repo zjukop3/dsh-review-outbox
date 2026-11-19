@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-19",
+  "scope": "fifth external corpus (11 third-party CHANGELOGs); defects 16 and 17",
+  "corpus": {
+    "type": "Markdown changelogs from plugin repositories",
+    "files": 11,
+    "result": "10 of 11 clean after the fixes",
+    "theOneThatFails": "omdsh-dev__DSH-better-sidebar/CHANGELOG_EN.md — re-lists an unpublished alpha after a newer stable release, outside the <details> block that its own Chinese translation wraps it in. A genuine inconsistency between the two translations, not a detector problem.",
+    "callerError": "a first pass fed src/changelog.ts through the Markdown checker and got version-missing — that is a caller mistake, not a defect"
+  },
+  "defects": [
+    {
+      "n": 16,
+      "package": "dsh-release-notes-check",
+      "rule": "order",
+      "bug": "ordering was computed over the whole file, including a collapsed <details> history appendix where an unpublished alpha is re-listed with a note that it was folded into the previous release",
+      "fix": "mask <details>...</details> before computing order; line numbers preserved",
+      "verification": "the same repo's English changelog keeps the entry outside any <details> and is still reported"
+    },
+    {
+      "n": 17,
+      "package": "dsh-release-notes-check",
+      "rule": "order (line number)",
+      "bug": "the heading pattern starts at the newline BEFORE a heading and the line was counted up to that newline, so every ordering finding pointed at the blank line above the heading it complained about",
+      "impact": "a reader clicking the reported line lands on an empty line — the finding was right and the pointer was wrong",
+      "fix": "skip past the leading newline when counting",
+      "foundBy": "a third-party changelog where the reported line 338 was empty and the heading was on 339"
+    }
+  ],
+  "numbers": {
+    "verticalKit": "22 packages, 306 tests, 167/167 rules, 13 dogfood assertions",
+    "externalCorpora": [
+      "39 READMEs",
+      "21 LICENSEs",
+      "11 CHANGELOGs",
+      "2 Dockerfiles",
+      "1 .env.example"
+    ],
+    "checksWithThirdPartyCorpus": [
+      "onboarding-check",
+      "license-check",
+      "release-notes-check",
+      "dockerfile-check",
+      "env-example-check"
+    ]
+  },
+  "published": [
+    "dsh-release-notes-check@0.3.0"
+  ],
+  "npxVerified": [
+    "collapsed appendix -> 0 errors",
+    "same entry inline -> order error at line 7, which is the heading"
+  ],
+  "selfInflicted": "the commit for this change was blocked by my own commit-msg hook for a 78-char subject, and the push loop reported success on a no-op — the same false-green pattern recorded twice before. Shortened the subject and pushed properly.",
+  "tally": {
+    "defectsFoundByRealCorpus": 14,
+    "foundByRulesAudit": 3,
+    "total": 17
+  }
+}
