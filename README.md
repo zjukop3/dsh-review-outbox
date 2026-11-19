@@ -233,6 +233,10 @@ pnpm run check
 
 详见 [长期路线](docs/STRATEGY.md) 与 [目录收录准备](docs/CATALOG.md)。
 
+## 遇到问题
+
+装不上、跑不起来、或者某条验收单的判定你觉得不对：在 [issues](https://github.com/zjukop3/dsh-review-outbox/issues) 里开一条，附上 `dsh --version` 和你跑的那条命令。判定有争议的，把那份成果原文贴进去——这个插件的全部主张是"判定可复现"，所以反例比意见有用。
+
 ## 生态测量（附带产出）
 
 做这个插件的过程中测了整个目录的下载分布，沉淀成三份可复现的资产：

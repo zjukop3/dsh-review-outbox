@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-19",
+  "scope": "turn the four dogfood defects into a gate: a rules audit plus a dogfood test",
+  "why": "four packages shipped rules that had only ever been observed firing. Every unit test passed. What found them was pointing the checker at real work, so the corpus became a test.",
+  "gate1_rulesAudit": {
+    "script": "dsh-vertical-kit/scripts/audit-rules.mjs",
+    "wiredInto": "npm run check",
+    "requirement": "every rule must be observed in both directions: a bad document makes it fire, a valid document leaves it silent",
+    "result": "138/138 rules covered across 20 packages",
+    "definitionOfSilent": "either a negated per-rule assertion, or a package-level test proving a valid document produces zero errors",
+    "deadRulesFound": [
+      {
+        "package": "dsh-commit-msg-check",
+        "rule": "subject-empty",
+        "why": "HEADER required .+ after the colon, so 'feat:' never parsed and the rule was unreachable",
+        "fix": ".* instead of .+",
+        "bump": "0.2.0 -> 0.3.0"
+      },
+      {
+        "package": "dsh-listing-check",
+        "rule": "sku-empty",
+        "why": "pick() deliberately skips empty values, so a present-but-empty SKU cell was reported as sku-missing",
+        "fix": "new columnName() answers 'is the column there', separate from 'what is in it'",
+        "bump": "0.1.2 -> 0.2.0"
+      }
+    ],
+    "alsoAdded": "13 firing tests for rules that had only a silent-direction test (agreement 3, listing 4, invoice 2, bug-report/env-example/dockerfile/commit-msg 1 each)"
+  },
+  "gate2_dogfood": {
+    "script": "dsh-vertical-kit/test/dogfood.test.js",
+    "asserts": [
+      "22 READMEs pass onboarding-check with zero errors and zero warnings",
+      "3 CHANGELOGs pass release-notes-check",
+      "20+ LICENSE files pass license-check",
+      "120 real commits raise no type-prefix error — the history is not Conventional Commits and must not be blocked for it"
+    ],
+    "vacuousnessGuard": "corpus size asserted first, so the test cannot pass on an empty file list",
+    "firstCatch": "dsh-review-outbox/README.md had no help path; a 遇到问题 section was added"
+  },
+  "numbers": {
+    "rules": 138,
+    "packages": 20,
+    "tests": "213 -> 239",
+    "audits": "20/20 packages clean, links clean, 138/138 rules"
+  },
+  "published": [
+    "dsh-commit-msg-check@0.3.0",
+    "dsh-listing-check@0.2.0"
+  ],
+  "npxVerified": [
+    "feat: -> error subject-empty",
+    "empty SKU cell -> error sku-empty"
+  ],
+  "lesson": "a rule tested only in the direction that fires is half a rule. The half that is usually missing is the one that says 'and here is a document that is fine, and I leave it alone' — which is the half that decides whether a stranger keeps the tool installed."
+}
