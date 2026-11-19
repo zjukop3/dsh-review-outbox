@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-19",
+  "scope": "two gates landed, then the twenty-first package",
+  "gates": {
+    "rulesAudit": {
+      "script": "dsh-vertical-kit/scripts/audit-rules.mjs",
+      "in": "npm run check",
+      "result": "148/148 rules across 21 packages observed in both directions",
+      "found": [
+        "subject-empty and sku-empty were unreachable dead rules — both fixed and published",
+        "13 rules had only a silent-direction test; firing tests added"
+      ]
+    },
+    "dogfood": {
+      "script": "dsh-vertical-kit/test/dogfood.test.js",
+      "asserts": [
+        "22 READMEs pass onboarding-check with 0 errors 0 warn",
+        "3 CHANGELOGs pass release-notes-check",
+        "21 LICENSE files pass license-check",
+        "120 real commits raise no type-prefix error"
+      ],
+      "caught": "dsh-review-outbox/README.md had no help path — a 遇到问题 section was added"
+    }
+  },
+  "newPackage": {
+    "name": "dsh-handover-check",
+    "version": "0.1.0",
+    "rules": 10,
+    "tests": 13,
+    "trade": "HR / ops handover",
+    "why": "the 20 existing packages covered documents and engineering artifacts; a handover is the one recurring deliverable whose failure mode is invisible at review time",
+    "theRuleThatEarnsIt": "access-unlisted — signature and date are what a reviewer notices anyway; a forgotten read-only account is what nobody notices until an audit",
+    "exemption": "writing 无账号需交接 satisfies the rule; silence does not",
+    "precisionFixes": [
+      "items and account entries are counted inside their own sections, so an accounts bullet list cannot make a 3-item handover look like 7, and the heading containing 账号 cannot impersonate a named account",
+      "date regex uses [ \\t] not \\s, so a match at end of line no longer drags the newline into the finding text"
+    ]
+  },
+  "numbers": {
+    "packages": 21,
+    "rules": 148,
+    "tests": "239 -> 252",
+    "sitePages": 23,
+    "audits": "21/21 packages, 148/148 rules, links clean"
+  },
+  "publishedTonight": [
+    "dsh-commit-msg-check@0.3.0",
+    "dsh-listing-check@0.2.0",
+    "dsh-handover-check@0.1.0"
+  ],
+  "catalog": {
+    "gate": "MIN_AGE_DAYS=1, so a submission today would be held",
+    "staged": "docs/catalog-pending/zjukop3__dsh-vertical-kit--packages-dsh-handover-check.yml",
+    "submitOn": "2026-11-20",
+    "coverageNow": "1 package with no entry — dsh-handover-check, as expected"
+  },
+  "npxVerified": [
+    "handover ok fixture -> 0 errors 0 warnings",
+    "handover bad fixture -> 2 errors 3 warnings"
+  ]
+}
