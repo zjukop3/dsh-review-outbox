@@ -2,6 +2,16 @@
 
 All notable changes to Review Outbox are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/); versions are `0.1.x` while the plugin is in validation.
 
+## [0.2.0] — 2026-11-19
+
+站点新增 `/handover/`：这个项目自己的交接单。
+
+- 写给"如果明天我不在"的那一刻：三个仓库的分工、发布的四段时间常数、192 条规则的验证状态与 18 个已知缺陷、为什么采纳指标是 0 **且不要把它做上去**、两个待合并的目录条目、账号与权限、未完成事项。
+- 它被 `dsh-handover-check` 校验，**唯一的 error 是"没有接收人"**——因为接收人一栏写的是「尚未指定」。这不是文案疏忽，是这个项目的实际状态：没有人接手。
+- 写这份文档时抓到了 `dsh-handover-check` 的第十九个缺陷：`接收人：尚未指定` 竟然通过，因为规则找的是标签不是名字。已修（`receiver-unassigned`），并接进 dogfood 闸——这份交接单只允许有这一个 error，多一个就是文档或检查出了问题。
+
+**升级路径**：新增文档与站点页，不影响插件运行时。
+
 ## [0.1.11] - 2026-11-15
 
 - Documentation release: the npm README now carries the combined-index collection block (nine works, one source) and the reconciled 90-test claim.
