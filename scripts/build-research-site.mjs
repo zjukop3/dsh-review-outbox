@@ -228,6 +228,29 @@ ${adrSections.map(section => `<h2>${escapeHtml(section.title)}</h2>${section.bod
 await mkdir(resolve(root, 'site/decisions'), { recursive: true })
 await writeFile(resolve(root, 'site/decisions/index.html'), decisions)
 
+// The interface reference. Twelve host routes, written from the code and then
+// probed: the first draft had six errors, four of them in the shapes a
+// front-end reads first. The probe became test/route-contract.test.js, so the
+// document cannot drift from the handler without a red test.
+const apiSource = await readFile(resolve(root, 'docs/API.md'), 'utf8')
+const apiTitle = extractTitle(apiSource)
+const apiBody = renderMarkdown(
+  apiSource
+    .replace(/^#\s+.*\n/, '')
+    .replace(/\]\((?!https?:)([^)]+)\)/g, (_, target) => `](${repositoryUrl}/blob/main/docs/${target.replace(/^\.\//, '')})`),
+)
+const apiUrl = origin ? `${origin}/api/` : ''
+const api = `<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(apiTitle)} · Review Outbox</title>${favicon}<meta name="description" content="${escapeHtml('Review Outbox 在 DSH 上注册的 12 条 HTTP 路由：方法、查询参数、请求体、响应形状、状态码与错误格式，全部按代码实测。')}"><meta name="robots" content="index,follow">${apiUrl ? `<link rel="canonical" href="${escapeHtml(apiUrl)}">` : ''}<style>${pageStyles}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · HTTP INTERFACE · ${pluginVersion}</p>
+<h1>${escapeHtml(apiTitle)}</h1>
+<nav class="nav"><a href="../">首页</a><a href="../decisions/">决策记录</a><a href="../maintenance/">维护承诺</a><a href="../operations/">发布与收录手册</a><a href="${repositoryUrl}">GitHub 源码</a></nav>
+${apiBody}
+<small>原文：<a href="${repositoryUrl}/blob/main/docs/API.md">docs/API.md</a> · 状态码由 <code>test/route-contract.test.js</code> 对着真 handler 断言。</small>
+</main></body></html>`
+await mkdir(resolve(root, 'site/api'), { recursive: true })
+await writeFile(resolve(root, 'site/api/index.html'), api)
+
 // The method page. The baseline page reports the ecosystem's numbers; this one
 // hands another author the instrument to read their own digits — the shapes, the
 // spread rule, and the two things this project actually counts as a signal. It
@@ -264,7 +287,7 @@ body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a
 <p class="eyebrow">DEEPSEEK HARNESS PLUGIN · REVIEW OUTBOX ${pluginVersion}</p><h1>研究报告验收清单</h1><p>核对结论、引用、数据口径和方法限制。无需安装即可使用清单并查看真实 SHA-256 验收单。</p>
 <section class="install" id="install"><h2>在 DSH 中安装 ${pluginVersion}</h2><ol><li>打开「插件」，启用实验性「自定义插件索引」。</li><li>进入「发现 → 添加索引源」，添加以下地址：</li></ol><code>${marketIndexUrl}</code><ol start="3"><li>搜索 <strong>Review Outbox</strong> 或 <strong>研究报告</strong>，确认 ${pluginVersion} 和完整提交后安装。</li><li>回到「已安装」启用插件，打开左侧「成果审阅」。</li></ol><a href="./research-report/">打开完整清单</a><details><summary>应用内网络不可用时：固定提交 CLI 回退</summary><pre><code>dsh plugin --profile web add 'github:zjukop3/dsh-review-outbox#${currentCommit}'
 dsh web</code></pre></details></section>
-<section class="install"><h2>同一个源还收录 26 个检查作品</h2><p>上面的索引源不只带 Review Outbox。添加后，在「发现」里按名字搜索即可安装，全部从 npm registry 解析，装完即用。五个通用检查：<code>hashcheck</code> 交付文件校验 · <code>citelint</code> 引用检查 · <code>outline-lint</code> 文档结构 · <code>tablelint</code> 表格检查 · <code>numberlint</code> 数字写法。二十一个场景检查按你手上的文件选：合同 · 发票 · 商品信息 · 会议纪要 · 简历 · 周报 · 发布说明 · 缺陷报告 · 接口文档 · 测试报告 · 提交信息 · PR 描述 · 需求文档 · 架构决策 · Dockerfile · .env 示例 · LICENSE · 事故复盘 · 运维手册 · 上手指南 · 交接单。</p><p><a class="dark" href="https://zjukop3.github.io/dsh-verify-kit/">五个通用检查的详情</a> <a class="dark" href="https://zjukop3.github.io/dsh-vertical-kit/">二十一个场景检查的详情</a> <a class="dark" href="https://zjukop3.github.io/dsh-vertical-kit/compare/">全部 21 个的对照表</a> <a class="dark" href="./decisions/">三条决策记录（含代价）</a></p></section>
+<section class="install"><h2>同一个源还收录 26 个检查作品</h2><p>上面的索引源不只带 Review Outbox。添加后，在「发现」里按名字搜索即可安装，全部从 npm registry 解析，装完即用。五个通用检查：<code>hashcheck</code> 交付文件校验 · <code>citelint</code> 引用检查 · <code>outline-lint</code> 文档结构 · <code>tablelint</code> 表格检查 · <code>numberlint</code> 数字写法。二十一个场景检查按你手上的文件选：合同 · 发票 · 商品信息 · 会议纪要 · 简历 · 周报 · 发布说明 · 缺陷报告 · 接口文档 · 测试报告 · 提交信息 · PR 描述 · 需求文档 · 架构决策 · Dockerfile · .env 示例 · LICENSE · 事故复盘 · 运维手册 · 上手指南 · 交接单。</p><p><a class="dark" href="https://zjukop3.github.io/dsh-verify-kit/">五个通用检查的详情</a> <a class="dark" href="https://zjukop3.github.io/dsh-vertical-kit/">二十一个场景检查的详情</a> <a class="dark" href="https://zjukop3.github.io/dsh-vertical-kit/compare/">全部 21 个的对照表</a> <a class="dark" href="./decisions/">三条决策记录（含代价）</a> <a class="dark" href="./api/">HTTP 接口参考</a></p></section>
 <section class="proof"><h2>第一次打开就有明确下一步</h2><p>真实 Web GUI 已验证：安装前密封报告自动回填，默认显示必填证据 0/4；完成四项证据后通过并下载验收单。</p><img src="./research-report/first-value.png" alt="Review Outbox 自动回填密封报告并显示必填证据 0/4" loading="lazy"><p><a class="dark" href="${firstValueEvidenceUrl}">查看首次价值验证证据</a> <a href="./research-report/receipt-example.html">直接查看验收单</a></p></section>
 <p class="links"><a href="./troubleshooting/">装不上/更新不了：按症状查</a><a href="./operations/">插件发布与收录实测手册</a><a href="./baseline/">生态下载数基线</a>${latestEcosystemUrl ? `<a href="ecosystem/${ecosystemEditions.at(-1)}">生态月报</a>` : ''}<a href="${catalogUrl}">Awesome 目录条目</a><a class="dark" href="${repositoryUrl}">GitHub 源码</a><a href="${marketIndexUrl}">format 1 索引</a></p><p><a class="dark" href="${downloadHref}" download>旧版 0.1.0 tarball</a></p>
 <small>Review Outbox · DeepSeek Harness 成果审阅 · 0.1.0 旧包 <a href="./downloads/${packageName}.sha256">SHA-256 校验文件</a></small></main></body></html>`
@@ -295,7 +318,7 @@ if (indexNow) await writeFile(resolve(root, `site/${indexNow.key}.txt`), `${inde
 // Crawlability: sitemap from the real file tree (static pages + every
 // ecosystem edition), robots pointing at it. Regenerated on each build so it
 // never drifts from what is actually deployed.
-const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'reading-downloads/index.html', 'maintenance/index.html', 'proposal-demo/index.html', 'decisions/index.html']
+const staticPages = ['index.html', 'research-report/index.html', 'research-report/receipt-example.html', 'operations/index.html', 'troubleshooting/index.html', 'baseline/index.html', 'reading-downloads/index.html', 'maintenance/index.html', 'proposal-demo/index.html', 'decisions/index.html', 'api/index.html']
 const editionPages = ecosystemUrls ? ecosystemUrls.filter(url => /\.html$/.test(url)) : []
 const pageUrls = [...staticPages.map(page => `${origin}/${page.replace(/index\.html$/, '')}`), ...editionPages]
 const lastmod = new Date().toISOString().slice(0, 10)

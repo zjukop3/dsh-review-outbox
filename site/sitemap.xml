@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/research-report/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/research-report/receipt-example.html</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/operations/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/troubleshooting/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/baseline/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/reading-downloads/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/maintenance/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/proposal-demo/</loc><lastmod>2026-11-19</lastmod></url>
-  <url><loc>/decisions/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/research-report/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/research-report/receipt-example.html</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/operations/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/troubleshooting/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/baseline/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/reading-downloads/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/maintenance/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/proposal-demo/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/decisions/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/api/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-15.html</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://zjukop3.github.io/dsh-review-outbox/ecosystem/2026-11-16.html</loc><lastmod>2026-11-19</lastmod></url>
 </urlset>

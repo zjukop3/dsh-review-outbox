@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-19",
+  "scope": "write the API reference the corpus gap exposed, then probe it",
+  "artifact": {
+    "path": "docs/API.md",
+    "routes": 12,
+    "page": "/api/",
+    "why": "the plugin exposes 12 host routes and documented none of them as an interface — api-doc-check had nothing of ours to run on, which is how the gap surfaced"
+  },
+  "probe": {
+    "method": "called the real handler with 12 crafted requests before trusting any documented shape",
+    "errorsInFirstDraft": 6,
+    "list": [
+      "backfill fields: wrote running/queued, actual status + listed/scanned/discovered/changed/truncated",
+      "bulk archive of a session with nothing pending: wrote 200 with archived: 0, actual 400 'No pending items in this session'",
+      "the two check 400s: wrote them unordered, actual order is pack lookup then boolean type",
+      "reviewProgress fields: wrote checked/total/ready, actual completed/requiredCompleted/complete/incomplete — the field a front-end reads first",
+      "pack.checks is an array on /packs but an object keyed by checkId inside an item's reviewPack — one name, two shapes",
+      "POST /sample was not documented at all, and it returns 201, the only non-200 success"
+    ],
+    "conclusion": "six of six were shapes, not prose. Writing the document was worth less than probing it."
+  },
+  "contractTest": {
+    "path": "test/route-contract.test.js",
+    "tests": 9,
+    "asserts": [
+      "the four read routes and their keys",
+      "404 error shape for a missing id",
+      "wrong method is 404, not 405 (documented oddity)",
+      "unknown route never leaks a stack trace",
+      "bulk disposition refuses anything but archive, and empties 400",
+      "documented 400s in the documented order",
+      "a real item with a real pack reaches 'checked must be a boolean'",
+      "403 on the whole prefix when connection is unavailable",
+      "every one of the 12 documented routes exists"
+    ]
+  },
+  "site": {
+    "pages": "13 -> 14",
+    "newPage": "/api/",
+    "linkedFrom": "home links block",
+    "sitemap": "auto",
+    "linkAudit": "14 pages, all internal links resolved",
+    "fixtureFix": "test/site-build.test.js had to copy docs/API.md and docs/adr/ into its temp fixture, or the build fails ENOENT — the same fixture hazard as the vertical-kit site test"
+  },
+  "dogfoodGate": {
+    "assertions": 9,
+    "corpora": [
+      "22 READMEs",
+      "3 CHANGELOGs",
+      "21 LICENSEs",
+      "3 ADRs",
+      "1 postmortem",
+      "4 runbooks",
+      "1 API reference (17 endpoints)",
+      "120 commits",
+      "corpus-size self-check"
+    ]
+  },
+  "numbers": {
+    "verticalKitTests": 259,
+    "outboxTests": 99,
+    "packages": 21,
+    "rules": 148
+  },
+  "observation": "the corpus keeps finding what reading cannot: a check with no document to run on is a check whose gap is invisible. Both this and the previous four defects were found by asking 'what real artifact should this check be pointed at', not by reading the check."
+}
