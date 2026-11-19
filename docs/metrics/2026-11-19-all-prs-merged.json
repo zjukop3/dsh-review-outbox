@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-19",
+  "milestone": "ALL ELEVEN PRs MERGED — 26/26 packages now have a catalog entry on upstream main",
+  "upstream": {
+    "main": "28c08a9",
+    "committed_at": "2026-11-18T23:20:18Z",
+    "merged_prs": 11,
+    "entries_added": 16,
+    "note": "the maintainer batched all eleven between the previous main commit and this one, roughly 24 hours after the first of them went green"
+  },
+  "coverage": {
+    "packages": 26,
+    "entries_on_main": 26,
+    "verified": "every entry file fetched from upstream main by name and confirmed present with its own resulting entry shape (SHA per file)",
+    "previous": "13 on main, 13 in open PR branches"
+  },
+  "timeline_of_the_batch": {
+    "2026-11-15": "PRs #15594/#15655/#15656 merged (8 entries) after the split — the first wave",
+    "2026-11-16": "#15951 merged (2 entries)",
+    "2026-11-17": "#16006/#16011 merged (2 entries)",
+    "2026-11-18T23:20Z": "remaining seven PRs merged at once (4 entries from #16425, plus #16435, #16450, #16453, #16457, #16464, #16467, #16469, #16479, #16491, #16509) — sixteen entries total"
+  },
+  "what_happens_next": "the next nightly catalog build (~02:2xZ) publishes a feed carrying all twenty-six; until then the published feed 2026.1118.23310 still lists thirteen of ours",
+  "why_it_took_a_day": "measured, not assumed: the eleven green PRs carried no labels and mergeStateStatus CLEAN, so they were in the queue; the repo's held-rescan workflow runs daily and only maintains a candidate list, and only a human batch merge clears the queue. The operations handbook now records this (§12c).",
+  "honest_note": "a merged entry is discoverability, not adoption. The funnel's human-decision count is still zero and the portfolio's download signal is still the uniformity signature, both unchanged by this merge."
+}
