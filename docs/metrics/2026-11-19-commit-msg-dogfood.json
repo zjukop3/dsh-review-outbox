@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-19",
+  "scope": "dogfood — commit-msg-check against this project own three repositories",
+  "corpus": {
+    "repos": [
+      "dsh-review-outbox",
+      "dsh-vertical-kit",
+      "dsh-verify-kit"
+    ],
+    "commits": 102,
+    "window": "last 40 per repo"
+  },
+  "findingsUnderOldDefault": {
+    "errors": 85,
+    "errorRate": 0.83
+  },
+  "breakdown": {
+    "typeMissingOnly": 61,
+    "subjectLong": 58,
+    "overlap": 34
+  },
+  "findingsUnderNewDefault": {
+    "errors": 58,
+    "errorRate": 0.56,
+    "errorsAreExclusively": "subject-long"
+  },
+  "subjectLength": {
+    "n": 58,
+    "min": 73,
+    "p50": 85,
+    "p90": 103,
+    "max": 170,
+    "buckets": {
+      "73-80": 17,
+      "81-100": 33,
+      "101-120": 5,
+      "over120": 3
+    }
+  },
+  "decision": {
+    "change": "requireType 3-state, default warn; shape rules stay error",
+    "why": "61/61 type-missing hits were Conventional Commits style, not defects. A default error blocked 83% of a codebase that is fine, including every Chinese subject; 58 subject-length hits were real. Splitting the two kinds of rule keeps the tool installable on any repo while still erroring on the defect.",
+    "backCompat": "0.1.0 booleans map to error/off; unknown policy string falls back to warn, never off"
+  },
+  "release": {
+    "package": "dsh-commit-msg-check",
+    "from": "0.1.0",
+    "to": "0.2.0",
+    "published": "2026-11-19T02:0xZ",
+    "verified": [
+      "registry latest=0.2.0",
+      "npx default -> 1 error 1 warn, policy warn",
+      "npx --require-type -> 2 errors, policy error",
+      "npx --no-require-type -> 1 error, policy off"
+    ]
+  },
+  "hookInstalled": {
+    "repos": [
+      "dsh-review-outbox",
+      "dsh-vertical-kit",
+      "dsh-verify-kit"
+    ],
+    "path": ".git/hooks/commit-msg",
+    "pointsAt": "dsh-vertical-kit/packages/dsh-commit-msg-check/bin/cli.js",
+    "verified": {
+      "blocked": "119-char subject",
+      "allowed": "59-char subject",
+      "wrongEstimate": "a 61-char CJK subject passed — CJK is compact, do not eyeball length"
+    }
+  },
+  "selfObservation": "the commit that shipped 0.2.0 was itself 75 chars and would now be blocked by the hook it shipped",
+  "tests": {
+    "before": 201,
+    "after": 206,
+    "added": 5,
+    "commitMsgPackage": "11 -> 16"
+  },
+  "audits": "20/20 clean, 22 site pages rebuilt"
+}
