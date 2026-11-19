@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-19",
+  "scope": "fourth external corpus (21 third-party LICENSE files); defects 14 and 15; the 27th catalog entry",
+  "corpus": {
+    "type": "LICENSE files from 21 plugin repositories pulled for the catalog research",
+    "before": "15 of 21 passed",
+    "after": "19 of 21 pass",
+    "remainingTwoAreReal": [
+      "ECNU__EduWork/LICENSE — the body is not a recognised license (self-written or a template)",
+      "op7418__dsh-guizang-design/LICENSE — titled MIT, body is AGPL-3.0"
+    ]
+  },
+  "defects": [
+    {
+      "n": 14,
+      "package": "dsh-license-check",
+      "rule": "copyright-year-missing / copyright-holder-missing",
+      "bug": "the rule took the first line containing 'copyright', which in Apache-2.0 is the definitions section: \"Licensor\" shall mean the copyright owner…",
+      "impact": "four correct third-party LICENSE files reported as missing both a year and a holder",
+      "fix": "a notice has a shape — the word or (c) immediately followed by (c), a four-digit year, or a bracket slot"
+    },
+    {
+      "n": 15,
+      "package": "dsh-license-check",
+      "rule": "placeholder-left",
+      "bug": "severity did not depend on the license: MIT, BSD and ISC expect the notice filled in, while Apache-2.0, MPL-2.0 and the GPL family ship the appendix as a template to copy elsewhere and most correct projects leave it alone",
+      "impact": "an unfilled Apache appendix produced two errors on files that were fine",
+      "fix": "severity follows the license: notice-expected => error; recognised-but-template => one warning (notice-template-unfilled); unrecognised body => error"
+    }
+  ],
+  "selfCorrection": "the first attempt at defect 15 demoted every appendix slot, which broke the MIT case (a missing year there is a real defect). The legacy test caught it. The mapping is by license, not by the shape of the line.",
+  "gateCaughtMe": "the rules audit flagged notice-template-unfilled as silent-only ten minutes after I added it — the new rule had no firing test until the audit demanded one",
+  "numbers": {
+    "verticalKit": "22 packages, 302 tests, 167/167 rules, 12 dogfood assertions",
+    "externalCorpora": [
+      "39 third-party READMEs",
+      "21 third-party LICENSEs",
+      "2 Dockerfiles",
+      "1 .env.example"
+    ]
+  },
+  "published": [
+    "dsh-license-check@0.2.0"
+  ],
+  "npxVerified": [
+    "Apache appendix -> 0 errors, 2 warnings",
+    "MIT-titled AGPL body -> 1 error"
+  ],
+  "catalog": {
+    "pr": 16902,
+    "entry": "dsh-expense-claim-check",
+    "state": "open, check in progress",
+    "otherOpenPr": {
+      "pr": 16825,
+      "entry": "dsh-handover-check",
+      "gate": "passed"
+    }
+  },
+  "tally": {
+    "defectsFoundByRealCorpus": 12,
+    "foundByRulesAudit": 3,
+    "total": 15
+  }
+}
