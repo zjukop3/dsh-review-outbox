@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-19",
+  "scope": "fifth corpus (four runbooks) into the dogfood gate; sixth detector fix",
+  "survey": {
+    "method": "seven (check, document) pairs pointed at docs this project really ships",
+    "realGaps": {
+      "ops-runbook-check": "all four runbooks lacked 前置条件; MONTHLY-RUNBOOK also lacked 验证 and 回滚"
+    },
+    "categoryErrors": [
+      {
+        "check": "api-doc-check",
+        "doc": "INTEGRATION.md",
+        "why": "INTEGRATION.md is an integration guide with no HTTP endpoints — pointing an API-reference check at it measures nothing",
+        "implication": "this project ships no API reference at all for its host routes; that document is genuinely missing, and api-doc-check cannot be dogfooded until it exists"
+      },
+      {
+        "check": "spec-doc-check",
+        "doc": "THESIS-2026-11.md / STRATEGY.md",
+        "why": "a thesis and a strategy are not specs with acceptance criteria; out-of-scope is a fair criticism, missing acceptance criteria is not"
+      }
+    ],
+    "note": "running every check over every doc produced 40+ errors on STRATEGY, TROUBLESHOOTING, MARKET and others. Those are all category errors. The honest count of real defects is the four runbooks, not forty documents."
+  },
+  "detectorFix": {
+    "package": "dsh-ops-runbook-check",
+    "from": "0.1.0",
+    "to": "0.2.0",
+    "rule": "steps-missing",
+    "bug": "only `1. …` list items counted as steps; `## 3. 构建月报页` numbered headings did not, so this project's own two runbooks were reported as having no steps at all",
+    "significance": "sixth instance of the same family — required a spelling rather than the property",
+    "secondHalf": "a numbered heading now carries its section body, so destructive-unwarned reads the whole step and points at the step, not the command line",
+    "npxVerified": "MONTHLY-RUNBOOK 8 steps 0 errors; RELEASE-RUNBOOK 6 steps 0 errors"
+  },
+  "docsFixed": {
+    "OPERATIONS.md": "前置条件: node/npm, npm login to registry.npmjs.org (local .npmrc points at npmmirror, so --registry is mandatory), gh auth, and the fact that github.com:443 fails intermittently here",
+    "INSTALL-RECOVERY.md": "前置条件: DSH installed, profile name, write access to ~/.dsh",
+    "MONTHLY-RUNBOOK.md": "前置条件 + 验证 (three ordered checks: Pages returns 200, page numbers match the baseline JSON, the issue URL is in sitemap) + 回滚 (git revert, not an in-place overwrite; historical editions are dated and never replaced)",
+    "RELEASE-RUNBOOK.md": "前置条件: npm login with --registry, gh auth as zjukop3, clean working tree, retry tolerance for github.com:443"
+  },
+  "dogfoodGate": {
+    "assertions": 8,
+    "corpora": [
+      "22 READMEs",
+      "3 CHANGELOGs",
+      "21 LICENSEs",
+      "3 ADRs",
+      "1 postmortem",
+      "4 runbooks",
+      "120 commits",
+      "corpus-size self-check"
+    ]
+  },
+  "numbers": {
+    "packages": 21,
+    "rules": 148,
+    "tests": "255 -> 258",
+    "audits": "21/21 packages, 148/148 rules"
+  },
+  "published": [
+    "dsh-ops-runbook-check@0.2.0"
+  ],
+  "tally": {
+    "defectsFoundByDogfooding": 6,
+    "foundByReadingCode": 2,
+    "claim": "six of eight detector defects surfaced by pointing a checker at real work; the two found by reading were the dead rules the audit script located. Neither method alone would have found the other's set."
+  },
+  "nextRealArtifact": "an API reference for the host routes (docs/API.md) — the corpus gap that api-doc-check exposed by having nothing to run on"
+}

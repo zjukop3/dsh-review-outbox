@@ -8,6 +8,9 @@
 <blockquote><strong>只记四条</strong></blockquote>
 <p>&gt;</p>
 <blockquote>1. <strong>24 小时</strong>：<code>minimumReleaseAge</code> 冷却。浮动的装法只会解析到「最高成熟版本」，装到旧版不报错。 2. <strong>约一小时</strong>：registry 元数据滞后。这段时间<strong>两条 CLI 路径都拿不到新版</strong> —— 精确版本会 <code>ERR_PNPM_NO_MATCHING_VERSION</code>，裸名解析到冷却允许的旧版本。tarball 可能已经可取（302），元数据还没更新。 3. <strong>每天一次</strong>：目录重建（约 <code>04:46Z</code>）。市场卡片上的版本最多落后一天，但这<strong>不影响实际装到的版本</strong>。 4. <strong>一次性</strong>：装法决定以后会不会自动更新。<code>add &lt;name&gt;</code> 写 <code>^</code>，会更新；<code>add &lt;name&gt;@&lt;version&gt;</code> 写精确版本，<strong>此后再也不动</strong>。</blockquote>
+<h2 id="前置条件">前置条件</h2>
+<p>跑这套手册里的命令前，机器上要有：</p>
+<ul><li>Node ≥ 22.19 与 npm（<code>node -v</code>、<code>npm -v</code> 能出版本号）；</li><li>已 <code>npm login</code> 到 <strong>registry.npmjs.org</strong>——本机 <code>.npmrc</code> 默认指向 npmmirror，所以每条发布命令都要显式带 <code>--registry=https://registry.npmjs.org</code>，否则会推到镜像或报 404；</li><li><code>gh</code> 已认证（<code>gh auth status</code>），因为要读目录仓库的 PR 状态和文件；</li><li>能直连 github.com:443 与 registry.npmjs.org:443。这台机器上这两个域名会间歇性超时（今天实测连续失败 4–6 次后成功），所以凡是推送和发布都按&quot;重试到成功&quot;写，不按&quot;一次过&quot;写。</li></ul>
 <h2 id="0-发布操作步骤">0. 发布操作步骤</h2>
 <p>完整发布流程（版本号 → 发布 pin → 自举页烙印 → 构建校验 → publish → registry 验证 → 索引与站点收尾）见 <a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/RELEASE-RUNBOOK.md">RELEASE-RUNBOOK.md</a>；本手册记录的是流程背后的实测约束，runbook 是可执行的操作顺序。</p>
 <h2 id="1-发布到-别人真能装上-有四段时间常数">1. 发布到「别人真能装上」有四段时间常数</h2>

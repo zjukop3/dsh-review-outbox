@@ -2,6 +2,13 @@
 
 每次 release 的完整步骤。顺序与一致性由 `test/site-build.test.js` 的幂等断言把关——漏一步 `npm run check` 就会红。
 
+## 前置条件
+
+- Node ≥ 22.19 与 npm；已 `npm login` 到 **registry.npmjs.org**（本机 `.npmrc` 指向 npmmirror，所以发布命令必须显式 `--registry=https://registry.npmjs.org`）。
+- `gh` 已认证，且是 `zjukop3` 这个账号——发布 pin 里要写 commit，目录 PR 也从这个账号发。
+- 工作区干净（`git status --porcelain` 无输出）。带未提交改动发布会把上一个批次的半成品打进包里。
+- 能直连 github.com:443；这台机器上会间歇失败，推送按重试写。
+
 ## 1. 版本号
 
 ```bash

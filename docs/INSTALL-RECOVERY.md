@@ -2,6 +2,12 @@
 
 本文适用于 Review Outbox `0.1.x` 验证阶段；当前源码与应用内索引为 `0.1.2`，Pages tarball 为 `0.1.0`。源码位于 [zjukop3/dsh-review-outbox](https://github.com/zjukop3/dsh-review-outbox)；已验证的 tarball 和 SHA-256 文件由 GitHub Pages 提供。npm 和 GitHub Release 尚未发布；[Awesome 社区目录](https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/)已合并收录并上线。
 
+## 前置条件
+
+- 已经装过 DSH，且 `dsh --version` 能出版本号；下面的排错都假设你能打开 GUI 的「插件」页。
+- 知道自己的 profile 名（默认 `web`）；命令里的 `--profile` 要和你实际用的一致。
+- 能读写 `~/.dsh/` 下的文件——部分恢复步骤要删缓存目录，删之前先复制一份。
+
 ## 环境要求
 
 - DeepSeek Harness `>=0.2.2-rc.1 <0.3.0-0`

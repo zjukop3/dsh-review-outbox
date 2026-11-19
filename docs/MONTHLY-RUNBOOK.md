@@ -2,6 +2,12 @@
 
  monthly 页与信号提案的数据都在这一天刷新。顺序重要：**report:monthly 读取最新的 weekly 文件**，所以先组装元数据、编辑完账本，再构建页面。
 
+## 前置条件
+
+- Node ≥ 22.19；`jq` 可选（只用于人眼看 JSON）。
+- 能连 registry.npmjs.org（拉每个包的周下载数）和 api.github.com（读目录仓库的文件）。
+- 上一次的月报文件在 `site/ecosystem/` 下，第一次跑时目录可能为空——空目录也能跑，只是"环比"一栏会缺。
+
 ## 1. 组装 weekly 元数据
 
 ```bash
@@ -38,6 +44,25 @@ git add docs/metrics site && git commit && git push
 ```
 
 Pages 部署后，月报新版自动进 sitemap。
+
+## 验证
+
+推送之后按顺序确认三件事，任何一条不对就说明这一版月报不可信：
+
+1. `curl -s -o /dev/null -w '%{http_code}' https://zjukop3.github.io/dsh-review-outbox/ecosystem/<日期>.html` 返回 200——Pages 部署通常要等 1–3 分钟，200 之前不要去核对数字；
+2. 月报页的目录总数与 `docs/metrics/<日期>-ecosystem-baseline.json` 里的 `total` 相等，分类前四名与 JSON 一致——页面上任何数字都应该能在 JSON 里找到同一个；
+3. `site/sitemap.xml` 里出现了这一期的 URL。没进 sitemap 等于搜索引擎看不到，等于这一期白做。
+
+## 回滚
+
+这期数字错了（口径变了、目录快照抓歪、环比算错）就走这条，不要"就地改一版"覆盖——覆盖之后没人知道哪一版是错的：
+
+```bash
+git revert --no-edit <这期的提交>
+npm run check && git push     # 重推，让 Pages 回到上一期
+```
+
+Pages 上旧页面会保留（历史期次按日期命名，不覆盖），所以回滚的实质是**把 sitemap 和首页的入口退回上一期**，历史页仍可访问。如果错的只是某一期的一个数字，允许直接修那一期的文件并单独提交，但提交信息里要写清修的是哪一期、错在哪——不要把它混进下一期的提交里。
 
 ## 相关
 

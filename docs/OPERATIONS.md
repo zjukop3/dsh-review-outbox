@@ -11,6 +11,15 @@
 > 3. **每天一次**：目录重建（约 `04:46Z`）。市场卡片上的版本最多落后一天，但这**不影响实际装到的版本**。
 > 4. **一次性**：装法决定以后会不会自动更新。`add <name>` 写 `^`，会更新；`add <name>@<version>` 写精确版本，**此后再也不动**。
 
+## 前置条件
+
+跑这套手册里的命令前，机器上要有：
+
+- Node ≥ 22.19 与 npm（`node -v`、`npm -v` 能出版本号）；
+- 已 `npm login` 到 **registry.npmjs.org**——本机 `.npmrc` 默认指向 npmmirror，所以每条发布命令都要显式带 `--registry=https://registry.npmjs.org`，否则会推到镜像或报 404；
+- `gh` 已认证（`gh auth status`），因为要读目录仓库的 PR 状态和文件；
+- 能直连 github.com:443 与 registry.npmjs.org:443。这台机器上这两个域名会间歇性超时（今天实测连续失败 4–6 次后成功），所以凡是推送和发布都按"重试到成功"写，不按"一次过"写。
+
 ## 0. 发布操作步骤
 
 完整发布流程（版本号 → 发布 pin → 自举页烙印 → 构建校验 → publish → registry 验证 → 索引与站点收尾）见 [RELEASE-RUNBOOK.md](RELEASE-RUNBOOK.md)；本手册记录的是流程背后的实测约束，runbook 是可执行的操作顺序。
