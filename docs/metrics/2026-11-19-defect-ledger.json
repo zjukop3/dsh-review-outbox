@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-19",
+  "scope": "the defect ledger: 17 rules that measured a spelling, with executables reproducers",
+  "artifact": {
+    "data": "dsh-vertical-kit/scripts/defects.mjs",
+    "test": "dsh-vertical-kit/test/defects.test.js",
+    "page": "/defects/",
+    "live": 200,
+    "inSitemap": true,
+    "linkedFromHome": true
+  },
+  "why": "a project that only lists its features is selling something. The claim worth publishing is not '22 checks' but '17 rules were wrong, here is each one and here is the test that keeps it fixed'.",
+  "executable": {
+    "falsePositives": "each reproducer must NOT produce its rule against current code",
+    "deadRules": "each reproducer MUST produce its rule (3 of them)",
+    "lineDefect": "the order finding must land on the heading line, and that line must be the heading",
+    "meta": "5 tests; the ledger cannot describe behaviour that stopped being true"
+  },
+  "distribution": {
+    "foundByRealCorpus": 14,
+    "foundByRulesAudit": 3,
+    "whyBoth": "corpus finds 'wrong on real files'; the audit finds 'never validated'. Neither method would have found the other's set."
+  },
+  "theTwoWorthRemembering": [
+    {
+      "n": 12,
+      "point": "introduced by the fix for defect 2 — masking every fenced block also hid the author speaking in a shell comment. A fix created the next defect, and the same corpus found both in one afternoon."
+    },
+    {
+      "n": 17,
+      "point": "the order finding pointed one line above the heading for seventeen rounds. A fixture author checks whether a rule fires, never whether its line number is right; the first third-party changelog exposed it immediately."
+    }
+  ],
+  "numbers": {
+    "verticalKit": "22 packages, 311 tests, 167/167 rules, 26 site pages",
+    "defects": 17,
+    "checksTouched": 10
+  },
+  "catalog": {
+    "pr16902": "open",
+    "pr16825": "open"
+  },
+  "pushed": {
+    "vertical-kit": "8a0448b (confirmed)"
+  }
+}
