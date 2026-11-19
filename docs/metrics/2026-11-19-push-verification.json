@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-19",
+  "scope": "kill the false-green push pattern for good; publish the measured corpus status",
+  "pushVerification": {
+    "script": "scripts/push-verified.mjs, wired as npm run push:verified",
+    "rule": "a push is confirmed only by reading the remote default branch and comparing it to local HEAD; the exit code is never the evidence",
+    "threePriorFailures": [
+      "`git push | grep 'main -> main'` — the pipeline's status was tail's",
+      "`grep up-to-date` — a commit rejected by the commit-msg hook produced 'up-to-date', counted as success",
+      "`git push >/dev/null; [ $? -eq 0 ]` — git returns 0 when there is nothing to push"
+    ],
+    "failureClasses": {
+      "network": "retry (github.com:443 flaps constantly on this machine)",
+      "rejectedHook": "no retry — the commit never existed",
+      "nonFastForward": "no retry — the remote moved; retrying made the diverged-remote test take 106s, now 0.8s"
+    },
+    "tests": {
+      "file": "test/push-verified.test.js",
+      "count": 4,
+      "cover": [
+        "already up to date is confirmed without pushing",
+        "a new commit is pushed and confirmed by reading the remote",
+        "a diverged remote reports NOT confirmed and exits 1",
+        "uncommitted changes are named rather than silently left behind"
+      ]
+    },
+    "fallback": "non-GitHub remotes compare via git ls-remote — the mechanism may vary, the standard may not"
+  },
+  "corpusPage": {
+    "url": "/corpus/",
+    "live": 200,
+    "nowThreeTiers": {
+      "thirdPartyFiles": {
+        "checks": 5,
+        "corpora": "39 READMEs, 21 LICENSEs, 11 CHANGELOGs, 2 Dockerfiles, 1 .env.example"
+      },
+      "ownRealArtifacts": {
+        "checks": 6,
+        "corpora": "120 commits, 19 merged PRs, 3 ADRs, 1 postmortem, 4 runbooks, 1 API reference"
+      },
+      "fixturesOnly": {
+        "checks": 11
+      }
+    },
+    "defectTallyOnPage": 17
+  },
+  "numbers": {
+    "verticalKit": "22 packages, 306 tests, 167/167 rules, 13 dogfood assertions",
+    "reviewOutbox": "103 tests",
+    "verifyKit": "51 tests"
+  },
+  "catalog": {
+    "pr16902": "open, no labels",
+    "pr16825": "open, gate passed"
+  },
+  "pushed": {
+    "review-outbox": "88dd84a",
+    "vertical-kit": "1aa8b91",
+    "verify-kit": "7b0bd47"
+  }
+}
