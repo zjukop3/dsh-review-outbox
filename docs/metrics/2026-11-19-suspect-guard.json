@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-19",
+  "scope": "make the audit report what it can actually prove, and say so",
+  "added": {
+    "what": "a rule sitting behind an `if (` whose condition contains a regex literal that matches the empty string may never run",
+    "howJudged": "the literal is extracted and handed to the engine: new RegExp(body).test('') -- not text matching",
+    "whyNotTextMatching": "the first version matched // inside /^https?:\\/\\// and flagged a healthy rule -- the same substitution of spelling for property that this audit exists to catch",
+    "foundOnFirstRun": 1,
+    "verdict": "false positive, fixed by the engine-based judgement; both kits now report zero suspects",
+    "commentHandling": "fully commented-out add(...) no longer counts as a rule; trailing comments are kept on purpose, because a // inside a URL string is indistinguishable to a scanner this simple and dropping a live rule is worse",
+    "auditTests": "9 tests for the audit itself, now run by both kits' npm test -- verify-kit's glob did not reach a root test/ directory until this round"
+  },
+  "honestLimit": {
+    "statement": "static analysis cannot tell a dead rule from an untested one. A rule with no firing test has the same symptom either way, and only a person writing that test learns which.",
+    "wordingInOutput": "either untested or unreachable; writing the firing test is what distinguishes them",
+    "evidence": "all three dead rules found so far -- subject-empty, sku-empty, empty-heading -- were found by writing the test and watching it fail to fail, not by the audit diagnosing them"
+  },
+  "numbers": {
+    "verticalKit": "22 packages, 287 tests, 168/168 rules",
+    "verifyKit": "5 packages, 51 tests, 25/25 rules",
+    "auditTests": 9,
+    "suspectsNow": 0
+  },
+  "pushed": {
+    "dsh-vertical-kit": "679253c",
+    "dsh-verify-kit": "7b0bd47"
+  },
+  "catalog": {
+    "pr": 16825,
+    "gate": "passed",
+    "state": "open, awaiting the batch merge queue"
+  }
+}
