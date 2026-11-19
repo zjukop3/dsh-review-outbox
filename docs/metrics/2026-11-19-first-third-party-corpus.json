@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-19",
+  "scope": "the first third-party corpus, and a page that admits what is not validated",
+  "whyThisMattered": "nine of the eleven same-shape defects in this kit were found the first time a check met a document a stranger wrote. Fixtures cannot reproduce that: in a fixture, 'correct' and 'accepted by the checker' are the same thing by construction.",
+  "thirdPartyCorpus": {
+    "source": "dsh-ecosystem-research/sources/plugins (repositories pulled for the catalog research)",
+    "files": [
+      "ranxianglei__billion-context/Dockerfile",
+      "ECNU__EduWork/.../docs/docker/Dockerfile",
+      "ECNU__EduWork/.../docs/docker/relay.env.example"
+    ],
+    "results": [
+      {
+        "file": "billion-context Dockerfile",
+        "verdict": "error user-missing — runs as root. A real defect in someone else's image, not a false positive."
+      },
+      {
+        "file": "EduWork Dockerfile",
+        "verdict": "clean, 0 errors — the check is not trigger-happy"
+      },
+      {
+        "file": "relay.env.example",
+        "verdict": "FALSE POSITIVE: literal-value on https://remote.example.edu/... — a reserved example domain is a placeholder"
+      }
+    ]
+  },
+  "fix": {
+    "package": "dsh-env-example-check",
+    "from": "0.1.0",
+    "to": "0.2.0",
+    "change": "reserved example domains and loopback hosts count as placeholders",
+    "keepStrict": "https://relay.mycompany.cn/ and sk-live-... still report error",
+    "npxVerified": [
+      "documented example URL -> 0 errors",
+      "real host and real key -> 2 errors"
+    ]
+  },
+  "newPage": {
+    "url": "/corpus/",
+    "content": "per-check validation status: 9 checks have real corpus (with the first defect each one exposed), 11 have only self-made fixtures",
+    "linkedFromHome": true,
+    "inSitemap": true,
+    "linkAudit": "25 pages, all internal links resolved"
+  },
+  "intake": {
+    "file": ".github/ISSUE_TEMPLATE/corpus-report.yml",
+    "fields": 7,
+    "asksFor": [
+      "which check",
+      "de-identified document",
+      "verbatim CLI output",
+      "what you expected instead",
+      "version",
+      "two confirmations (scrubbed, may be used as a regression fixture)"
+    ],
+    "honestStatement": "the eleven unvalidated checks cannot be fixed by me alone — I do not have anyone else's contract, résumé, or expense claim"
+  },
+  "numbers": {
+    "verticalKit": "22 packages, 290 tests, 168/168 rules, 25 site pages, 10 dogfood assertions"
+  },
+  "published": [
+    "dsh-env-example-check@0.2.0"
+  ],
+  "pushed": "6eba501"
+}
