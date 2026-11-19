@@ -60,11 +60,13 @@
   "numbers": {
     "verifyKitTests": "28 -> 41",
     "verifyKitRules": "25/25",
-    "verticalKitTests": 259,
+    "verticalKitTests": 261,
     "packages": "21 + 5",
     "published": [
       "dsh-outline-lint@0.1.4"
-    ]
+    ],
+    "verticalKitRules": "155/155"
   },
-  "observation": "the audit's value is now measured in two kits: 6 defects in vertical-kit, 1 dead rule plus 10 one-directional rules in verify-kit. It also caught two of my own process errors inside the same session, which is the first time a gate has caught the operator rather than the code."
+  "observation": "the audit's value is now measured in two kits: 6 defects in vertical-kit, 1 dead rule plus 10 one-directional rules in verify-kit. It also caught two of my own process errors inside the same session, which is the first time a gate has caught the operator rather than the code.",
+  "widerPatternsCaught": "recognising findings.push({level, rule}) also surfaced a rule in vertical-kit that add()-only parsing had missed — dsh-listing-check `parse`, reachable only through malformed JSON — taking that kit from 148/148 to 155/155. A wider net found a hole in the kit I thought was clean."
 }
