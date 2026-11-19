@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-19",
+  "scope": "dogfood wave 2 — onboarding-check, release-notes-check against own artifacts",
+  "corpus": {
+    "readmes": 23,
+    "changelogs": 3,
+    "licenses": 28,
+    "commits": 102
+  },
+  "results": {
+    "licenseCheck": {
+      "files": 28,
+      "findings": 0,
+      "note": "wave 1, clean"
+    },
+    "commitMsgCheck": {
+      "findings": 85,
+      "productChange": "type prefix error -> warn (0.2.0)"
+    },
+    "onboardingCheck": {
+      "readmesWithErrors": 20,
+      "of": 23,
+      "errorKinds": [
+        "prereq-missing"
+      ],
+      "detectorBug": {
+        "rule": "prereq-missing",
+        "falsePasses": 2,
+        "mechanism": "fenced example output quoting the rule text, and a rules-table cell saying \"no 前置条件 section\"",
+        "why": "structural rules were scanning the whole text; a doc that documents the check passes the check"
+      },
+      "realDefect": "17 of 20 package READMEs never stated engines.node (>=22.19.0) even though package.json declared it"
+    },
+    "releaseNotesCheck": {
+      "changelogsWithErrors": 3,
+      "of": 3,
+      "detectorBug": {
+        "rule": "version-missing",
+        "mechanism": "only ## 1.2.0 and ## v1.2.0 accepted; ## [1.2.0] - 2026-11-17 is the Keep a Changelog form and was rejected",
+        "why": "the standard format for changelogs failed the changelog check"
+      }
+    }
+  },
+  "fixes": [
+    {
+      "package": "dsh-commit-msg-check",
+      "from": "0.1.0",
+      "to": "0.2.0",
+      "tests": "11 -> 16"
+    },
+    {
+      "package": "dsh-onboarding-check",
+      "from": "0.1.0",
+      "to": "0.2.0",
+      "tests": "8 -> 12",
+      "change": [
+        "proseOnly() masks fenced blocks and table rows before structural rules",
+        "## 输出示例 / ## Output / ## Demo accepted as expected output"
+      ]
+    },
+    {
+      "package": "dsh-release-notes-check",
+      "from": "0.1.0",
+      "to": "0.2.0",
+      "tests": "6 -> 9",
+      "change": [
+        "## [1.2.0] and ## [1.2.0] - date accepted",
+        "order rule reads bracketed headings"
+      ]
+    }
+  ],
+  "docs": [
+    "20 READMEs gained a 前置要求 section (Node >= 22.19, DSH >=0.2.2-rc.1 <0.3.0-0) plus a time estimate and a help path",
+    "all 23 READMEs now pass onboarding-check with 0 errors 0 warnings",
+    "vertical-kit CHANGELOG 0.2.0 entry states the upgrade path; all 3 changelogs now pass release-notes-check"
+  ],
+  "verification": {
+    "kitTests": {
+      "before": 201,
+      "after": 213,
+      "allPass": true
+    },
+    "audit": "20/20 clean",
+    "site": "22 pages rebuilt",
+    "published": [
+      "dsh-commit-msg-check@0.2.0",
+      "dsh-onboarding-check@0.2.0",
+      "dsh-release-notes-check@0.2.0"
+    ],
+    "npxVerified": [
+      "default/quoted-rule doc still reports prereq-missing",
+      "bracketed changelog reports 0 errors",
+      "all three type policies"
+    ]
+  },
+  "pattern": "three of three checks run against their own author were wrong in the same direction: they enforced a spelling (house style, particular heading, particular wording) instead of the property. The property survives; the spelling does not."
+}
