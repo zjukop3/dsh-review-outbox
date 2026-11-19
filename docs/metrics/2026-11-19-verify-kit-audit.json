@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-19",
+  "scope": "audit the second kit, and catch myself reporting two false greens",
+  "catalogSubmission": {
+    "pr": 16825,
+    "entry": "zjukop3__dsh-vertical-kit--packages-dsh-handover-check.yml",
+    "gateResult": "All 1 submitted entry passes: dsh.bundle declared, repo old enough, enough commits.",
+    "labels": [],
+    "mergeable": "MERGEABLE",
+    "state": "OPEN",
+    "waitingOn": "the batch merge queue, not the gate"
+  },
+  "verifyKitAudit": {
+    "before": "0/1 rules recognised — the audit only knew vertical-kit's add(level, rule) style",
+    "fixed": "added findings.push({level, rule}) recognition, including multi-line objects; path argument so one script audits any kit",
+    "firstRealRun": "10/26 rules covered in both directions across 5 packages",
+    "now": "25/25",
+    "thirdDeadRule": {
+      "package": "dsh-outline-lint",
+      "rule": "empty-heading",
+      "from": "0.1.3",
+      "to": "0.1.4",
+      "why": "the heading regex required #{1,6}\\s+ then non-empty text, so `##` alone — the exact case the rule exists for — was never parsed as a heading",
+      "irony": "the test written to prove the rule fires proved it could not",
+      "npxVerified": "`##` alone now reports empty-heading; a clean document still reports nothing"
+    },
+    "tenOneDirectionalRules": {
+      "outline-lint": [
+        "no-title",
+        "multiple-h1",
+        "empty-heading"
+      ],
+      "tablelint": [
+        "single-column",
+        "duplicate-header",
+        "empty-header",
+        "empty-table"
+      ],
+      "numberlint": [
+        "range-dash"
+      ],
+      "hashcheck": [
+        "size-mismatch"
+      ],
+      "citelint": "no clean-document test at all — six rules had never been seen staying silent on a correct citation block"
+    }
+  },
+  "myOwnErrors": [
+    {
+      "error": "push loop grepped for 'main -> main|up-to-date', so a blocked commit (nothing to push) reported PUSH OK",
+      "consequence": "I believed a commit had landed when the commit-msg hook had rejected it for a 79-char subject — my own tool, on my own commit, and my own loop hid it",
+      "fix": "check the push exit code, not the output text"
+    },
+    {
+      "error": "a version bump printed 'was 0.1.3 -> 0.1.4' but package.json on disk was 0.1.1, so the publish failed with 'cannot publish over 0.1.1'",
+      "consequence": "one wasted publish cycle; the printed line was not verified against the file",
+      "fix": "grep the version out of package.json after writing it, before publishing"
+    }
+  ],
+  "numbers": {
+    "verifyKitTests": "28 -> 41",
+    "verifyKitRules": "25/25",
+    "verticalKitTests": 259,
+    "packages": "21 + 5",
+    "published": [
+      "dsh-outline-lint@0.1.4"
+    ]
+  },
+  "observation": "the audit's value is now measured in two kits: 6 defects in vertical-kit, 1 dead rule plus 10 one-directional rules in verify-kit. It also caught two of my own process errors inside the same session, which is the first time a gate has caught the operator rather than the code."
+}
