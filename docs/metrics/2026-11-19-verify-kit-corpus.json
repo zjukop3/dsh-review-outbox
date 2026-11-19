@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-19",
+  "scope": "sixth external corpus (verify-kit's five checks over 39 third-party READMEs); defect 18; verify-kit gets its own evidence page",
+  "corpus": {
+    "files": 37,
+    "tables": 100,
+    "tablelint": "4 findings before, 0 after — all four were deliberately headerless tables",
+    "numberlint": "2 findings, both real (the same quantity written 1,500 and 1500 in one repository's two translations)",
+    "outlineLint": "no-conclusion on 39 of 37 documents — a category error on my part, not a defect: it judges research reports, and a README is not one",
+    "hashcheckCitelint": "no applicable third-party corpus"
+  },
+  "defect18": {
+    "package": "dsh-tablelint",
+    "rule": "empty-header",
+    "from": "0.1.2",
+    "to": "0.2.0",
+    "bug": "an empty header cell was reported even when the whole header row is blank (a two-column layout card, `| | |`) or only the first cell is blank (bold row labels)",
+    "fix": "both shapes are exempt; an empty header in any other column still warns",
+    "lesson": "the rule was not wrong about 'a column with no name', it was wrong about which documents use a nameless column on purpose"
+  },
+  "pageCorrection": {
+    "firstDraft": "tablelint read 100 tables and reported nothing",
+    "measured": "4 findings, all false positives",
+    "final": "0 findings after the fix",
+    "note": "the page number is re-derived by test/third-party-corpus.test.js, so a slogan cannot survive there"
+  },
+  "newPage": {
+    "verifyKitCorpus": "/corpus/",
+    "pages": 7,
+    "inSitemap": true,
+    "states": "which of the five checks has third-party corpus, which has none, and the one defect found in this kit"
+  },
+  "numbers": {
+    "verticalKit": "22 packages, 311 tests, 167/167 rules, 26 pages",
+    "verifyKit": "5 packages, 58 tests, 25/25 rules, 7 pages",
+    "reviewOutbox": "102 tests, 14 pages"
+  },
+  "published": [
+    "dsh-tablelint@0.2.0"
+  ],
+  "pushed": {
+    "verify-kit": "74103dd (confirmed)"
+  },
+  "tally": {
+    "defects": 18,
+    "byRealCorpus": 15,
+    "byRulesAudit": 3
+  },
+  "catalog": {
+    "pr16902": "open",
+    "pr16825": "open",
+    "stillNoEntry": [
+      "dsh-handover-check",
+      "dsh-expense-claim-check"
+    ]
+  }
+}
