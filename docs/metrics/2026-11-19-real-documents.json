@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-19",
+  "scope": "feed the checkers real documents: three ADRs, one postmortem, and the fifth detector fix",
+  "corporaAdded": {
+    "docs/adr/ADR-0001-both-directions.md": "each check rule must be observed in both directions — the decision behind the rules audit; states the four-package failure, the two dead rules it found, and the cost (per-rule test burden, package-level evidence is weaker than per-rule, audit reads test source with regexes rather than executing it)",
+    "docs/adr/ADR-0002-read-downloads-as-a-floor.md": "weekly downloads are not users — the three shapes, the spread rule (CV 0.186 vs 1.617), and the cost: no flattering number to post, adoption metric stays 0, and the 0.25 threshold is calibrated on one catalog",
+    "docs/adr/ADR-0003-never-batch-dispose-pending.md": "no --approve-all, ever — the metric stays 0 until a person actually reviews; cost: a panel that reads as unused, and the constraint rests on the implementer not adding the path",
+    "docs/incidents/2026-11-17-shapes-sample-contaminated.md": "Object.keys on an array put literal 0..199 in the sample column; 47 minutes, root cause is that the report never validated its own input, with three owned follow-ups"
+  },
+  "detectorFix": {
+    "package": "dsh-adr-check",
+    "from": "0.1.0",
+    "to": "0.2.0",
+    "rule": "consequences-one-sided / consequences-unlabelled",
+    "bug": "judged only bullet text, so 好处： written as a paragraph line above the bullets counted as unlabelled",
+    "significance": "fifth instance of the same family — measured the spelling, not the property. Found by writing a real ADR, not by reading the code.",
+    "fix": "read the whole consequences section",
+    "npxVerified": "a real ADR now reports 0 errors 0 warnings"
+  },
+  "site": {
+    "newPage": "/decisions/",
+    "renders": "the three ADRs inline with their costs",
+    "linkedFrom": "home page links block",
+    "sitemap": "auto, from the file tree",
+    "linkAudit": "13 pages, all internal links resolved",
+    "alsoFixed": "home page said 25 packages / 20 scenario checks; now 26 and 21, with 交接单 added to the list"
+  },
+  "dogfoodGateNow": [
+    "22 READMEs -> onboarding-check clean",
+    "3 CHANGELOGs -> release-notes-check clean",
+    "21 LICENSEs -> license-check clean",
+    "3 ADRs -> adr-check clean",
+    "1 postmortem -> incident-report-check clean",
+    "120 commits -> no type-prefix error",
+    "corpus size asserted first so it cannot pass on an empty list"
+  ],
+  "numbers": {
+    "packages": 21,
+    "rules": 148,
+    "tests": "252 -> 255",
+    "dogfoodAssertions": 7,
+    "audits": "21/21 packages, 148/148 rules, 13/13 site pages"
+  },
+  "published": [
+    "dsh-adr-check@0.2.0"
+  ],
+  "observation": "five defects now, five times the same shape, and four of the five were found by pointing a checker at real work rather than by reading it. That is the argument for growing the corpus, not the rule list."
+}

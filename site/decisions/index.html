@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>决策记录 · Review Outbox</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23002fa7'/%3E%3Cpath d='M9 16l5 5 9-10' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E"><meta name="description" content="三条已接受的决策记录：规则必须双向测试、下载量只读成底噪带、pending 队列不批量处置。每条都写了代价。"><meta name="robots" content="index,follow"><style>body{max-width:840px;margin:6vh auto;padding:24px;background:#fafaf8;color:#0a0a0a;font:16px/1.7 system-ui,sans-serif}main{border-top:8px solid #002fa7}h1{font-size:clamp(30px,5.5vw,52px);font-weight:250;line-height:1.1;margin-bottom:20px}h2{font-size:23px;font-weight:500;line-height:1.3;margin-top:40px}h3{font-size:18px;font-weight:600;margin-top:28px}p,li,td,th{color:#3d3d3d}a{color:#002fa7}code{font:.9em/1.5 ui-monospace,monospace;background:#f0f0ee;padding:2px 5px;border-radius:3px}pre{padding:16px;overflow:auto;background:#0a0a0a;color:#fff}pre code{background:none;color:inherit;padding:0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d4d4d2;padding:9px 11px;text-align:left;vertical-align:top}th{background:#f0f0ee;color:#0a0a0a;font-weight:600}blockquote{margin:20px 0;padding:12px 18px;border-left:4px solid #002fa7;background:#f0f0ee}hr{border:none;border-top:1px solid #d4d4d2;margin:36px 0}.eyebrow{font:12px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:#002fa7}.nav{margin:28px 0 0;font-size:14px}.nav a{margin-right:16px}small{display:block;margin-top:36px;color:#737373}@media(max-width:600px){body{margin:2vh auto;padding:18px}table{font-size:13px}}</style></head><body><main>
+<p class="eyebrow">DEEPSEEK HARNESS · DECISION LOG · 0.1.11</p>
+<h1>决策记录</h1>
+<nav class="nav"><a href="../">首页</a><a href="../maintenance/">维护承诺</a><a href="../reading-downloads/">怎么看下载数</a><a href="../operations/">发布与收录手册</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
+<p>三条已经生效的决策。选这三条是因为它们都付出过代价：一条让下载数字变得不好看，一条让采纳指标长期停在 0，一条在落地当天推翻了自己四个包的结论。只写收益的决策记录是广告，所以每条都写了代价和当时被否掉的方案。</p>
+<ul><li>ADR-0001 每条检查规则必须在测试里被观察到两个方向</li><li>ADR-0002 下载量只读成底噪带，不读成用户数</li><li>ADR-0003 pending 队列不做批量处置，哪怕它会显示成零进展</li></ul>
+<h2>ADR-0001 每条检查规则必须在测试里被观察到两个方向</h2><p>状态：已接受 日期：2026-11-19</p>
+<h2 id="背景">背景</h2>
+<p>2026-11-19，把 vertical-kit 的二十个检查逐个指向本项目自己真的在发的文件。四个包报错了，而且都是同一个形状：规则对<strong>一切合法文档</strong>报错。</p>
+<ul><li><code>dsh-commit-msg-check</code> 的 <code>type-missing</code> 对 102 条真实提交中的 85 条（83%）报错。其中 61 条只是没写 Conventional Commits 前缀，那是团队约定，不是缺陷。</li><li><code>dsh-onboarding-check</code> 的 <code>success-missing</code> 对 23 个真实 README 中的 20 个报错。它们都写了逐字真实输出，只是标题叫「真实输入输出」而不是检查要求的「你应该看到」。</li><li><code>dsh-release-notes-check</code> 的 <code>version-missing</code> 对 3 个真实 CHANGELOG 全部报错。它们用的是 <code>## [1.2.0] - 2026-11-17</code>，也就是 Keep a Changelog 规定的写法；检查只认 <code>## 1.2.0</code>。</li><li><code>dsh-pr-description-check</code> 的 <code>what</code>/<code>why</code>/<code>test</code> 对 19 个真实已合并 PR 全部报错。三个问题都用英文正文答了，只是没按小标题写。</li></ul>
+<p>这四个包的单元测试<strong>全绿</strong>。原因是同一个：每条规则只在「坏文档让它报」这个方向被断言过，从来没有一条测试说「这是一份好文档，它必须什么都不报」。</p>
+<h2 id="决定">决定</h2>
+<p>每条规则必须有两条测试：一条让坏文档触发它，一条让好文档不触发它。这条要求由 <code>dsh-vertical-kit/scripts/audit-rules.mjs</code> 自动执行，接在 <code>npm run check</code> 里，覆盖失败即阻断。</p>
+<p>「不触发」的判定接受两种证据：一是针对该规则的否定断言（<code>!findings.some(f =&gt; f.rule === &#39;x&#39;)</code>），二是包级别的干净用例（<code>deepEqual(findings, [])</code>、<code>errors, 0</code>、<code>ok, true</code>），后者一次性覆盖全部规则。</p>
+<h2 id="后果">后果</h2>
+<p>好处：</p>
+<ul><li>落地当天跑出 148 条规则里 148 条双向覆盖，并找出两条<strong>永不触发</strong>的死规则：<code>subject-empty</code>（<code>HEADER</code> 要求冒号后 <code>.+</code>，<code>feat:</code> 根本解析不成类型）和 <code>sku-empty</code>（<code>pick()</code> 有意跳过空值，&quot;有列但单元格为空&quot;被当成&quot;没有列&quot;）。两条都改成可达。</li><li>顺带发现 13 条规则只有静默方向，从没在测试里触发过——一个从没报过的规则没人知道它能不能用。</li><li>这条约束是可以被机器人检查的，所以它不会随着会话结束而失效。</li></ul>
+<p>代价：</p>
+<ul><li>每条规则多写一条测试，二十一个包、148 条规则，写的时候确实慢。这部分成本一次性付出，之后每个新规则都要付。</li><li>「干净用例」这个证据是包级的，不是规则级的：一个包有干净用例，就默认它所有规则在好文档上都不报。这是为了不强迫每包写 148 条断言做的妥协，它比没有强，但比逐条断言弱。</li><li>审计靠正则读测试源码，不是真的执行；写法奇特的断言可能被漏判。今天 148/148 是通过的，但这个数字的含金量受限于审计脚本本身。</li></ul>
+<h2 id="备选方案">备选方案</h2>
+<ul><li><strong>只靠 dogfood</strong>：把每个检查指向真实文件并要求零报错。更强，但只覆盖有真实语料的四种文档（README、CHANGELOG、LICENSE、提交信息）；invoice、resume、meeting-notes 这些没有第三方真实语料，覆盖不到。</li><li><strong>只靠人工评审规则</strong>：这次就是这样做的，四个包都过了评审。人工看不出&quot;这条规则从没在好文档上跑过&quot;。</li><li><strong>要求每条规则两条测试，但靠 grep 规则名字符串判断</strong>：最便宜，也最容易被&quot;名字出现在注释里&quot;骗过，等于没有。</li></ul>
+<h2 id="备注">备注</h2>
+<p>两条一起用：审计保证&quot;每条规则双向有测试&quot;，dogfood 保证&quot;真实文档上零报错&quot;。前者管形状，后者管事实。</p>
+<hr>
+<h2>ADR-0002 下载量只读成底噪带，不读成用户数</h2><p>状态：已接受 日期：2026-11-18</p>
+<h2 id="背景">背景</h2>
+<p>本项目发布 26 个包之后，周下载数落在 1,755–1,997 之间。这个数字看起来像&quot;有一千多人在用&quot;，值得先确认它是不是真的。</p>
+<p>做法是把目录里所有条目的日下载序列拉下来，按形状分类。结果分三类：</p>
+<ul><li>一类是<strong>单日爆量</strong>：一周的量有一半以上集中在一天，其余六天接近零。人不会这样用东西。</li><li>一类是<strong>停在底噪带</strong>：每天 20–40 次，几乎不动。三个时间点采样结果是 58.6%、60.1%、63.8% 的条目落在这条带里。</li><li>一类是<strong>头部</strong>：尾巴（每周后三天的均值）在 117–180 之间，持续。</li></ul>
+<p>关键的一步是<strong>离散度检查</strong>：如果多个包的日序列两两之间高度相关，它们就不是多群独立用户，而是一个客户端在按固定节奏请求。本项目的九个包尾巴是 117/119/121/122/164/171/178/180，变异系数 0.186；作为对照，目录头部十二个条目两两相关的中位数是 0.299，变异系数 1.617，只有 12.1% 的配对相关系数 ≥0.5。</p>
+<h2 id="决定">决定</h2>
+<p>周下载数不解释为用户数。本项目自报的口径是：</p>
+<ol><li>停在底噪带的条目<strong>不算有人装</strong>，无论周数字是三位还是四位。</li><li>一个包的下载曲线如果和同作者其他包的高度同步（变异系数 &lt; 0.25），按单一自动化客户端计算一次，不按包数累加。</li><li>真正的采纳指标不取下载量，取<strong>被人审阅并处置过的成果数</strong>（pending 队列里人类决策的条数）。这个数现在是 0。</li></ol>
+<h2 id="后果">后果</h2>
+<p>好处：</p>
+<ul><li>站点上所有下载相关的表述都改成&quot;底噪&quot;和&quot;形状&quot;，不再暗示用户量。<code>docs/READING-DOWNLOADS.md</code> 把三类形状、离散度规则和反向自检写成可复现的脚本，任何人都能对我的包跑一遍，验证我的结论。</li><li>这条规则当场纠了一个自己的错误：最初的组合结论把五个包判成&quot;持续高于底噪，可能是真实使用&quot;，离散度一算，是一个客户端的一个频率。</li></ul>
+<p>代价：</p>
+<ul><li>对外沟通变难。别人问&quot;多少人在用&quot;，答案是&quot;不知道，而且这个数字回答不了这个问题&quot;——这比给一个漂亮数字难说得不到即时反馈：没有正面数字，就没有可以贴到社交平台的进展。</li><li>采纳指标取人类决策数，意味着这个数会长期是 0，而 0 看起来像&quot;什么都没发生&quot;。要让项目看起来在动，只能靠产出可复现的资产（形状分类、离散度脚本、底噪基线），而不是靠一个上涨的曲线。</li><li>变异系数阈值 0.25 是我在一个目录上标定的，没有第二份独立数据验证。它可能是这个目录的特性，不是普遍规律。</li></ul>
+<h2 id="备选方案">备选方案</h2>
+<ul><li><strong>直接报周下载数</strong>：最省事，也最容易误导。1,997 次/周听起来像产品有起色，实际上和 20 次/天没有区别。</li><li><strong>只看包数增长</strong>：更像在做事（目录条目数、发布包数），但这两个数都可以通过堆量刷高，和&quot;有没有人用&quot;无关。</li><li><strong>用 npm 的 unique downloader 数据</strong>：npm 官方不提供免费接口，第三方估算服务的口径不透明，不值得为一句话引入一个不可复现的数据源。</li></ul>
+<h2 id="备注">备注</h2>
+<p>这条决策的检验方式是反向的：任何人可以对目录头部跑同一个脚本，如果头部也呈现出同样的高同步性，说明 0.25 这个阈值把真实用户也判成了机器人，结论要推翻。</p>
+<hr>
+<h2>ADR-0003 pending 队列不做批量处置，哪怕它会显示成零进展</h2><p>状态：已接受 日期：2026-11-17</p>
+<h2 id="背景">背景</h2>
+<p>review-outbox 有一个 pending 队列：成果交进来等人看，人看完处置（接受、打回、留意见）。当前状态是 99 条待处置，最老的一条 56 天，中位数 12 天，其中 47 条来自一个与本项目无关的项目。</p>
+<p>北极星指标定的是&quot;每周被真正审阅并处置的成果数&quot;。围绕这 99 条，有两条被反复提出的捷径：</p>
+<ol><li>加一个 <code>--approve-all</code>，把队列清空，指标立刻从 0 变成 99。</li><li>把老条目批量标成 expired，让队列回到个位数，看起来健康。</li></ol>
+<p>这两条都能让面板好看，且都能自动化。</p>
+<h2 id="决定">决定</h2>
+<p>不做批量处置，也不加 <code>--approve-all</code>。<code>scripts/pending-triage.mjs</code> 只做一件事：把 99 条按项目分组，让人能一次处理一批同类成果。它是<strong>只读</strong>的，没有任何写回路径，也不接受 <code>--approve</code>。</p>
+<p>指标就保持 0，直到真的有人看。</p>
+<h2 id="后果">后果</h2>
+<p>好处：</p>
+<ul><li>北极星指标保住了含义。&quot;每周被审阅并处置的成果数&quot;只有在处置是真的时候才等于采纳；一旦允许批量，这个数就退化成&quot;队列长度的一个函数&quot;，再也测不出任何东西。</li><li>工具的形状被这条约束逼对了：不能批量处置，就必须解决&quot;99 条怎么分组才有人愿意开工&quot;，于是有了按项目分组的 triage 和 8 个批次，而不是一个红色角标。</li><li>这条约束写成了代码里的事实——triage 脚本没有写回路径，想违反得先改代码，不是改个开关。</li></ul>
+<p>代价：</p>
+<ul><li>面板上这个数是 0，而且会一直是 0，直到有另一个真人来用。任何看指标的人第一眼会认为这个项目没被使用，而这个判断在数据上是对的。</li><li>47 条来自无关项目的历史遗留数据会一直待在队列里，每次统计都要解释一遍，看起来像噪音没清理。清理它们是举手之劳，但清理之后&quot;99 条&quot;变成&quot;52 条&quot;，这个数字的变化会被误读成进展。</li><li>如果将来真的有人批量处理了（比如由别人写的脚本），我不会知道。这个约束靠的是我这个实现者不加那条路径，不是靠系统强制。</li></ul>
+<h2 id="备选方案">备选方案</h2>
+<ul><li><strong>加 <code>--approve-all</code> 但只在文档里劝告不要用</strong>：等于给了一个会被用的按钮，再写一段没人读的警告。纪律一旦可以被一键绕过，它就不再是纪律。</li><li><strong>批量标 expired，把队列清空</strong>：队列会变干净，指标会变好看，然后这个项目就永远不知道自己的成果有没有人看——它只知道自己的队列有多空。</li><li><strong>换一个更容易上涨的指标</strong>（安装数、下载数、条目数）：见 ADR-0002，那些数字在最需要它的时候恰好测不出东西。</li></ul>
+<h2 id="备注">备注</h2>
+<p>这条决策不是关于产品功能的，是关于<strong>指标能不能被自己污染</strong>的。一旦实现者可以随时清空分母，指标就只剩装饰作用。</p>
+<small>原文：<a href="https://github.com/zjukop3/dsh-review-outbox/tree/main/docs/adr">docs/adr/</a> · 每条都由 <code>dsh-adr-check</code> 校验（状态、背景、决定、含代价的后果、备选方案、日期），校验本身也在这份记录里（ADR-0001）。</small>
+</main></body></html>
