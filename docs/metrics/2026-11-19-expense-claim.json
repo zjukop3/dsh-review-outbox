@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-19",
+  "scope": "twenty-second package: expense-claim-check",
+  "newPackage": {
+    "name": "dsh-expense-claim-check",
+    "version": "0.1.0",
+    "rules": 12,
+    "tests": 17,
+    "trade": "finance / reimbursement",
+    "theRuleThatEarnsIt": "total-mismatch — a claim whose lines sum to 1,513.50 but whose total says 1,600.00 looks completely normal on the page: tidy numbers, aligned table, and the total is the number the approver actually reads",
+    "secondHalf": "invoice-duplicate — one claim, two lines, different dates, same invoice number; nobody counts digits",
+    "precisionChoices": [
+      "invoice numbers and dates are stripped before amounts are parsed, or a 14-digit invoice number becomes a 73-trillion-yuan line item (this happened on the first smoke run)",
+      "amounts above ten million are treated as data errors, not summed",
+      "currency is compared by code, not spelling: bare 元 counts as CNY, and 美元/欧元 are matched and masked before it so their 元 is not misread"
+    ]
+  },
+  "myOwnBugsDuringBuild": [
+    {
+      "bug": "`\\b发票号码` never matched — the CJK word-boundary trap this kit had already documented twice",
+      "symptom": "first smoke run reported invoice-missing on a claim full of invoice numbers",
+      "note": "reintroduced in a brand-new package by the same author who wrote the note about it"
+    },
+    {
+      "bug": "the period branch passed `/(?:^|\\n)/` as its line fallback, which matches any text, so the whole branch was dead",
+      "symptom": "date-missing and period-unlabelled could never fire; two tests caught it"
+    },
+    {
+      "bug": "AMOUNT allowed at most two decimals, so a total written 1600.004 parsed as 4",
+      "fix": "the tolerance test now expresses the difference as one cent, which is what the reader can represent"
+    }
+  ],
+  "numbers": {
+    "verticalKitPackages": 22,
+    "verticalKitRules": "168/168",
+    "verticalKitTests": 278,
+    "sitePages": 24,
+    "verifyKit": "5 packages, 25/25",
+    "outboxTests": 99
+  },
+  "published": [
+    "dsh-expense-claim-check@0.1.0"
+  ],
+  "npxVerified": [
+    "clean claim -> 0 errors 0 warnings, 3 items summing 1600",
+    "mismatched claim -> 2 errors 2 warnings, sum 1513.5 vs total 1600"
+  ],
+  "processNote": "the push loop grepped for 'main -> main' while git prints 'HEAD -> main', so six successful-looking failures were reported; the push had in fact landed. Same class as the earlier 'up-to-date' false green — the check was written against an imagined output format rather than the real one.",
+  "catalog": {
+    "openPr": 16825,
+    "entry": "handover-check",
+    "gate": "passed",
+    "state": "still open, waiting on the batch merge queue"
+  }
+}
