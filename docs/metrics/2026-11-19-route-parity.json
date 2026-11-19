@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-19",
+  "milestone": "The largest unverified claim in the kit is now measured: route output equals CLI output, byte for byte",
+  "claim_that_was_unverified": "every package README says the CLI and the host route share one implementation 'so they cannot disagree'. The CLI half was tested. The route half rested on reading the code, because the DSH host was never available in this environment — an earlier attempt to boot the profile web left it stuck, and the gap was recorded honestly in the metrics.",
+  "how_it_is_measured_now": "test/route-parity.test.js calls each package's exported apply() with a minimal host context (a webServer.register capture plus an effect runner), serves the registered handler over a real node:http socket, POSTs the sample, and deep-equals the HTTP JSON against the direct lint call",
+  "coverage": {
+    "packages": 20,
+    "tests": 41,
+    "per_package": ["response identical to the direct call", "GET refused with 405 'POST only'", "empty body refused with 400 'text or path is required'"],
+    "plus": "one test that a configured mount path is honoured"
+  },
+  "result": "201 tests in the kit, all green. No package disagreed with itself.",
+  "what_this_changes": [
+    "the README no longer asserts parity, it cites the test that measures it",
+    "the earlier metrics note 'host_route_live: not testable in this environment' is now answered without DSH: the route layer is a plain (req, res) handler and can be exercised directly",
+    "a future edit that makes a route call a different function than the CLI now fails a test instead of silently breaking the guarantee"
+  ],
+  "limit": "this verifies the handler contract, not DSH's mounting of it — prefix routing, auth, and the panel UI are still the host's business. What is proven is the part the packages own: given a request, the route answers exactly what the function answers."
+}
