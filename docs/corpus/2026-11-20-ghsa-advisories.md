@@ -186,7 +186,26 @@ definition of done」。补上这两个真实叫法后：
 
 那两条 warn 是准确的：KEP 的 Test Plan 确实是散文。规则没白写，只是词表少了两个词。
 
-## 结论（七批语料合起来）
+## 第七批：真实 API 文档（3 份）
+
+语料：`lablup/all-smi`（99KB，本机 unix socket API）、`audreyt/ethercalc`、`anylyralabs/LogShare`。
+`github/docs` 的 REST 文档是 OpenAPI 生成的空壳（800 字节），`discord/discord-api-docs`
+与 `go-gitea/gitea` 的目标路径这轮都取不到，所以样本只有 3 份。
+
+第一次跑：**2/3 零发现**，all-smi 报 `auth-missing`。它是监听 unix socket + localhost 的
+本机 API，本来就没有鉴权面——问它「怎么证明身份」等于问本机进程怎么证明自己是本机。
+
+两处改动：
+
+| 改动 | 依据 |
+| --- | --- |
+| 明说「无需鉴权」、或基址只在 localhost/Unix socket → 不算缺失 | all-smi 的真实写法 |
+| 裸词 `token` 不再算鉴权说明 | 反向问题：分页文档里到处 `next_page_token`，它证明不了身份 |
+
+校准后 3/3 零发现。0.1.2 已发布（产物走暂存，本轮未取到 tarball，故未做安装验证——
+如实记在这里，不当成已验证）。
+
+## 结论（八批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
