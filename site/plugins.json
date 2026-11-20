@@ -1251,6 +1251,135 @@
       ]
     },
     {
+      "name": "dsh-security-advisory-check",
+      "title": {
+        "en": "dsh-security-advisory-check — security-advisory-check",
+        "zh": "安全公告检查清单"
+      },
+      "description": {
+        "en": "安全公告发布前的检查：漏洞编号（CVE/GHSA）、写死的严重程度、受影响版本范围、修复版本、今天升不了级时的缓解办法，加上报告渠道与披露日期。散文里的「严重」不是等级，只有发布页链接的「已升级」不是修复版本。",
+        "zh": "安全公告发布前的检查：漏洞编号（CVE/GHSA）、写死的严重程度、受影响版本范围、修复版本、今天升不了级时的缓解办法，加上报告渠道与披露日期。散文里的「严重」不是等级，只有发布页链接的「已升级」不是修复版本。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/security-advisory-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "security-advisory-check",
+          "security-advisory-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.1",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-migration-guide-check",
+      "title": {
+        "en": "dsh-migration-guide-check — migration-guide-check",
+        "zh": "升级迁移指南检查清单"
+      },
+      "description": {
+        "en": "迁移指南的检查：覆盖哪一段版本跨度、破坏性变更是不是一张可逐条对照的清单、编号步骤、怎么确认迁移成功、怎么回滚、动手前有没有让人先备份。散文里的「不兼容」不是清单，项目符号列表也不是步骤。",
+        "zh": "迁移指南的检查：覆盖哪一段版本跨度、破坏性变更是不是一张可逐条对照的清单、编号步骤、怎么确认迁移成功、怎么回滚、动手前有没有让人先备份。散文里的「不兼容」不是清单，项目符号列表也不是步骤。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/migration-guide-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "migration-guide-check",
+          "migration-guide-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.1",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-privacy-notice-check",
+      "title": {
+        "en": "dsh-privacy-notice-check — privacy-notice-check",
+        "zh": "隐私声明检查清单"
+      },
+      "description": {
+        "en": "隐私声明的检查：收集什么、用来干什么、保留多久、还给谁看、找谁问，加上生效日期与读者能行使的权利。保留期限是重点——绝大多数声明写了收集与用途，然后在这一格上留白，而「注销账号」到底意味着什么，就看这一格。",
+        "zh": "隐私声明的检查：收集什么、用来干什么、保留多久、还给谁看、找谁问，加上生效日期与读者能行使的权利。保留期限是重点——绝大多数声明写了收集与用途，然后在这一格上留白，而「注销账号」到底意味着什么，就看这一格。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/privacy-notice-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "privacy-notice-check",
+          "privacy-notice-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.1",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
       "name": "dsh-check-suite",
       "title": {
         "en": "Check suite",

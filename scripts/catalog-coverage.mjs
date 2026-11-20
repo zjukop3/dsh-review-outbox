@@ -54,7 +54,7 @@ const extraBranches = args.reduce((list, value, index) => (args[index - 1] === '
 // 目录条目是**正确**的，不是漏了。例外必须被检查而不是被相信：
 // test/catalog-rule7.test.js 会验证这里的每个名字确实是纯聚合包，且没夹带别的包。
 export const NOT_LISTABLE = {
-  'dsh-check-suite': '纯聚合包：只插入 27 行、无自身运行时代码 — 上游第 7 条不收录',
+  'dsh-check-suite': '纯聚合包：只把成员行铺开、无自身运行时代码 — 上游第 7 条不收录',
 }
 
 const root = resolve(import.meta.dirname, '..', '..')
