@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-20",
+  "scope": "three-site cross-linking, and two fixture/script defects fixed at the root",
+  "crossLinks": {
+    "vertical-kit /corpus/": "-> verify-kit /corpus/ (where defect 18 came from) and review-outbox /handover/",
+    "vertical-kit /defects/": "-> verify-kit /corpus/ for defect 18, review-outbox /handover/ for defect 19",
+    "verify-kit /corpus/": "-> vertical-kit /defects/ and review-outbox /handover/",
+    "review-outbox /handover/": "-> vertical-kit /defects/ and /corpus/",
+    "result": "26 + 7 + 15 pages, every internal link resolved on all three sites"
+  },
+  "rootCauseFixes": [
+    {
+      "what": "the review-outbox site-build fixture copied documents one line at a time",
+      "howOftenItBroke": "four times, once per page added to the build",
+      "fix": "copy the whole docs/ tree instead of a hand-maintained list — the list was the bug",
+      "lesson": "each previous fix added one more line, which is treating the symptom of a design that requires maintenance it cannot get"
+    },
+    {
+      "what": "my rebuild loop ran build-research-site.mjs without PUBLIC_ORIGIN, wiping the canonical links from the committed site",
+      "caughtBy": "the canonical-URL assertion in test/site-build.test.js",
+      "fix": "npm run build:site sets PUBLIC_ORIGIN, so the wrong command is no longer the easy one"
+    }
+  ],
+  "catalogFeed": {
+    "observation": "26 of my entries in https://awesome-dsh-plugin.com/index.json, not 27",
+    "mechanism": "scripts/build-index.mjs drops entries with no recorded npm publish time; the daily probe runs at 02:23 UTC and push builds deploy without probing",
+    "prediction": "both new entries appear after the 02:23 UTC run on 2026-11-20",
+    "verified": "the two entries are present in the catalog data (catalog-coverage 28/28) — the gap is the feed's probe clock, not the submission"
+  },
+  "numbers": {
+    "verticalKit": "22 packages, 314 tests, 168/168 rules, 26 pages",
+    "verifyKit": "5 packages, 58 tests, 25/25 rules, 7 pages",
+    "reviewOutbox": "103 tests, 15 pages"
+  },
+  "pushed": {
+    "review-outbox": "6d84357",
+    "vertical-kit": "984745a",
+    "verify-kit": "eea5e65"
+  }
+}
