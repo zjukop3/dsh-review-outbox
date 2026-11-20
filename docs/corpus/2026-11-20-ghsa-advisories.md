@@ -119,7 +119,31 @@ $ adr-check 0001-record-architecture-decisions.md
 ok: 0 consequences, 0 errors, 0 warnings      (exit 0)
 ```
 
-## 结论（四批语料合起来）
+## 第四批：真实 postmortem（alantech/iasql ×3、ogx-ai/ogx ×1）
+
+第一次跑：**0/4 零发现**，`action-no-owner` 18 次、`timeline-entry-untimed` 17 次、
+`impact-missing` 4 次。全部是我只认一种写法。
+
+| 真实写法 | 我原来的假设 | 改法 |
+| --- | --- | --- |
+| 时间线是**表格** `| Time (UTC) | Event |` | 只认列表项 | 表头与分隔行跳过，数据行按第一格取时间 |
+| 时间只写**日期**（`**2023-01-08**`） | 必须是 `HH:MM` | 日期本身就是时间 |
+| 行动项是**表格** `| # | Action | Owner | Status |` | 只认「负责人：/@名字」 | 从表头记住 Owner 列号，再按列判 |
+| 后续一节叫 **Prevention**、内容是散文 | 必须叫「行动项」 | 有段但列不出条目 → warn `actions-unlisted` |
+| **Lessons Learned** 用列表写 | 一律当行动项 | 教训不是行动项（曾把 ogx 三条教训报成没负责人） |
+| 影响写在 **Summary** 里 | 必须有一节叫 Impact | Summary 也算影响陈述 |
+
+校准后：ogx 零发现；003 两条 warn；001 与 005 共 10 条 `action-no-owner` 是**真发现**
+——它们的 Prevention 条目确实没有负责人。0.1.2 发布后从 registry 装出来跑：
+
+```
+$ incident-report-check ogx-search-indexing.md
+ok: 8 timeline entries, 5 follow-ups, 0 errors, 0 warnings      (exit 0)
+```
+
+`8 timeline entries` 与 `5 follow-ups` 这两个数字就是表格解析生效的证据。
+
+## 结论（五批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
