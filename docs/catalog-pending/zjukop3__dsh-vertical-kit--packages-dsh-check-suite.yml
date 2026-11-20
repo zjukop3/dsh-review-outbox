@@ -1,7 +1,0 @@
-url: 'https://github.com/zjukop3/dsh-vertical-kit/tree/main/packages/dsh-check-suite'
-name: 'zjukop3/dsh-vertical-kit#dsh-check-suite'
-category: 'tools'
-description:
-  en: 'One install for 27 document and delivery checks: commit messages, PR descriptions, release notes, ADRs, runbooks, handovers, invoices, expense claims, agreements, resumes, listings, meeting notes, weekly and test reports, bug reports, Dockerfiles, env examples, API docs, licenses, onboarding docs, plus table, outline, number, citation and deliverable-hash checks. Each member mounts its own HTTP endpoint and reports findings with rule ids and line numbers; the bundle carries no runtime code and only inserts the 27 rows, so the whole set can be switched on or off at once. Row ids are check-<slug>, deliberately distinct from the <slug>-check id each package uses when installed alone, so mixing a single check with the suite does not collide.'
-  zh: '一次装完 27 项文档与交付检查：提交信息、PR 描述、发布说明、架构决策记录、运维手册、交接单、发票、报销单、合同、简历、房源文案、会议纪要、周报、测试报告、缺陷报告、Dockerfile、环境变量示例、API 文档、许可证、上手文档，外加表格结构、大纲、数字一致性、引用与交付文件哈希。每项检查各自挂载一个 HTTP 端点，返回带规则名与行号的问题清单；这个包本身不含运行时代码，只负责把 27 行插进 profile，因此整组可以一次开关。行 id 用 check-<slug>，刻意与各包单独安装时的 <slug>-check 不同，单装与套装混用不会撞 id。'
-icon: 'https://raw.githubusercontent.com/zjukop3/dsh-vertical-kit/main/packages/dsh-check-suite/icon.svg'

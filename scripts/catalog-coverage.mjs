@@ -17,6 +17,7 @@ import { execFile } from 'node:child_process'
 import { readFile, readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
+import { fileURLToPath } from 'node:url'
 
 const run = promisify(execFile)
 // The upstream tree is eleven thousand paths and execFile's default 1 MB buffer
@@ -47,6 +48,14 @@ const flag = name => {
 }
 const asJson = args.includes('--json')
 const extraBranches = args.reduce((list, value, index) => (args[index - 1] === '--branch' ? [...list, value] : list), [])
+
+// 上游 contributing.md 第 7 条：内容只有一份依赖清单的聚合包不单独立一行
+// （「List the plugins, not the bundle」）。dsh-check-suite 正是这种包，所以它没有
+// 目录条目是**正确**的，不是漏了。例外必须被检查而不是被相信：
+// test/catalog-rule7.test.js 会验证这里的每个名字确实是纯聚合包，且没夹带别的包。
+export const NOT_LISTABLE = {
+  'dsh-check-suite': '纯聚合包：只插入 27 行、无自身运行时代码 — 上游第 7 条不收录',
+}
 
 const root = resolve(import.meta.dirname, '..', '..')
 const OWNER = 'zjukop3'
@@ -109,6 +118,7 @@ async function fileExists(slug, ref, repo = UPSTREAM) {
   return false
 }
 
+async function main() {
 const packages = await localPackages()
 
 const coverage = []
@@ -132,13 +142,16 @@ for (const pkg of packages) {
   coverage.push({ ...pkg, merged, inBranch, covered: merged || inBranch })
 }
 
-const rows = coverage
-const missing = rows.filter(row => !row.covered)
+const rows = coverage.map(row => ({ ...row, notListable: NOT_LISTABLE[row.name] ?? null }))
+// 例外不计入「缺失」：它们没有条目是规则要求的。
+const missing = rows.filter(row => !row.covered && !row.notListable)
+const excused = rows.filter(row => row.notListable)
 const summary = {
   packages: rows.length,
   merged: rows.filter(row => row.merged).length,
   inBranchOnly: rows.filter(row => !row.merged && row.inBranch).length,
   missing: missing.length,
+  notListable: excused.length,
   branchesChecked: extraBranches,
 }
 
@@ -148,13 +161,19 @@ if (asJson) {
   process.stdout.write(`# Catalog coverage\n\n`)
   process.stdout.write(`${summary.packages} packages: ${summary.merged} merged, ${summary.inBranchOnly} in an open branch, ${summary.missing} missing\n\n`)
   for (const row of rows) {
-    const mark = row.merged ? 'merged' : row.inBranch ? 'branch' : 'MISSING'
+    const mark = row.merged ? 'merged' : row.inBranch ? 'branch' : row.notListable ? 'n/a' : 'MISSING'
     process.stdout.write(`${mark.padEnd(7)}  ${row.name}@${row.version}  ${row.file}\n`)
   }
+  for (const row of excused) process.stdout.write(`\n不收录（规则 #7）：${row.name} — ${row.notListable}\n`)
   if (missing.length > 0) {
     process.stdout.write(`\n${missing.length} package(s) have no entry anywhere — they cannot appear in Discover:\n`)
     for (const row of missing) process.stdout.write(`  ${row.name} → data/plugins/${row.file}\n`)
   }
 }
 
-process.exit(missing.length === 0 ? 0 : 1)
+process.exitCode = missing.length === 0 ? 0 : 1
+}
+
+// 只有直接执行才跑网络检查。被 test 导入时不能执行——那条导入曾让一条单元测试
+// 跑了 51 秒，因为它顺手把 29 个包的 gh 查询全做了一遍。
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main()
