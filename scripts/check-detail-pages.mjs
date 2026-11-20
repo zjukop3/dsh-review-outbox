@@ -65,7 +65,8 @@ function normalise(u) {
 export function pageUrls(base = root, origin = ORIGIN) {
   return publishedEntries(base).map((e) => ({
     name: e.name,
-    url: `${origin}/p/${slugOf(e.url)}/`,
+    // 站点在 URL 边界对 slug 做 encodeURI（上游 #13569），这里照做。
+    url: `${origin}/p/${encodeURI(slugOf(e.url))}/`,
   }))
 }
 

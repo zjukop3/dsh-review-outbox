@@ -54,3 +54,18 @@ test('两个最晚发布的包在名单里', () => {
     assert.ok(names.includes(n), `${n} 不在名单里`)
   }
 })
+
+// 上游 #13569：slug 在 URL 边界做 encodeURI，所以规范地址是 %2520 而不是 %20。
+// 单编码那份 404 是修复后的预期行为，不是回归（2026-11-20 实测：%20 → 404，%2520 → 200）。
+test('页面 URL 在边界做 encodeURI，与站点一致', () => {
+  const page = (url) => `https://awesome-dsh-plugin.com/p/${encodeURI(slugOf(url))}/`
+  assert.equal(
+    page('https://github.com/ljwzhaoxiaoniu/DLR/tree/2.0/DSH-based%20Agent%20Service/dsh-tsm-agent'),
+    'https://awesome-dsh-plugin.com/p/ljwzhaoxiaoniu/DLR--DSH-based%2520Agent%2520Service-dsh-tsm-agent/',
+  )
+  // 无特殊字符时 encodeURI 不改字节
+  assert.equal(
+    page('https://github.com/zjukop3/dsh-vertical-kit/tree/main/packages/dsh-license-check'),
+    'https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-license-check/',
+  )
+})
