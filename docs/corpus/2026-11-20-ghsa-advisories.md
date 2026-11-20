@@ -168,7 +168,25 @@ $ ops-runbook-check zoom.md
 ok: 12 steps, 0 errors, 1 warnings      (exit 0)   # shell-unspecified
 ```
 
-## 结论（六批语料合起来）
+## 第六批：真实规格（3 份 Kubernetes KEP）
+
+语料：`keps/sig-node` 下的 `135-seccomp`、`127-user-namespaces`、
+`1547-building-kubelet-without-docker`。第一次跑 **0/3 零发现**，3/3 报
+`criteria-missing`。
+
+成因单一：整个 KEP 流程把验收标准写成 `### Test Plan` 与
+`### Graduation Criteria`，而我只认「验收标准 / acceptance criteria /
+definition of done」。补上这两个真实叫法后：
+
+| 文档 | 结果 |
+| --- | --- |
+| 1547 | 零发现 |
+| 135 | 0 error，1 warn `criteria-thin`（验收标准是散文段落，不是可枚举列表）|
+| 127 | 0 error，1 warn 同上 |
+
+那两条 warn 是准确的：KEP 的 Test Plan 确实是散文。规则没白写，只是词表少了两个词。
+
+## 结论（七批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
