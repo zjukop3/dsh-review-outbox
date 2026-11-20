@@ -236,7 +236,33 @@ $ contributing-check k8s.md
 ok: 0 commands, 0 errors, 1 warnings       # pointer-guide，报出目标 URL
 ```
 
-## 结论（九批语料合起来）
+## 第九批：生态自己的 37 份 README（onboarding-check）
+
+语料不是外部项目，就是本生态的 `dsh-ecosystem-research/sources/plugins/*/readme.md`。
+第一次跑：**2/37 零发现，31/37 带 error**。
+
+分布才是判据：
+
+| 规则 | 命中 | 档位调整 |
+| --- | --- | --- |
+| `help-missing` | 27/37 | warn（不变）|
+| `time-estimate-missing` | 24/37 | warn（不变）|
+| `prereq-missing` | 23/37 | **error → warn**（`--strict` 恢复）|
+| `success-missing` | 22/37 | **error → warn**（`--strict` 恢复）|
+| `command-missing` | 2/37 | error（不变）|
+
+`error` 的含义是「照这份文档做不了」。没有可粘贴命令的 README 真的做不了，而且只占
+2/37；而前置要求与「成功长什么样」在大多数健康 README 上都不存在，按 error 报等于把
+正常文档判成失败。发布产物实测：**21/22 份 exit 0**，唯一失败那份确实没有命令块。
+
+## 附：两次 403 换来的一个脚本
+
+这一批里连续两次 `npm publish` 撞 403「cannot publish over previously published
+version」，原因都是**我按本地版本号猜「这个版本还没发」**。版本号的真相在 registry。
+新增 `scripts/audit-versions.mjs`（`npm run audit:versions`）：发布前把 27 个包的本地
+版本与 registry 对齐，`republish` 状态直接拦住。它走网络，所以不进离线的 `npm run check`。
+
+## 结论（十批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
