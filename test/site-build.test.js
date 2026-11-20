@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -23,29 +23,20 @@ test('research site builds are idempotent across local and public origins', asyn
   const pluginVersion = publishedRelease.version
   const pinnedCommit = publishedRelease.source.commit
   await writeFile(resolve(pageDirectory, 'index.html'), '<!doctype html><html><head><title>Fixture</title></head><body><p contenteditable="true"><a href="receipt-example.html">Receipt</a></p></body></html>')
-  const handbookSource = await readFile(resolve(root, 'docs/OPERATIONS.md'), 'utf8')
-  await writeFile(resolve(directory, 'docs/OPERATIONS.md'), handbookSource)
-  const checklistSource = await readFile(resolve(root, 'docs/checklist.txt'), 'utf8')
-  await writeFile(resolve(directory, 'docs/checklist.txt'), checklistSource)
-  const troubleshootingSource = await readFile(resolve(root, 'docs/TROUBLESHOOTING.md'), 'utf8')
-  await writeFile(resolve(directory, 'docs/TROUBLESHOOTING.md'), troubleshootingSource)
-  const baselineSource = await readFile(resolve(root, 'docs/ECOSYSTEM-BASELINE.md'), 'utf8')
-  await writeFile(resolve(directory, 'docs/ECOSYSTEM-BASELINE.md'), baselineSource)
-  const readingSource = await readFile(resolve(root, 'docs/READING-DOWNLOADS.md'), 'utf8')
-  await writeFile(resolve(directory, 'docs/READING-DOWNLOADS.md'), readingSource)
-  const maintenanceSource = await readFile(resolve(root, 'docs/MAINTENANCE.md'), 'utf8')
-  await writeFile(resolve(directory, 'docs/MAINTENANCE.md'), maintenanceSource)
-  // Documents the build renders as pages. Every one has to be copied into the
-  // fixture or the build fails ENOENT — and a page added to the build without
-  // being added here is a page nobody knows is broken.
-  const apiSource = await readFile(resolve(root, 'docs/API.md'), 'utf8')
-  await writeFile(resolve(directory, 'docs/API.md'), apiSource)
-  await mkdir(resolve(directory, 'docs/adr'), { recursive: true })
-  for (const name of ['ADR-0001-both-directions.md', 'ADR-0002-read-downloads-as-a-floor.md', 'ADR-0003-never-batch-dispose-pending.md']) {
-    await writeFile(resolve(directory, 'docs/adr', name), await readFile(resolve(root, 'docs/adr', name), 'utf8'))
+  // Copy the whole docs tree instead of a hand-maintained list. This fixture was
+  // caught missing a document four times: each new page added to the build broke
+  // the test with ENOENT, and the fix was always "add one more line here". The
+  // list was the bug.
+  const copyTree = async (from, to) => {
+    await mkdir(to, { recursive: true })
+    for (const entry of await readdir(from, { withFileTypes: true })) {
+      const source = resolve(from, entry.name)
+      const target = resolve(to, entry.name)
+      if (entry.isDirectory()) await copyTree(source, target)
+      else await writeFile(target, await readFile(source))
+    }
   }
-  const receipt = await readFile(resolve(root, 'docs/e2e/application-first-value.review.html'), 'utf8')
-  await writeFile(resolve(directory, 'docs/e2e/application-first-value.review.html'), receipt)
+  await copyTree(resolve(root, 'docs'), resolve(directory, 'docs'))
 
   for (const origin of ['http://127.0.0.1:43227', 'https://zjukop3.github.io/dsh-review-outbox']) {
     const result = spawnSync(process.execPath, [resolve(root, 'scripts/build-research-site.mjs')], {

@@ -80,7 +80,8 @@
     "catalog:coverage": "node scripts/catalog-coverage.mjs",
     "funnel:signal": "node scripts/portfolio-signal.mjs",
     "funnel:spread": "node scripts/spread-check.mjs",
-    "push:verified": "node scripts/push-verified.mjs"
+    "push:verified": "node scripts/push-verified.mjs",
+    "build:site": "PUBLIC_ORIGIN=https://zjukop3.github.io/dsh-review-outbox node scripts/build-research-site.mjs"
   },
   "files": [
     "src",

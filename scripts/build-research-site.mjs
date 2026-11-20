@@ -266,6 +266,7 @@ const handover = `<!doctype html>
 <p class="eyebrow">DEEPSEEK HARNESS · HANDOVER · ${pluginVersion}</p>
 <h1>${escapeHtml(handoverTitle)}</h1>
 <nav class="nav"><a href="../">首页</a><a href="../decisions/">决策记录</a><a href="../api/">HTTP 接口参考</a><a href="../maintenance/">维护承诺</a><a href="${repositoryUrl}">GitHub 源码</a></nav>
+<div class="limit">配套的两份材料：<a href="https://zjukop3.github.io/dsh-vertical-kit/defects/">22 个场景检查的缺陷台账</a>（19 条，每条带复现输入）与 <a href="https://zjukop3.github.io/dsh-vertical-kit/corpus/">语料状况</a>（哪些检查有真实文件跑过、哪些只有自造样例）。</div>
 <div class="limit">这份交接单<strong>没有生效</strong>：接收人一栏写的是「尚未指定」。按它自己校验用的那个检查（<code>dsh-handover-check</code>），这是唯一的 error——而这个 error 是真的。</div>
 ${handoverBody}
 <small>原文：<a href="${repositoryUrl}/blob/main/docs/HANDOVER.md">docs/HANDOVER.md</a> · 由 <code>dsh-handover-check</code> 校验，唯一的 error 是"没有接收人"。</small>
