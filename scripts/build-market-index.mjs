@@ -10,7 +10,7 @@
 import { parseMarketIndex } from '@deepseek-ai/dsh-plugin-market-index'
 import { execFileSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile, writeFile, readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const root = resolve(import.meta.dirname, '..')
@@ -59,9 +59,11 @@ const KITS = []
 for (const source of KIT_SOURCES) {
   const kitRoot = resolve(root, '..', source.repo)
   const { CHECKS } = await import(resolve(kitRoot, 'scripts', 'checks-data.mjs'))
+  const seen = new Set()
   for (const entry of CHECKS) {
     const manifest = JSON.parse(await readFile(resolve(kitRoot, 'packages', entry.npm, 'package.json'), 'utf8'))
     const zhTitle = String(entry.title ?? '')
+    seen.add(entry.npm)
     KITS.push({
       repo: source.repo,
       name: entry.npm,
@@ -72,6 +74,30 @@ for (const source of KIT_SOURCES) {
       description: { en: String(entry.description ?? ''), zh: String(entry.description ?? '') },
       category: source.category,
       keywords: [entry.slug, entry.cli ?? entry.slug].filter(Boolean),
+    })
+  }
+
+  // 已发布但不在 CHECKS 里的包（例如 dsh-check-suite 这样的 bundle）也要进索引：
+  // 从包的 locale 读标题与描述，不再依赖 checks-data。用扫目录而不是再写一份名单，
+  // 免得重演「索引只列了 9 个包」那次事故。
+  for (const dir of await readdir(resolve(kitRoot, 'packages'))) {
+    const manifestPath = resolve(kitRoot, 'packages', dir, 'package.json')
+    if (!existsSync(manifestPath)) continue
+    const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+    if (manifest.private || !manifest.name || seen.has(manifest.name)) continue
+    const locEn = JSON.parse(await readFile(resolve(kitRoot, 'packages', dir, 'locale', 'en.json'), 'utf8')).meta
+    const locZh = JSON.parse(await readFile(resolve(kitRoot, 'packages', dir, 'locale', 'zh.json'), 'utf8')).meta
+    seen.add(manifest.name)
+    KITS.push({
+      repo: source.repo,
+      name: manifest.name,
+      version: manifest.version,
+      slug: dir,
+      icon: icon(source.color, glyph(source.glyph) + check),
+      title: { en: String(locEn.title), zh: String(locZh.title) },
+      description: { en: String(locEn.description), zh: String(locZh.description) },
+      category: source.category,
+      keywords: ['bundle', dir],
     })
   }
 }

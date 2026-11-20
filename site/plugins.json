@@ -1249,6 +1249,49 @@
           }
         }
       ]
+    },
+    {
+      "name": "dsh-check-suite",
+      "title": {
+        "en": "Check suite",
+        "zh": "检查套件（27 项）"
+      },
+      "description": {
+        "en": "One install for 27 document and delivery checks. Each check mounts its own endpoint and reports findings with line numbers: commit messages, PR descriptions, release notes, ADRs, runbooks, handovers, invoices, expense claims, resumes, specs, test reports, tables, outlines, numbers, citations and deliverable hashes.",
+        "zh": "一次装完 27 项文档与交付检查。每项检查各自挂载端点，发现的问题都带行号：提交信息、PR 描述、发布说明、架构决策、运维手册、交接单、发票、报销单、简历、规格说明、测试报告、表格结构、大纲、数字一致性、引用，以及交付文件的哈希。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/dsh-check-suite/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "bundle",
+          "dsh-check-suite"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
     }
   ]
 }

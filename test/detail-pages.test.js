@@ -1,5 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { slugOf, publishedEntries, pageUrls } from '../scripts/check-detail-pages.mjs'
 
 // slug 规则复刻自上游 scripts/lib/terms.mjs::slugOf()（issue #13437）。
@@ -34,15 +36,20 @@ test('非 github URL 返回 null，不静默造一个 slug', () => {
   assert.equal(slugOf('https://gitlab.com/a/b'), null)
 })
 
-test('名单覆盖全部 28 个已发布包，且不含手写数组', () => {
+test('名单与市场索引逐个对得上，且不含手写数组', () => {
   const e = publishedEntries()
-  assert.equal(e.length, 28, `期望 28 个已发布包，实际 ${e.length}`)
-  assert.equal(new Set(e.map((x) => x.name)).size, e.length)
+  assert.equal(new Set(e.map((x) => x.name)).size, e.length, '名单里有重名')
+  // 数 28 或 29 没有意义：真正的判据是「我发布的每个包都在索引里，索引里也没有
+  // 我不认识的包」。索引由 scripts/build-market-index.mjs 从 workspace 推导。
+  const indexed = JSON.parse(readFileSync(resolve(import.meta.dirname, '../site/plugins.json'), 'utf8'))
+  const names = indexed.plugins.map((p) => p.name).sort()
+  const mine = e.map((x) => x.name).sort()
+  assert.deepEqual(names, mine)
 })
 
 test('每个包都能推出一个页面 URL', () => {
   const pages = pageUrls()
-  assert.equal(pages.length, 28)
+  assert.ok(pages.length >= 29, `页面 URL 只有 ${pages.length} 个`)
   for (const p of pages) {
     assert.match(p.url, /^https:\/\/awesome-dsh-plugin\.com\/p\/[^/]+\/[^/]+\/$/, p.name)
   }

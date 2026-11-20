@@ -1,10 +1,10 @@
 {
   "date": "2026-11-20",
-  "method": "scripts/check-detail-pages.mjs（复刻上游 slugOf 规则，见 issue #13437）",
+  "method": "scripts/check-detail-pages.mjs（复刻上游 slugOf 规则 + URL 边界 encodeURI，见 issue #13437/#13569）",
   "origin": "https://awesome-dsh-plugin.com",
-  "packages": 28,
+  "packages": 29,
   "reachable": 28,
-  "note": "上一个口径 /p/{owner}/{包名}/ 对所有 28 条都返回 404，是测法错误；见 docs/incidents/2026-11-20-catalog-detail-pages-404.md",
+  "note": "dsh-check-suite 的目录条目尚未合并上游，所以站点还没有它的页面；其余 28 个全部 200。",
   "pages": [
     {
       "status": 200,
@@ -25,6 +25,11 @@
       "status": 200,
       "package": "dsh-bug-report-check",
       "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-bug-report-check/"
+    },
+    {
+      "status": 404,
+      "package": "dsh-check-suite",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-check-suite/"
     },
     {
       "status": 200,
