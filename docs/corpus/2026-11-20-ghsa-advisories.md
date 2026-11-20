@@ -262,7 +262,33 @@ version」，原因都是**我按本地版本号猜「这个版本还没发」**
 新增 `scripts/audit-versions.mjs`（`npm run audit:versions`）：发布前把 27 个包的本地
 版本与 registry 对齐，`republish` 状态直接拦住。它走网络，所以不进离线的 `npm run check`。
 
-## 结论（十批语料合起来）
+## 第十批：会议纪要与会话交接（两种文体各 3 份）
+
+**会议纪要**（`tc39/proposal-decorators/meetings/`）：3 份真实 TC39 纪要。第一次跑
+`date-missing` 4/4 —— 真实纪要写 `Tuesday, July 31, 2018`，而我只认中文与数字日期。
+补上英文日期、以及 `Agenda & notes:` 这种议程标签后：**3/3 零 error**，各留两条 warn
+（`decisions-missing`、`no-action-items`），那对逐字记录体是准确的，提示语里已写明可忽略。
+
+**会话交接**（`crshdn/mission-control`、`terraphim/terraphim-ai`、`Ferris-echo/FerrisPulse`
+的 `HANDOVER.md`）：三份全是**另一个文体**——`Current State` / `What Was Done This
+Session` / `Files Changed`，其中一份是中文「接棒 Agent 关键须知」。它们没有接收人、
+没有账号转移、没有签字，用人交接的七条规则判它，**7 条全报，0/3 零发现**。
+
+现在先判文体：会话交接只给一条 `technical-handover` warn 并停在那里。同时把「人交接」
+的词收紧到带角色语义——裸词 `receiver` 会把硬件文档里的 USB Receiver 认成接收人，
+一份中文会话交接因此被误判成人交接。
+
+发布产物实测（registry 装出来的 CLI）：
+
+```
+$ meeting-notes-check 2018-07-31.md   → ok: 0 errors, 2 warnings      (exit 0)
+$ handover-check terraphim.md          → ok: 0 items, 0 errors, 1 warnings  (exit 0)
+```
+
+顺带修掉一个只有发布产物上才看得见的丑：会话交接的 summary 印的是
+`ok: undefined items`——早退分支的 `checked` 少了字段。0.2.3 修好并复查。
+
+## 结论（十一批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
