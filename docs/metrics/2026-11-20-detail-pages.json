@@ -1,0 +1,150 @@
+{
+  "date": "2026-11-20",
+  "method": "scripts/check-detail-pages.mjs（复刻上游 slugOf 规则，见 issue #13437）",
+  "origin": "https://awesome-dsh-plugin.com",
+  "packages": 28,
+  "reachable": 28,
+  "note": "上一个口径 /p/{owner}/{包名}/ 对所有 28 条都返回 404，是测法错误；见 docs/incidents/2026-11-20-catalog-detail-pages-404.md",
+  "pages": [
+    {
+      "status": 200,
+      "package": "dsh-adr-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-adr-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-agreement-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-agreement-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-api-doc-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-api-doc-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-bug-report-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-bug-report-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-citelint",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-verify-kit--packages-dsh-citelint/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-commit-msg-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-commit-msg-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-dockerfile-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-dockerfile-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-env-example-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-env-example-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-expense-claim-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-expense-claim-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-handover-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-handover-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-hashcheck",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-verify-kit--packages-dsh-hashcheck/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-incident-report-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-incident-report-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-invoice-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-invoice-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-license-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-license-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-listing-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-listing-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-meeting-notes-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-meeting-notes-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-numberlint",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-verify-kit--packages-dsh-numberlint/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-onboarding-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-onboarding-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-ops-runbook-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-ops-runbook-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-outline-lint",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-verify-kit--packages-dsh-outline-lint/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-pr-description-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-pr-description-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-release-notes-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-release-notes-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-resume-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-resume-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-review-outbox",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-review-outbox/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-spec-doc-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-spec-doc-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-tablelint",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-verify-kit--packages-dsh-tablelint/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-test-report-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-test-report-check/"
+    },
+    {
+      "status": 200,
+      "package": "dsh-weekly-report-check",
+      "url": "https://awesome-dsh-plugin.com/p/zjukop3/dsh-vertical-kit--packages-dsh-weekly-report-check/"
+    }
+  ]
+}
