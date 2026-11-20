@@ -143,7 +143,32 @@ ok: 8 timeline entries, 5 follow-ups, 0 errors, 0 warnings      (exit 0)
 
 `8 timeline entries` 与 `5 follow-ups` 这两个数字就是表格解析生效的证据。
 
-## 结论（五批语料合起来）
+## 第五批：真实 runbook（5 份）
+
+语料：`DevLoversTeam/devlovers.net`、`jayminwest/mulch`、`jayminwest/seeds`、
+`monoscope-tech/timefusion`、`zoom/skills`。第一次跑 **0/4 零发现**，四处误报：
+
+| 真实写法 | 我的假设 | 改法 |
+| --- | --- | --- |
+| `## Pre-flight`、`## Required configuration`、`## Safety rules` | 必须叫「前置条件」 | 前置显式枚举这些真实叫法 |
+| `## Post-release sanity`、`## Quick Probes`、`## Health check` | 必须叫「验证」 | 验证同上 |
+| 「4. 备份 WAL 目录 / 5. `rm -rf` WAL 目录」 | 警示必须**同一行** | 相邻步骤一起看：备份在上一句就是警示 |
+| `Rolling back from a newer version…` 这类散文 | 必须有一节叫「回滚」 | 散文也算 |
+| zoom 的 5 分钟 preflight 没有回滚 | 一律要求回滚 | 只在有部署/迁移命令的 runbook 上要求 |
+
+校准后：**4/6 零发现**（第 5 份只 warn `shell-unspecified`，属合理；第 6 份是抓取失败的
+空文件）。0.2.2 从 registry 装出来实测：
+
+```
+$ ops-runbook-check timefusion.md
+ok: 20 steps, 0 errors, 0 warnings      (exit 0)
+$ ops-runbook-check mulch.md
+ok: 31 steps, 0 errors, 0 warnings      (exit 0)
+$ ops-runbook-check zoom.md
+ok: 12 steps, 0 errors, 1 warnings      (exit 0)   # shell-unspecified
+```
+
+## 结论（六批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
