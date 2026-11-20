@@ -1,7 +1,8 @@
-# 真语料：20 条 GHSA 公告跑 dsh-security-advisory-check
+# 真语料：三个检查第一次吃真实第三方文档
 
-2026-11-20，用来校准 `dsh-security-advisory-check` 的默认口径。这是这个包第一次吃到
-真实第三方语料——此前它只有自己写的 fixture。
+2026-11-20，用来校准 `dsh-security-advisory-check`、`dsh-migration-guide-check`、
+`dsh-privacy-notice-check` 三处的默认口径与词表。这是它们第一次吃到真实第三方语料——
+此前只有自己写的 fixture。
 
 ## 取样与方法
 
@@ -62,3 +63,43 @@
 示例输出早已和真实运行不一致（前几轮改了提示文案却没刷新）。已加
 `scripts/sync-example-output.mjs`，按行重写每个条目的 `output`，并挂进 `npm run check`
 ——示例输出与真实运行的关系，现在是一条闸，不是一次手工同步。
+## 第二批：迁移指南与隐私声明
+
+`raw.githubusercontent.com` 这轮连续被重置，改走 GitHub contents API（`gh api … --jq .content | base64 -d`）。
+
+| 文档 | 校准前 | 校准后 |
+| --- | --- | --- |
+| Vite `docs/guide/migration.md` | 2 error（breaking、steps） | 0 error、1 warn（steps） |
+| TanStack Query「Migrating to v5」 | 3 error（title、from-to、steps） | 0 error、1 warn（steps） |
+| GitHub General Privacy Statement | 1 error（title） | 零发现 |
+| GitHub Candidate Privacy Notice | 3 error（title、data、sharing） | 零发现 |
+| GitHub Cookies 政策 | 6 error | 仍在报——正确，它不是隐私声明 |
+
+### 每一处改动都对应一个真实写法
+
+- **frontmatter 的 `title:` 也算标题**。GitHub 三份政策与 TanStack 的指南都是这个形状；
+  只认 `# ` 会把它们全部判成「没有标题」。
+- **隐私的词表**：`Personal Data that We Process`、`How and Why We Disclose Personal Data`、
+  `subprocessor`。原来的词表只认「收集/共享/第三方」。
+- **迁移的版本**：标题写「Migrating to v5」算数——只写目标版本是真实存在的一类指南。
+  但**只有版本号、没有迁移字样**（「版本说明 0.2.0」）仍然不算，那是发布说明。
+- **变更清单**：整篇就是变更清单的指南（Vite）没有一节叫「破坏性变更」。判据改成
+  「至少三节在讲变更」（Removed…、Renamed…、Now uses…）。
+- **恢复类三问只对流程型指南有意义**：验证、回滚、备份这三条在不加条件时，在 100% 的
+  真实指南上都开火。判据改成「有没有编号步骤」——真的要动手改东西的指南才问怎么收场。
+
+### 又一次「量拼写不量属性」
+
+改的过程中踩了两个自身缺陷，都属同一族：
+
+1. 我用 `\A` 当正则锚点。JS 没有这个锚点，它被当成字面量 `A`，正则静默失配——
+   第一次修完「frontmatter 标题」还是判红，原因是这一处。
+2. rules audit 第三次漏算：`add(requireSteps ? 'error' : 'warn', 'steps-missing', …)`
+   既不匹配字面量级别模式，也不匹配「标识符级别」模式，规则从 194 条里消失。
+   判据现在改成「第一参数不是单个字符串字面量」。
+
+## 结论（三批语料合起来）
+
+> 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
+> 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
+> 隐私类三份真实政策被错判 → 改词表。三次都不是「我觉得」，是数字。
