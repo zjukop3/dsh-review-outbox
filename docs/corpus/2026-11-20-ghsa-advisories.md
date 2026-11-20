@@ -202,8 +202,15 @@ definition of done」。补上这两个真实叫法后：
 | 明说「无需鉴权」、或基址只在 localhost/Unix socket → 不算缺失 | all-smi 的真实写法 |
 | 裸词 `token` 不再算鉴权说明 | 反向问题：分页文档里到处 `next_page_token`，它证明不了身份 |
 
-校准后 3/3 零发现。0.1.2 已发布（产物走暂存，本轮未取到 tarball，故未做安装验证——
-如实记在这里，不当成已验证）。
+校准后 3/3 零发现。0.1.2 发布后 tarball 暂存了一段时间才放出，最终从 registry 装出来跑真实文档：
+
+```
+$ api-doc-check all-smi.md
+ok: 5 endpoints, 27 examples, 0 errors, 0 warnings      (exit 0)
+```
+
+（先写下的是「未取到 tarball、未验证」，几分钟后产物放出来补验了——这行按实际结果改，
+不留那个错误的版本。）
 
 ## 结论（八批语料合起来）
 
