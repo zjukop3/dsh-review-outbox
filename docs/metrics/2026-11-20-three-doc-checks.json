@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-20",
+  "kind": "packages-added",
+  "added": [
+    {
+      "name": "dsh-security-advisory-check",
+      "version": "0.1.1",
+      "rules": 8,
+      "decides": "这份安全公告能否让人判断「我会不会被影响、现在该做什么」"
+    },
+    {
+      "name": "dsh-migration-guide-check",
+      "version": "0.1.1",
+      "rules": 8,
+      "decides": "这份迁移指南能否让人在没人可问的情况下把升级做完"
+    },
+    {
+      "name": "dsh-privacy-notice-check",
+      "version": "0.1.1",
+      "rules": 8,
+      "decides": "这份声明能否回答读者「我的数据去哪、留多久、我能要求什么」"
+    }
+  ],
+  "verification": {
+    "kitTests": 357,
+    "rulesBothDirections": "189/189 across 25 packages",
+    "sitePages": 29,
+    "publishedTarballs": "8 files each, bin mapping present, src/cordis.patch.yml/locale both languages",
+    "installedFromRegistry": "npm i in a scratch dir, three CLIs exit 1 on the fixture and exit 0 on a clean document",
+    "livePages": "all four pages (three new + control) return 200 on github.io"
+  },
+  "catalog": {
+    "pr": "https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/17135",
+    "branch": "add-three-doc-checks",
+    "entries": 3,
+    "note": "三家上限是每个 PR 最多 3 条，这批正好 3 条"
+  },
+  "defectsFixed": [
+    "bin/cli.js 权限是 644，npm 发布时静默丢掉 bin 条目（三个新包第一次发布全踩了）——audit-packages 现在断言 bin 目标可执行",
+    "audit-packages 假定每个包都有 src/index.js 与 bin，纯 patch 的聚合包直接 ENOENT 崩——补 patch-only 分支",
+    "audit-rules 同样假定有 src——跳过纯 patch 包",
+    "dsh-privacy-notice-check 的 rights 规则原来是裸词表，保留期那句「删除」把 rights-missing 永久盖住——改成权利段或「你有权…」句式",
+    "市场索引例外说明里写死「只插入 27 行」，实际已 30 行——去掉数字"
+  ],
+  "publishingNote": "新包名首发会被暂存：只落 0.0.0-stage，且同版本重发返回 E409「Cannot publish over previously staged version」；等几分钟暂存版本自动生效。见 docs/publishing-notes.md"
+}
