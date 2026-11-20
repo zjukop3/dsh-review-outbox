@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-20",
+  "scope": "the biggest gap of the whole campaign was in the distribution channel, not in a checker",
+  "finding": {
+    "what": "site/plugins.json — the market index a user actually adds as a source — listed 9 plugins while 28 were published",
+    "impact": "19 published packages could not be installed from the index at all, and the 9 that could were pinned to hard-coded versions that had already moved on",
+    "rootCause": "scripts/build-market-index.mjs carried a hand-written KITS array of 8 entries with literal version strings, and asserted `validated.plugins.length !== 9` against another literal",
+    "sameMistakeThreeTimes": [
+      "the KITS array",
+      "the count assertion in the script",
+      "the count assertion in test/market-index.test.js"
+    ],
+    "whyMissed": "every round verified the upstream catalog (catalog-coverage, PR gates, feed) and never the index this project publishes itself. The distribution layer was assumed, not checked."
+  },
+  "fix": {
+    "derived": "KITS is now built from the two kit repositories: checks-data.mjs for slug/title/description, package.json for the published version",
+    "counts": "the expected count is 1 + KITS.length, and the home page counts check packages from the published index instead of a literal",
+    "gate": "test/market-index-coverage.test.js asserts every published package is in the index, every indexed version matches its package.json, and the build script carries no literal plugin count"
+  },
+  "verified": {
+    "indexPlugins": "9 -> 28",
+    "liveIndex": 28,
+    "homePage": "27 check packages, 5 verification, 22 industry — all derived",
+    "outboxTests": "106 passing"
+  },
+  "feedPrediction": {
+    "scheduled": "02:23 UTC",
+    "checkedAt": "02:03 UTC",
+    "result": "probe had not run yet; feed still 26 of mine",
+    "status": "prediction stands, verification due after 02:23 UTC"
+  },
+  "lesson": "the same hand-maintained-list pattern had already cost four site-build test failures this week; this is the same pattern one layer out, where the cost was that two thirds of the catalogue was unreachable rather than a red test."
+}
