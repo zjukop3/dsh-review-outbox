@@ -98,7 +98,28 @@
    既不匹配字面量级别模式，也不匹配「标识符级别」模式，规则从 194 条里消失。
    判据现在改成「第一参数不是单个字符串字面量」。
 
-## 结论（三批语料合起来）
+## 第三批：真实 ADR（npryce/adr-tools）
+
+五份 `doc/adr/*.md`，Nygard 模板。第一次跑：**0/5 零发现**，`status-missing` 5 次、
+`alternatives-missing` 5 次。
+
+两个都是误报，而且都很直白：
+
+- `status-missing`：规则只认行内 `Status: accepted`，而 Nygard 模板把状态写成
+  `## Status` 下面的一行——**这门实践本来的模板**，五份全是这样。补 `statusOf()`：
+  行内、状态一节都认；取值不认识时仍 warn。
+- `alternatives-missing`：原来默认 true，但 Nygard 原始模板没有「备选方案」这一节。
+  100% 开火的 warn 是噪音 → 改为默认不查，`--require-alternatives` 打开。
+
+校准后：**4/5 零发现**，第 5 份只 warn `consequences-unlabelled`（它的后果确实是没标注的
+散文，属于该提示的那一类）。0.2.2 发布后从 registry 装出来跑：
+
+```
+$ adr-check 0001-record-architecture-decisions.md
+ok: 0 consequences, 0 errors, 0 warnings      (exit 0)
+```
+
+## 结论（四批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
