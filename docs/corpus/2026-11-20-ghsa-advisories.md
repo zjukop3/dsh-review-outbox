@@ -212,7 +212,31 @@ ok: 5 endpoints, 27 examples, 0 errors, 0 warnings      (exit 0)
 （先写下的是「未取到 tarball、未验证」，几分钟后产物放出来补验了——这行按实际结果改，
 不留那个错误的版本。）
 
-## 结论（八批语料合起来）
+## 第八批：真实 CONTRIBUTING 指南（5 份，且这是为新包做的）
+
+新包 `dsh-contributing-check` 选它就是因为语料遍地都是：`nodejs/node`、`vitejs/vite`、
+`rust-lang/rust`、`kubernetes/kubernetes`、`django/django`（RST）。
+
+第一次跑 **0/5 零发现**，三处「只认一种写法」：
+
+| 真实写法 | 我的假设 | 改法 |
+| --- | --- | --- |
+| `Run \`pnpm i\` in the root folder` | 命令必须在行首 | 命令出现在句子中间也算 |
+| 「不用操心代码风格，提交时自动格式化」 | 必须有一节叫 Style | 明确说自动格式化就是答案 |
+| RST 的 `====` 标题 | 只认 `# 标题` | 下划线式标题也算 |
+| k8s/django/rust/node 正文只有「真正的指南在别处」 | 逐节判 | 判成**指路型**：一条 `pointer-guide` warn 并点出目标 |
+
+最后一条是这轮最有价值的：**逐节判一份指路文档，等于用它没打算做的事评价它**。
+校准后 vite 零发现，其余四份各一条 warn。0.1.0 发布后从 registry 装出来实测：
+
+```
+$ contributing-check vite.md
+ok: 25 commands, 0 errors, 0 warnings      (exit 0)
+$ contributing-check k8s.md
+ok: 0 commands, 0 errors, 1 warnings       # pointer-guide，报出目标 URL
+```
+
+## 结论（九批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
