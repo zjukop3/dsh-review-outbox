@@ -1,12 +1,25 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { marketInstallTarget, parseMarketIndex } from '@deepseek-ai/dsh-plugin-market-index'
 
 const root = resolve(import.meta.dirname, '..')
 const indexUrl = 'https://zjukop3.github.io/dsh-review-outbox/plugins.json'
+
+async function publishedCheckPackages() {
+  const out = []
+  for (const kit of ['dsh-vertical-kit', 'dsh-verify-kit']) {
+    const packagesDir = resolve(root, '..', kit, 'packages')
+    for (const name of await readdir(packagesDir)) {
+      if (!name.startsWith('dsh-')) continue
+      const manifest = JSON.parse(await readFile(resolve(packagesDir, name, 'package.json'), 'utf8'))
+      out.push({ name: manifest.name, version: manifest.version })
+    }
+  }
+  return out
+}
 
 test('application market index passes the official validator and reproducibly pins installation', async () => {
   const path = resolve(root, 'site/plugins.json')
@@ -15,12 +28,14 @@ test('application market index passes the official validator and reproducibly pi
   const packageJson = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'))
   const parsed = parseMarketIndex(source, indexUrl)
   assert.equal(parsed.format, 1)
-  // review-outbox plus the eight check packages from the two kit repos
-  assert.equal(parsed.plugins.length, 9)
+  // Derived, not written down: this literal said 9 while 28 packages were
+  // published, and it was the third place the same number appeared by hand.
+  const expectedKitCount = (await publishedCheckPackages()).length
+  assert.equal(parsed.plugins.length, expectedKitCount + 1, 'review-outbox plus every check package')
   const plugin = parsed.plugins.find(entry => entry.name === 'dsh-review-outbox')
   assert.ok(plugin, 'the review-outbox entry stays first-class')
   assert.equal(plugin.metadata.category, 'workflow')
-  const kitNames = ['dsh-hashcheck', 'dsh-citelint', 'dsh-outline-lint', 'dsh-tablelint', 'dsh-numberlint', 'dsh-agreement-check', 'dsh-invoice-check', 'dsh-listing-check']
+  const kitNames = (await publishedCheckPackages()).map(entry => entry.name)
   for (const name of kitNames) {
     const kit = parsed.plugins.find(entry => entry.name === name)
     assert.ok(kit, `${name} is in the index`)

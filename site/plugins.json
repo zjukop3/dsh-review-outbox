@@ -92,12 +92,12 @@
     {
       "name": "dsh-hashcheck",
       "title": {
-        "en": "Hashcheck — delivery manifest",
-        "zh": "Hashcheck · 交付文件校验清单"
+        "en": "dsh-hashcheck — hashcheck",
+        "zh": "交付文件校验清单（SHA-256 manifest）"
       },
       "description": {
-        "en": "SHA-256 manifests for delivered files: build once, verify anywhere, and see exactly which bytes moved instead of \"looks fine\".",
-        "zh": "交付前生成 SHA-256 清单，验收时逐文件比对：哪个文件改了、哪个丢了、哪个没进清单，出口码可接 CI。"
+        "en": "交付前生成 SHA-256 清单，验收时逐文件比对：哪个文件改了、哪个丢了、哪个没进清单。出口码 0/1/2 可接 CI。",
+        "zh": "交付前生成 SHA-256 清单，验收时逐文件比对：哪个文件改了、哪个丢了、哪个没进清单。出口码 0/1/2 可接 CI。"
       },
       "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxNzZiNDgiLz48cGF0aCBkPSJNMzIgMTJsMTQgNnYxMmMwIDEwLTYgMTctMTQgMjItOC01LTE0LTEyLTE0LTIyVjE4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
@@ -111,13 +111,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "hash",
-          "sha256",
-          "manifest",
-          "delivery",
-          "校验",
-          "哈希",
-          "交付"
+          "hashcheck",
+          "hashcheck"
         ],
         "labels": [],
         "sortKeys": {
@@ -140,14 +135,14 @@
     {
       "name": "dsh-citelint",
       "title": {
-        "en": "Citelint — citation check",
-        "zh": "Citelint · 报告引用检查"
+        "en": "dsh-citelint — citelint",
+        "zh": "报告引用检查清单"
       },
       "description": {
-        "en": "Citation lint for delivered reports: numbering gaps, duplicate sources, sources that are listed but never cited, and local links that do not exist.",
-        "zh": "编号断号、同一来源重复编号、列了却没被引用的来源、指向不存在本地文件的链接——全部从 Markdown 直接判定。"
+        "en": "报告交付前的引用检查：编号断号、同一来源重复编号、列了没引用的来源、指向不存在本地文件的链接。Markdown 纯文本即可判定。",
+        "zh": "报告交付前的引用检查：编号断号、同一来源重复编号、列了没引用的来源、指向不存在本地文件的链接。Markdown 纯文本即可判定。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxZjRlOGMiLz48cGF0aCBkPSJNMjAgMTZoMjRNMjAgMjZoMjRNMjAgMzZoMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxNzZiNDgiLz48cGF0aCBkPSJNMzIgMTJsMTQgNnYxMmMwIDEwLTYgMTctMTQgMjItOC01LTE0LTEyLTE0LTIyVjE4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-verify-kit/citelint/",
       "repository": {
@@ -159,12 +154,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "citation",
-          "markdown",
-          "report",
-          "lint",
-          "引用",
-          "报告"
+          "citelint",
+          "citelint"
         ],
         "labels": [],
         "sortKeys": {
@@ -187,14 +178,14 @@
     {
       "name": "dsh-outline-lint",
       "title": {
-        "en": "Outline lint — document shape",
-        "zh": "Outline lint · 文档结构检查"
+        "en": "dsh-outline-lint — outline-lint",
+        "zh": "文档结构检查清单"
       },
       "description": {
-        "en": "Shape check for delivered documents: no title, more than one level-1 heading, a lost heading level, no conclusion up front, and nothing a reader can run to reproduce the result.",
-        "zh": "缺标题、多个一级标题、标题跳级、开头没有结论、没有任何可复现命令——报告结构五项检查。"
+        "en": "报告交付前的结构检查：有没有标题、有没有结论先行、有没有能跑的复现命令、标题有没有跳级。长度不重要，结构才重要。范围：结论规则针对报告类交付物；参考文档（README、手册）没有结论义务，域外提示不是缺陷。",
+        "zh": "报告交付前的结构检查：有没有标题、有没有结论先行、有没有能跑的复现命令、标题有没有跳级。长度不重要，结构才重要。范围：结论规则针对报告类交付物；参考文档（README、手册）没有结论义务，域外提示不是缺陷。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMyYzZlNDkiLz48cGF0aCBkPSJNMTggMTZoMjhNMTggMjZoMjBNMTggMzZoMjRNMTggNDZoMTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxNzZiNDgiLz48cGF0aCBkPSJNMzIgMTJsMTQgNnYxMmMwIDEwLTYgMTctMTQgMjItOC01LTE0LTEyLTE0LTIyVjE4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-verify-kit/outline-lint/",
       "repository": {
@@ -206,11 +197,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "outline",
-          "structure",
-          "markdown",
-          "结构",
-          "文档"
+          "outline-lint",
+          "outline-lint"
         ],
         "labels": [],
         "sortKeys": {
@@ -219,7 +207,7 @@
       },
       "versions": [
         {
-          "version": "0.1.3",
+          "version": "0.1.4",
           "publishTimestamp": 1794312000,
           "source": {
             "type": "npm"
@@ -233,14 +221,14 @@
     {
       "name": "dsh-tablelint",
       "title": {
-        "en": "Tablelint — markdown tables",
-        "zh": "Tablelint · 表格行列检查"
+        "en": "dsh-tablelint — tablelint",
+        "zh": "Markdown 表格检查清单"
       },
       "description": {
-        "en": "Markdown table check for generated reports: rows with the wrong cell count, a delimiter row that disagrees with the header, duplicate or empty headers, and tables with no rows.",
-        "zh": "行内单元格数与表头不一致、分隔行数量不符、表头重名或为空、只有表头没有数据行——生成报告最常见的碎表。"
+        "en": "生成报告里最常见的缺陷：表格行列不齐。在生成它的编辑器里渲染正常，发布出去就碎。单元格数量是廉价的对比，肉眼发现却很贵。",
+        "zh": "生成报告里最常见的缺陷：表格行列不齐。在生成它的编辑器里渲染正常，发布出去就碎。单元格数量是廉价的对比，肉眼发现却很贵。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM0YTVmYTUiLz48cGF0aCBkPSJNMTQgMThoMzZ2MjhIMTR6TTE0IDI4aDM2TTI2IDE4djI4TTM4IDE4djI4IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjxwYXRoIGQ9Im0yNCA0MCA2IDYgMTItMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxNzZiNDgiLz48cGF0aCBkPSJNMzIgMTJsMTQgNnYxMmMwIDEwLTYgMTctMTQgMjItOC01LTE0LTEyLTE0LTIyVjE4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-verify-kit/tablelint/",
       "repository": {
@@ -252,11 +240,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "table",
-          "markdown",
-          "lint",
-          "表格",
-          "检查"
+          "tablelint",
+          "tablelint"
         ],
         "labels": [],
         "sortKeys": {
@@ -265,7 +250,7 @@
       },
       "versions": [
         {
-          "version": "0.1.2",
+          "version": "0.2.0",
           "publishTimestamp": 1794312000,
           "source": {
             "type": "npm"
@@ -279,14 +264,14 @@
     {
       "name": "dsh-numberlint",
       "title": {
-        "en": "Numberlint — number consistency",
-        "zh": "Numberlint · 数字写法一致性"
+        "en": "dsh-numberlint — numberlint",
+        "zh": "文档内数字写法一致性检查"
       },
       "description": {
-        "en": "Number consistency check for one document: the same quantity written 4,985 and 4985, the same percentage with and without a space, and ranges with mixed dashes.",
-        "zh": "同一文档内同一数量既写 4,985 又写 4985、同一百分比空格不一致、区间连接号混用——比较写法而非数值。"
+        "en": "同一份文档里「4,985」和「4985」各出现一次，读者就会两个都不信。这个检查比较写法而不是数值，报出同一数量的不同拼写。",
+        "zh": "同一份文档里「4,985」和「4985」各出现一次，读者就会两个都不信。这个检查比较写法而不是数值，报出同一数量的不同拼写。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM1YjRhOGEiLz48cGF0aCBkPSJNMjAgMjJoMTB2MjBNNDAgMjBjLTYgMC04IDQtOCAxMnMyIDEyIDggMTIgOC00IDgtMTItMi0xMi04LTEyeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Im0yNCA0MCA2IDYgMTItMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMxNzZiNDgiLz48cGF0aCBkPSJNMzIgMTJsMTQgNnYxMmMwIDEwLTYgMTctMTQgMjItOC01LTE0LTEyLTE0LTIyVjE4eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-verify-kit/numberlint/",
       "repository": {
@@ -298,11 +283,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "numbers",
-          "consistency",
-          "lint",
-          "数字",
-          "一致性"
+          "numberlint",
+          "numberlint"
         ],
         "labels": [],
         "sortKeys": {
@@ -325,14 +307,14 @@
     {
       "name": "dsh-agreement-check",
       "title": {
-        "en": "Agreement check — contract structure",
-        "zh": "Agreement check · 合同结构检查"
+        "en": "dsh-agreement-check — agreement-check",
+        "zh": "合同结构检查清单"
       },
       "description": {
-        "en": "Contract structure checks for Chinese agreements: parties, date, amount consistency (uppercase vs digits), signature blocks, dispute resolution, breach clauses.",
-        "zh": "甲乙方、签订日期、大写金额与数字一致、签署栏、争议解决、违约责任——合同交给法务前的结构清单。"
+        "en": "合同交给法务之前，先把结构定下来：甲乙方写没写、日期有没有锚、大写金额和数字对不对得上、签署栏、争议解决、违约责任。每条发现带行号，可接 CI。",
+        "zh": "合同交给法务之前，先把结构定下来：甲乙方写没写、日期有没有锚、大写金额和数字对不对得上、签署栏、争议解决、违约责任。每条发现带行号，可接 CI。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM4YzQ2MzIiLz48cGF0aCBkPSJNMzIgMTBsMTYgNnYxNGMwIDEyLTcgMjAtMTYgMjQtOS00LTE2LTEyLTE2LTI0VjE2eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNMjYgMzJsNCA0IDgtOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-vertical-kit/agreement-check/",
       "repository": {
@@ -344,12 +326,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "contract",
-          "legal",
-          "agreement",
-          "合同",
-          "法务",
-          "协议"
+          "agreement-check",
+          "agreement-check"
         ],
         "labels": [],
         "sortKeys": {
@@ -372,14 +350,14 @@
     {
       "name": "dsh-invoice-check",
       "title": {
-        "en": "Invoice check — e-invoice fields",
-        "zh": "Invoice check · 发票字段检查"
+        "en": "dsh-invoice-check — invoice-check",
+        "zh": "发票字段检查清单"
       },
       "description": {
-        "en": "Invoice field checks for Chinese e-invoices: credit-code format, amount relationships (net + tax = total), uppercase/digit amount agreement, invoice number shapes.",
-        "zh": "统一社会信用代码字符集、不含税+税额=价税合计的勾稽、大写金额一致、发票号码位数——不需要懂业务就能核对的部分。"
+        "en": "发票不需要懂业务就能核对的部分：统一社会信用代码字符集、不含税+税额=价税合计的勾稽、大写金额与小写一致、发票号码位数。容差默认 0.02，可调。",
+        "zh": "发票不需要懂业务就能核对的部分：统一社会信用代码字符集、不含税+税额=价税合计的勾稽、大写金额与小写一致、发票号码位数。容差默认 0.02，可调。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiNhMzYyMmMiLz48cGF0aCBkPSJNMTYgMTJoMzJ2NDBsLTgtNS04IDUtOC01LTggNXpNMjQgMjRoMTZNMjQgMzJoMTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-vertical-kit/invoice-check/",
       "repository": {
@@ -391,12 +369,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "invoice",
-          "finance",
-          "tax",
-          "发票",
-          "财务",
-          "勾稽"
+          "invoice-check",
+          "invoice-check"
         ],
         "labels": [],
         "sortKeys": {
@@ -419,14 +393,14 @@
     {
       "name": "dsh-listing-check",
       "title": {
-        "en": "Listing check — product export hygiene",
-        "zh": "Listing check · 商品信息检查"
+        "en": "dsh-listing-check — listing-check",
+        "zh": "电商商品信息检查清单"
       },
       "description": {
-        "en": "E-commerce listing hygiene from CSV/JSON exports: title length bounds, keyword stuffing, price validity and bounds, SKU completeness and duplicates.",
-        "zh": "商品导出表的标题长度、关键词堆砌、价格有效性、SKU 完整性与重复——上架前的结构卫生，边界可配置。"
+        "en": "商品导出表（CSV/JSON）交付或上架前的检查：标题长度边界、关键词堆砌、价格有效性与边界、SKU 完整性与重复。每条发现报行号，边界可配置。",
+        "zh": "商品导出表（CSV/JSON）交付或上架前的检查：标题长度边界、关键词堆砌、价格有效性与边界、SKU 完整性与重复。每条发现报行号，边界可配置。"
       },
-      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiM3YTUyMzAiLz48cGF0aCBkPSJNMTQgMjBoMzZNMTQgMzJoMzZNMTQgNDRoMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI0NiIgY3k9IjQ0IiByPSI1IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIvPjwvc3ZnPg==",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
       "homepage": "https://zjukop3.github.io/dsh-vertical-kit/listing-check/",
       "repository": {
@@ -438,12 +412,8 @@
           "dsh",
           "dsh-plugin",
           "deepseek-harness",
-          "ecommerce",
-          "listing",
-          "sku",
-          "电商",
-          "商品",
-          "上架"
+          "listing-check",
+          "listing-check"
         ],
         "labels": [],
         "sortKeys": {
@@ -452,7 +422,824 @@
       },
       "versions": [
         {
-          "version": "0.1.2",
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-meeting-notes-check",
+      "title": {
+        "en": "dsh-meeting-notes-check — meeting-notes-check",
+        "zh": "会议纪要检查清单"
+      },
+      "description": {
+        "en": "会议纪要发出或归档前的书记检查：日期、与会人、决定都有记录，每个行动项都有负责人和截止时间。勾选框和待办标题下的编号项算任务，普通编号讨论点不算。每条发现报行号。",
+        "zh": "会议纪要发出或归档前的书记检查：日期、与会人、决定都有记录，每个行动项都有负责人和截止时间。勾选框和待办标题下的编号项算任务，普通编号讨论点不算。每条发现报行号。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/meeting-notes-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "meeting-notes-check",
+          "meeting-notes-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.1",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-resume-check",
+      "title": {
+        "en": "dsh-resume-check — resume-check",
+        "zh": "简历检查清单"
+      },
+      "description": {
+        "en": "简历投递或筛阅前的书记检查：联系方式可达、邮箱电话形态合法、工作经历时间线不自相重叠、教育段在场。时间线按月比较，教育段写在当前工作之后不误报。空窗默认只提示不判错。",
+        "zh": "简历投递或筛阅前的书记检查：联系方式可达、邮箱电话形态合法、工作经历时间线不自相重叠、教育段在场。时间线按月比较，教育段写在当前工作之后不误报。空窗默认只提示不判错。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/resume-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "resume-check",
+          "resume-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.1",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-release-notes-check",
+      "title": {
+        "en": "dsh-release-notes-check — release-notes-check",
+        "zh": "发布说明检查清单"
+      },
+      "description": {
+        "en": "Changelog 或发布说明发出前的书记检查：版本号标题、发布日期、破坏性变更必须配升级/迁移说明、版本倒序排列（读者依赖的唯一惯例）。每条发现报行号。",
+        "zh": "Changelog 或发布说明发出前的书记检查：版本号标题、发布日期、破坏性变更必须配升级/迁移说明、版本倒序排列（读者依赖的唯一惯例）。每条发现报行号。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/release-notes-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "release-notes-check",
+          "release-notes-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.3.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-weekly-report-check",
+      "title": {
+        "en": "dsh-weekly-report-check — weekly-report-check",
+        "zh": "周报检查清单"
+      },
+      "description": {
+        "en": "周报发出前的结构检查：本周完成与下周计划分开写、风险与阻塞在场、至少一行带量化数字——让读者分得清进展和动作。空泛承诺（下周继续努力）按计划语句计数：在场可判定，空洞不可判定。",
+        "zh": "周报发出前的结构检查：本周完成与下周计划分开写、风险与阻塞在场、至少一行带量化数字——让读者分得清进展和动作。空泛承诺（下周继续努力）按计划语句计数：在场可判定，空洞不可判定。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/weekly-report-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "weekly-report-check",
+          "weekly-report-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-bug-report-check",
+      "title": {
+        "en": "dsh-bug-report-check — bug-report-check",
+        "zh": "缺陷报告检查清单"
+      },
+      "description": {
+        "en": "缺陷报告提交前的书记检查：一行能看懂的标题、环境信息、编号复现步骤、预期与实际的对照。没有编号步骤的散文不算复现步骤——散文无法重放。",
+        "zh": "缺陷报告提交前的书记检查：一行能看懂的标题、环境信息、编号复现步骤、预期与实际的对照。没有编号步骤的散文不算复现步骤——散文无法重放。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/bug-report-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "bug-report-check",
+          "bug-report-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-api-doc-check",
+      "title": {
+        "en": "dsh-api-doc-check — api-doc-check",
+        "zh": "接口文档检查清单"
+      },
+      "description": {
+        "en": "接口文档交付前的书记检查：每个端点带方法和路径、有请求或响应示例、鉴权说明在场、错误响应有交代。只有路径没有动词的行不算端点——单独一行路径无法被调用。",
+        "zh": "接口文档交付前的书记检查：每个端点带方法和路径、有请求或响应示例、鉴权说明在场、错误响应有交代。只有路径没有动词的行不算端点——单独一行路径无法被调用。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/api-doc-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "api-doc-check",
+          "api-doc-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-test-report-check",
+      "title": {
+        "en": "dsh-test-report-check — test-report-check",
+        "zh": "测试报告检查清单"
+      },
+      "description": {
+        "en": "测试报告复盘或交付前的书记检查：通过+失败+跳过必须等于总计（勾稽不平直接报出算式）、测试环境在场、有失败就要有失败详情——数字要能往下看。",
+        "zh": "测试报告复盘或交付前的书记检查：通过+失败+跳过必须等于总计（勾稽不平直接报出算式）、测试环境在场、有失败就要有失败详情——数字要能往下看。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/test-report-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "test-report-check",
+          "test-report-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-commit-msg-check",
+      "title": {
+        "en": "dsh-commit-msg-check — commit-msg-check",
+        "zh": "提交信息检查清单"
+      },
+      "description": {
+        "en": "一条提交信息就能判定：主题长度（git log 折行处）、标题不写句号、正文前必须有空行、破坏性变更用 trailer 而不是埋主题里、以及可选的类型前缀。可以直接挂 commit-msg 钩子。",
+        "zh": "一条提交信息就能判定：主题长度（git log 折行处）、标题不写句号、正文前必须有空行、破坏性变更用 trailer 而不是埋主题里、以及可选的类型前缀。可以直接挂 commit-msg 钩子。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/commit-msg-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "commit-msg-check",
+          "commit-msg-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.3.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-dockerfile-check",
+      "title": {
+        "en": "dsh-dockerfile-check — dockerfile-check",
+        "zh": "Dockerfile 检查清单"
+      },
+      "description": {
+        "en": "一个文件的判定：基础镜像是否固定、容器是否以 root 收尾、是否有密钥被写进层、普通复制是否误用 ADD、包管理器装完是否清理。反斜杠续行按一条指令算，报到首行。",
+        "zh": "一个文件的判定：基础镜像是否固定、容器是否以 root 收尾、是否有密钥被写进层、普通复制是否误用 ADD、包管理器装完是否清理。反斜杠续行按一条指令算，报到首行。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/dockerfile-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "dockerfile-check",
+          "dockerfile-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-env-example-check",
+      "title": {
+        "en": "dsh-env-example-check — env-example-check",
+        "zh": "环境变量示例检查清单"
+      },
+      "description": {
+        "en": "提交进仓库的 .env.example 是每个新贡献者先读的契约：每个键只放占位符、没有真凭据顺手提交、没有重复键静默覆盖、有注释说明每个键干什么。",
+        "zh": "提交进仓库的 .env.example 是每个新贡献者先读的契约：每个键只放占位符、没有真凭据顺手提交、没有重复键静默覆盖、有注释说明每个键干什么。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/env-example-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "env-example-check",
+          "env-example-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-license-check",
+      "title": {
+        "en": "dsh-license-check — license-check",
+        "zh": "许可证检查清单"
+      },
+      "description": {
+        "en": "LICENSE 文件的三个判定：正文是不是可识别的许可证、标题和正文是否一致（标题写 MIT 正文是 Apache 是最坑的一种）、版权行有没有人和一个合理的年份，外加模板占位符有没有填。识别按正文短语而不是标题。",
+        "zh": "LICENSE 文件的三个判定：正文是不是可识别的许可证、标题和正文是否一致（标题写 MIT 正文是 Apache 是最坑的一种）、版权行有没有人和一个合理的年份，外加模板占位符有没有填。识别按正文短语而不是标题。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/license-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "license-check",
+          "license-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-incident-report-check",
+      "title": {
+        "en": "dsh-incident-report-check — incident-report-check",
+        "zh": "事故复盘检查清单"
+      },
+      "description": {
+        "en": "事故复盘的四个判定：带时间的时间线（条目必须带时间）、影响段（影响谁、多久）、根因段而不是处置、后续行动项每个人都挂负责人。「重启后恢复」是处置不是原因。",
+        "zh": "事故复盘的四个判定：带时间的时间线（条目必须带时间）、影响段（影响谁、多久）、根因段而不是处置、后续行动项每个人都挂负责人。「重启后恢复」是处置不是原因。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/incident-report-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "incident-report-check",
+          "incident-report-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-ops-runbook-check",
+      "title": {
+        "en": "dsh-ops-runbook-check — ops-runbook-check",
+        "zh": "运维手册检查清单"
+      },
+      "description": {
+        "en": "运维手册是要照着执行的，因此可判定：前置条件、编号步骤（压力下散文没法跟）、回滚路径、验证方式，以及这一条——每个危险命令必须**在同一行**带警告。警告写在三段之前，复制单行到终端时就不在了。",
+        "zh": "运维手册是要照着执行的，因此可判定：前置条件、编号步骤（压力下散文没法跟）、回滚路径、验证方式，以及这一条——每个危险命令必须**在同一行**带警告。警告写在三段之前，复制单行到终端时就不在了。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/ops-runbook-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "ops-runbook-check",
+          "ops-runbook-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-pr-description-check",
+      "title": {
+        "en": "dsh-pr-description-check — pr-description-check",
+        "zh": "PR 描述检查清单"
+      },
+      "description": {
+        "en": "PR 描述回答 reviewer 的前三个问题，因此可判定：改了什么、为什么、作者怎么知道它能用；加上关联 issue、破坏性变更配迁移说明、以及检查清单是不是真读了。CLI 支持从 stdin 读，可直接接 gh pr view 管道。",
+        "zh": "PR 描述回答 reviewer 的前三个问题，因此可判定：改了什么、为什么、作者怎么知道它能用；加上关联 issue、破坏性变更配迁移说明、以及检查清单是不是真读了。CLI 支持从 stdin 读，可直接接 gh pr view 管道。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/pr-description-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "pr-description-check",
+          "pr-description-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-spec-doc-check",
+      "title": {
+        "en": "dsh-spec-doc-check — spec-doc-check",
+        "zh": "需求文档检查清单"
+      },
+      "description": {
+        "en": "方案文档的三件事加一条：问题背景、可被检查的验收标准、明确的范围外，以及——验收标准不能写成愿望。「体验良好」「速度合理」既无法通过也无法拒绝。带阈值的愿望词不算违规：p95 从 800ms 降到 200ms 是标准。",
+        "zh": "方案文档的三件事加一条：问题背景、可被检查的验收标准、明确的范围外，以及——验收标准不能写成愿望。「体验良好」「速度合理」既无法通过也无法拒绝。带阈值的愿望词不算违规：p95 从 800ms 降到 200ms 是标准。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/spec-doc-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "spec-doc-check",
+          "spec-doc-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-adr-check",
+      "title": {
+        "en": "dsh-adr-check — adr-check",
+        "zh": "架构决策记录检查清单"
+      },
+      "description": {
+        "en": "ADR 的五个判定：状态、逼出这个选择的背景、那一句决定、包含代价的后果、以及落选的备选方案。立身之本是第四条——后果只写好处的 ADR 通常没真正权衡过。",
+        "zh": "ADR 的五个判定：状态、逼出这个选择的背景、那一句决定、包含代价的后果、以及落选的备选方案。立身之本是第四条——后果只写好处的 ADR 通常没真正权衡过。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/adr-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "adr-check",
+          "adr-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-onboarding-check",
+      "title": {
+        "en": "dsh-onboarding-check — onboarding-check",
+        "zh": "上手指南检查清单"
+      },
+      "description": {
+        "en": "上手文档的五件事：先装什么、一条能粘贴的命令、成功长什么样、失败去哪儿问、以及要花多久。最后一条是本包存在的理由——没写耗时的文档不会被开始打开。代码块按内容判断：显示版本号的 text 块不算命令块。",
+        "zh": "上手文档的五件事：先装什么、一条能粘贴的命令、成功长什么样、失败去哪儿问、以及要花多久。最后一条是本包存在的理由——没写耗时的文档不会被开始打开。代码块按内容判断：显示版本号的 text 块不算命令块。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/onboarding-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "onboarding-check",
+          "onboarding-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.3.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-handover-check",
+      "title": {
+        "en": "dsh-handover-check — handover-check",
+        "zh": "交接单检查清单"
+      },
+      "description": {
+        "en": "一份交接单就能判定：谁交接、谁接手、什么时候生效、事项列了几条、账号与权限有没有点名、未完成的有没有写、接收人签没签字。最容易漏的是账号那一段——它不会报错，只会留下一组没人管的活凭证。",
+        "zh": "一份交接单就能判定：谁交接、谁接手、什么时候生效、事项列了几条、账号与权限有没有点名、未完成的有没有写、接收人签没签字。最容易漏的是账号那一段——它不会报错，只会留下一组没人管的活凭证。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/handover-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "handover-check",
+          "handover-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.2.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-expense-claim-check",
+      "title": {
+        "en": "dsh-expense-claim-check — expense-claim-check",
+        "zh": "报销单检查清单"
+      },
+      "description": {
+        "en": "一份报销单就能判定：谁报销、哪个期间、明细行是否加得出合计、发票号有没有重复、每笔事由与类别、有没有人批。最容易漏的是合计那行——它不会报错，只会让多出来的钱安静地过去。",
+        "zh": "一份报销单就能判定：谁报销、哪个期间、明细行是否加得出合计、发票号有没有重复、每笔事由与类别、有没有人批。最容易漏的是合计那行——它不会报错，只会让多出来的钱安静地过去。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/expense-claim-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "expense-claim-check",
+          "expense-claim-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
           "publishTimestamp": 1794312000,
           "source": {
             "type": "npm"

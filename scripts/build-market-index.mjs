@@ -41,92 +41,41 @@ const kitRepos = {
 // One row per kit package. Versions and engines must match the published
 // manifest; the engines range is the same one review-outbox has been validated
 // against on the running 0.2.2-rc.3 host.
-const KITS = [
-  {
-    repo: 'dsh-verify-kit', name: 'dsh-hashcheck', version: '0.1.3', slug: 'hashcheck', icon: icon('#176b48', glyph('<path d="M32 12l14 6v12c0 10-6 17-14 22-8-5-14-12-14-22V18z" fill="none" stroke="#fff" stroke-width="4"/>') + check),
-    title: { en: 'Hashcheck — delivery manifest', zh: 'Hashcheck · 交付文件校验清单' },
-    description: {
-      en: 'SHA-256 manifests for delivered files: build once, verify anywhere, and see exactly which bytes moved instead of "looks fine".',
-      zh: '交付前生成 SHA-256 清单，验收时逐文件比对：哪个文件改了、哪个丢了、哪个没进清单，出口码可接 CI。',
-    },
-    category: 'verification',
-    keywords: ['hash', 'sha256', 'manifest', 'delivery', '校验', '哈希', '交付'],
-  },
-  {
-    repo: 'dsh-verify-kit', name: 'dsh-citelint', version: '0.1.3', slug: 'citelint', icon: icon('#1f4e8c', glyph('<path d="M20 16h24M20 26h24M20 36h14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>') + check),
-    title: { en: 'Citelint — citation check', zh: 'Citelint · 报告引用检查' },
-    description: {
-      en: 'Citation lint for delivered reports: numbering gaps, duplicate sources, sources that are listed but never cited, and local links that do not exist.',
-      zh: '编号断号、同一来源重复编号、列了却没被引用的来源、指向不存在本地文件的链接——全部从 Markdown 直接判定。',
-    },
-    category: 'verification',
-    keywords: ['citation', 'markdown', 'report', 'lint', '引用', '报告'],
-  },
-  {
-    repo: 'dsh-verify-kit', name: 'dsh-outline-lint', version: '0.1.3', slug: 'outline-lint', icon: icon('#2c6e49', glyph('<path d="M18 16h28M18 26h20M18 36h24M18 46h16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>') + check),
-    title: { en: 'Outline lint — document shape', zh: 'Outline lint · 文档结构检查' },
-    description: {
-      en: 'Shape check for delivered documents: no title, more than one level-1 heading, a lost heading level, no conclusion up front, and nothing a reader can run to reproduce the result.',
-      zh: '缺标题、多个一级标题、标题跳级、开头没有结论、没有任何可复现命令——报告结构五项检查。',
-    },
-    category: 'verification',
-    keywords: ['outline', 'structure', 'markdown', '结构', '文档'],
-  },
-  {
-    repo: 'dsh-verify-kit', name: 'dsh-tablelint', version: '0.1.2', slug: 'tablelint', icon: icon('#4a5fa5', glyph('<path d="M14 18h36v28H14zM14 28h36M26 18v28M38 18v28" fill="none" stroke="#fff" stroke-width="4"/>') + check),
-    title: { en: 'Tablelint — markdown tables', zh: 'Tablelint · 表格行列检查' },
-    description: {
-      en: 'Markdown table check for generated reports: rows with the wrong cell count, a delimiter row that disagrees with the header, duplicate or empty headers, and tables with no rows.',
-      zh: '行内单元格数与表头不一致、分隔行数量不符、表头重名或为空、只有表头没有数据行——生成报告最常见的碎表。',
-    },
-    category: 'verification',
-    keywords: ['table', 'markdown', 'lint', '表格', '检查'],
-  },
-  {
-    repo: 'dsh-verify-kit', name: 'dsh-numberlint', version: '0.1.2', slug: 'numberlint', icon: icon('#5b4a8a', glyph('<path d="M20 22h10v20M40 20c-6 0-8 4-8 12s2 12 8 12 8-4 8-12-2-12-8-12z" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>') + check),
-    title: { en: 'Numberlint — number consistency', zh: 'Numberlint · 数字写法一致性' },
-    description: {
-      en: 'Number consistency check for one document: the same quantity written 4,985 and 4985, the same percentage with and without a space, and ranges with mixed dashes.',
-      zh: '同一文档内同一数量既写 4,985 又写 4985、同一百分比空格不一致、区间连接号混用——比较写法而非数值。',
-    },
-    category: 'verification',
-    keywords: ['numbers', 'consistency', 'lint', '数字', '一致性'],
-  },
-  {
-    repo: 'dsh-vertical-kit', name: 'dsh-agreement-check', version: '0.1.3', slug: 'agreement-check', icon: icon('#8c4632', glyph('<path d="M32 10l16 6v14c0 12-7 20-16 24-9-4-16-12-16-24V16z" fill="none" stroke="#fff" stroke-width="4"/><path d="M26 32l4 4 8-9" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>')),
-    title: { en: 'Agreement check — contract structure', zh: 'Agreement check · 合同结构检查' },
-    description: {
-      en: 'Contract structure checks for Chinese agreements: parties, date, amount consistency (uppercase vs digits), signature blocks, dispute resolution, breach clauses.',
-      zh: '甲乙方、签订日期、大写金额与数字一致、签署栏、争议解决、违约责任——合同交给法务前的结构清单。',
-    },
-    category: 'industry',
-    keywords: ['contract', 'legal', 'agreement', '合同', '法务', '协议'],
-  },
-  {
-    repo: 'dsh-vertical-kit', name: 'dsh-invoice-check', version: '0.1.2', slug: 'invoice-check', icon: icon('#a3622c', glyph('<path d="M16 12h32v40l-8-5-8 5-8-5-8 5zM24 24h16M24 32h16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>')),
-    title: { en: 'Invoice check — e-invoice fields', zh: 'Invoice check · 发票字段检查' },
-    description: {
-      en: 'Invoice field checks for Chinese e-invoices: credit-code format, amount relationships (net + tax = total), uppercase/digit amount agreement, invoice number shapes.',
-      zh: '统一社会信用代码字符集、不含税+税额=价税合计的勾稽、大写金额一致、发票号码位数——不需要懂业务就能核对的部分。',
-    },
-    category: 'industry',
-    keywords: ['invoice', 'finance', 'tax', '发票', '财务', '勾稽'],
-  },
-  {
-    repo: 'dsh-vertical-kit', name: 'dsh-listing-check', version: '0.1.2', slug: 'listing-check', icon: icon('#7a5230', glyph('<path d="M14 20h36M14 32h36M14 44h24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="46" cy="44" r="5" fill="none" stroke="#fff" stroke-width="4"/>')),
-    title: { en: 'Listing check — product export hygiene', zh: 'Listing check · 商品信息检查' },
-    description: {
-      en: 'E-commerce listing hygiene from CSV/JSON exports: title length bounds, keyword stuffing, price validity and bounds, SKU completeness and duplicates.',
-      zh: '商品导出表的标题长度、关键词堆砌、价格有效性、SKU 完整性与重复——上架前的结构卫生，边界可配置。',
-    },
-    category: 'industry',
-    keywords: ['ecommerce', 'listing', 'sku', '电商', '商品', '上架'],
-  },
+// The index is what a user actually adds as a market source, so it has to list
+// every package this project publishes. It used to list eight, hand-written, with
+// hard-coded version numbers — meaning nineteen published packages could not be
+// installed from the index at all, and the eight that could were pinned to
+// versions that had already moved on. Nobody noticed because the upstream catalog
+// was being verified, not this file.
+//
+// The list is now derived from the two kit repositories: their checks-data.mjs
+// describes each check, their package.json carries the published version.
+const KIT_SOURCES = [
+  { repo: 'dsh-verify-kit', category: 'verification', color: '#176b48', glyph: '<path d="M32 12l14 6v12c0 10-6 17-14 22-8-5-14-12-14-22V18z" fill="none" stroke="#fff" stroke-width="4"/>' },
+  { repo: 'dsh-vertical-kit', category: 'industry', color: '#002fa7', glyph: '<path d="M18 20h28v6H18zM18 30h28v6H18zM18 40h18v6H18z" fill="#fff"/>' },
 ]
 
-// The kit packages install from the npm registry: they are published there on
-// every release, and a registry target needs no git checkout to resolve. The
-// kit repositories remain the development source of truth.
+const KITS = []
+for (const source of KIT_SOURCES) {
+  const kitRoot = resolve(root, '..', source.repo)
+  const { CHECKS } = await import(resolve(kitRoot, 'scripts', 'checks-data.mjs'))
+  for (const entry of CHECKS) {
+    const manifest = JSON.parse(await readFile(resolve(kitRoot, 'packages', entry.npm, 'package.json'), 'utf8'))
+    const zhTitle = String(entry.title ?? '')
+    KITS.push({
+      repo: source.repo,
+      name: entry.npm,
+      version: manifest.version,
+      slug: entry.slug,
+      icon: icon(source.color, glyph(source.glyph) + check),
+      title: { en: `${entry.npm} — ${entry.cli ?? entry.slug}`, zh: zhTitle },
+      description: { en: String(entry.description ?? ''), zh: String(entry.description ?? '') },
+      category: source.category,
+      keywords: [entry.slug, entry.cli ?? entry.slug].filter(Boolean),
+    })
+  }
+}
+
 function kitEntry(kit) {
   return {
     name: kit.name,
@@ -208,8 +157,12 @@ const index = {
 }
 
 const validated = parseMarketIndex(index, indexUrl)
-if (validated.plugins.length !== 9) {
-  throw new Error(`Validated index has ${validated.plugins.length} plugins, expected 9`)
+// The count is derived, not written down. The old literal `9` was the same
+// mistake as the hand-written KITS list: a number that had to be maintained in
+// two places, and was not.
+const expectedCount = 1 + KITS.length
+if (validated.plugins.length !== expectedCount) {
+  throw new Error(`Validated index has ${validated.plugins.length} plugins, expected ${expectedCount}`)
 }
 for (const kit of KITS) {
   const entry = validated.plugins.find(plugin => plugin.name === kit.name)
