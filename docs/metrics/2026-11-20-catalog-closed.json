@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-20",
+  "scope": "the catalog closes; the ledger catches up to 19",
+  "catalogClosed": {
+    "prsMerged": [
+      {
+        "pr": 16825,
+        "entry": "dsh-handover-check",
+        "merged": "2026-11-19T17:02:33Z"
+      },
+      {
+        "pr": 16902,
+        "entry": "dsh-expense-claim-check",
+        "merged": "2026-11-19T16:57:11Z"
+      }
+    ],
+    "coverage": "28 of 28 entries resolved by scripts/catalog-coverage.mjs — zero packages without an entry",
+    "liveFeed": {
+      "url": "https://awesome-dsh-plugin.com/index.json",
+      "format": 1,
+      "totalEntries": 6244,
+      "mine": 26,
+      "note": "the two newest entries are merged to the catalog data but the published feed is rebuilt nightly, so 26 live and 27 after the next build. Verified by name, not assumed."
+    }
+  },
+  "ledger": {
+    "total": 19,
+    "page": "/defects/",
+    "added": [
+      {
+        "n": 18,
+        "check": "tablelint",
+        "rule": "empty-header",
+        "wrong": "warn on 4 deliberately headerless tables",
+        "foundBy": "third-party READMEs"
+      },
+      {
+        "n": 19,
+        "check": "handover-check",
+        "rule": "receiver-unassigned",
+        "wrong": "`接收人：尚未指定` passed with zero findings",
+        "foundBy": "own honest handover"
+      }
+    ],
+    "newCategory": "false negative — the rule existed and accepted a non-answer, which is a different failure from a dead rule. The test suite now names the two kinds separately.",
+    "sources": {
+      "thirdParty": 8,
+      "ownRealWork": 7,
+      "ownHonestArtifact": 1,
+      "rulesAudit": 3,
+      "sum": 19
+    },
+    "enforcement": "the source counts are asserted as categories that must sum to the total; a hand-written number would not survive the test"
+  },
+  "numbers": {
+    "verticalKit": "22 packages, 314 tests, 168/168 rules, 26 site pages",
+    "reviewOutbox": "102 tests, 15 pages",
+    "verifyKit": "5 packages, 58 tests, 25/25 rules, 7 pages",
+    "packagesPublished": 28,
+    "packagesInCatalog": 27
+  }
+}
