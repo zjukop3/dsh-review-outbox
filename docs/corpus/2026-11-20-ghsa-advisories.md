@@ -288,7 +288,27 @@ $ handover-check terraphim.md          → ok: 0 items, 0 errors, 1 warnings  (e
 顺带修掉一个只有发布产物上才看得见的丑：会话交接的 summary 印的是
 `ok: undefined items`——早退分支的 `checked` 少了字段。0.2.3 修好并复查。
 
-## 结论（十一批语料合起来）
+## 目录侧：两个 PR 已合并（2026-11-20）
+
+| PR | 条目 | 合并时间 |
+| --- | --- | --- |
+| #17205 | `#dsh-contributing-check` | 2026-11-20T17:20:21Z |
+| #17135 | `#dsh-security-advisory-check`、`#dsh-migration-guide-check`、`#dsh-privacy-notice-check` | 2026-11-20T17:23:59Z |
+
+合并后实测：
+- 四条详情页全部 **200**（站点重建后即可访问）
+- 全量页面核对 **32/33 可达**——第 33 个是 `dsh-check-suite`，按上游第 7 条不收录聚合包，
+  这个 404 是正确的
+- `catalog:coverage` 里 32 条全为 `merged`
+
+## 一个反复出现的发布产物缺陷
+
+`ok: undefined items`（handover）、`ok: undefined stints`（resume）——同一个毛病两次：
+早退分支的 `checked` 少了字段，而单测只断言 findings，于是本地全绿、发布产物上却印着
+undefined。已加 `test/cli-output.test.js`：跑每个包的 CLI，断言输出里不出现 undefined。
+这条闸是通用的，26 个包任何未来新增的早退分支都会被它拦住。
+
+## 结论（十二批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
