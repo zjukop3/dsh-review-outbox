@@ -1,0 +1,24 @@
+{
+  "task": "dsh-plugin-entry-check",
+  "date": "2026-11-23",
+  "what": "新增目录条目自查包（16 条规则），市场索引 35 -> 36，目录收录 PR #18126",
+  "why": "提交条目的来回几乎都在机械项上：文件名与子目录不一致、name 指向另一个仓库、#sub 不等于路径最后一段、分类不存在、只有英文没有中文。目录 CI 只说「形状不对」。",
+  "corpus": "五份真实条目：四份已合并 + 一份待评审（PR #18109）。必须零发现。",
+  "falsePositivesFixed": [
+    "description 是嵌套映射却被判缺失",
+    "#sub 拿整条路径去比",
+    "正文里合法的 <name> 被判成占位符",
+    "汉字数比英文字符数判中文译文像占位"
+  ],
+  "factsCorrected": [
+    "分类是 23 个不是 24 个（凭记忆写错）",
+    "#sub 指向的是包目录名，不是路径"
+  ],
+  "connectedFixes": [
+    "sync-agent-tools 增加 local 回落路径：工作区测试此前测的是 node_modules 里已发布的旧副本",
+    "site-examples 的临时文件名从示例命令取，与 sync-example-output 对齐",
+    "文件名 finding 只打印 basename，避免随机临时路径污染嵌入输出"
+  ],
+  "published": "dsh-plugin-entry-check 0.1.0 -> 0.1.1（补 docs/DETAIL.md 与 icon.svg 进 tarball）",
+  "gates": "测试 489 -> 515；规则 214 -> 228 条双向；镜像 35/35 对齐"
+}
