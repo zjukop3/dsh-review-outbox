@@ -9,9 +9,13 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 
 const script = resolve(import.meta.dirname, '..', 'scripts', 'push-verified.mjs')
-const run = (cwd, ...args) => {
+const run = (cwd, ...rest) => {
+  // 最后一个参数可以是环境变量覆盖（例如把退避压到 0 秒），其余是脚本参数。
+  const maybeEnv = rest.at(-1)
+  const env = maybeEnv && typeof maybeEnv === 'object' ? rest.pop() : {}
+  const args = rest
   try {
-    return { code: 0, out: execFileSync(process.execPath, [script, ...args], { cwd, encoding: 'utf8' }) }
+    return { code: 0, out: execFileSync(process.execPath, [script, ...args], { cwd, encoding: 'utf8', env: { ...process.env, ...env } }) }
   } catch (error) {
     return { code: error.status ?? 1, out: `${error.stdout ?? ''}${error.stderr ?? ''}` }
   }
@@ -73,4 +77,19 @@ test('uncommitted changes are called out rather than silently left behind', asyn
   execFileSync('sh', ['-c', 'printf x > note.txt'], { cwd: work })
   const result = run(work, '.')
   assert.match(result.out, /uncommitted changes present/)
+})
+
+// 推不上去时必须说 NOT confirmed 并以 1 退出。
+//
+// 这个脚本存在的理由就是「三次循环报告成功、实际什么都没推上去」。已有的用例覆盖了
+// 「远端动过、非快进」这一种失败；这里补另一种：远端根本连不上（网络掉线时就是这样）。
+// 退避秒数用环境变量压到 0，否则真跑六次退避要 75 秒。
+test('an unreachable remote is NOT confirmed either, and the exit code says so', async t => {
+  const { work } = await scratch(t)
+  git(work, 'remote', 'set-url', 'origin', 'file:///nonexistent-repo.git')
+  git(work, '-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-q', '--allow-empty', '-m', 'local ahead')
+  const result = run(work, '.', { PUSH_VERIFIED_SLEEP: '0' })
+  assert.equal(result.code, 1, result.out)
+  assert.match(result.out, /NOT confirmed/)
+  assert.ok(!/confirmed main at /.test(result.out), `不该出现确认行：\n${result.out}`)
 })
