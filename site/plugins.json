@@ -723,7 +723,7 @@
       },
       "versions": [
         {
-          "version": "0.1.1",
+          "version": "0.1.4",
           "publishTimestamp": 1794312000,
           "source": {
             "type": "npm"
@@ -1403,6 +1403,49 @@
           "deepseek-harness",
           "contributing-check",
           "contributing-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1794312000,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dsh-perf-report-check",
+      "title": {
+        "en": "dsh-perf-report-check — perf-report-check",
+        "zh": "性能报告检查清单"
+      },
+      "description": {
+        "en": "压测与基准报告的检查：在什么条件下测的（并发/轮次/数据规模）、结果是不是可比较的量（分位、吞吐、N 次中位数）、环境、基线对照、结论段，以及复现命令。单次跑出来的一个数字不算结果——平均值会藏住尾部，而尾部才是用户感受到的那一段。",
+        "zh": "压测与基准报告的检查：在什么条件下测的（并发/轮次/数据规模）、结果是不是可比较的量（分位、吞吐、N 次中位数）、环境、基线对照、结论段，以及复现命令。单次跑出来的一个数字不算结果——平均值会藏住尾部，而尾部才是用户感受到的那一段。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/perf-report-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "perf-report-check",
+          "perf-report-check"
         ],
         "labels": [],
         "sortKeys": {

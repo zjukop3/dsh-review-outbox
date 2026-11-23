@@ -308,7 +308,39 @@ $ handover-check terraphim.md          → ok: 0 items, 0 errors, 1 warnings  (e
 undefined。已加 `test/cli-output.test.js`：跑每个包的 CLI，断言输出里不出现 undefined。
 这条闸是通用的，26 个包任何未来新增的早退分支都会被它拦住。
 
-## 结论（十二批语料合起来）
+## 第十一批：真实性能报告（6 份）——第三次文件名双关
+
+第六批用了 `filename:TEST-REPORT.md` 取样，取到的是压测/回测报告。这批顺着查下去：
+`test-report.md`、`loadtest-report.md`、`perf-report.md` 在公开仓库里主要写的是
+**p50/p95、QPS、并发轮次**——没有通过/失败计数。拿「测试报告」的规则判它，等于问
+一份压测报告「你过了几条用例」。
+
+处理方式与前两次不同：**不静音，把它做成独立的产品**。
+
+- 新包 `dsh-perf-report-check`：条件、可比较的度量、环境、基线、结论、复现，7 条规则
+- `dsh-test-report-check` 判出性能报告时给一条 `performance-report` warn 并点名新包
+
+语料与结果（6 份公开报告）：
+
+| 文档 | 结果 |
+| --- | --- |
+| `dataelement/bisheng` 压测报告 | 零发现（11 个分位）|
+| `asdecided/core`、`gdsge/gdsge`、`Simon-He95/markdown-it-ts` | 零发现 |
+| `Danceiny/gotry` | 只余 `conclusion-missing` warn |
+| `qusong0627/QuantMind`（906 字节回测便条）| 多条——它确实什么都没写 |
+
+四处校准仍是同一族：标题不必在第一行（语言切换行在前）、结论段叫 `Findings` /
+`Go / no-go recommendation` / `结果分析`、`median of 3 reps` 与 `best 0.65ms` 都算度量、
+`PCWIN64, 8 compute threads` 就算环境。
+
+## 闸上线当天就漏了
+
+上一轮加的 `cli-output` 闸（断言每个包的 CLI 输出里没有 undefined）在**上线当天就漏了
+一次**：`test-report-check` 的性能报告早退分支印出 `ok: undefined`，而闸只喂了一份通用
+markdown，走不到那条分支。现在改成 fixture 矩阵（通用 / 性能 / 会话交接 / 续点 /
+指路型贡献指南），并同时拒绝裸 `null`——`ok: null` 与 `ok: undefined` 是同一种丑。
+
+## 结论（十三批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
