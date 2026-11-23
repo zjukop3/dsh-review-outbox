@@ -340,7 +340,27 @@ undefined。已加 `test/cli-output.test.js`：跑每个包的 CLI，断言输�
 markdown，走不到那条分支。现在改成 fixture 矩阵（通用 / 性能 / 会话交接 / 续点 /
 指路型贡献指南），并同时拒绝裸 `null`——`ok: null` 与 `ok: undefined` 是同一种丑。
 
-## 结论（十三批语料合起来）
+## 首跑缺陷：README 里的第一条命令根本跑不通（2026-11-23）
+
+不是文体问题，是每个包的第一条命令。
+
+`README` 里写的是 `npx commit-msg-check msg.txt`。npx 会把第一段当成**包名**去
+registry 找——没有叫 `commit-msg-check` 的包，于是 404。实测：
+
+```
+$ npx commit-msg-check msg.txt        → 404（找不到包）
+$ npm exec --package=dsh-commit-msg-check -- commit-msg-check msg.txt  → 正常
+```
+
+27 个包的文档第一条命令、站点上每条 usage，全都跑不通。这就是「首跑即失败」，
+比任何规则误报都致命——而且我前面十几轮都在校准规则，从没跑过这句话。
+
+修法：每个包的 `bin` 增加一个与包名同名的键（`"dsh-commit-msg-check": "./bin/cli.js"`），
+于是 `npx dsh-commit-msg-check msg.txt` 能解析。26 + 4 个包 patch 发布，抽查三个包
+用 npx 实测通过；`audit-packages` 增加同名 bin 规则（删掉别名会红，装回去才绿），
+文档与 usage 同步换成 `npx <包名>`。
+
+## 结论（十四批语料合起来）
 
 > 一个规则的默认档位与词表，应该由它在**真实合法文档**上的表现决定。
 > 三条实测：公告类 90%/75% 的 warn 是噪音 → 改按需；指南类恢复三问 100% 开火 → 改按类型；
