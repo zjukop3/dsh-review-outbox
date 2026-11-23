@@ -3,7 +3,7 @@
 <p class="eyebrow">DEEPSEEK HARNESS · PLUGIN TROUBLESHOOTING</p>
 <h1>DSH 插件装不上 / 更新不了：按症状查</h1>
 <nav class="nav"><a href="../">首页</a><a href="../operations/">发布与收录手册</a><a href="../research-report/">验收清单</a><a href="https://github.com/zjukop3/dsh-review-outbox">GitHub 源码</a></nav>
-<p>六种症状，每条给一句原因、一条诊断命令、一个处理动作。<strong>只有我们亲手量过的才写成结论</strong>；没量过的分支会明确标注。</p>
+<p>九种症状，每条给一句原因、一条诊断命令、一个处理动作。<strong>只有我们亲手量过的才写成结论</strong>；没量过的分支会明确标注。</p>
 <h2 id="1-命令报-errpnpmnomatchingversion">1. 命令报 <code>ERR_PNPM_NO_MATCHING_VERSION</code></h2>
 <p>你会看到的原文（pnpm）:</p>
 <pre><code>ERR_PNPM_NO_MATCHING_VERSION  No matching version found for &lt;name&gt;@&lt;version&gt;
@@ -56,6 +56,31 @@ node &quot;$PNPM&quot; add &lt;name&gt;@&lt;version&gt; --config.userconfig=/tmp
 <p>2026-11-18 实测：当天两个最新发布的包（dsh-dockerfile-check、dsh-pr-description-check）在默认镜像上就是这个错，切到官方 registry 后<strong>两个都正常运行</strong>；同一批更早发布的包在镜像上正常。也就是说这是一段时效性的同步延迟，不是包的缺陷。</p>
 <p><strong>如果确实要用镜像</strong>：等同步（通常几小时内），或显式指定官方源跑一次，或 <code>npm i -g 包名 --registry=https://registry.npmjs.org</code> 后再用命令。</p>
 <p><strong>顺带一条</strong>：<code>dsh-hashcheck</code> 有子命令，<code>npx dsh-hashcheck 某文件</code> 会以出口码 2 打印用法——那是设计内的用法错误，不是装坏了。正确用法是 <code>npx dsh-hashcheck build &lt;目录&gt;</code> / <code>npx dsh-hashcheck verify &lt;清单&gt;</code>。</p>
+<h2 id="8-dsh-plugin-add-报-error-profile-name-is-required">8. <code>dsh plugin add</code> 报 <code>error: --profile &lt;name&gt; is required</code></h2>
+<p><strong>症状</strong>：照 README 或目录页抄了安装命令，得到：</p>
+<pre><code>error: --profile &lt;name&gt; is required</code></pre>
+<p><strong>原因</strong>：<code>dsh plugin</code> 的 <code>--profile</code> 是必填项（CLI <code>0.2.2-rc.5</code>）。安装命令必须指明装到哪个 profile；<code>dsh plugin add &lt;包名&gt;</code> 这种写法从来就不成立。</p>
+<pre><code class="language-bash">dsh plugin --profile web add &lt;包名&gt;          # Web profile
+dsh plugin --profile desktop add &lt;包名&gt;      # Desktop 应用</code></pre>
+<p>装完核实它真的在：</p>
+<pre><code class="language-bash">dsh plugin --profile web why &lt;包名&gt;</code></pre>
+<h2 id="9-errpnpmtarballextract-invalid-checksum-for-tar-header">9. <code>ERR_PNPM_TARBALL_EXTRACT … Invalid checksum for TAR header</code></h2>
+<p><strong>症状</strong>：安装在国内镜像上失败，报错指向一个 <code>&lt;包名&gt;-0.0.0-stage.tgz</code>：</p>
+<pre><code>ERR_PNPM_TARBALL_EXTRACT  Failed to add tarball from
+&quot;https://registry.npmmirror.com/&lt;name&gt;/-/&lt;name&gt;-0.0.0-stage.tgz&quot;
+to store: Invalid checksum for TAR header at offset 2560</code></pre>
+<p><strong>原因</strong>：镜像的 <code>dist-tags.latest</code> 停在那个包<strong>首发时</strong>的空壳占位包上（通常只有 2 个文件、几百字节），而上游 npmjs 的 <code>latest</code> 早已是正式版。这是镜像的指针问题，不是包的问题——我们自己的 <code>dsh-check-suite</code> 在 2026-11-23 就是这样：上游 <code>latest</code> 已经是 <code>0.1.0</code> 好几个小时，镜像仍报 <code>0.0.0-stage</code>。</p>
+<p><strong>诊断</strong>（两边一对比就清楚）：</p>
+<pre><code class="language-bash">curl -s https://registry.npmjs.org/&lt;name&gt;      | grep -o &#39;&quot;latest&quot;:&quot;[^&quot;]*&quot;&#39;
+curl -s https://registry.npmmirror.com/&lt;name&gt;  | grep -o &#39;&quot;latest&quot;:&quot;[^&quot;]*&quot;&#39;</code></pre>
+<p><strong>处理</strong>，按顺序试：</p>
+<pre><code class="language-bash"># 一：钉住版本，绕开镜像的 latest
+dsh plugin --profile web add &lt;包名&gt;@&lt;版本&gt;
+# 二：这一次直接走上游
+dsh plugin --profile web add --registry=https://registry.npmjs.org &lt;包名&gt;
+# 三：让镜像重新抓取，然后等（实测约六分钟后跟上，不是立刻）
+curl -X PUT https://registry.npmmirror.com/&lt;name&gt;/sync</code></pre>
+<p>触发后同一条命令在镜像上成功（<code>resolved 28, downloaded 28, done in 7.1s</code>）。</p>
 <h2 id="这套判断的依据">这套判断的依据</h2>
 <p>每条结论都来自可复现的实测，完整时间常数、命令与自我修正记录在<a href="https://zjukop3.github.io/dsh-review-outbox/operations/">发布与收录手册</a>里。若你测到的与这里不同，<strong>以你的复现结果为准</strong> —— 我们只保证&quot;我们量到的是这样&quot;，不保证别的环境一定相同。</p>
 <small>每条结论都可复现：<a href="https://github.com/zjukop3/dsh-review-outbox/blob/main/docs/TROUBLESHOOTING.md">docs/TROUBLESHOOTING.md</a></small>

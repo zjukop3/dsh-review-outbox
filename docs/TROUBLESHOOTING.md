@@ -1,6 +1,6 @@
 # DSH 插件装不上 / 更新不了：按症状查
 
-六种症状，每条给一句原因、一条诊断命令、一个处理动作。**只有我们亲手量过的才写成结论**；没量过的分支会明确标注。
+九种症状，每条给一句原因、一条诊断命令、一个处理动作。**只有我们亲手量过的才写成结论**；没量过的分支会明确标注。
 
 ## 1. 命令报 `ERR_PNPM_NO_MATCHING_VERSION`
 
@@ -121,6 +121,59 @@ npx --yes --registry=https://registry.npmjs.org dsh-dockerfile-check@latest Dock
 **如果确实要用镜像**：等同步（通常几小时内），或显式指定官方源跑一次，或 `npm i -g 包名 --registry=https://registry.npmjs.org` 后再用命令。
 
 **顺带一条**：`dsh-hashcheck` 有子命令，`npx dsh-hashcheck 某文件` 会以出口码 2 打印用法——那是设计内的用法错误，不是装坏了。正确用法是 `npx dsh-hashcheck build <目录>` / `npx dsh-hashcheck verify <清单>`。
+
+## 8. `dsh plugin add` 报 `error: --profile <name> is required`
+
+**症状**：照 README 或目录页抄了安装命令，得到：
+
+```
+error: --profile <name> is required
+```
+
+**原因**：`dsh plugin` 的 `--profile` 是必填项（CLI `0.2.2-rc.5`）。安装命令必须指明装到哪个 profile；`dsh plugin add <包名>` 这种写法从来就不成立。
+
+```bash
+dsh plugin --profile web add <包名>          # Web profile
+dsh plugin --profile desktop add <包名>      # Desktop 应用
+```
+
+装完核实它真的在：
+
+```bash
+dsh plugin --profile web why <包名>
+```
+
+## 9. `ERR_PNPM_TARBALL_EXTRACT … Invalid checksum for TAR header`
+
+**症状**：安装在国内镜像上失败，报错指向一个 `<包名>-0.0.0-stage.tgz`：
+
+```
+ERR_PNPM_TARBALL_EXTRACT  Failed to add tarball from
+"https://registry.npmmirror.com/<name>/-/<name>-0.0.0-stage.tgz"
+to store: Invalid checksum for TAR header at offset 2560
+```
+
+**原因**：镜像的 `dist-tags.latest` 停在那个包**首发时**的空壳占位包上（通常只有 2 个文件、几百字节），而上游 npmjs 的 `latest` 早已是正式版。这是镜像的指针问题，不是包的问题——我们自己的 `dsh-check-suite` 在 2026-11-23 就是这样：上游 `latest` 已经是 `0.1.0` 好几个小时，镜像仍报 `0.0.0-stage`。
+
+**诊断**（两边一对比就清楚）：
+
+```bash
+curl -s https://registry.npmjs.org/<name>      | grep -o '"latest":"[^"]*"'
+curl -s https://registry.npmmirror.com/<name>  | grep -o '"latest":"[^"]*"'
+```
+
+**处理**，按顺序试：
+
+```bash
+# 一：钉住版本，绕开镜像的 latest
+dsh plugin --profile web add <包名>@<版本>
+# 二：这一次直接走上游
+dsh plugin --profile web add --registry=https://registry.npmjs.org <包名>
+# 三：让镜像重新抓取，然后等（实测约六分钟后跟上，不是立刻）
+curl -X PUT https://registry.npmmirror.com/<name>/sync
+```
+
+触发后同一条命令在镜像上成功（`resolved 28, downloaded 28, done in 7.1s`）。
 
 ## 这套判断的依据
 

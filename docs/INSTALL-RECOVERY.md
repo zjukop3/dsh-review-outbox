@@ -14,6 +14,35 @@
 - Node.js `>=22.19`
 - 当前真实验证环境见[兼容矩阵](COMPATIBILITY.md)
 
+## 装不上：三种不指向你的代码的失败
+
+这三种都在 2026-11-23 实测过，报错里没有一处跟插件代码有关，抄报错去搜也搜不到答案。
+
+**`error: --profile <name> is required`。** `dsh plugin` 的 `--profile` 是必填项（CLI `0.2.2-rc.5`）。目录页、README 里给的命令如果漏了它，照抄就是这个结果。补上 profile 名——Desktop 用 `desktop`，Web 用 `web`：
+
+```bash
+dsh plugin --profile web add dsh-check-suite
+```
+
+**`ERR_PNPM_TARBALL_EXTRACT … Invalid checksum for TAR header`。** 这是镜像的问题，不是包的问题。国内默认走 `registry.npmmirror.com`，而它的 `dist-tags.latest` 可能停在某个包首发时那个 `0.0.0-stage` 空壳上（2 个文件、几百字节），上游 npmjs 的 `latest` 早已是正式版。此时 pnpm 拿到的是坏 tarball。两条出路：
+
+```bash
+# 一：钉住版本，绕开镜像的 latest
+dsh plugin --profile web add <package>@<version>
+# 二：直接走上游
+dsh plugin --profile web add --registry=https://registry.npmjs.org <package>
+```
+
+如果想让镜像自己跟上，可以触发重新抓取，然后等——实测约六分钟后跟上，不是立刻：
+
+```bash
+curl -X PUT https://registry.npmmirror.com/<package>/sync
+```
+
+**`{"error":"Not found"}` 或 `404` 出现在刚发布的 tarball 上。** `npm publish` 打印 `+ name@version` 之后的一两分钟里，registry 的元数据可能已经有这个版本，而 `dist.tarball` 还在 404。等一会儿再装；不要因此改版本号重发。
+
+这三种都指向同一条规矩：**按产物判断，不按提示判断。** 判断依据是「干净 profile 里真的装上了、`dsh plugin --profile <name> why <package>` 能看到它」，而不是命令的退出码。
+
 ## 从应用内「发现」安装
 
 启用「自定义插件索引」后，在「发现」中添加 `https://zjukop3.github.io/dsh-review-outbox/plugins.json`，搜索并安装 Review Outbox，再回到「已安装」启用。该索引与 Awesome registry 是两种不同格式；完整步骤和官方 schema 验证见[应用内市场指南](MARKET.md)。
