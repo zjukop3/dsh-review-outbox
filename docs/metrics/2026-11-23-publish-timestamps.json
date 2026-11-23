@@ -1,0 +1,22 @@
+{
+  "task": "publish-timestamps",
+  "date": "2026-11-23",
+  "what": "索引 publishTimestamp 从常数换成每个版本的真实发布时间",
+  "before": {
+    "distinctTimestamps": 2,
+    "constant": "2026-11-10T12:00:00Z",
+    "note": "28 个 kit 包共用项目开工日；UI 的「7 天内发布」标永远不会亮"
+  },
+  "after": {
+    "distinctTimestamps": 31,
+    "packages": 34,
+    "source": "registry.npmjs.org 的 time[version]",
+    "cache": "docs/metrics/publish-times.json"
+  },
+  "gate": [
+    "scripts/build-market-index.mjs 断言索引时间等于缓存时间，不一致直接抛错",
+    "test/publish-times.test.js 两条：逐包对账 + 常数不再出现"
+  ],
+  "twoDirection": "把 site/plugins.json 全部改回 1794312000，两条测试变红；改回来才绿",
+  "foundBy": "重新生成索引时发现 34 个条目只有 2 个不同时间"
+}

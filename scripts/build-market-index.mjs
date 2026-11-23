@@ -29,9 +29,32 @@ const icon = (fill, paths) => `data:image/svg+xml;base64,${Buffer.from(
 const check = '<path d="m24 40 6 6 12-14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'
 const glyph = paths => paths
 
+// sortKeys.added：索引里的排列顺序，一个项目统一用开工日没问题。
 const kitSort = {
   'dsh-verify-kit': Math.floor(Date.parse('2026-11-10T12:00:00Z') / 1000),
   'dsh-vertical-kit': Math.floor(Date.parse('2026-11-10T12:00:00Z') / 1000),
+}
+
+// publishTimestamp：这个**版本**的发布时间，由 scripts/fetch-publish-times.mjs 从 registry 取。
+// 它以前和 sortKeys.added 用同一个常数，于是 28 个包的「发布时间」全一样，UI 判「7 天内
+// 发布」的标永远不会亮，今天发的版本与九天前的看起来毫无区别。版本对不上就退回旧常数并
+// 记一条 warning——宁可旧，不要编。
+const PUBLISH_TIMES_PATH = resolve(root, 'docs/metrics/publish-times.json')
+const PUBLISH_TIMES = existsSync(PUBLISH_TIMES_PATH)
+  ? JSON.parse(await readFile(PUBLISH_TIMES_PATH, 'utf8')).packages ?? {}
+  : {}
+const timeWarnings = []
+function publishTimestampOf(kit, fallback) {
+  const cached = PUBLISH_TIMES[kit.name]
+  if (!cached) {
+    timeWarnings.push(`${kit.name}@${kit.version}: 缓存里没有，退回 sortKeys 常数（跑 node scripts/fetch-publish-times.mjs）`)
+    return fallback
+  }
+  if (cached.version !== kit.version) {
+    timeWarnings.push(`${kit.name}: 缓存是 ${cached.version}，本地是 ${kit.version}，退回常数`)
+    return fallback
+  }
+  return cached.time
 }
 const kitRepos = {
   'dsh-verify-kit': resolve(root, '..', 'dsh-verify-kit'),
@@ -120,7 +143,7 @@ function kitEntry(kit) {
     versions: [
       {
         version: kit.version,
-        publishTimestamp: kitSort[kit.repo],
+        publishTimestamp: publishTimestampOf(kit, kitSort[kit.repo]),
         source: { type: 'npm' },
         engines: { dsh: '>=0.2.2-rc.1 <0.3.0-0' },
       },
@@ -195,6 +218,13 @@ for (const kit of KITS) {
   if (!entry || entry.versions[0].version !== kit.version) {
     throw new Error(`Validated index lost or mismatched ${kit.name}`)
   }
+  // 索引里写的发布时间必须是这个版本的真实发布时间：写成常数，UI 的「7 天内发布」标就
+  // 永远不会亮，而读者也无从判断这个包是不是还在维护。
+  const claimed = entry.versions[0].publishTimestamp
+  const real = PUBLISH_TIMES[kit.name]
+  if (real && real.version === kit.version && claimed !== real.time) {
+    throw new Error(`${kit.name}: publishTimestamp ${claimed} 与 registry 的 ${real.time} 不一致`)
+  }
 }
 await writeFile(resolve(root, 'site/plugins.json'), `${JSON.stringify(index, null, 2)}\n`, 'utf8')
-console.log(JSON.stringify({ ok: true, plugins: validated.plugins.length, index: 'site/plugins.json' }, null, 2))
+console.log(JSON.stringify({ ok: true, plugins: validated.plugins.length, index: 'site/plugins.json', publishTimeWarnings: timeWarnings }, null, 2))
