@@ -1,0 +1,19 @@
+{
+  "task": "dsh-document-check",
+  "date": "2026-11-23",
+  "what": "新增一条 agent 工具，把 31 个文档检查交给模型自己调用；市场索引 34 -> 35",
+  "why": "27 个检查包原本只有 HTTP 端点：人得记得 POST，agent 没有理由调用。工具是模型能看见并决定调用的那一层。",
+  "measured": {
+    "install": "干净 profile 里 npm 安装 resolved in 11.8s，行 compose 正常，@deepseek-ai/dsh-tools 从宿主解析",
+    "execute": "adr-check 对缺状态/决定/后果的 ADR 返回 ok:false, 3 errors, 1 warning",
+    "speed": "31 个检查全跑 59ms，最慢 agreement-check 4.5ms，加载 26ms",
+    "bounds": "每次最多 25 条 findings，超出显式标注"
+  },
+  "correction": "check 的枚举校验发生在宿主（@deepseek-ai/dsh-tools 0.1.0-rc.6 于 execute 前校验；0.2.2-rc.5 不校验），不是本包。README 改成说清这个差别，而不是声称行为一致。",
+  "gates": [
+    "sync-agent-tools --check：清单与依赖由 checks-data + verify-kit 推导",
+    "route-parity 与 sync-suite 的成员判据从「在 packages/ 目录里」改成「自己声明了 webServer」",
+    "audit-rules 跳过 0 条规则的包并说明"
+  ],
+  "catalog": "PR #18109"
+}
