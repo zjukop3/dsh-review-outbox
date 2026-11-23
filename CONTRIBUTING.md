@@ -10,7 +10,7 @@
 ## 提 PR
 
 1. Fork 后从 `main` 拉分支。
-2. `pnpm install --ignore-scripts && pnpm run check` 必须通过（45 项测试 + 客户端构建）。
+2. `pnpm install --ignore-scripts && pnpm run check` 必须通过（客户端构建 + 全量测试）。跑全量测试需要把 `dsh-vertical-kit`、`dsh-verify-kit` 与本仓库并排检出，见 [README 开发一节](README.md#开发)。
 3. 行为变化需要证据：浏览器流程或互操作脚本输出，存入 `docs/e2e/` 并在 PR 描述引用。
 4. `market-release.json` 的 pin 只在运行时行为变化且经真实安装验证后移动；文档提交不动 pin。
 5. PR 模板的自查清单逐项确认。

@@ -19,13 +19,30 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # 三个仓库并排检出在一个父目录里，就是为了让 `..` 这个相对路径在 CI 里和在本地一样。
+    # 之前 CI 只检出本仓库，于是 10 条依赖隔壁两个 kit 的测试每推一次红一次：这些闸在
+    # CI 里从来没真的跑过，而台账、索引覆盖、语料对账全在那一批里头。
+    defaults:
+      run:
+        working-directory: workspace/dsh-review-outbox
     steps:
-      - name: Check out repository
+      - name: Check out this repository
         uses: actions/checkout@v4
         with:
+          path: workspace/dsh-review-outbox
           # scripts/build-market-index.mjs reads the pinned commit's committer time,
           # so a depth-1 clone fails with "git show: bad object".
           fetch-depth: 0
+      - name: Check out dsh-vertical-kit (sibling the index and ledger read from)
+        uses: actions/checkout@v4
+        with:
+          repository: zjukop3/dsh-vertical-kit
+          path: workspace/dsh-vertical-kit
+      - name: Check out dsh-verify-kit (sibling the suite depends on)
+        uses: actions/checkout@v4
+        with:
+          repository: zjukop3/dsh-verify-kit
+          path: workspace/dsh-verify-kit
       - name: Use Node.js 22.19
         uses: actions/setup-node@v4
         with:

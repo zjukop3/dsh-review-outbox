@@ -150,6 +150,17 @@ pnpm test
 pnpm run build
 ```
 
+测试里有 10 条要读隔壁两个仓库（`dsh-vertical-kit`、`dsh-verify-kit`），因为它们对账的是「这个项目发布的每个包」——包在隔壁。把那两个仓库和本仓库**并排**检出（同一个父目录），`pnpm test` 才是全量的：
+
+```
+workspace/
+  dsh-review-outbox/
+  dsh-vertical-kit/
+  dsh-verify-kit/
+```
+
+CI 就是这么检出的（见 `.github/workflows/tests.yml`）。只检出本仓库时，那 10 条会因为找不到兄弟目录而失败，报错里直接写着缺哪个路径。
+
 - `src/events.js`：官方事件到成果记录的纯转换。
 - `src/backfill.js`：最新 Session 优先的有界读取、单会话故障隔离和句柄释放。
 - `src/store.js`：串行状态变更、验收包、revision、历史和原子持久化。

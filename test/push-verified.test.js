@@ -22,6 +22,10 @@ async function scratch(t) {
   const dir = await mkdtemp(join(tmpdir(), 'push-verified-'))
   t.after(() => rm(dir, { recursive: true, force: true }))
   git(dir, 'init', '-q', '--bare', 'remote.git')
+  // 裸仓库的 HEAD 默认指向 refs/heads/master（或随 init.defaultBranch 变化），而这里推的是
+  // main。不显式指定它，clone 出来的副本会落在一个 unborn 分支上，git 版本不同行为也不同：
+  // 本地绿、CI 红。2026-11-23 在 runner 上就是这条红。
+  git(dir, '--git-dir=remote.git', 'symbolic-ref', 'HEAD', 'refs/heads/main')
   git(dir, 'clone', '-q', 'remote.git', 'work')
   const work = join(dir, 'work')
   git(work, 'checkout', '-q', '-b', 'main')
