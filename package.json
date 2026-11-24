@@ -83,7 +83,8 @@
     "push:verified": "node scripts/push-verified.mjs",
     "build:site": "PUBLIC_ORIGIN=https://zjukop3.github.io/dsh-review-outbox node scripts/build-research-site.mjs",
     "check:pages": "node scripts/check-detail-pages.mjs",
-    "market:times": "node scripts/fetch-publish-times.mjs"
+    "market:times": "node scripts/fetch-publish-times.mjs",
+    "push:api": "node scripts/push-via-api.mjs"
   },
   "files": [
     "src",
