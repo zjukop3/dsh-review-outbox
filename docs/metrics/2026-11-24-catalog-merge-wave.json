@@ -1,0 +1,23 @@
+{
+  "event": "catalog-merge-wave",
+  "date": "2026-11-24",
+  "what": "五个待评审 PR 里四个已合并：perf-report、document-check、entry-check 三条目 + 一篇文档 PR（镜像 latest 的坑）",
+  "evidence": {
+    "merged": [
+      "#18016 dsh-perf-report-check 条目",
+      "#18019 docs：publish 返回不等于可安装、镜像 latest 可能停在占位包",
+      "#18109 dsh-document-check 条目（一条 agent 工具）",
+      "#18126 dsh-plugin-entry-check 条目"
+    ],
+    "stillOpen": [
+      "#18341 dsh-plugin-package-check 条目"
+    ],
+    "detailPages": "35/37 可达；缺的两条是 check-suite（规则 #7 故意不收录）与 package-check（PR 待合并）"
+  },
+  "catalog": {
+    "live": 35,
+    "pending": 1,
+    "deliberatelyUnlisted": 1
+  },
+  "note": "文档 PR 是这一轮唯一不经过我的仓库、直接进生态的东西——镜像把 latest 指在空壳占位包上，读者按 README 装不上。"
+}
