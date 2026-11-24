@@ -1,6 +1,6 @@
 {
   "registry": "https://registry.npmjs.org",
-  "fetchedAt": "2026-11-24T08:07:31.357Z",
+  "fetchedAt": "2026-11-24T08:48:57.392Z",
   "packages": {
     "dsh-adr-check": {
       "version": "0.2.4",
@@ -23,9 +23,9 @@
       "iso": "2026-11-24T07:19:53.457Z"
     },
     "dsh-check-suite": {
-      "version": "0.1.12",
-      "time": 1795506621,
-      "iso": "2026-11-24T07:50:21.906Z"
+      "version": "0.1.14",
+      "time": 1795509716,
+      "iso": "2026-11-24T08:41:56.826Z"
     },
     "dsh-citelint": {
       "version": "0.1.5",
@@ -48,9 +48,9 @@
       "iso": "2026-11-23T06:18:22.593Z"
     },
     "dsh-document-check": {
-      "version": "0.1.4",
-      "time": 1795506544,
-      "iso": "2026-11-24T07:49:04.254Z"
+      "version": "0.1.6",
+      "time": 1795509720,
+      "iso": "2026-11-24T08:42:00.769Z"
     },
     "dsh-env-example-check": {
       "version": "0.2.3",
@@ -128,9 +128,9 @@
       "iso": "2026-11-23T06:21:43.913Z"
     },
     "dsh-plugin-entry-check": {
-      "version": "0.1.2",
-      "time": 1795506558,
-      "iso": "2026-11-24T07:49:18.116Z"
+      "version": "0.1.4",
+      "time": 1795509652,
+      "iso": "2026-11-24T08:40:52.943Z"
     },
     "dsh-plugin-package-check": {
       "version": "0.1.0",
