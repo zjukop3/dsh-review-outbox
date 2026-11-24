@@ -1,0 +1,20 @@
+{
+  "task": "dsh-plugin-package-check",
+  "date": "2026-11-24",
+  "what": "新增发布前打包检查（15 条规则），市场索引 36 -> 37，目录收录 PR #18341",
+  "why": "目录第一号打回理由是只声明 dsh.client（装不上）；第二种是 files 把 patch 漏出 tarball（本地能跑、发出去装不上）。",
+  "reportedOnOwnRepo": {
+    "no_icon": "27 个包",
+    "no_readme_install": "27 个 README",
+    "fix": "scripts/sync-icons.mjs（六族图标）+ scripts/sync-readme-install.mjs（装进 DSH 一段），都进了 npm run check"
+  },
+  "thirdPartyFindings": [
+    "dsh-purge-community 的 bin 键里没有自己的包名，npx dsh-purge-community 会 404",
+    "@claude-mem/dsh 是 private"
+  ],
+  "firstVersionMistakes": [
+    "要求 patch 必须挂自己 → 把聚合包 dsh-check-suite 判错（它挂依赖是对的）",
+    "多了一条 dir-name-mismatch，在临时目录与解包目录上误报 → 删掉"
+  ],
+  "gates": "测试 520 -> 537；规则 228 -> 243 双向；31 个包全干净；站点 34 页"
+}

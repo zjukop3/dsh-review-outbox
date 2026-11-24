@@ -1,6 +1,6 @@
 {
   "registry": "https://registry.npmjs.org",
-  "fetchedAt": "2026-11-23T08:36:04.740Z",
+  "fetchedAt": "2026-11-24T02:35:43.499Z",
   "packages": {
     "dsh-adr-check": {
       "version": "0.2.4",
@@ -131,6 +131,11 @@
       "version": "0.1.1",
       "time": 1795422625,
       "iso": "2026-11-23T08:30:25.852Z"
+    },
+    "dsh-plugin-package-check": {
+      "version": "0.1.0",
+      "time": 1795487368,
+      "iso": "2026-11-24T02:29:28.961Z"
     },
     "dsh-pr-description-check": {
       "version": "0.2.3",

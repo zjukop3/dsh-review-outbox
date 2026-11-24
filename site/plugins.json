@@ -1509,6 +1509,49 @@
       ]
     },
     {
+      "name": "dsh-plugin-package-check",
+      "title": {
+        "en": "dsh-plugin-package-check — plugin-package-check",
+        "zh": "插件包可安装性检查清单"
+      },
+      "description": {
+        "en": "发布前确认这个插件包「装得上、找得到」：dsh.bundle.patch 声明了且在、patch 挂的是自己或自己的依赖、files 没把 patch 或 DETAIL 漏掉、engines.dsh、bin 里有一个键等于包名、README 里有安装命令、locale 与图标齐。十条规则，只看包目录。",
+        "zh": "发布前确认这个插件包「装得上、找得到」：dsh.bundle.patch 声明了且在、patch 挂的是自己或自己的依赖、files 没把 patch 或 DETAIL 漏掉、engines.dsh、bin 里有一个键等于包名、README 里有安装命令、locale 与图标齐。十条规则，只看包目录。"
+      },
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
+      "author": "zjukop3",
+      "homepage": "https://zjukop3.github.io/dsh-vertical-kit/plugin-package-check/",
+      "repository": {
+        "url": "https://github.com/zjukop3/dsh-vertical-kit"
+      },
+      "metadata": {
+        "category": "industry",
+        "keywords": [
+          "dsh",
+          "dsh-plugin",
+          "deepseek-harness",
+          "plugin-package-check",
+          "plugin-package-check"
+        ],
+        "labels": [],
+        "sortKeys": {
+          "added": 1794312000
+        }
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1795487368,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.2-rc.1 <0.3.0-0"
+          }
+        }
+      ]
+    },
+    {
       "name": "dsh-check-suite",
       "title": {
         "en": "Check suite",
