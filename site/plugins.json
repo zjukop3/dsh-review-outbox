@@ -1153,8 +1153,8 @@
       },
       "versions": [
         {
-          "version": "0.3.6",
-          "publishTimestamp": 1795493740,
+          "version": "0.3.7",
+          "publishTimestamp": 1795500030,
           "source": {
             "type": "npm"
           },
@@ -1196,8 +1196,8 @@
       },
       "versions": [
         {
-          "version": "0.2.5",
-          "publishTimestamp": 1795414680,
+          "version": "0.2.6",
+          "publishTimestamp": 1795500179,
           "source": {
             "type": "npm"
           },
@@ -1368,8 +1368,8 @@
       },
       "versions": [
         {
-          "version": "0.1.4",
-          "publishTimestamp": 1795414685,
+          "version": "0.1.5",
+          "publishTimestamp": 1795500066,
           "source": {
             "type": "npm"
           },
@@ -1583,8 +1583,8 @@
       },
       "versions": [
         {
-          "version": "0.1.8",
-          "publishTimestamp": 1795498159,
+          "version": "0.1.9",
+          "publishTimestamp": 1795500194,
           "source": {
             "type": "npm"
           },
@@ -1626,8 +1626,8 @@
       },
       "versions": [
         {
-          "version": "0.1.1",
-          "publishTimestamp": 1795419249,
+          "version": "0.1.2",
+          "publishTimestamp": 1795500151,
           "source": {
             "type": "npm"
           },
