@@ -119,6 +119,12 @@ if (dry) process.exit(0)
 
 gh(`repos/${slug}/git/refs/heads/${branch}`, { method: 'PATCH', input: { sha: parent, force: false } })
 console.log(`${slug}: ${branch} 现在是 ${parent.slice(0, 7)}（${replayed.length} 个提交，快进）`)
+// 回放出来的提交与本地提交内容相同，但 SHA 不同。本地分支此时仍指向旧 SHA——
+// 别在网络不通时 `git reset --hard origin/main`，origin 还是旧的，那会把刚回放的
+// 提交从本地分支上抹掉（今天真抹了一次，靠 reflog 捞回来）。
+// 正确顺序：等 github.com 通 → `git fetch` → 确认 `git diff --stat origin/main` 为空
+// → 再 `git reset --hard origin/main`。
+console.log(`${slug}: 本地分支还没对齐。先 git fetch，确认与 origin/${branch} 无差异，再 reset。`)
 
 // 一个 blob 只传一次：同一提交里两个文件内容相同的情况不值得优化，但同一文件在
 // 多个提交里出现时要重新传——内容不一样。
