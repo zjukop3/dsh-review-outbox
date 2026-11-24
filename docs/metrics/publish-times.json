@@ -1,6 +1,6 @@
 {
   "registry": "https://registry.npmjs.org",
-  "fetchedAt": "2026-11-24T09:00:39.247Z",
+  "fetchedAt": "2026-11-24T09:25:13.079Z",
   "packages": {
     "dsh-adr-check": {
       "version": "0.2.4",
@@ -48,9 +48,9 @@
       "iso": "2026-11-23T06:18:22.593Z"
     },
     "dsh-document-check": {
-      "version": "0.1.7",
-      "time": 1795510716,
-      "iso": "2026-11-24T08:58:36.402Z"
+      "version": "0.1.8",
+      "time": 1795512240,
+      "iso": "2026-11-24T09:24:00.771Z"
     },
     "dsh-env-example-check": {
       "version": "0.2.3",
@@ -93,9 +93,9 @@
       "iso": "2026-11-23T03:12:23.875Z"
     },
     "dsh-meeting-notes-check": {
-      "version": "0.1.5",
-      "time": 1795414698,
-      "iso": "2026-11-23T06:18:18.698Z"
+      "version": "0.1.6",
+      "time": 1795512021,
+      "iso": "2026-11-24T09:20:21.822Z"
     },
     "dsh-migration-guide-check": {
       "version": "0.1.5",
