@@ -612,8 +612,8 @@
         "zh": "缺陷报告检查清单"
       },
       "description": {
-        "en": "缺陷报告提交前的书记检查：一行能看懂的标题、环境信息、编号复现步骤、预期与实际的对照。没有编号步骤的散文不算复现步骤——散文无法重放。",
-        "zh": "缺陷报告提交前的书记检查：一行能看懂的标题、环境信息、编号复现步骤、预期与实际的对照。没有编号步骤的散文不算复现步骤——散文无法重放。"
+        "en": "缺陷报告提交前的书记检查：一行能看懂的标题、环境证据（版本号/平台/commit）、可复现的证据（编号步骤、能跑的命令、代码片段、最小复现链接、写了先后动作的散文）、以及预期与实际的对照。两种模式：review（看别人的报告，只把「读不出这是 bug」算 error）与 strict（提交前给自己过一遍，缺项即 error）。",
+        "zh": "缺陷报告提交前的书记检查：一行能看懂的标题、环境证据（版本号/平台/commit）、可复现的证据（编号步骤、能跑的命令、代码片段、最小复现链接、写了先后动作的散文）、以及预期与实际的对照。两种模式：review（看别人的报告，只把「读不出这是 bug」算 error）与 strict（提交前给自己过一遍，缺项即 error）。"
       },
       "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMDJmYTciLz48cGF0aCBkPSJNMTggMjBoMjh2NkgxOHpNMTggMzBoMjh2NkgxOHpNMTggNDBoMTh2NkgxOHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjQgNDAgNiA2IDEyLTE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
       "author": "zjukop3",
@@ -637,8 +637,8 @@
       },
       "versions": [
         {
-          "version": "0.1.3",
-          "publishTimestamp": 1795414654,
+          "version": "0.1.4",
+          "publishTimestamp": 1795504793,
           "source": {
             "type": "npm"
           },
@@ -1583,8 +1583,8 @@
       },
       "versions": [
         {
-          "version": "0.1.10",
-          "publishTimestamp": 1795501961,
+          "version": "0.1.11",
+          "publishTimestamp": 1795504887,
           "source": {
             "type": "npm"
           },
@@ -1626,8 +1626,8 @@
       },
       "versions": [
         {
-          "version": "0.1.2",
-          "publishTimestamp": 1795500151,
+          "version": "0.1.3",
+          "publishTimestamp": 1795504779,
           "source": {
             "type": "npm"
           },
