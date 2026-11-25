@@ -1,6 +1,6 @@
 {
   "registry": "https://registry.npmjs.org",
-  "fetchedAt": "2026-11-25T15:38:26.207Z",
+  "fetchedAt": "2026-11-25T16:09:31.241Z",
   "packages": {
     "dsh-adr-check": {
       "version": "0.2.4",
@@ -23,9 +23,9 @@
       "iso": "2026-11-24T07:19:53.457Z"
     },
     "dsh-check-suite": {
-      "version": "0.1.18",
-      "time": 1795621034,
-      "iso": "2026-11-25T15:37:14.385Z"
+      "version": "0.1.20",
+      "time": 1795622750,
+      "iso": "2026-11-25T16:05:50.395Z"
     },
     "dsh-citelint": {
       "version": "0.1.5",
@@ -48,9 +48,9 @@
       "iso": "2026-11-23T06:18:22.593Z"
     },
     "dsh-document-check": {
-      "version": "0.1.10",
-      "time": 1795620871,
-      "iso": "2026-11-25T15:34:31.123Z"
+      "version": "0.1.12",
+      "time": 1795622693,
+      "iso": "2026-11-25T16:04:53.568Z"
     },
     "dsh-env-example-check": {
       "version": "0.2.3",
@@ -108,9 +108,9 @@
       "iso": "2026-11-23T03:14:57.995Z"
     },
     "dsh-onboarding-check": {
-      "version": "0.3.7",
-      "time": 1795500030,
-      "iso": "2026-11-24T06:00:30.929Z"
+      "version": "0.3.8",
+      "time": 1795622634,
+      "iso": "2026-11-25T16:03:54.045Z"
     },
     "dsh-ops-runbook-check": {
       "version": "0.2.5",
@@ -178,9 +178,9 @@
       "iso": "2026-11-25T15:34:18.043Z"
     },
     "dsh-weekly-report-check": {
-      "version": "0.1.3",
-      "time": 1795414733,
-      "iso": "2026-11-23T06:18:53.199Z"
+      "version": "0.1.5",
+      "time": 1795622629,
+      "iso": "2026-11-25T16:03:49.570Z"
     }
   }
 }
